@@ -1,0 +1,25 @@
+<html>
+<head>
+<title>Upload File of Links to Check Links</title>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="css/checkLinks.css">
+</head>
+<body>
+<h3>Upload File to Check Links</h3>
+<div id="description">
+Input: Text file contains only links<br>
+Purpose: Check whether links are valid
+</div>
+<br>
+<form id="form">
+	<label for="file"></label><input type="file" id="file" name="file">
+	<input type="button" id="upload" value="upload">
+</form>
+<img src="images/loading.gif" id="loading"> 
+<div id="output"></div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.3/jquery.min.js"></script>
+<script src="http://cdn.jsdelivr.net/jquery.validation/1.15.0/jquery.validate.min.js"></script>
+<script src="http://cdn.jsdelivr.net/jquery.validation/1.15.0/additional-methods.min.js"></script>
+<script src="js/checkLinks.js"></script>
+</body>
+</html>

@@ -1,0 +1,27 @@
+<html>
+<head>
+<title>Check Match</title>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="css/checkMatch.css">
+</head>
+<body>
+<h3>Check Match</h3>
+<div id="description">
+Input File 1: Text file contains text.<br>
+Input File 2: Text file contains phrases.<br>
+Purpose: Check whether matches are found in file 1 against file 2. 
+</div>
+<br>
+<form id="form">
+	<label for="file">Input File 1:</label><input type="file" id="file1" name="file1"><br>
+	<label for="file">Input File 2:</label><input type="file" id="file2" name="file2"><br>
+	<input type="button" id="upload" value="Upload">
+</form>
+<img src="images/loading.gif" id="loading"> 
+<div id="output"></div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.3/jquery.min.js"></script>
+<script src="http://cdn.jsdelivr.net/jquery.validation/1.15.0/jquery.validate.min.js"></script>
+<script src="http://cdn.jsdelivr.net/jquery.validation/1.15.0/additional-methods.min.js"></script>
+<script src="js/checkMatch.js"></script>
+</body>
+</html>

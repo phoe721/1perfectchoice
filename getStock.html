@@ -1,0 +1,29 @@
+<html>
+<head>
+<title>Get Stock by SKU</title>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="css/getStock.css">
+</head>
+<body>
+<h3>Get Stock by SKU</h3>
+<div id="description">
+Input File 1: Text file contains product SKUs<br>
+Input File 2: Text file contains SKU filter<br>
+Input File 3: Text file contains Set List<br>
+Purpose: Get stock By product SKUs
+</div>
+<br>
+<form id="form">
+	<label for="file">Input File 1:</label><input type="file" id="file1" name="file1"><br>
+	<label for="file">Input File 2:</label><input type="file" id="file2" name="file2"><br>
+	<label for="file">Input File 3:</label><input type="file" id="file3" name="file3"><br>
+	<input type="button" id="upload" value="Upload">
+</form>
+<img src="images/loading.gif" id="loading"> 
+<div id="output"></div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.3/jquery.min.js"></script>
+<script src="http://cdn.jsdelivr.net/jquery.validation/1.15.0/jquery.validate.min.js"></script>
+<script src="http://cdn.jsdelivr.net/jquery.validation/1.15.0/additional-methods.min.js"></script>
+<script src="js/getStock.js"></script>
+</body>
+</html>

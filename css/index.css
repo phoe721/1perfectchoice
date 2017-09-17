@@ -1,0 +1,42 @@
+label {
+    float: left;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: small;
+}
+label.error {
+    background: url('../images/unchecked.gif') no-repeat;
+    padding-left: 16px;
+    margin-left: .3em;
+}
+label.valid {
+    background: url('../images/checked.gif') no-repeat;
+    display: block;
+    width: 16px;
+    height: 16px;
+}
+br {
+    clear: both;
+}
+select {
+	margin-left: 5px;
+	vertical-align: text-bottom;
+}
+#field {
+    margin-left: .5em;
+    float: left;
+}
+#field, label {
+    float: left;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: small;
+}
+#loading {
+	display: none;
+	vertical-align: bottom;
+}
+input {
+	margin-left: 5px;
+}
+input.error {
+    border: 1px solid red;
+}
