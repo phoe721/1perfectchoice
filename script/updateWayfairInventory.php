@@ -17,8 +17,8 @@ if (isset($_FILES["file1"]) && isset($_POST['uid']) && isset($_POST["server"]) &
 	move_uploaded_file($tmp_file1, $inventory_file) ;
 
 	// Record login to DB 
-	$result = $db->query("INSERT INTO wayfair (server, user, pass, directory, path) VALUES ('$server', '$user', '$pass', '$directory', '$inventory_file')");
-	if ($result) {
+	$db_result = $db->query("INSERT INTO wayfair (server, user, pass, directory, path) VALUES ('$server', '$user', '$pass', '$directory', '$inventory_file')");
+	if ($db_result) {
 		logger("Login recorded to DB!");
 	} else {
 		logger("Failed to insert to DB!");
