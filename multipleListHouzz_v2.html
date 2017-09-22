@@ -1,0 +1,27 @@
+<html>
+<head>
+<title>Multiple List Houzz Data Fetch Version 2</title>
+<link rel="stylesheet" href="css/multipleList.css">
+</head>
+<body>
+<form id="form">
+	<label for="url">Houzz URL (Multiple Items):</label>
+	<input type="text" id="url" name="url"><br>
+	<label for="start">Start Page:</label>
+	<input type="text" id="start" name="start"><br>
+	<label for="step">Page Step:</label>
+	<input type="text" id="step" name="step"><br>
+	<label for="max">Max Page:</label>
+	<input type="text" id="max" name="max"><br>
+	<br>
+	<input type="button" id="submit" value="Submit">
+	<input type="button" id="reset" value="Reset">
+</form>
+<div id="message"></div>
+<div id="output"></div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.3/jquery.min.js"></script>
+<script src="http://cdn.jsdelivr.net/jquery.validation/1.15.0/jquery.validate.min.js"></script>
+<script src="http://cdn.jsdelivr.net/jquery.validation/1.15.0/additional-methods.min.js"></script>
+<script src="js/multipleListHouzz_v2.js"></script>
+</body>
+</html>

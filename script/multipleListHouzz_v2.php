@@ -1,87 +1,65 @@
-<?	
+<?
 /* Initialization */
 require_once('functions.php');
-/*
-$result = $db->query("SELECT sku FROM product");
-if ($result->num_rows > 0) {
-	while($row = $result->fetch_assoc()) {
-		echo $row["sku"] . PHP_EOL;
-	}
-}
-*/
 
-/*
-foreach ($dsc as $sku) {
-	//echo $sku . PHP_EOL;
-	$result = $db->query("DELETE FROM product WHERE sku = '" . $sku . "'");
-	if ($result) {
-		echo "$sku is removed" . PHP_EOL;
-	} else {
-		echo "$sku is not removed" . PHP_EOL;
-	}
+/* Request Put Into Queue */
+if (isset($_POST['url']) && isset($_POST['start']) && isset($_POST['step']) && isset($_POST['max']) && isset($_POST['uid'])) {
+	global $uid;
+	$url = urlencode($_POST['url']);
+	$start = $_POST['start'];
+	$step = $_POST['step'];
+	$max = $_POST['max'];
+	$uid = $_POST['uid'];
+	prepare($uid);
+
+	// Put command into queue
+	$command = "/usr/bin/php " . __FILE__ . " $uid $url $start $step $max";
+	$qid = create_queue($uid, $command);
+
+	// Log status
+	log_status("Queue created, your queue number is $qid!");
+
+	// Output
+	$result['status'] = "Task put into queue for processing...";
+	echo json_encode($result);
 }
 
-$input_file = UPLOAD . "input.txt";
-$output_file = DOWNLOAD . "output.txt";
-$file = fopen($input_file, 'r');
-$file2 = fopen($output_file, 'w+');
-if ($file && $file2) {
-	while (($line = fgets($file)) !== false) {
-		$sku = trim($line);
-		$result = $db->query("SELECT sku, item_type FROM product WHERE sku = '" . $sku . "'");
-		if ($result->num_rows > 0) {
-			$row = $result->fetch_assoc();
-			$output = $row["sku"] . "\t" . $row["item_type"] . PHP_EOL;
-			echo $output;
-			fwrite($file2, $output);
-		} else {
-			$output = $sku . PHP_EOL;
-			echo $output;
-			fwrite($file2, $output);
-		}
-	}
-}
-fclose($file);
-fclose($file2);
-*/
+/* Start of Program */
+if (isset($argv[1]) && isset($argv[2]) && isset($argv[3]) && isset($argv[4]) && isset($argv[5])) {
+	global $data_file, $result_file;
+	$uid = $argv[1];
+	$url = urldecode($argv[2]);
+	$start = $argv[3];
+	$step = $argv[4];
+	$max = $argv[5];
+	prepare($uid);
 
-/*
 	// Grab links from page
-	$step = 36;
-	$start = 36;
-	$max = 1783;
-	for ($j = $start; $j < $max; $j+=$step) {
-		$url = "https://www.houzz.com/photos/furniture/query/ACME/nqrw/p/" . $j;
-		echo "Getting links from $url" . PHP_EOL;
-		$str = file_get_contents($url);
-		preg_match_all("/\"https:\/\/www.houzz.com\/photos\/[0-9]{8}\/[A-Za-z0-9-]*\"/", $str, $matches);
+	for ($i = $start; $i < $max; $i+=$step) {
+		$page_url = $url . $i;
+		log_status("Getting links from $page_url");
+		$page = file_get_contents($page_url);
+		preg_match_all("/https:\/\/www.houzz.com\/photos\/[0-9]{8}\/[A-Za-z0-9-]*/", $page, $matches);
 		$links = implode("\n", $matches[0]);
-		$file = "test";
-		$handle = fopen("test", "a+");
-		if ($handle) {
-			fwrite($handle, $links);
+		$file = fopen($data_file, "a+");
+		if ($file) {
+			fwrite($file, $links);
+		} else {
+			log_status("Failed to open $data_file");
 		}
 	}
- */
 
-/*
-$url = "https://www.houzz.com/photos/14472417/Coaster-Home-Coat-Rack-Brown-transitional-coatracks-and-umbrella-stands";
-$check = @fopen($url, "r");
-if ($check) {
-	echo "$url OK" . PHP_EOL;
-} else {
-	echo "$url Fail" . PHP_EOL;
-}
+	// Remove duplicate lines
+	$lines = file($data_file, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+	$lines = array_unique($lines);
+	file_put_contents($data_file, implode(PHP_EOL, $lines));
 
-$page = file_get_html($url);
-echo $page;
- */
-
-	$file = fopen("data.txt", "r");
-	$file2 = fopen("output", "a+");
-	if ($file) {
-		while (($line = fgets($file)) != false) {
-			echo "Processing page: " .  $line . PHP_EOL;
+	// Get data from links
+	$file1 = fopen($data_file, "r");
+	$file2 = fopen($result_file, "a+");
+	if ($file1 && $file2) {
+		while (($line = fgets($file1)) != false) {
+			log_status("Processing page: " .  $line);
 			$page = file_get_html($line);
 			$text = $sku = $title = $img_url = $description = $size_weight = $width = $depth = $height = $material = $category = "";
 			if (isset($page)) {
@@ -119,9 +97,16 @@ echo $page;
 			}
 			$page->clear();
 		}
-		fclose($file);
-		fclose($file2);
+	} else {
+		log_status("Failed to open $data_file and $result_file!");
 	}
+
+	fclose($file1);
+	fclose($file2);
+
+	log_link_file($result_file);
+	log_status("Done");
+}
 
 function filter2($str) {
 	$new_str = strip_tags($str);
