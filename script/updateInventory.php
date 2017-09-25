@@ -13,7 +13,7 @@ if (isset($_FILES["file1"]) && isset($_POST['uid']) && isset($_POST["server"]) &
 
 	// Move upload file1
 	$tmp_file1 = $_FILES["file1"]["tmp_name"];
-	$inventory_file = UPLOAD . $uid . '/inventory.csv';
+	$inventory_file = INVENTORY . basename($_FILES["file1"]["name"]);
 	move_uploaded_file($tmp_file1, $inventory_file) ;
 	logger("Inventory file path: $inventory_file.");
 
@@ -46,33 +46,34 @@ if (isset($_FILES["file1"]) && isset($_POST['uid']) && isset($_POST["server"]) &
 	echo json_encode($result);
 	ftp_close($conn);
 } else {
-	$result = $db->query("SELECT * FROM ftp_update ORDER BY id DESC LIMIT 1");
+	$result = $db->query("SELECT * FROM ftp_update GROUP BY server");
 	if (mysqli_num_rows($result) == 0) {
 		logger("No records in DB");
 	} else {
-		$row = mysqli_fetch_array($result);
-		$server = $row['server'];
-		$user = $row['user'];
-		$pass = $row['pass'];
-		$remote_dir = $row['directory'];
-		$file = $row['path'];
-		$remote_file = $remote_dir . '/inventory.csv'; 
-		$conn = ftp_connect($server) or die("Couldn't connect to $server");
+		while ($row = mysqli_fetch_array($result)) {
+			$server = $row['server'];
+			$user = $row['user'];
+			$pass = $row['pass'];
+			$remote_dir = $row['directory'];
+			$file = $row['path'];
+			$remote_file = $remote_dir . '/' . basename($file);
+			$conn = ftp_connect($server) or die("Couldn't connect to $server");
 
-		// Login to FTP server
-		if (@ftp_login($conn, $user, $pass)) {
-			ftp_pasv($conn, true); // Turn Passive Mode On
-			logger("Successfully login to $server!");
-			if (ftp_put($conn, $remote_file, $file, FTP_BINARY)) {
-				logger("Upload $file successfully!");
+			// Login to FTP server
+			if (@ftp_login($conn, $user, $pass)) {
+				ftp_pasv($conn, true); // Turn Passive Mode On
+				logger("Successfully login to $server!");
+				if (ftp_put($conn, $remote_file, $file, FTP_BINARY)) {
+					logger("Upload $file successfully!");
+				} else {
+					logger("Failed to upload $file!");
+				}
 			} else {
-				logger("Failed to upload $file!");
+				logger("Failed to login to $server!");
 			}
-		} else {
-			logger("Failed to login to $server!");
-		}
 
-		ftp_close($conn);
+			ftp_close($conn);
+		}
 	}
 }
 ?>

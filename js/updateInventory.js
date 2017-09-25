@@ -19,8 +19,7 @@ form.validate({
 			required: true
 		},
         file1: {
-            required: true,
-            extension: 'csv'
+            required: true
         }
     }
 });
