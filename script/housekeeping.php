@@ -2,9 +2,7 @@
 require_once('init.php');
 
 // 24 * 60 * 60 = 86400 = 1 Day
-// 24 * 60 * 60 * 5 = 432000 = 5 Days
-//define('ONE_DAY_IN_SECONDS', 86400);
-define('FIVE_DAY_IN_SECONDS', 432000);
+define('ONE_DAY_IN_SECONDS', 86400);
 
 // Debug mode
 $debug = false;
@@ -42,8 +40,8 @@ function remove_outdated_files($dir) {
 
 			if ($cleanAll) {
 				if (unlink($filePath)) logger("$fileName has been deleted");
-			} else if ($diff >= FIVE_DAY_IN_SECONDS) {
-				logger("$fileName is over five day old, going to delete this file");
+			} else if ($diff >= ONE_DAY_IN_SECONDS) {
+				logger("$fileName is over one day old, going to delete this file");
 				if (unlink($filePath)) logger("$fileName has been deleted");
 			} 
 		}
