@@ -32,7 +32,7 @@ $('#pass').change(function() {
 	pass = $('#pass').val();
 
 	if (server && user && pass) {
-		$.post('script/updateWayfairInventory.php', {server: server, user: user, pass: pass}, function(result) {
+		$.post('script/updateInventory.php', {server: server, user: user, pass: pass}, function(result) {
 			$('#output').html('');
 			$('#output').append(result.status + '<br>');
 			for (var i = 0; i < result.files.length; i++) {
@@ -70,7 +70,7 @@ $('#upload').click(function() {
 		if($f1.val()) formData.append('file1', $f1.get(0).files[0]);
 	
 		$.ajax({
-			url: 'script/updateWayfairInventory.php',
+			url: 'script/updateInventory.php',
 			data: formData,
 			type: 'POST',
 			contentType: false,

@@ -18,7 +18,7 @@ if (isset($_FILES["file1"]) && isset($_POST['uid']) && isset($_POST["server"]) &
 	logger("Inventory file path: $inventory_file.");
 
 	// Record login to DB 
-	$db_result = $db->query("INSERT INTO wayfair (server, user, pass, directory, path) VALUES ('$server', '$user', '$pass', '$directory', '$inventory_file')");
+	$db_result = $db->query("INSERT INTO ftp_update (server, user, pass, directory, path) VALUES ('$server', '$user', '$pass', '$directory', '$inventory_file')");
 	if ($db_result) {
 		logger("Login recorded to DB!");
 	} else {
@@ -46,7 +46,7 @@ if (isset($_FILES["file1"]) && isset($_POST['uid']) && isset($_POST["server"]) &
 	echo json_encode($result);
 	ftp_close($conn);
 } else {
-	$result = $db->query("SELECT * FROM wayfair ORDER BY id DESC LIMIT 1");
+	$result = $db->query("SELECT * FROM ftp_update ORDER BY id DESC LIMIT 1");
 	if (mysqli_num_rows($result) == 0) {
 		logger("No records in DB");
 	} else {
