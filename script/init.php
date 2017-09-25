@@ -10,6 +10,7 @@
 	define('SCRIPT_ROOT', '/var/www/html/phoe721.com/project/1perfectchoice/script/');
 	define('DOWNLOAD', ROOT . 'download/');
 	define('UPLOAD', ROOT . 'upload/');
+	define('INVENTORY', ROOT . 'inventory/');
 	define('LOG_FILE', ROOT . 'log/1perfectchoice.log');
 	define('QUEUE_LOG', ROOT . 'log/queue.log');
 	define('HOUSEKEEPING_LOG', ROOT . 'log/housekeeping.log');
