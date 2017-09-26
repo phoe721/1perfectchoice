@@ -18,11 +18,22 @@ if (isset($_FILES["file1"]) && isset($_POST['uid']) && isset($_POST["server"]) &
 	logger("Inventory file path: $inventory_file.");
 
 	// Record login to DB 
-	$db_result = $db->query("INSERT INTO ftp_update (server, user, pass, directory, path) VALUES ('$server', '$user', '$pass', '$directory', '$inventory_file')");
-	if ($db_result) {
-		logger("Login recorded to DB!");
+	$db_result = $db->query("SELECT * FROM ftp_update WHERE server = '$server'");
+	if (mysqli_num_rows($db_result) > 0) {
+		logger("Record exists!");
+		$db_result = $db->query("UPDATE ftp_update SET update_time = NOW() WHERE server = '$server'");
+		if ($db_result) {
+			logger("Record updated!");
+		} else {
+			logger("Failed to update record!");
+		}
 	} else {
-		logger("Failed to insert to DB!");
+		$db_result = $db->query("INSERT INTO ftp_update (server, user, pass, directory, path, update_time) VALUES ('$server', '$user', '$pass', '$directory', '$inventory_file', NOW())");
+		if ($db_result) {
+			logger("Login recorded to DB!");
+		} else {
+			logger("Failed to insert to DB!");
+		}
 	}
 
 	// Output status
