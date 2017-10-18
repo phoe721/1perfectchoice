@@ -8,9 +8,7 @@ var form = $('#form1');
 form.validate({
     rules: {
         file: {
-            required: true,
-            accept: 'text/plain',
-            extension: 'txt|csv'
+            required: true
         }
     }
 });

@@ -21,7 +21,7 @@ if (isset($_FILES["file1"]) && isset($_POST['uid']) && isset($_POST["server"]) &
 	$db_result = $db->query("SELECT * FROM ftp_update WHERE server = '$server'");
 	if (mysqli_num_rows($db_result) > 0) {
 		logger("Record exists!");
-		$db_result = $db->query("UPDATE ftp_update SET update_time = NOW() WHERE server = '$server'");
+		$db_result = $db->query("UPDATE ftp_update SET path = '$inventory_file', update_time = NOW() WHERE server = '$server'");
 		if ($db_result) {
 			logger("Record updated!");
 		} else {
