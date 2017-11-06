@@ -39,7 +39,8 @@ if (isset($argv[1]) && isset($argv[2]) && isset($argv[3]) && isset($argv[4]) && 
 		$page_url = $url . $i;
 		log_status("Getting links from $page_url");
 		$page = file_get_contents($page_url);
-		preg_match_all("/https:\/\/www.houzz.com\/photos\/[0-9]{8}\/[A-Za-z0-9-]*/", $page, $matches);
+		//preg_match_all("/https:\/\/www.houzz.com\/photos\/[0-9]{8}\/[A-Za-z0-9-]*/", $page, $matches);
+		preg_match_all("/https:\/\/www.houzz.com\/product\/[0-9]{8}-[a-z0-9-]*/", $page, $matches);
 		$links = implode("\n", $matches[0]);
 		$file = fopen($data_file, "a+");
 		if ($file) {
