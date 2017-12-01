@@ -51,7 +51,6 @@ if (isset($argv[1]) && isset($argv[2])) {
 		$page->clear();
 	}
 	
-	zip_images();
 	log_status("Done");
 }
 ?>

@@ -19,7 +19,6 @@ if (isset($_POST['url']) && isset($_POST['uid'])) {
 		log_status("Finish Processing page: " . $url);
 	}
 
-	zip_images();
 	log_status("Done");
 }
 ?>

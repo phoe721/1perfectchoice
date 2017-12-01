@@ -524,13 +524,7 @@ function set_main_image() {
 	global $img_dir, $page, $product, $debug;
 	if ($page->find('#image-main img', 0)) {
 		$imgURL = $page->find('#image-main img', 0)->src;
-		$product['mainImage'] = $product['skuStr'] . '.jpg';
-		$imgPath = $img_dir . $product['mainImage'];
-		if(file_exists($imgPath)) {
-			$product['mainImage'] = $product['skuStr'] . '-' . uniqid() . '.jpg';
-			$imgPath = $img_dir . $product['mainImage'];
-		}
-		$result = download($imgURL, $imgPath);
+		$product['mainImage'] = $imgURL;
 
 		if ($debug) logger("Get product image: " . $imgURL);
 	} else {
