@@ -1,16 +1,22 @@
 <?	
 /* Initialization */
-require_once('functions.php');
+require_once("functions.php");
 
-$file1 = UPLOAD . "21080Q.jpg";
-$file2 = UPLOAD . "21080Q_L.jpg";
+global $db;
+$input_file = UPLOAD . "input.txt";
+$file = fopen($input_file, "r");
 
-$result = compare_images($file1, $file2);
-echo $result;
-if ($result == 0) {
-	echo "Two images are the same!";
-} else {
-	echo "Two images are the different!";
+while (!feof($file)) {
+	$line = fgets($file);
+	$sku = trim($line);
+	$result = $db->query("UPDATE product SET discontinued = 1 WHERE sku = '$sku'");
+	if ($result) {
+		echo "$sku is updated to discontinued!" . PHP_EOL;
+	} else {
+		echo "$sku is not found!" . PHP_EOL;
+	}
 }
+
+fclose($file);
 
 ?>
