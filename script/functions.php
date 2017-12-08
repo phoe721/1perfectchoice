@@ -100,8 +100,8 @@ function set_sku_str() {
 
 function get_fields() {
 	global $page, $product;
-	if ($page->find('table.data-table', 0)) {
-		$tmp = preg_replace('/\s\s+/', ' ', $page->find('.data-table', 0)->plaintext);
+	if ($page->find('table.data', 0)) {
+		$tmp = preg_replace('/\s\s+/', ' ', $page->find('table.data', 0)->plaintext);
 		$data = explode(' ', trim($tmp));
 		for ($i = 0; $i < count($data); $i++) {
 			switch($data[$i]) {
