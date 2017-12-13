@@ -12,10 +12,14 @@ if (isset($_FILES["file1"]) && isset($_POST['uid']) && isset($_POST["server"]) &
 	prepare($uid);	// Prepare directory
 
 	// Move upload file1
+	logger("File Upload Error: " . $_FILES["file1"]["error"]);
 	$tmp_file1 = $_FILES["file1"]["tmp_name"];
 	$inventory_file = INVENTORY . basename($_FILES["file1"]["name"]);
-	move_uploaded_file($tmp_file1, $inventory_file) ;
-	logger("Inventory file path: $inventory_file.");
+	if (move_uploaded_file($tmp_file1, $inventory_file)) { 
+		logger("Inventory file path: $inventory_file.");
+	} else {
+		logger("Failed to upload inventory file: $inventory_file.");
+	}
 
 	// Record login to DB 
 	$db_result = $db->query("SELECT * FROM ftp_update WHERE server = '$server'");
