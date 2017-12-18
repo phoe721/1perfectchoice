@@ -14,6 +14,7 @@
 	define('LOG_FILE', ROOT . 'log/1perfectchoice.log');
 	define('QUEUE_LOG', ROOT . 'log/queue.log');
 	define('HOUSEKEEPING_LOG', ROOT . 'log/housekeeping.log');
+	define('MAX_UPLOAD_SIZE', 800000);
 	define('TEST_NUMBER', 1000);
 	define('BRAND', '1PerfectChoice');
 
