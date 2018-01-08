@@ -134,6 +134,8 @@ function get_type($str) {
 		$type = "home-entertainment-centers";
 	} else if (preg_match('/media console/i', $str)) {
 		$type = "home-entertainment-centers";
+	} else if (preg_match('/entertainment wall unit/i', $str)) {
+		$type = "home-entertainment-centers";
 	} else if (preg_match('/computer desk/i', $str)) {
 		$type = "computer-desks";
 	} else if (preg_match('/computer .* desk/i', $str)) {
@@ -143,6 +145,10 @@ function get_type($str) {
 	} else if (preg_match('/office desk/i', $str)) {
 		$type = "office-desks";
 	} else if (preg_match('/desk/i', $str)) {
+		$type = "office-desks";
+	} else if (preg_match('/office set/i', $str)) {
+		$type = "office-desks";
+	} else if (preg_match('/office suites/i', $str)) {
 		$type = "office-desks";
 	} else if (preg_match('/storage bench/i', $str)) {
 		$type = "storage-benches";
@@ -212,6 +218,8 @@ function get_type($str) {
 		$type = "wall-mounted-wine-racks";
 	} else if (preg_match('/wine cabinet/i', $str)) {
 		$type = "wine-cabinets";
+	} else if (preg_match('/wine shelf/i', $str)) {
+		$type = "wine-cabinets";
 	} else if (preg_match('/trunk/i', $str)) {
 		$type = "storage-cabinets";
 	} else if (preg_match('/storage cabinet/i', $str)) {
@@ -258,6 +266,8 @@ function get_type($str) {
 		$type = "bookcases";
 	} else if (preg_match('/bookshelf/i', $str)) {
 		$type = "bookcases";
+	} else if (preg_match('/book shelf/i', $str)) {
+		$type = "bookcases";
 	} else if (preg_match('/computer hutch/i', $str)) {
 		$type = "computer-hutches";
 	} else if (preg_match('/hutch/i', $str)) {
@@ -290,6 +300,14 @@ function get_type($str) {
 		$type = "area-rugs";
 	} else if (preg_match('/planter/i', $str)) {
 		$type = "standing-planters";
+	} else if (preg_match('/bath mat/i', $str)) {
+		$type = "bathmats";
+	} else if (preg_match('/patio dinning set/i', $str)) {
+		$type = "patio-dining-sets";
+	} else if (preg_match('/vetrine/i', $str)) {
+		$type = "curio-cabinets";
+	} else if (preg_match('/glass argentiere/i', $str)) {
+		$type = "curio-cabinets";
 	}
 
 	return $type;
