@@ -214,6 +214,8 @@ function get_type($str) {
 		$type = "serving-carts";
 	} else if (preg_match('/panel screen/i', $str)) {
 		$type = "panel-screens";
+	} else if (preg_match('/room divider/i', $str)) {
+		$type = "panel-screens";
 	} else if (preg_match('/wine rack/i', $str)) {
 		$type = "wall-mounted-wine-racks";
 	} else if (preg_match('/wine cabinet/i', $str)) {
@@ -308,6 +310,10 @@ function get_type($str) {
 		$type = "curio-cabinets";
 	} else if (preg_match('/glass argentiere/i', $str)) {
 		$type = "curio-cabinets";
+	} else if (preg_match('/kids organize closet/i', $str)) {
+		$type = "childrens-furniture";
+	} else if (preg_match('/shoe organizer rack/i', $str)) {
+		$type = "free-standing-shoe-racks";
 	}
 
 	return $type;
