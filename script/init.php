@@ -17,6 +17,17 @@
 	define('MAX_UPLOAD_SIZE', 800000);
 	define('TEST_NUMBER', 1000);
 	define('BRAND', '1PerfectChoice');
+	define('UPS_WEIGHT_LIMIT', 150);
+	define('UPS_MEASUREMENT_LIMIT', 165);
+	define('UPS_LENGTH_LIMIT', 108);
+	define('UPS_FUEL_SURCHARGE', 6.75);
+	define('UPS_LARGE_PACKAGE_LIMIT', 130);
+	define('UPS_LARGE_PACKAGE_COST', 70);
+	define('UPS_INSURANCE_RATE', 4.5);
+	define('UPS_BASE_INSURANCE_COST', 9);
+	define('UPS_BASE_INSURANCE_COVERAGE', 300);
+	define('TRUCKING_BASE_COST', 375);
+	define('TRUCKING_BASE_WEIGHT', 250);
 
 	/* Set user agent */
 	$_SERVER['HTTP_USER_AGENT'] = "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/52.0.2743.116 Safari/537.36";
