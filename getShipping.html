@@ -1,13 +1,29 @@
 <html>
 <head>
-<title>Get Shipping Cost by File</title>
+<title>Get Shipping Cost</title>
 <link rel="stylesheet" href="css/getShipping.css">
 </head>
 <body>
-<h3>Get Shipping Cost by File</h3>
-<div id="description">
-Input: Text file contains SKU, Cost, Weight, Length, Width, Height per line<br>
+<h3>Get Shipping Cost</h3>
+<div class="description">
+Input: Fill in the corresponding values<br>
 Purpose: Calculate shipping costs
+</div>
+<br>
+<form id="form2">
+<label for="sku"></label><input type="text" id="sku" name="sku" value="sku">
+<label for="cost"></label><input type="text" id="cost" name="cost" value="cost">
+<label for="weight"></label><input type="text" id="weight" name="weight" value="weight">
+<label for="length"></label><input type="text" id="length" name="length" value="length">
+<label for="width"></label><input type="text" id="width" name="width" value="width">
+<label for="height"></label><input type="text" id="height" name="height" value="height">
+<br>
+<input type="button" id="submit" value="Submit">
+<input type="button" id="reset" value="Reset">
+</form>
+<div class="description">
+Input: Text file contains SKU, Cost, Weight, Length, Width, Height per line<br>
+Purpose: Calculate shipping costs by file
 </div>
 <br>
 <form id="form">

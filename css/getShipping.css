@@ -13,6 +13,9 @@ label {
 	display: none;
 	vertical-align: bottom;
 }
+#sku, #cost, #weight, #length, #width, #height {
+	width: 100px
+}
 br {
     clear: both;
 }

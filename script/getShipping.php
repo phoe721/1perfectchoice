@@ -22,6 +22,29 @@ if(isset($_FILES["file1"]) && isset($_POST['uid'])) {
 	// Output status
 	$result['status'] = "Files uploaded!";
 	echo json_encode($result);
+} else if (isset($_POST["sku"]) && isset($_POST["cost"]) && isset($_POST["weight"]) && isset($_POST["length"]) && isset($_POST["width"]) && isset($_POST["height"])) {
+	$sku = $_POST["sku"];
+	$cost = $_POST["cost"];
+	$weight = $_POST["weight"];
+	$length = $_POST["length"];
+	$width = $_POST["width"];
+	$height = $_POST["height"];
+	logger("Processing: $sku, $cost, $weight, $length, $width, $height");
+
+	$weight = round($weight, 0);
+	$length = round($length, 0) + 2;
+	$width = round($width, 0) + 2;
+	$height = round($height, 0) + 2;
+	$ups_cost = getUPSCost($cost, $length, $width, $height, $weight);
+	$trucking_cost = getTruckingCost($weight);
+	$cuft = getCuft($length, $width, $height);
+	$pallet_count = getPalletCount($cuft);
+
+	// Output status
+	$output = "SKU: $sku, UPS Cost: $ups_cost, Trucking Cost: $trucking_cost, Cubic Feet: $cuft, Pallet: $pallet_count";
+	$result['status'] = $output;
+	logger($output);
+	echo json_encode($result);
 }
 
 if (isset($argv[1]) && isset($argv[2])) {

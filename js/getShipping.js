@@ -3,6 +3,56 @@ jQuery.validator.setDefaults({
     success: "valid"
 });
 
+/* Get Shipping By Input */
+var form2 = $('#form2');
+form2.validate({
+    rules: {
+        sku: "required",
+        cost: "required",
+        weight: "required",
+        length: "required",
+        width: "required",
+        height: "required"
+    }
+});
+
+$(':text').click(function() { 
+	$(this).val('');
+}); 
+
+$(':text').blur(function() { 
+	if (!$(this).val()) {
+		$(this).val($(this).attr('id'));
+	}
+});
+
+$('#reset').click(function() {
+	$(':text').val('');
+});
+
+$('#submit').click(function() {
+	var formData = new FormData();
+	formData.append('sku', $('#sku').val());
+	formData.append('cost', $('#cost').val());
+	formData.append('weight', $('#weight').val());
+	formData.append('length', $('#length').val());
+	formData.append('width', $('#width').val());
+	formData.append('height', $('#height').val());
+
+	$.ajax({
+		url: 'script/getShipping.php',
+		data: formData,
+		type: 'POST',
+		contentType: false,
+		processData: false,
+		dataType: 'json',
+		success: function(result) {
+			$('#output').append(result.status + '<br>');
+		}
+	});
+});
+
+/* Get Shipping By File */
 var form = $('#form');
 form.validate({
     rules: {
