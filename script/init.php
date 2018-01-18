@@ -17,6 +17,7 @@
 	define('MAX_UPLOAD_SIZE', 800000);
 	define('TEST_NUMBER', 1000);
 	define('BRAND', '1PerfectChoice');
+	define('UPS_DIMENSION_WEIGHT_DIVIDER', 166);
 	define('UPS_WEIGHT_LIMIT', 150);
 	define('UPS_MEASUREMENT_LIMIT', 165);
 	define('UPS_LENGTH_LIMIT', 108);

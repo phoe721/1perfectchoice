@@ -37,6 +37,11 @@ if (isset($argv[1]) && isset($argv[2])) {
 			$line = trim($line);
 			if (!empty($line)) {
 				list($sku, $cost, $weight, $length, $width, $height)= explode("\t", $line);
+				logger("Processing: $sku, $cost, $weight, $length, $width, $height");
+				$weight = round($weight, 0);
+				$length = round($length, 0) + 2;
+				$width = round($width, 0) + 2;
+				$height = round($height, 0) + 2;
 				$ups_cost = getUPSCost($cost, $length, $width, $height, $weight);
 				$trucking_cost = getTruckingCost($weight);
 				if ($ups_cost > 0) {
@@ -58,13 +63,10 @@ if (isset($argv[1]) && isset($argv[2])) {
 
 function getUPSCost($cost, $length, $width, $height, $weight) {
 	global $db;
-	$shipping_cost = -1;
-	$length += 2;
-	$width += 2;
-	$height += 2;
-	$dimension_weight = round(($length * $width * $height)/166, 0);
+	$ups_cost = -1;
+	$dimension_weight = round(($length * $width * $height)/UPS_DIMENSION_WEIGHT_DIVIDER, 0);
 	$actual_weight = max($weight, $dimension_weight);
-	$girth = (2 * $width) + (2 * $height);
+	$girth = round((2 * $width) + (2 * $height), 0);
 	$measurement = $length + $girth;
 	logger("Dimensiona weight is $dimension_weight");
 	logger("Actual weight is $actual_weight");
@@ -72,46 +74,56 @@ function getUPSCost($cost, $length, $width, $height, $weight) {
 	logger("Measurement is $measurement");
 
 	if ($actual_weight > UPS_WEIGHT_LIMIT) {
-		logger("Actual weight is over UPS weight limit");
+		logger("Actual weight is over UPS weight limit!");
 	} else if ($measurement > UPS_MEASUREMENT_LIMIT) { 
-		logger("Measurement is over UPS measurement limit");
+		logger("Measurement is over UPS measurement limit!");
 	} else if ($length > UPS_LENGTH_LIMIT) {
-		logger("Length is over UPS length limit");
+		logger("Length is over UPS length limit!");
 	} else {
-		$db_result = $db->query("SELECT cost FROM UPS_cost WHERE weight = '$weight'");
+		$db_result = $db->query("SELECT cost FROM UPS_cost WHERE weight = '$actual_weight'");
 		if (mysqli_num_rows($db_result) > 0) {
-			while ($row = mysqli_fetch_array($result)) {
-				$shipping_cost = $row['cost'];
-				logger("UPS zone 8 cost is $shipping_cost");
+			while ($row = mysqli_fetch_array($db_result)) {
+				$ups_cost = $row['cost'];
+				logger("UPS zone 8 cost is $ups_cost");
 			}
-		}
 
-		$fuel_surcharge = round($shipping_cost * (UPS_FUEL_SURCHAGE / 100), 2);
-		logger("Fuel surcharge is $fuel_surcharge");
-		if ($measurement >= UPS_LARGE_PACKAGE_LIMIT) {
-			logger("Measurement is over UPS large package limit");
-			$shipping_cost += UPS_LARGE_PACKAGE_COST;
-		}	
-		$cost = ceil($cost / 100) * 100;
-		$insurance = UPS_BASE_INSURANCE_COST + (round($cost / UPS_BASE_INSURANCE_COVERAGE, 0) * UPS_INSURANCE_RATE);
-		logger("Insurance is $insurance");
-		$shipping_cost += $insurance;
+			// Fuel Surcharge
+			$fuel_surcharge = round($ups_cost * UPS_FUEL_SURCHARGE / 100, 2);
+			logger("Fuel surcharge is $fuel_surcharge");
+
+			// Large Package
+			$large_package_cost = 0;
+			if ($measurement >= UPS_LARGE_PACKAGE_LIMIT) {
+				logger("Measurement is over UPS large package limit!");
+				$large_package_cost = UPS_LARGE_PACKAGE_COST;
+			}	
+
+			// Insurance
+			$cost = ceil($cost / 100) * 100;
+			$insurance = UPS_BASE_INSURANCE_COST + (ceil($cost / UPS_BASE_INSURANCE_COVERAGE) * UPS_INSURANCE_RATE);
+			logger("Insurance is $insurance");
+
+			// Total cost
+			$ups_cost += $fuel_surcharge + $large_package_cost + $insurance;
+			logger("UPS cost is $ups_cost");
+		} else {
+			logger("Failed to look up UPS cost in database!");
+		}
 	}
 
-	logger("UPS cost is $shipping_cost");
-	return $shipping_cost;
+	return $ups_cost;
 }
 
 function getTruckingCost($weight) {
-	$shipping_cost = -1;
+	$trucking_cost = -1;
 	if ($weight <= TRUCKING_BASE_WEIGHT) {
-		$shipping_cost = TRUCKING_BASE_COST;
+		$trucking_cost = TRUCKING_BASE_COST;
 	} else {
-		$shipping_cost = round($weight * 1.5, 2);
+		$trucking_cost = round($weight * 1.5, 2);
 	}
 
-	logger("Trucking cost is $shipping_cost");
-	return $shipping_cost;
+	logger("Trucking cost is $trucking_cost");
+	return $trucking_cost;
 }
 
 ?>
