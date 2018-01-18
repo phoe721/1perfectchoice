@@ -44,21 +44,46 @@ if (isset($argv[1]) && isset($argv[2])) {
 				$height = round($height, 0) + 2;
 				$ups_cost = getUPSCost($cost, $length, $width, $height, $weight);
 				$trucking_cost = getTruckingCost($weight);
+				$cuft = getCuft($length, $width, $height);
+				$pallet_count = getPalletCount($cuft);
+
 				if ($ups_cost > 0) {
-					$output = "$sku, $ups_cost";
+					$output = "$sku\t$ups_cost\t$cuft\t$pallet_count";
 				} else {
-					$output = "$sku, $trucking_cost";
+					$output = "$sku\t$trucking_cost\t$cuft\t$pallet_count";
 				}	
 				log_result($output);
 			}
 		}
 	} else {
-		logger("Failed to open $input_file");
+		log_status("Failed to open $input_file");
 	}
 	fclose($file1);
 
 	log_link_file($result_file);
 	log_status("Done!");
+}
+
+function getCuft($length, $width, $height) {
+	$cuft = ceil(($length / 12) * ($width / 12) * ($height / 12));
+	return $cuft;	
+}
+
+function getPalletCount($cuft) {
+	$pallet_count = ceil($cuft / MAX_CUFT_ON_PALLET);
+	return $pallet_count;
+}
+
+function getTruckingCost($weight) {
+	$trucking_cost = -1;
+	if ($weight <= TRUCKING_BASE_WEIGHT) {
+		$trucking_cost = TRUCKING_BASE_COST;
+	} else {
+		$trucking_cost = round($weight * 1.5, 2);
+	}
+
+	logger("Trucking cost is $trucking_cost");
+	return $trucking_cost;
 }
 
 function getUPSCost($cost, $length, $width, $height, $weight) {
@@ -107,23 +132,11 @@ function getUPSCost($cost, $length, $width, $height, $weight) {
 			$ups_cost += $fuel_surcharge + $large_package_cost + $insurance;
 			logger("UPS cost is $ups_cost");
 		} else {
-			logger("Failed to look up UPS cost in database!");
+			log_status("Failed to look up UPS cost in database!");
 		}
 	}
 
 	return $ups_cost;
-}
-
-function getTruckingCost($weight) {
-	$trucking_cost = -1;
-	if ($weight <= TRUCKING_BASE_WEIGHT) {
-		$trucking_cost = TRUCKING_BASE_COST;
-	} else {
-		$trucking_cost = round($weight * 1.5, 2);
-	}
-
-	logger("Trucking cost is $trucking_cost");
-	return $trucking_cost;
 }
 
 ?>
