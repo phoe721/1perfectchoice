@@ -10,25 +10,15 @@ Input: Fill in the corresponding values<br>
 Purpose: Calculate shipping costs
 </div>
 <br>
-<form id="form2">
-<label for="sku"></label><input type="text" id="sku" name="sku" value="sku">
-<label for="cost"></label><input type="text" id="cost" name="cost" value="cost">
-<label for="weight"></label><input type="text" id="weight" name="weight" value="weight">
-<label for="length"></label><input type="text" id="length" name="length" value="length">
-<label for="width"></label><input type="text" id="width" name="width" value="width">
-<label for="height"></label><input type="text" id="height" name="height" value="height">
-<br>
+<form id="form">
+	<label for="sku">SKU:</label><input type="text" id="sku" name="sku"><br>
+	<label for="cost">Cost:</label><input type="text" id="cost" name="cost"><br>
+	<label for="weight">Weight:</label><input type="text" id="weight" name="weight"><br>
+	<label for="length">Length:</label><input type="text" id="length" name="length"><br>
+	<label for="width">Width:</label><input type="text" id="width" name="width"><br>
+	<label for="height">Height:</label><input type="text" id="height" name="height"><br>
 <input type="button" id="submit" value="Submit">
 <input type="button" id="reset" value="Reset">
-</form>
-<div class="description">
-Input: Text file contains SKU, Cost, Weight, Length, Width, Height per line<br>
-Purpose: Calculate shipping costs by file
-</div>
-<br>
-<form id="form">
-	<label for="file"></label><input type="file" id="file1" name="file1">
-	<input type="button" id="upload" value="Upload">
 </form>
 <div id="output"></div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.3/jquery.min.js"></script>

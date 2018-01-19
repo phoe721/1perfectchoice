@@ -4,6 +4,7 @@
 }
 #field,
 label {
+    float: left;
     font-family: Arial, Helvetica, sans-serif;
     font-size: small;
 	margin-right: 10px;
@@ -11,9 +12,6 @@ label {
 #loading {
 	display: none;
 	vertical-align: bottom;
-}
-#sku, #cost, #weight, #length, #width, #height {
-	width: 100px
 }
 br {
     clear: both;
