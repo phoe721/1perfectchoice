@@ -1,15 +1,6 @@
 <?
 require_once('init.php');
 
-// 24 * 60 * 60 = 86400 = 1 Day
-define('ONE_DAY_IN_SECONDS', 86400);
-
-// Debug mode
-$debug = false;
-
-// Remove all
-$cleanAll = false;
-
 // Check download directory
 remove_outdated_files(DOWNLOAD);
 remove_empty_dir(DOWNLOAD);

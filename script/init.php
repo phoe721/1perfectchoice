@@ -30,7 +30,13 @@
 	define('TRUCKING_BASE_COST', 375);
 	define('TRUCKING_BASE_WEIGHT', 250);
 	define('MAX_CUFT_ON_PALLET', 80);
+	define('ONE_DAY_IN_SECONDS', 86400); // 24 * 60 * 60 = 86400 = 1 Day
 
 	/* Set user agent */
 	$_SERVER['HTTP_USER_AGENT'] = "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/52.0.2743.116 Safari/537.36";
+
+	/* Global Variables */
+	$debug = false;
+	$cleanAll = false; // Housekeeping: clean all files
+
 ?>
