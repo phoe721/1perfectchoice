@@ -433,7 +433,7 @@ function filter_sku_vendor_code($sku) {
 }
 
 function filter_bad_keyword($str) {
-	$badKeywords = array('\d+',',','\dpcs','occasional','christmas','thanksgiving','holiday','on sales','discount','%','cheap','price','match','lower','top','and','with','left','right','light','dark','set','sides','pieces','side','pack','bonded','promotion','pcs','antique','metal','sectional','inch','los','angeles','furniture','store','local','like','\+','\&','the');
+	$badKeywords = array('\d+',',','"','\dpcs','\+','\&','the','of','\d','in','with');
 
 	foreach($badKeywords as $word) {
 		$str = preg_replace('/' . $word . '/i', '', $str);

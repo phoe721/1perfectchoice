@@ -29,15 +29,14 @@ if (isset($argv[1]) && isset($argv[2])) {
 	$input_file = $argv[2];
 	prepare($uid);
 
-	log_status("Looking up match...");
+	log_status("Looking up keywords...");
 	$file1 = fopen($input_file, "r");
 	if ($file1) {
-		while (!feof($file1)){
-			$line = fgets($file1);
+		while (($line = fgets($file1)) !== false) {
 			$line = trim($line);
+			$line = strtolower($line);
 			$line = filter_bad_keyword($line);	
 			$line = filter($line);
-			$line = strtolower($line);
 			$keywords = preg_replace('/\s/', "\t", $line);
 			log_result($keywords);
 		}
