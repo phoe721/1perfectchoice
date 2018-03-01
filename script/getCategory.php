@@ -314,6 +314,8 @@ function get_type($str) {
 		$type = "childrens-furniture";
 	} else if (preg_match('/shoe organizer rack/i', $str)) {
 		$type = "free-standing-shoe-racks";
+	} else if (preg_match('/wall art/i', $str)) {
+		$type = "paintings";
 	}
 
 	return $type;

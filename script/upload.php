@@ -2,48 +2,56 @@
 /* Initialization */
 require_once('init.php');
 
-if(isset($_FILES["file"])) { 
-	$error = $_FILES["file"]["error"];
+if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES["file"])) { 
+	$name = $_FILES['file']['name'];
+	$tmpName = $_FILES['file']['tmp_name'];
+	$error = $_FILES['file']['error'];
+	$size = $_FILES['file']['size'];
+	$ext = strtolower(pathinfo($name, PATHINFO_EXTENSION));
+
 	switch($error) {
-		case 0:
-			$sourceFile = $_FILES["file"]["tmp_name"];
-			$targetFile = UPLOAD . basename($_FILES["file"]["name"]);
+		case UPLOAD_ERR_OK:
+			$sourceFile = $tmpName;
+			$targetFile = UPLOAD . basename($name);
 			if (file_exists($targetFile)) {
-				echo "File already exists!";
+				$response = "File already exists!";
 			} else {
-				if ($_FILES["file"]["size"] > MAX_UPLOAD_SIZE) {
-					echo "File size too large!";
+				if ($size > MAX_UPLOAD_SIZE) {
+					$response = "File size too large!";
 				} else {
 					if (move_uploaded_file($sourceFile, $targetFile)) { 
-						echo "File uploaded!";
+						$response = "File uploaded!";
 					} else {
-						echo "File upload fail!";
+						$response = "File upload fail!";
 					}
 				}
 			}
 			break;
-		case 1: 
-			echo "File size exceeds maximum file size specificed in php.ini!";
+		case UPLOAD_ERR_INI_SIZE: 
+			$response = "File size exceeds maximum file size specificed in php.ini!";
 			break;
-		case 2: 
-			echo "File size exceeds maximum file size specificed in HTML form!";
+		case UPLOAD_ERR_FORM_SIZE: 
+			$response = "File size exceeds maximum file size specificed in HTML form!";
 			break;
-		case 3:
-			echo "File only partially uploaded!";
+		case UPLOAD_ERR_PARTIAL:
+			$response = "File only partially uploaded!";
 			break;
-		case 4:
-			echo "No file was uploaded!";
+		case UPLOAD_ERR_NO_FILE:
+			$response = "No file was uploaded!";
 			break;
-		case 6:
-			echo "Missing temporary folder!";
+		case UPLOAD_ERR_NO_TMP_DIR:
+			$response = "Missing temporary folder!";
 			break;
-		case 7:
-			echo "Failed to write file to disk!";
+		case UPLOAD_ERR_CANT_WRITE:
+			$response = "Failed to write file to disk!";
 			break;
-		case 8:
-			echo "PHP extension stopped the file upload!";
+		case UPLOAD_ERR_EXTENSION:
+			$response = "PHP extension stopped the file upload!";
 			break;
+		default:
+			$response = 'Unknown error';
 	}
+	echo $response;
 }
 echo "<br><br>";
 echo "<a href='../upload.html'>Go back to upload</a>";
