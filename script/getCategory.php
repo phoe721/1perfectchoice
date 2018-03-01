@@ -108,6 +108,8 @@ function get_type($str) {
 		$type = "living-room-chaise-lounges";
 	} else if (preg_match('/chair/i', $str)) {
 		$type = "sofas";
+	} else if (preg_match('/vanity/i', $str)) {
+		$type = "vanities";
 	} else if (preg_match('/bar table/i', $str)) {
 		$type = "bar-tables";
 	} else if (preg_match('/small bar/i', $str)) {
@@ -200,8 +202,6 @@ function get_type($str) {
 		$type = "vanity-benches";
 	} else if (preg_match('/vanity bench/i', $str)) {
 		$type = "vanity-benches";
-	} else if (preg_match('/vanity/i', $str)) {
-		$type = "vanities";
 	} else if (preg_match('/dog house/i', $str)) {
 		$type = "dog-houses";
 	} else if (preg_match('/coat rack/i', $str)) {
