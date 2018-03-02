@@ -18,7 +18,7 @@ if (isset($_POST["sku"])) {
 
 function checkDiscontinued($sku) {
 	global $db;
-	$db_result = $db->query("SELECT * FROM product_discontinue WHERE sku = '$sku'");
+	$db_result = $db->query("SELECT * FROM product_discontinued WHERE sku = '$sku'");
 	if (mysqli_num_rows($db_result) > 0) {
 		return true;
 	} else {
