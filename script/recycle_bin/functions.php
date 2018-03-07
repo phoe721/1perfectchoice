@@ -29,9 +29,325 @@ function prepare($id) {
 	if (!is_dir($img_dir)) mkdir($img_dir, 0777, true);
 }
 
+function get_info() {
+	reset_product_array();
+	get_fields();
+	cleanup();
+	set_skus();
+	set_vendor_code();
+	set_sku_str();
+	set_brand();
+	set_name();
+	set_type();
+	set_price();
+	set_features();
+	set_description();
+	set_keywords();
+	set_main_image();
+	output_product_str();
+}
+
+function set_page($thisPage) {
+	global $page;
+	$page = $thisPage;
+}
+
 function reset_product_array() {
 	global $product;
 	$product = array();
+}
+
+function set_skus() {
+	global $page, $product, $debug;
+	$desc = $page->find('div.std', 1)->plaintext;
+	$product['skus'] = array();
+	if (preg_match('/-SE.*/', $product['sku'])) { 
+		$product['sku'] = preg_replace('/-SE.*/', '', $product['sku']);
+		if (preg_match_all('/\(\d+\)/', $desc, $found)) {
+			foreach($found[0] as $key => $value) {
+				$value = preg_replace('/\(/', '', $value);
+				$value = preg_replace('/\)/', '', $value);
+				$product['skus'][$key] = $value;
+			}
+		} else {
+			$product['skus'][0] = $product['sku'];
+		}
+	} else if (preg_match('/\d+-\d+/', $product['sku'])) {
+		$product['skus'] = explode("-", $product['sku']);
+	} else {
+		$product['skus'][0] = $product['sku'];
+	}
+
+	if ($debug) logger("Set product SKU: " . $product['sku']);
+}
+
+function set_sku_str() {
+	global $product, $debug;
+	foreach ($product['skus'] as $key => $value) {
+		if ($key == 0) {
+			$product['skuStr'] = $value;
+		} else {
+			$product['skuStr'] .= '-' . substr($value, -2);			
+		}
+	}
+
+	if (!preg_match('/' . $product['vendorCode'] . '/', $product['skuStr'])) {
+		$product['skuStr'] = $product['vendorCode'] . '-' . $product['skuStr'];
+	}
+
+	if ($debug) logger("Set product SKU string: " . $product['skuStr']);
+}
+
+function get_fields() {
+	global $page, $product;
+	if ($page->find('table.data', 0)) {
+		$tmp = preg_replace('/\s\s+/', ' ', $page->find('table.data', 0)->plaintext);
+		$data = explode(' ', trim($tmp));
+		for ($i = 0; $i < count($data); $i++) {
+			switch($data[$i]) {
+				case 'MPN':
+						$product['sku'] = str_pad($data[$i+1], 5, "0", STR_PAD_LEFT);
+						break;
+				case 'Brand':
+						$product['vendor'] = '';
+						for ($j = $i+1; $data[$j] != "Collection"; $j++) {
+							$product['vendor'] .= $data[$j] . ' ';
+						}
+						$product['vendor'] = trim($product['vendor']);
+						break;
+				case 'Length':
+						$product['length'] = $data[$i+1];
+						break;
+				case 'Width':
+						$product['width'] = $data[$i+1];
+						break;
+				case 'Height':
+						$product['height'] = $data[$i+1];
+						break;
+				case 'Material':
+						$product['material'] = '';
+						for ($j = $i+1; isset($data[$j]) && $data[$j] != "Finish" && $data[$j] != "Color" && $data[$j] != "Shipping"; $j++) {
+							$product['material'] .= $data[$j] . ' ';
+						}
+						$product['material'] = trim($product['material']);
+						break;
+				case 'Finish':
+						$product['color'] = $data[$i+1];
+						break;
+				case 'Color':
+						$product['color'] = $data[$i+1];
+						break;
+				case 'Shipping':
+						$product['freeShipping'] = $data[$i+1];
+						if($product['freeShipping'] == 'Yes') {
+							$product['shipping'] = 0;
+						} else {
+							$product['shipping'] = '';
+						}
+						break;
+			}
+		}
+	}
+}
+
+function cleanup() {
+	global $page, $product;
+	// Coaster - lookup sku
+	if (empty($product['sku']) && $page->find('title')) {
+		$title = $page->find('title', 0)->plaintext;
+		if (preg_match('/coaster/i', $title)) {
+			$product['vendor'] = 'Coaster';
+			$pieces = explode(' ', $title);
+			foreach($pieces as $word) {
+				if (preg_match('/[A-Z0-9]{4,7}/', $word)) {
+					$product['sku'] = $word;
+					break;
+				}
+			}
+		}
+	}
+
+	if (!isset($product['sku'])) $product['sku'] = uniqid();
+	if (!isset($product['vendor'])) $product['vendor'] = '';
+	if (!isset($product['color']) || $product['color'] == 'N/A' || $product['color'] == 'No') $product['color'] = '';
+	if (!isset($product['material']) || $product['material'] == 'N/A' || $product['material'] == 'No') $product['material'] = '';
+	if (!isset($product['length']) || $product['length'] == 'N/A' || $product['length'] == 'No') $product['length'] = '';
+	if (!isset($product['width']) || $product['width'] == 'N/A' || $product['width'] == 'No') $product['width'] = '';
+	if (!isset($product['height']) || $product['height'] == 'N/A' || $product['height'] == 'No') $product['height'] = '';
+}
+
+function set_brand() {
+	global $product, $debug;
+	$product['brand'] = BRAND;
+
+	if ($debug) logger("Set product brand " . $product['brand']);
+}
+
+function set_name() {
+	global $page, $product, $debug;
+	$tmp = $page->find('span.h1', 0)->plaintext;
+	$tmp = filter_sku_vendor($tmp);
+	$tmp = filter($tmp);
+	$product['name'] = BRAND . " " . $tmp;
+
+	if ($debug) logger("Set product name: " . $product['name']);
+}
+
+function set_type() {
+	global $product, $debug;
+
+	if (preg_match('/sofa bed/i', $product['name'])) {
+		$product['type'] = "standard-sofas";
+	} else if (preg_match('/coffee table/i', $product['name'])) {
+		$product['type'] = "coffee-tables";
+	} else if (preg_match('/occasional set/i', $product['name'])) {
+		$product['type'] = "coffee-tables";
+	} else if (preg_match('/end table/i', $product['name'])) {
+		$product['type'] = "end-tables";
+	} else if (preg_match('/console table/i', $product['name'])) {
+		$product['type'] = "sofa-tables";
+	} else if (preg_match('/sofa table/i', $product['name'])) {
+		$product['type'] = "sofa-tables";
+	} else if (preg_match('/corner table/i', $product['name'])) {
+		$product['type'] = "sofa-tables";
+	} else if (preg_match('/accent table/i', $product['name'])) {
+		$product['type'] = "sofa-tables";
+	} else if (preg_match('/sofa/i', $product['name'])) {
+		$product['type'] = "standard-sofas";
+	} else if (preg_match('/loveseat/i', $product['name'])) {
+		$product['type'] = "standard-sofas";
+	} else if (preg_match('/love seat/i', $product['name'])) {
+		$product['type'] = "standard-sofas";
+	} else if (preg_match('/recliner/i', $product['name'])) {
+		$product['type'] = "standard-sofas";
+	} else if (preg_match('/futon/i', $product['name'])) {
+		$product['type'] = "standard-sofas";
+	} else if (preg_match('/settee/i', $product['name'])) {
+		$product['type'] = "standard-sofas";
+	} else if (preg_match('/sectional/i', $product['name'])) {
+		$product['type'] = "standard-sofas";
+	} else if (preg_match('/office chair/i', $product['name'])) {
+		$product['type'] = "adjustable-home-desk-chairs";
+	} else if (preg_match('/rocking chair/i', $product['name'])) {
+		$product['type'] = "nursery-rocking-chairs";
+	} else if (preg_match('/accent chair/i', $product['name'])) {
+		$product['type'] = "living-room-chairs";
+	} else if (preg_match('/chaise/i', $product['name'])) {
+		$product['type'] = "living-room-chaise-lounges";
+	} else if (preg_match('/chair/i', $product['name'])) {
+		$product['type'] = "standard-sofas";
+	} else if (preg_match('/bar table/i', $product['name'])) {
+		$product['type'] = "bar-tables";
+	} else if (preg_match('/stool/i', $product['name'])) {
+		$product['type'] = "barstools";
+	} else if (preg_match('/tv stand/i', $product['name'])) {
+		$product['type'] = "television-stands";
+	} else if (preg_match('/media tower/i', $product['name'])) {
+		$product['type'] = "audio-video-media-cabinets";
+	} else if (preg_match('/tv console/i', $product['name'])) {
+		$product['type'] = "home-entertainment-centers";
+	} else if (preg_match('/entertainment center/i', $product['name'])) {
+		$product['type'] = "home-entertainment-centers";
+	} else if (preg_match('/computer desk/i', $product['name'])) {
+		$product['type'] = "computer-desks";
+	} else if (preg_match('/storage bench/i', $product['name'])) {
+		$product['type'] = "storage-benches";
+	} else if (preg_match('/headboard/i', $product['name'])) {
+		$product['type'] = "headboards";
+	} else if (preg_match('/ottoman/i', $product['name'])) {
+		$product['type'] = "storage-ottomans";
+	} else if (preg_match('/fireplace/i', $product['name'])) {
+		$product['type'] = "ventless-fireplaces";
+	} else if (preg_match('/dining table/i', $product['name'])) {
+		$product['type'] = "dining-tables";
+	} else if (preg_match('/side chair/i', $product['name'])) {
+		$product['type'] = "dining-chairs";
+	} else if (preg_match('/bed/i', $product['name'])) {
+		$product['type'] = "beds";
+	} else {
+		$product['type'] = "";
+	}
+
+	if ($debug) logger("Set product type: " . $product['type']);
+}
+
+function set_price() {
+	global $page, $product, $debug;
+	$tmp = $page->find('div.price-info', 0)->plaintext;
+	$tmp = filter($tmp);
+	if (preg_match('/Special Price/', $tmp)) {
+		$data = explode(' ', trim($tmp));
+		$product['price'] = trim(preg_replace('/\$/', '', $data[5]));
+	} else {
+		$product['price'] = trim(preg_replace('/\$/', '', $tmp));
+	}
+
+	if ($debug) logger("Set product price: " . $product['price']);
+}
+
+function set_features() {
+	global $page, $product, $debug;
+	$tmp = $page->find('div.short-description', 0)->plaintext;
+	$product['feature'] = explode(PHP_EOL, $tmp);
+	foreach($product['feature'] as $index => $value) {
+		if (!empty($value)) {
+			$product['feature'][$index] = filter($value);
+		} else {
+			unset($product['feature'][$index]);
+		}
+	}
+
+	$featureMax = 5;
+	$featureCount = count($product['feature']);
+	if ($featureCount > $featureMax) {
+		for($i = ($featureCount - 1); $i > ($featureMax - 1); $i--) {
+			unset($product['feature'][$i]);
+		}
+	} else {
+		for ($i = $featureCount; $i < $featureMax; $i++) {
+			$product['feature'][$i] = '';
+		}
+	}
+	$product['features'] = implode("\t", $product['feature']);	
+
+	if ($debug) logger("Set product feature: " . $product['features']);
+}
+
+function set_description() {
+	global $page, $product, $debug;
+	$tmp = $page->find('div.std', 1)->plaintext;
+	$tmp = preg_replace('/[^.]\b0+/', '', $tmp);
+	$tmp = preg_replace('/:/', '', $tmp);
+	$tmp = filter($tmp);
+	$tmp = filter_sku_vendor($tmp);
+	$tmp = preg_replace('/Includes/', '<br>Includes: ', $tmp);
+	$tmp = preg_replace('/Dimensions/', '<br>Dimensions: ', $tmp);
+	$product['description'] = trim($tmp);
+
+	if ($debug) logger("Set product description: " . $product['description']);
+}
+
+function set_keywords() {
+	global $page, $product, $debug;
+	$tmp = $page->find('meta[name=keywords]', 0)->getAttribute('content');
+	$tmp = filter_sku_vendor($tmp);
+	$tmp = filter_bad_keyword($tmp);
+	$tmp = filter($tmp);
+	$product['keyword'] = explode(' ', $tmp);
+
+	$keywordMax = 5;
+	$keywordCount = count($product['keyword']);
+	if ($keywordCount > $keywordMax) {
+		unset($product['keyword'][0]);
+	} else {
+		for ($i = $keywordCount; $i < $keywordMax; $i++) {
+			$product['keyword'][$i] = '';
+		}
+	}
+	$product['keyword'] = array_unique($product['keyword']);
+	$product['keywords'] = preg_replace('/,$/', '', strtolower(implode(",", $product['keyword'])));
+
+	if ($debug) logger("Set product keywords: " . $product['keywords']);
 }
 
 // Create queue to run later
@@ -53,6 +369,126 @@ function create_queue($uid, $command) {
 function move_file($uid, $file, $destination) {
 	$tmp = $file["tmp_name"];
 	move_uploaded_file($tmp, $destination) ;
+}
+
+function set_vendor_code() {
+	global $db, $product, $debug;
+	$result = $db->query("SELECT code FROM vendor WHERE name = '" . $product['vendor'] . "'");
+	if (mysqli_num_rows($result) == 0) {
+		$product['vendorCode'] = '';
+	} else {
+		$row = mysqli_fetch_array($result);
+		$product['vendorCode'] = $row['code'];
+	}
+
+	if ($debug) logger("Set vendor code: " . $product['vendorCode']);
+}
+
+function get_vendor_query_url() {
+	global $db, $product, $debug;
+	if (isset($product['vendorCode'])) {
+		$result = $db->query("SELECT queryURL FROM vendor WHERE code = '" . $product['vendorCode'] . "'");
+	} else if (isset($product['vendor'])) {
+		$result = $db->query("SELECT queryURL FROM vendor WHERE name = '" . $product['vendor'] . "'");
+	}
+
+	if (isset($result)) {
+		if (mysqli_num_rows($result) == 0) {
+			if ($debug) logger("[ERROR] Vendor query URL not found!");
+			return null;
+		} else {
+			$row = mysqli_fetch_array($result);
+			if ($debug) logger("Vendor query URL: " . $row['queryURL']);
+			return $row['queryURL'];
+		}
+	}
+}
+
+function filter_sku_vendor($str) {
+	global $product;
+	$str = preg_replace('/' . $product['vendor'] . '/', '', $str);
+	foreach($product['skus'] as $key => $val) {
+		$val2 = preg_replace('/\b0+/', '', $val);
+		$str = preg_replace('/' . $val . '/', '', $str);
+		$str = preg_replace('/' . $val2 . '/', '', $str);
+	}
+
+	return $str;
+}
+
+function filter_sku_vendor_code($sku) {
+	global $db, $debug;
+	$parts = explode("-", $sku);
+	if (isset($parts[0]) && (strlen($parts[0]) == 2)) {
+		$result = $db->query("SELECT code FROM vendor WHERE code = '" . $parts[0] . "'");
+		if ($result) {
+			$newSKU = preg_replace('/' . $parts[0] . '-/', '', $sku);
+			logger("SKU $sku has been filtered for vendor code to $newSKU!");
+			return $newSKU;
+		}
+	}
+
+	if ($debug) logger("SKU $sku has no vendor code!");
+	return $sku;
+}
+
+function filter_bad_keyword($str) {
+	$badKeywords = array('\d+',',','"','\dpcs','\+','\&','the','of','\d','in','with');
+
+	foreach($badKeywords as $word) {
+		$str = preg_replace('/' . $word . '/i', '', $str);
+	}
+
+	// Check if it's valid English word
+	$pspell_link = pspell_new("en");
+	$newStr = "";
+	$pieces = explode(" ", $str);
+	foreach($pieces as $word) {
+		if (pspell_check($pspell_link, $word)) {
+			$newStr .= $word . " ";
+		}
+	}
+
+	return $newStr;
+}
+
+function filter($str) {
+	$str = preg_replace('/' . PHP_EOL . '/', ' ', $str);
+	$str = preg_replace('/\&nbsp\;/', '', $str);	// Remove &nbps;
+	$str = preg_replace('/\&amp\;/', '', $str);		// Remove &amp;
+	$str = preg_replace('/\s\s+/', ' ', $str);		// Remove extra spaces
+	$str = preg_replace('/\(\d+\)/', '', $str);		// Remove (numbers) 
+	$str = preg_replace('/w\//', 'with ', $str);	// Replace "w/" with "with "
+	$str = preg_replace('/Drw/', 'Drawer ', $str);	// Replace "Drw" with "Drawer "
+	$str = preg_replace('/\$/', '', $str);			// Remove $
+	$str = preg_replace('/\*/', '', $str);			// Remove *
+	$str = preg_replace('/(\.)([[:alpha:]]{2,})/', '$1 $2', $str);
+	$str = preg_replace('/[A-Z0-9]{2,5}-[A-Z0-9]{3,15}{-}*[A-Z0-9]*/','', $str);
+	$str = strip_tags($str);	// Strip HTML tags
+	$str = trim($str);			// Trim spaces
+
+	return $str;
+}
+
+function check_set_sku($sku) {
+	global $debug;
+	$parts = explode("-", $sku);
+	if (count($parts) > 0) {
+		foreach ($parts as $key => $val) $skus[$key] = $val;
+		$skuLen = strlen($skus[0]);
+		for ($i = 1; $i < count($skus); $i++) {
+			if (strlen($skus[$i]) < $skuLen) {
+				$length = $skuLen - strlen($skus[$i]);
+				$skus[$i] = substr($skus[0], 0, $length) . $skus[$i]; 
+			}
+		}
+
+		logger("SKU $sku is a set SKU: " . implode(", ", $skus));
+		return $skus;
+	} else {
+		logger("SKU $sku is not a set SKU!");
+		return false;
+	}
 }
 
 function truncate_inventory() {
@@ -82,6 +518,18 @@ function inventory_record_count() {
 	$row = $result->fetch_row();
 	$count = $row[0];
 	return $count;
+}
+
+function set_main_image() {
+	global $img_dir, $page, $product, $debug;
+	if ($page->find('#image-main img', 0)) {
+		$imgURL = $page->find('#image-main img', 0)->src;
+		$product['mainImage'] = $imgURL;
+
+		if ($debug) logger("Get product image: " . $imgURL);
+	} else {
+		if ($debug) logger("[ERROR] Fail to get product image: " . $product['sku']);
+	}
 }
 
 function download($url, $path) {
@@ -157,6 +605,25 @@ function zip_images() {
 
 
 	$zip->close();
+}
+
+function output_product_str() {
+	global $product, $data_file, $result, $debug;
+	$file = fopen($data_file, 'a+');
+	if ($file) {
+		$productStr = $product['type'] . "\t" . $product['sku'] . "\t" . $product['vendor'] . "\t" . $product['skuStr'] . "\t";
+	   	$productStr .= $product['brand'] . "\t" . $product['name'] . "\t" . $product['price'] . "\t"; 
+		$productStr .= $product['description'] . "\t" . $product['features'] . "\t" . $product['keywords'] . "\t"; 
+		$productStr .= $product['color'] . "\t" . $product['material'] . "\t";
+		$productStr .= $product['length'] . "\t" . $product['width'] . "\t" . $product['height'] . "\t"; 
+		$productStr .= $product['mainImage'] . "\t" . $product['shipping'] . PHP_EOL;
+		fwrite($file, $productStr);
+		
+		if ($debug) logger("Product info: " . $productStr);
+	} else {
+		if ($debug) logger("[ERROR] Could not save $file to $path");
+	}
+	fclose($file);
 }
 
 function grab_img($sku, $url) {
