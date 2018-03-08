@@ -5,7 +5,7 @@ require_once('functions.php');
 /* Start of Program */
 $page = "";
 if (isset($_POST['url']) && isset($_POST['uid'])) {
-	global $uid, $url;
+	global $uid, $url, $result_file;
 	$url = $_POST['url'];
 	$uid = $_POST['uid'];
 	prepare($uid);
@@ -14,19 +14,20 @@ if (isset($_POST['url']) && isset($_POST['uid'])) {
 	log_status("Processing page: " . $url);
 	$page = file_get_html($url);
 	if (isset($page)) {
-		process_page($page);
+		process_page();
 		log_status("Finish Processing page: " . $url);
 	}
 
+	log_link_file($result_file);
 	log_status("Done");
 }
 
 function process_page() {
 	global $page;
+	get_fields();
 	get_title();
 	get_description();
 	get_features();
-	get_fields();
 	get_price();
 	get_keywords();
 	output_product_str();
@@ -35,12 +36,13 @@ function process_page() {
 function get_title() {
 	global $page, $product;
 	$tmp = $page->find('h1.page-title', 0)->plaintext;
-	$product['Title'] = trim($tmp);
+	$tmp = remove_brand($tmp);
+	$tmp = remove_mpn($tmp);
+	$product['Title'] = filter($tmp);
 }
 
 function get_features() {
 	global $page, $product;
-	$product['Features'] = "";
 	$tmp = $page->find('div.overview', 0)->plaintext;
 	$product['Features'] = filter($tmp);
 }
@@ -50,9 +52,11 @@ function get_description() {
 	$tmp = $page->find('div.description', 0)->plaintext;
 	$tmp = preg_replace('/[^.]\b0+/', '', $tmp);
 	$tmp = preg_replace('/:/', '', $tmp);
-	$tmp = preg_replace('/Includes/', '<br>Includes: ', $tmp);
-	$tmp = preg_replace('/Dimensions/', '<br>Dimensions: ', $tmp);
-	$product['Description'] = trim($tmp);
+	$tmp = preg_replace('/Includes/', '. Includes: ', $tmp);
+	$tmp = preg_replace('/Dimensions/', '. Dimensions: ', $tmp);
+	$tmp = remove_brand($tmp);
+	$tmp = remove_mpn($tmp);
+	$product['Description'] = filter($tmp);
 }
 
 function get_fields() {
@@ -94,13 +98,13 @@ function get_fields() {
 function get_price() {
 	global $page, $product;
 	$tmp = $page->find('div.price-final_price', 0)->plaintext;
-	$product['Price'] = trim($tmp);
+	$product['Price'] = filter($tmp);
 }
 
 function get_keywords() {
 	global $page, $product;
 	$tmp = $page->find('meta[name=keywords]', 0)->getAttribute('content');
-	$product['Keywords'] = explode(' ', $tmp);
+	$product['Keywords'] = filter($tmp);
 }
 
 function output_product_str() {
@@ -111,6 +115,24 @@ function output_product_str() {
 		fwrite($file, $productStr);
 	}
 	fclose($file);
+}
+
+function remove_brand($str) {
+	global $product;
+	if (isset($product['Brand'])) {
+		$str = preg_replace('/' . $product['Brand'] . ' /', ' ', $str);
+	}
+
+	return $str;
+}
+
+function remove_mpn($str) {
+	global $product;
+	if (isset($product['MPN'])) {
+		$str = preg_replace('/' . $product['MPN'] . ' /', ' ', $str);
+	}
+
+	return $str;
 }
 
 function filter($str) {
