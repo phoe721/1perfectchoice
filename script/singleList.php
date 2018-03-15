@@ -3,7 +3,6 @@
 require_once('functions.php');
 
 /* Start of Program */
-$page = "";
 if (isset($_POST['url']) && isset($_POST['uid'])) {
 	global $uid, $url, $result_file;
 	$url = $_POST['url'];
@@ -17,6 +16,7 @@ if (isset($_POST['url']) && isset($_POST['uid'])) {
 		process_page();
 		log_status("Finish Processing page: " . $url);
 	}
+	$page->clear();
 
 	log_link_file($result_file);
 	log_status("Done");
