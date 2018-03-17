@@ -50,7 +50,7 @@ if (isset($argv[1]) && isset($argv[2])) {
 }
 
 function filter_bad_keyword($str) {
-	$badKeywords = array('\d+',',','"','\dpcs','\+','\&','the','of','\d','in','with');
+	$badKeywords = array('\d+',',','"','\dpcs','\+','\&','the','of','\d','with');
 
 	foreach($badKeywords as $word) {
 		$str = preg_replace('/' . $word . '/i', '', $str);
