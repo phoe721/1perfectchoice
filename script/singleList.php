@@ -23,7 +23,7 @@ if (isset($_POST['url']) && isset($_POST['uid'])) {
 }
 
 function process_page() {
-	global $page;
+	reset_product_array();
 	get_fields();
 	get_title();
 	get_description();
@@ -107,11 +107,17 @@ function get_keywords() {
 	$product['Keywords'] = filter($tmp);
 }
 
+function reset_product_array() {
+	global $product;
+	$product = array();
+}
+
 function output_product_str() {
 	global $product, $result_file;
 	$file = fopen($result_file, 'a+');
 	if ($file) {
 		$productStr = implode("\t", $product);
+		$productStr .= PHP_EOL;
 		fwrite($file, $productStr);
 	}
 	fclose($file);

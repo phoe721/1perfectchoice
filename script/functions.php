@@ -29,11 +29,6 @@ function prepare($id) {
 	if (!is_dir($img_dir)) mkdir($img_dir, 0777, true);
 }
 
-function reset_product_array() {
-	global $product;
-	$product = array();
-}
-
 // Create queue to run later
 function create_queue($uid, $command) {
 	global $db;

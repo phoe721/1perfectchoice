@@ -1,6 +1,7 @@
 <?
 /* Initialization */
 require_once('functions.php');
+require_once('singleList.php');
 
 /* Request Put Into Queue */
 if (isset($_POST['url']) && isset($_POST['uid'])) {
@@ -29,27 +30,30 @@ if (isset($argv[1]) && isset($argv[2])) {
 	log_status("Getting links from $url");
 	$page = file_get_html($url);
 	$links = array();
-	if ($page->find('div.product-item-details a')) {
-		foreach($page->find('div.product-item-details a') as $i=>$link) {
-			log_status("Found link: " . trim($link->href));
-			$links[$i] = trim($link->href);
+	if (isset($page)) {
+		if ($page->find('a.product-item-link')) {
+			foreach($page->find('a.product-item-link') as $i=>$link) {
+				if (!empty($link->href)) {
+					log_status("Found link: " . trim($link->href));
+					$links[$i] = trim($link->href);
+				}
+			}
 		}
+		$page->clear();
 	}
-	$page->clear();
-	
+
 	// Process each link
-	/*
 	for ($i = 0; $i < count($links); $i++) {
 		log_status("Processing page: " .  $links[$i]);
 		$page = file_get_html($links[$i]);
 		if (isset($page)) {
-			get_info();
-			log_status("Finish Processing page: " .  $links[$i]);
+			process_page();
+			log_status("Finish Processing page: " . $links[$i]);
 		}
 		$page->clear();
 	}
-	*/
-	
+
+	log_link_file($result_file);
 	log_status("Done");
 }
 ?>

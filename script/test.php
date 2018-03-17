@@ -2,6 +2,7 @@
 /* Initialization */
 require_once("functions.php");
 
+/*
 $input = UPLOAD . "input.txt";
 $output = UPLOAD . "output.txt";
 $handle = fopen($input, "r");
@@ -28,4 +29,22 @@ if ($handle & $handle2) {
 } else {
 	echo "Failed to open $input";
 }
+*/
+
+$url = "https://www.flatfair.com/bedroom-furniture.html";
+$page = file_get_html($url);
+$links = array();
+if (isset($page)) {
+	if ($page->find('a.product-item-link')) {
+		foreach($page->find('a.product-item-link') as $i=>$link) {
+			if (!empty($link->href)) {
+				echo "Found link: " . trim($link->href) . PHP_EOL;
+				$links[$i] = trim($link->href);
+			}
+		}
+	}
+	$page->clear();
+}
+
+
 ?>
