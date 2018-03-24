@@ -2,49 +2,48 @@
 /* Initialization */
 require_once("functions.php");
 
-/*
+$server = "phoe721.com";
+$user = "aaron";
+$pass = "revive";
+$files = array();
+$conn = ftp_connect($server) or die("Couldn't connect to $server");
 $input = UPLOAD . "input.txt";
-$output = UPLOAD . "output.txt";
 $handle = fopen($input, "r");
-$handle2 = fopen($output, "w+");
-if ($handle & $handle2) {
-	while (($line = fgets($handle)) !== false) {
-		$page = file_get_html($line);
-		if (isset($page)) {
-			$category = $sku = "";
-			if ($page->find('div.prodName', 0)) {
-				$category = $page->find('div.prodName', 0)->plaintext;
+
+// Login to FTP server
+if (@ftp_login($conn, $user, $pass)) {
+	echo "Successfully login to $server!" . PHP_EOL;
+	ftp_pasv($conn, true); // Turn Passive Mode On
+	if (ftp_chdir($conn, '/test')) {
+		$files = ftp_nlist($conn, '.');
+		if ($handle) {
+			while (($line = fgets($handle)) != false) {
+				$line = trim($line);
+				foreach ($files as $file) {
+					if (preg_match('/(\.)(gif|jpg|png|txt|swf|db|ico)$/i', $file)) {
+						$sku = basename(str_replace(".jpg", "", $file));
+						if (preg_match('/' . $sku . '/', $line)) {
+							echo "Match: $line $sku" . PHP_EOL;
+							echo "Going to copy $file to $line" . PHP_EOL;
+							/*
+							echo $path . PHP_EOL;
+							if (ftp_get($conn, $file, $line, FTP_BINARY)) {
+								echo "Copy file OK";
+							} else {
+								echo "Failed to copy file";
+							}
+							 */
+						}
+					}
+				}
 			}
-			if ($page->find('div.prodNumber', 0)) {
-				$sku = $page->find('div.prodNumber', 0)->plaintext;
-			}
-			$output = "$category\t$sku" . PHP_EOL;
-			fwrite($handle2, $output);
-			sleep(3);
 		}
-		$page->clear();
 	}
-	fclose($handle2);
-	fclose($handle);
 } else {
-	echo "Failed to open $input";
-}
-*/
-
-$url = "https://www.flatfair.com/bedroom-furniture.html";
-$page = file_get_html($url);
-$links = array();
-if (isset($page)) {
-	if ($page->find('a.product-item-link')) {
-		foreach($page->find('a.product-item-link') as $i=>$link) {
-			if (!empty($link->href)) {
-				echo "Found link: " . trim($link->href) . PHP_EOL;
-				$links[$i] = trim($link->href);
-			}
-		}
-	}
-	$page->clear();
+	echo "Failed to login to $server!" . PHP_EOL;
 }
 
+fclose($handle);
+ftp_close($conn);
 
 ?>
