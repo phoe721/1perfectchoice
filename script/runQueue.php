@@ -31,7 +31,7 @@ function connect_db() {
 // Check queue with status 0
 function process_queue() {
 	global $db;
-	$result = $db->query("SELECT qid, command FROM queue WHERE status = 0");
+	$result = $db->query("SELECT qid, command FROM queues WHERE status = 0");
 	if ($result->num_rows == 0) {
 		//logger("No queue found!");	
 	} else {
@@ -58,7 +58,7 @@ function process_queue() {
 // Update queue status
 function update_status($qid, $status) {
 	global $db;
-	$result = $db->query("UPDATE queue SET status = '$status', update_time = NOW() WHERE qid = '$qid'");
+	$result = $db->query("UPDATE queues SET status = '$status', update_time = NOW() WHERE qid = '$qid'");
 	if ($result) {
 		logger("Updated queue $qid status to $status");
 	} else {
