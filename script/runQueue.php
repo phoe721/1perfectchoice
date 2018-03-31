@@ -66,7 +66,7 @@ function update_status($qid, $status) {
 	}
 }
 
-// Log message 
+// Log queue message 
 function logger($msg) {
 	$file = fopen(QUEUE_LOG, 'a+');
 	if ($file) {
