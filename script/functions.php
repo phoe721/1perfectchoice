@@ -32,7 +32,7 @@ function prepare($id) {
 // Create queue to run later
 function create_queue($uid, $command) {
 	global $db;
-	$result = $db->query("INSERT INTO queue (command, status, insert_time, update_time) VALUES ('$command', '0', NOW(), NOW())");
+	$result = $db->query("INSERT INTO queues (command, status, insert_time, update_time) VALUES ('$command', '0', NOW(), NOW())");
 	if ($result) {
 		$last_id = $db->last_insert_id();
 		log_status("Queue created, your queue number is $last_id!");
