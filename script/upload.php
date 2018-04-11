@@ -54,4 +54,4 @@ if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES["file"])) {
 	echo $response;
 }
 echo "<br><br>";
-echo "<a href='../upload.html'>Go back to upload</a>";
+echo "<a href='../upload.htm'>Go back to upload</a>";
