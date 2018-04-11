@@ -2,48 +2,80 @@
 /* Initialization */
 require_once("functions.php");
 
-$server = "phoe721.com";
-$user = "aaron";
-$pass = "revive";
-$files = array();
-$conn = ftp_connect($server) or die("Couldn't connect to $server");
-$input = UPLOAD . "input.txt";
-$handle = fopen($input, "r");
-
-// Login to FTP server
-if (@ftp_login($conn, $user, $pass)) {
-	echo "Successfully login to $server!" . PHP_EOL;
-	ftp_pasv($conn, true); // Turn Passive Mode On
-	if (ftp_chdir($conn, '/test')) {
-		$files = ftp_nlist($conn, '.');
-		if ($handle) {
-			while (($line = fgets($handle)) != false) {
-				$line = trim($line);
-				foreach ($files as $file) {
-					if (preg_match('/(\.)(gif|jpg|png|txt|swf|db|ico)$/i', $file)) {
-						$sku = basename(str_replace(".jpg", "", $file));
-						if (preg_match('/' . $sku . '/', $line)) {
-							echo "Match: $line $sku" . PHP_EOL;
-							echo "Going to copy $file to $line" . PHP_EOL;
-							/*
-							echo $path . PHP_EOL;
-							if (ftp_get($conn, $file, $line, FTP_BINARY)) {
-								echo "Copy file OK";
-							} else {
-								echo "Failed to copy file";
-							}
-							 */
-						}
-					}
+$input = UPLOAD . "links.txt";
+$output = UPLOAD. "output.txt";
+$handle = fopen($input, "r"); 
+$handle2 = fopen($output, "a+");
+if ($handle && $handle2) {
+	while (!feof($file)) {
+		$page = file_get_html($url);
+		if (isset($page) && !empty($page)) {
+			if ($page->find('p.note-msg')) {
+				$message = trim($page->find('p.note-msg', 0)->plaintext);
+				if (preg_match('/no results/', $message)) {
+					$result = $url . "\tItem not found" . PHP_EOL;
+					fwrite($handle2, $result);
 				}
+			} else {
+				$result = $url . "\tItem found" . PHP_EOL;
+				fwrite($handle2, $result);
 			}
+			$page->clear();
 		}
 	}
-} else {
-	echo "Failed to login to $server!" . PHP_EOL;
+	fclose($handle2);
+	fclose($handle);
 }
 
-fclose($handle);
-ftp_close($conn);
+/*
+$sku = "AC-00114-15";
+$pieces = explode("-", $sku);
+$vendor_code = $pieces[0];
+for ($i = 1; $i < count($pieces); $i++) {
+	$item_no[$i] = $pieces[$i];
+}
+echo $vendor_code . PHP_EOL;
+var_dump($item_no);
 
+if (check_vendor_code($vendor_code)) {
+	$result = $db->query("SELECT cost FROM costs WHERE vendor_code = '" . $vendor_code . "' AND item_no = '" . $item_no . "'"); 
+	if ($result) {
+		while ($row = mysqli_fetch_array($result)) {
+			$cost = $row['cost'];
+			echo "Found item $sku: $cost" . PHP_EOL;
+		}
+	} else {
+		echo "Cost not found!";
+	}
+}
+
+function check_vendor_code($vendor_code) {
+	global $db;
+	$result = $db->query("SELECT COUNT(*) FROM vendors WHERE code = '" . $vendor_code . "'");
+	if ($result && mysqli_num_rows($result) > 0) {
+		return true;
+	}
+
+	return false;	
+}
+
+function get_set_list($vendor_code, $sku) {
+	global $db;
+	$item_no = array();
+	$result = $db->query("SELECT sku1, sku2, sku3, sku4, sku5, sku6, sku7, sku8, sku9, sku10 FROM set_list WHERE vendor_code = '" . $vendor_code . "' AND sku = '" . $sku . "'");
+	if ($result) { 
+		while ($row = mysqli_fetch_array($result)) {
+			for ($i = 1; $i <= 10; $i++) {
+				$current_sku = $row['sku' . $i];
+				if (!empty($current_sku)) {
+					$item_no[$i] = $current_sku;
+				}
+			}
+			return $item_no;
+		}
+	} else {
+		echo "Set list not found!";
+	}
+}
+ */
 ?>
