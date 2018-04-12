@@ -7,20 +7,25 @@ $output = UPLOAD. "output.txt";
 $handle = fopen($input, "r"); 
 $handle2 = fopen($output, "a+");
 if ($handle && $handle2) {
-	while (!feof($file)) {
-		$page = file_get_html($url);
-		if (isset($page) && !empty($page)) {
-			if ($page->find('p.note-msg')) {
-				$message = trim($page->find('p.note-msg', 0)->plaintext);
-				if (preg_match('/no results/', $message)) {
-					$result = $url . "\tItem not found" . PHP_EOL;
+	while (!feof($handle)) {
+		$url = trim(fgets($handle));
+		if (!empty($url)) {
+			$page = file_get_html($url);
+			if (isset($page) && !empty($page)) {
+				if ($page->find('p.note-msg')) {
+					$message = trim($page->find('p.note-msg', 0)->plaintext);
+					if (preg_match('/no results/', $message)) {
+						$result = $url . "\tItem not found" . PHP_EOL;
+						echo $result;
+						fwrite($handle2, $result);
+					}
+				} else {
+					$result = $url . "\tItem found" . PHP_EOL;
+					echo $result;
 					fwrite($handle2, $result);
 				}
-			} else {
-				$result = $url . "\tItem found" . PHP_EOL;
-				fwrite($handle2, $result);
+				$page->clear();
 			}
-			$page->clear();
 		}
 	}
 	fclose($handle2);
