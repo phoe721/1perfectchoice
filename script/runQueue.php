@@ -14,7 +14,6 @@
 require_once('init.php');
 require_once('database.php');
 $db = connect_db();
-$debug = false;
 
 // Main Program
 process_queue();
@@ -68,14 +67,8 @@ function update_status($qid, $status) {
 
 // Log queue message 
 function logger($msg) {
-	$file = fopen(QUEUE_LOG, 'a+');
-	if ($file) {
-		$timestring = date('Y-m-d h:i:s', strtotime('now'));
-		$msg = $timestring . ' - ' . $msg . PHP_EOL;
-		fwrite($file, $msg);
-	} else {
-		fwrite($file, "[ERROR] Unable to open " . QUEUE_LOG . "!");
-	}
-	fclose($file);
+	global $db;
+	$timestring = date('Y-m-d H:i:s', strtotime('now'));
+	$result = $db->query("INSERT INTO queue_log (qid, message, datetime) VALUES ('', '$msg', '$timestring')");
 }
 ?>
