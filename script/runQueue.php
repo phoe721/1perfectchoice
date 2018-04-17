@@ -44,13 +44,8 @@ function process_queue() {
 		$output = shell_exec($command);
 
 		// Done Processing
-		if (is_null($output)) {
-			update_status($qid, 3);
-			logger("Failed to process queue $qid");
-		} else {
-			update_status($qid, 2);
-			logger("Finished processing queue $qid");
-		}
+		update_status($qid, 2);
+		logger("Finished processing queue $qid");
 	}
 }
 
