@@ -57,7 +57,7 @@ $('#submit').click(function() {
 		start = $('#start').val();
 		step = $('#step').val();
 		max = $('#max').val();
-        $.post('script/multipleListHouzz_v2.php', {url: url, start: start, step: step, max: max, uid: uid}, function(result) {
+        $.post('script/multipleListHouzz.php', {url: url, start: start, step: step, max: max, uid: uid}, function(result) {
 			$('#output').html(result.status + "<br>");
 			$('#submit').removeAttr('disabled');
 		}, "json");
