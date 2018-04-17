@@ -1,5 +1,7 @@
 <?
 require_once('init.php');
+require_once('database.php');
+$db = connect_db();
 
 // Check download directory
 remove_outdated_files(DOWNLOAD);
@@ -58,19 +60,19 @@ function remove_empty_dir($dir) {
 	}
 }
 
+// Connect to DB
+function connect_db() {
+	$db	= new database;
+	$con = $db->connect("localhost", "root", "revive", "1perfectchoice");
+	mysqli_set_charset($con, "utf8");
+
+	return $db;
+}
+
 // Log to logfile
 function logger($msg) {
-	global $debug;
-	$timestring = date('Y-m-d h:i:s', strtotime('now'));
-	$msg = $timestring . ' - ' . $msg . PHP_EOL;
-	if ($debug) echo $msg;
-
-	$file = fopen(HOUSEKEEPING_LOG, 'a+');
-	if ($file) {
-		fwrite($file, $msg);
-	} else {
-		fwrite($file, "[ERROR] Unable to open file!");
-	}
-	fclose($file);
+	global $db, $debug;
+	$timestring = date('Y-m-d H:i:s', strtotime('now'));
+	$result = $db->query("INSERT INTO housekeeping_log (qid, message, datetime) VALUES ('', '$msg', '$timestring')");
 }
 ?>
