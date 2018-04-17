@@ -11,27 +11,17 @@ require_once('functions.php');
 if (isset($argv[1]) && isset($argv[2])) {
 	$uid = $argv[1];
 	$file = $argv[2];
-	process_request($uid, $file);
+	prepare($uid);
+	check_links($file);
 } else if (isset($_FILES["file"]) && isset($_POST['uid'])) {
 	$uid = $_POST['uid'];
 	$file = $_FILES["file"];
-	get_request($uid, $file);
-}
-
-// Get request
-function get_request($uid, $file) {
 	$destination = UPLOAD . $uid . '/' . basename($file["name"]);
 	$command = "/usr/bin/php " . __FILE__ . " $uid $destination";
 
 	prepare($uid);
 	move_file($uid, $file, $destination);
 	create_queue($uid, $command);
-}
-
-// Process request
-function process_request($uid, $file) {
-	prepare($uid);
-	check_links($file);
 }
 
 // Check validity of links
