@@ -2,34 +2,35 @@
 /* Initialization */
 require_once("functions.php");
 
-/*
-$sku = "AC-00114-15";
+$sku = "AC-00450-452";
 $pieces = explode("-", $sku);
 $vendor_code = $pieces[0];
-for ($i = 1; $i < count($pieces); $i++) {
-	$item_no[$i] = $pieces[$i];
-}
-echo $vendor_code . PHP_EOL;
-var_dump($item_no);
+array_shift($pieces);
+$sku = implode("-", $pieces);
+$item_no = get_set_list($vendor_code, $sku);
+$total_cost = 0;
 
 if (check_vendor_code($vendor_code)) {
-	$result = $db->query("SELECT cost FROM costs WHERE vendor_code = '" . $vendor_code . "' AND item_no = '" . $item_no . "'"); 
-	if ($result) {
-		while ($row = mysqli_fetch_array($result)) {
-			$cost = $row['cost'];
-			echo "Found item $sku: $cost" . PHP_EOL;
+	global $db;
+	for ($i = 1; $i <= count($item_no); $i++) {
+		$result = $db->query("SELECT cost FROM costs WHERE vendor_code = '" . $vendor_code . "' AND item_no = '" . $item_no[$i] . "'"); 
+		if ($result) {
+			while ($row = mysqli_fetch_array($result)) {
+				$cost = $row['cost'];
+				$total_cost += $cost;
+				echo "Found item " . $item_no[$i] . ": $cost" . PHP_EOL;
+			}
+		} else {
+			echo "Cost not found!";
 		}
-	} else {
-		echo "Cost not found!";
 	}
 }
+echo $total_cost;
 
 function check_vendor_code($vendor_code) {
 	global $db;
 	$result = $db->query("SELECT COUNT(*) FROM vendors WHERE code = '" . $vendor_code . "'");
-	if ($result && mysqli_num_rows($result) > 0) {
-		return true;
-	}
+	if ($result && mysqli_num_rows($result) > 0) return true;
 
 	return false;	
 }
@@ -46,11 +47,9 @@ function get_set_list($vendor_code, $sku) {
 					$item_no[$i] = $current_sku;
 				}
 			}
-			return $item_no;
 		}
-	} else {
-		echo "Set list not found!";
 	}
+
+	return $item_no;
 }
- */
 ?>
