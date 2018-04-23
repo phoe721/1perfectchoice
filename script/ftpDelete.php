@@ -5,7 +5,7 @@ require_once('functions.php');
 $server = "www.3pxusa.com";
 $user = "aaron@3pxusa.com";
 $pass = "c7w2l181";
-$folder = "PDEX";
+$folder = "PDEX_WB";
 $files = array();
 $conn = ftp_connect($server) or die("Couldn't connect to $server");
 $input = UPLOAD . "input.txt";
