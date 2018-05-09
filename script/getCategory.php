@@ -198,8 +198,6 @@ function get_type($str) {
 		$type = "nightstands";
 	} else if (preg_match('/nightstand/i', $str)) {
 		$type = "nightstands";
-	} else if (preg_match('/bench/i', $str)) {
-		$type = "vanity-benches";
 	} else if (preg_match('/vanity bench/i', $str)) {
 		$type = "vanity-benches";
 	} else if (preg_match('/dog house/i', $str)) {
@@ -316,6 +314,10 @@ function get_type($str) {
 		$type = "free-standing-shoe-racks";
 	} else if (preg_match('/wall art/i', $str)) {
 		$type = "paintings";
+	} else if (preg_match('/server/i', $str)) {
+		$type = "sideboards";
+	} else if (preg_match('/bench/i', $str)) {
+		$type = "storage-benches";
 	}
 
 	return $type;
