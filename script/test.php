@@ -1,7 +1,12 @@
 <?	
 /* Initialization */
 require_once("functions.php");
+require_once("getCategory.php");
 
+$str = "Simple Relax 1PerfectChoice Modern 2 Pcs Bar Pub Stool Barstool Adjustable Height Black PU Seat Chrome Base";
+$result = get_type($str);
+echo "Result: $result" . PHP_EOL;
+/*
 $sku = "AC-00450-453";
 $vendor_code = get_vendor_code($sku); 
 $item_array = get_set_list($sku);
@@ -92,4 +97,5 @@ function get_cost($vendor_code, $item_no) {
 		echo "Cost not found!" . PHP_EOL;
 	}
 }
+ */
 ?>
