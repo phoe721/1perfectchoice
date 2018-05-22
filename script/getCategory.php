@@ -51,63 +51,46 @@ if (isset($argv[1]) && isset($argv[2])) {
 function get_type($str) {
 	$type = "";
 	$str = strtolower($str);
+	$str = str_replace("set of", "", $str);
 	if (preg_match('/\bset\b/', $str)) {
-		if (preg_match('/occasional/', $str)) {
+		if (preg_match('/(occasional|coffee end|coffee|end)/', $str)) {
 			$type = "living-room-table-sets";
-		} else if (preg_match('/coffee end/', $str)) {
-			$type = "living-room-table-sets";
-		} else if (preg_match('/office/', $str)) {
-			$type = "office-desks";
-		} else if (preg_match('/dining/', $str)) {
+		} else if (preg_match('/(dining|counter height)/', $str)) {
 			$type = "kitchen-and-dining-room-sets";
 		} else if (preg_match('/stool/', $str)) {
 			$type = "bar-stools";
-		} else if (preg_match('/counter height/', $str)) {
-			$type = "kitchen-and-dining-room-sets";
 		} else if (preg_match('/patio dinning/', $str)) {
 			$type = "patio-dining-sets";
+		} else if (preg_match('/office/', $str)) {
+			$type = "office-desks";
+		} else if (preg_match('/tray table/', $str)) {
+			$type = "lap-desks";
 		}
-	} else if (preg_match('/\btable\b/', $str)) {
-		if (preg_match('/coffee/', $str)) {
+	} else if (preg_match('/\b(table|tables)\b/', $str)) {
+		if (preg_match('/(coffee|cocktail|tea)/', $str)) {
 			$type = "coffee-tables";
-		} else if (preg_match('/side/', $str)) {
+		} else if (preg_match('/(nightstand|night stand)/', $str)) {
+			$type = "nightstands";
+		} else if (preg_match('/(end|side|stand|accent|magazine|snack)/', $str)) {
 			$type = "end-tables";
-		} else if (preg_match('/stand/', $str)) {
-			$type = "end-tables";
-		} else if (preg_match('/accent/', $str)) {
-			$type = "end-tables";
-		} else if (preg_match('/lobby/', $str)) {
+		} else if (preg_match('/(lobby|console|sofa|corner|narrow|entry)/', $str)) {
 			$type = "sofa-tables";
-		} else if (preg_match('/console/', $str)) {
-			$type = "sofa-tables";
-		} else if (preg_match('/sofa/', $str)) {
-			$type = "sofa-tables";
-		} else if (preg_match('/corner/', $str)) {
-			$type = "sofa-tables";
-		} else if (preg_match('/narrow/', $str)) {
-			$type = "sofa-tables";
-		} else if (preg_match('/entry/', $str)) {
-			$type = "sofa-tables";
+		} else if (preg_match('/(dining|counter height|gathering)/', $str)) {
+			$type = "dining-tables";
 		} else if (preg_match('/game/', $str)) {
 			$type = "game-tables";
 		} else if (preg_match('/tray/', $str)) {
 			$type = "folding-tables";
 		} else if (preg_match('/bar/', $str)) {
 			$type = "bar-tables";
-		} else if (preg_match('/dining/', $str)) {
-			$type = "dining-tables";
-		} else if (preg_match('/counter height/', $str)) {
-			$type = "dining-tables";
-		} else if (preg_match('/cocktail/', $str)) {
-			$type = "coffee-tables";
-		} else if (preg_match('/gathering/', $str)) {
-			$type = "dining-tables";
-		} else if (preg_match('/tea/', $str)) {
-			$type = "coffee-tables";
 		} else if (preg_match('/nesting/', $str)) {
 			$type = "nesting-tables";
 		} else if (preg_match('/lamp/', $str)) {
 			$type = "table-lamps";
+		} else if (preg_match('/computer/', $str)) {
+			$type = "computer-desks";
+		} else if (preg_match('/vanity/', $str)) {
+			$type = "vanities";
 		}
 	} else if (preg_match('/(sofa|loveseat|love seat|settee|sectional|wedge)/', $str)) {
 		if (preg_match('/bed/', $str)) {
@@ -115,13 +98,17 @@ function get_type($str) {
 		} else {
 			$type = "sofas";
 		}
-	} else if (preg_match('/\bchair\b/', $str)) {
+	} else if (preg_match('/\b(chair|chairs)\b/', $str)) {
 		if (preg_match('/office/', $str)) {
 			$type = "desk-chairs";
 		} else if (preg_match('/rocking/', $str)) {
 			$type = "living-room-chairs";
 		} else if (preg_match('/accent/', $str)) {
 			$type = "living-room-chairs";
+		} else if (preg_match('/side/', $str)) {
+			$type = "dining-chairs";
+		} else if (preg_match('/dining/', $str)) {
+			$type = "dining-chairs";
 		} else {
 			$type = "living-room-chairs";
 		}
@@ -146,10 +133,10 @@ function get_type($str) {
 	} else if (preg_match('/\bdesk\b/', $str)) {
 		if (preg_match('/computer/', $str)) {
 			$type = "computer-desks";
-		} else if (preg_match('/rectangular/', $str)) {
+		} else if (preg_match('/(rectangular|office)/', $str)) {
 			$type = "office-desks";
-		} else if (preg_match('/office/', $str)) {
-			$type = "office-desks";
+		} else if (preg_match('/writing/', $str)) {
+			$type = "home-office-desks";
 		} else {
 			$type = "office-desks";
 		}
@@ -160,12 +147,6 @@ function get_type($str) {
 			$type = "vanity-benches";
 		} else {
 			$type = "storage-benches";
-		}
-	} else if (preg_match('/\bchair\b/', $str)) {
-		if (preg_match('/side/', $str)) {
-			$type = "dining-chairs";
-		} else if (preg_match('/dining/', $str)) {
-			$type = "dining-chairs";
 		}
 	} else if (preg_match('/\bcabinet\b/', $str)) {
 		if (preg_match('/storage/', $str)) {
@@ -192,7 +173,7 @@ function get_type($str) {
 			$type = "bakery-racks";
 		} else if (preg_match('/shoe organizer/', $str)) {
 			$type = "free-standing-shoe-racks";
-		} else if (preg_match('/shelf/', $str)) {
+		} else if (preg_match('/(shelf|shelves)/', $str)) {
 			$type = "standing-shelf-units";
 		}
 	} else if (preg_match('/\blamp\b/', $str)) {
@@ -201,11 +182,13 @@ function get_type($str) {
 		} else if (preg_match('/wall/', $str)) {
 			$type = "wall-sconces";
 		}
-	} else if (preg_match('/(shelf|shelves)/', $str)) {
+	} else if (preg_match('/\b(shelf|shelves)\b/', $str)) {
 		if (preg_match('/wine/', $str)) {
 			$type = "wine-cabinets";
 		} else if (preg_match('/antique/', $str)) {
 			$type = "desktop-shelves";
+		} else if (preg_match('/book/', $str)) {
+			$type = "bookcases";
 		} else {
 			$type = "standing-shelf-units";
 		}
@@ -293,7 +276,7 @@ function get_type($str) {
 		$type = "mattresses";
 	} else if (preg_match('/magazine holder/', $str)) {
 		$type = "magazine-holders";
-	} else if (preg_match('/(bookcase|bookshelf|book shelf)/', $str)) {
+	} else if (preg_match('/\b(bookcase|bookshelf|book shelf)\b/', $str)) {
 		$type = "bookcases";
 	} else if (preg_match('/\bvase\b/', $str)) {
 		$type = "vases";
