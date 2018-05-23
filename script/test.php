@@ -3,7 +3,7 @@
 require_once("functions.php");
 require_once("getCategory.php");
 
-$str = "Simple Relax 1PerfectChoice Modern 2 Pcs Bar Pub Stool Barstool Adjustable Height Black PU Seat Chrome Base";
+$str = "Glossy Cappuccino Vanity Table Set With Hidden Mirror Storage & Lift-Top Stool NEW";
 $result = get_type($str);
 echo "Result: $result" . PHP_EOL;
 /*

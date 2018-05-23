@@ -57,14 +57,16 @@ function get_type($str) {
 			$type = "living-room-table-sets";
 		} else if (preg_match('/(dining|counter height)/', $str)) {
 			$type = "kitchen-and-dining-room-sets";
-		} else if (preg_match('/stool/', $str)) {
-			$type = "bar-stools";
 		} else if (preg_match('/patio dinning/', $str)) {
 			$type = "patio-dining-sets";
 		} else if (preg_match('/office/', $str)) {
 			$type = "office-desks";
 		} else if (preg_match('/tray table/', $str)) {
 			$type = "lap-desks";
+		} else if (preg_match('/chair/', $str)) {
+			$type = "living-room-chairs";
+		} else if (preg_match('/vanity/', $str)) {
+			$type = "vanities";
 		}
 	} else if (preg_match('/\b(table|tables)\b/', $str)) {
 		if (preg_match('/(coffee|cocktail|tea)/', $str)) {
