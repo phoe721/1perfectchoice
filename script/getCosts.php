@@ -37,6 +37,8 @@ if (isset($argv[1]) && isset($argv[2])) {
 			$skus = trim($skus);
 			$vendor_code = get_vendor_code($skus);
 			$item_array = get_set_list($skus);
+			if (empty($item_array)) $item_array = get_item_no($skus);
+
 			$total_cost = 0;
 			if (check_vendor_code($vendor_code)) {
 				for ($i = 0; $i < count($item_array); $i++) {
@@ -77,9 +79,17 @@ function get_vendor_code($sku) {
 }
 
 function get_item_no($sku) {
-	if (!empty($sku)) {
-		$vendor_code = get_vendor_code($sku); //ex. AC-00114, result: AC
-		$item_str = str_replace($vendor_code . "-", "", $sku); //ex. AC-00114, result: 00114
+	global $db;
+	$vendor_code = get_vendor_code($sku); //ex. AC-00114, result: AC
+	$item_str = str_replace($vendor_code . "-", "", $sku); //ex. AC-00114, result: 00114
+	$result = $db->query("SELECT item_no FROM costs WHERE vendor_code = '" . $vendor_code . "' AND item_no = '" . $item_str . "'");
+	if (mysqli_num_rows($result) > 0) { // Single item
+		while ($row = mysqli_fetch_array($result)) {
+			$item_no = $row['item_no'];
+			logger("Found item: " . $item_no);
+			$item_array[0] = $item_no;
+		}
+	} else { // Set items
 		$item_array = explode("-", $item_str); //ex. 00114-15, result: 00114, 15
 		$first_len = strlen($item_array[0]); //ex. 00114, result: 5
 		for ($i = 1; $i < count($item_array); $i++) {
@@ -89,10 +99,9 @@ function get_item_no($sku) {
 				$item_array[$i] = substr($item_array[0], 0, $diff) . $item_array[$i];
 			}
 		}
-		return $item_array;
-	} else {
-		logger("Invalid SKU: $sku!");
 	}
+
+	return $item_array;
 }
 
 function get_set_list($sku) {
@@ -115,7 +124,6 @@ function get_set_list($sku) {
 		logger("Failed to request database!");
 	}
 
-	if (empty($item_array)) $item_array = get_item_no($sku);	
 	return $item_array;
 }
 
@@ -125,7 +133,7 @@ function get_cost($vendor_code, $item_no) {
 	if ($result) {
 		while ($row = mysqli_fetch_array($result)) {
 			$cost = $row['cost'];
-			echo "Found item " . $item_no . ": $cost" . PHP_EOL;
+			logger("Found item " . $item_no . ": $cost");
 
 			return $cost;
 		}
