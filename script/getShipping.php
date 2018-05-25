@@ -1,7 +1,7 @@
 <?
 /* Initialization */
 require_once('functions.php');
-require_once('getCosts.php');
+require_once('getItemsCosts.php');
 
 // Put Request Into Queue
 if(isset($_FILES["file1"]) && isset($_POST['uid'])) {
