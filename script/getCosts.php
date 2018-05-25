@@ -17,7 +17,7 @@ if(isset($_FILES["file1"]) && isset($_POST['uid'])) {
 	$qid = create_queue($uid, $command);
 
 	// Log status
-	log_status("Queue created, your queue number is $qid!");
+	logger("Queue created, your queue number is $qid!");
 
 	// Output status
 	$result['status'] = "Files uploaded!";
@@ -29,7 +29,7 @@ if (isset($argv[1]) && isset($argv[2])) {
 	$input_file = $argv[2];
 	prepare($uid);
 
-	log_status("Getting costs...");
+	logger("Getting costs...");
 	$file1 = fopen($input_file, "r");
 	if ($file1) {
 		while (!feof($file1)){
@@ -43,7 +43,7 @@ if (isset($argv[1]) && isset($argv[2])) {
 					$cost = get_cost($vendor_code, $item_array[$i]);
 					$total_cost += $cost;
 				}
-				log_status("Total Cost: " . $total_cost);
+				logger("Total Cost: " . $total_cost);
 			} else {
 				logger("Invalid Vendor Code!");
 			}
@@ -56,7 +56,7 @@ if (isset($argv[1]) && isset($argv[2])) {
 	fclose($file1);
 
 	log_link_file($result_file);
-	log_status("Done!");
+	logger("Done!");
 }
 
 function check_vendor_code($vendor_code) {
@@ -72,16 +72,16 @@ function get_vendor_code($sku) {
 		$pieces = explode("-", $sku);
 		return $pieces[0];
 	} else {
-		echo "Invalid SKU: $sku!" . PHP_EOL;
+		logger("Invalid SKU: $sku!");
 	}
 }
 
 function get_item_no($sku) {
 	if (!empty($sku)) {
-		$vendor_code = get_vendor_code($sku);
-		$item_str = str_replace($vendor_code . "-", "", $sku);
-		$item_array = explode("-", $item_str); 
-		$first_len = strlen($item_array[0]);
+		$vendor_code = get_vendor_code($sku); //ex. AC-00114, result: AC
+		$item_str = str_replace($vendor_code . "-", "", $sku); //ex. AC-00114, result: 00114
+		$item_array = explode("-", $item_str); //ex. 00114-15, result: 00114, 15
+		$first_len = strlen($item_array[0]); //ex. 00114, result: 5
 		for ($i = 1; $i < count($item_array); $i++) {
 			$current_len = strlen($item_array[$i]);
 			if ($first_len > $current_len) {
@@ -89,10 +89,9 @@ function get_item_no($sku) {
 				$item_array[$i] = substr($item_array[0], 0, $diff) . $item_array[$i];
 			}
 		}
-
 		return $item_array;
 	} else {
-		echo "Invalid SKU: $sku!" . PHP_EOL;
+		logger("Invalid SKU: $sku!");
 	}
 }
 
@@ -112,6 +111,8 @@ function get_set_list($sku) {
 				}
 			}
 		}
+	} else {
+		logger("Failed to request database!");
 	}
 
 	if (empty($item_array)) $item_array = get_item_no($sku);	
@@ -129,7 +130,7 @@ function get_cost($vendor_code, $item_no) {
 			return $cost;
 		}
 	} else {
-		echo "Cost not found!" . PHP_EOL;
+		logger("Cost not found!");
 	}
 }
 ?>
