@@ -1,6 +1,7 @@
 <?
 /* Initialization */
 require_once('functions.php');
+require_once('getCosts.php');
 
 // Put Request Into Queue
 if(isset($_FILES["file1"]) && isset($_POST['uid'])) {
@@ -47,7 +48,10 @@ if(isset($_FILES["file1"]) && isset($_POST['uid'])) {
 	echo json_encode($result);
 }
 
-if (isset($argv[1]) && isset($argv[2])) {
+if (isset($argv[1])) { 
+	$sku = $argv[1];
+
+} else if (isset($argv[1]) && isset($argv[2])) {
 	$uid = $argv[1];
 	$input_file = $argv[2];
 	prepare($uid);
