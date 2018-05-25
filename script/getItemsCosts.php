@@ -145,6 +145,27 @@ function get_set_list($sku) {
 	return $item_array;
 }
 
+function get_cost_by_sku($sku) {
+	$vendor_code = get_vendor_code($skus);
+	logger("Vendor code: $vendor_code");
+	$item_array = get_set_list($skus);
+	if (empty($item_array)) $item_array = get_item_no($skus);
+	
+	$total_cost = 0;
+	if (check_vendor_code($vendor_code)) {
+		for ($i = 0; $i < count($item_array); $i++) {
+			$cost = get_cost($vendor_code, $item_array[$i]);
+			$total_cost += $cost;
+			logger("Item No.: " . $item_array[$i] . ", Cost: " . $cost);
+		}
+		logger("Total Cost: " . $total_cost);
+	} else {
+		logger("Invalid Vendor Code!");
+	}
+
+	return $total_cost;
+} 
+
 function get_cost($vendor_code, $item_no) {
 	global $db;
 	$result = $db->query("SELECT cost FROM costs WHERE vendor_code = '" . $vendor_code . "' AND item_no = '" . $item_no . "'"); 
