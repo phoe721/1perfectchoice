@@ -53,47 +53,47 @@ if (isset($argv[1]) && isset($argv[2])) {
 	$input = strtolower($input);
 	$input = filter($input);
 	$input = filter_bad_keyword($input);	
-	$keywords = preg_replace('/\s/', "\t", $input);
+	$keywords = preg_replace('/\s/', ' ', $input);
 	echo "Keywords: " . $keywords . PHP_EOL;	
 }
 
 function filter_bad_keyword($str) {
-	$badKeywords = array('the','of','with','set');
+	$badKeywords = array('the','of','with','set','by','only','in','and','a');
 
 	foreach($badKeywords as $word) {
-		$str = preg_replace('/' . $word . '/', '', $str);
+		$str = preg_replace('/ ' . $word . '$/', '', $str);
+		$str = preg_replace('/^' . $word . ' /', '', $str);
+		$str = preg_replace('/ ' . $word . ' /', '', $str);
 	}
 
 	// Check if it's valid English word
 	$pspell_link = pspell_new("en");
-	$newStr = "";
-	$pieces = explode(" ", $str);
+	$newStr = '';
+	$pieces = explode(' ', $str);
+	$pieces = array_unique($pieces);
 	foreach($pieces as $word) {
 		if (pspell_check($pspell_link, $word)) {
-			$newStr .= $word . " ";
+			$newStr .= $word . ' ';
 		}
 	}
 
+	$newStr = preg_replace('/\s\s+/', ' ', $newStr);	// Remove extra spaces
+	$newStr = trim($newStr);
 	return $newStr;
 }
 
 function filter($str) {
 	$str = preg_replace('/' . PHP_EOL . '/', ' ', $str);
-	$str = preg_replace('/\//', ' ', $str);	// Replace forward slash to space
-	$str = preg_replace('/\+/', ' ', $str);	// Replace plus sign to space
-	$str = preg_replace('/\&nbsp\;/', '', $str);	// Remove &nbps;
-	$str = preg_replace('/\&amp\;/', '', $str);		// Remove &amp;
-	$str = preg_replace('/\(\d+\)/', '', $str);		// Remove (numbers) 
-	$str = preg_replace('/\d(pcs|pc)/', '', $str);		// Remove Npcs
-	$str = preg_replace('/\d+/', '', $str);			// Remove numbers 
-	$str = preg_replace('/\$/', '', $str);			// Remove $
-	$str = preg_replace('/\*/', '', $str);			// Remove *
-	$str = preg_replace('/,/', '', $str);			// Remove *
+	$str = preg_replace('/(w\/|-)/', '', $str);	// Remove w/ 
+	$str = preg_replace('/(\+|\/)/', ' ', $str);	// Replace plus sign to space
+	$str = preg_replace("/(?![.=$'€%-])\p{P}/u", "", $str);
+	$str = preg_replace('/\(\d+\)/', '', $str);	// Remove (numbers) 
+	$str = preg_replace('/\d(pcs|pc)/', '', $str);	// Remove Npcs
+	$str = preg_replace('/\d+/', '', $str);	// Remove numbers 
 	$str = preg_replace('/(\.)([[:alpha:]]{2,})/', '$1 $2', $str);
 	$str = preg_replace('/[A-Z0-9]{2,5}-[A-Z0-9]{3,15}{-}*[A-Z0-9]*/','', $str);
-	$str = preg_replace('/\s\s+/', ' ', $str);		// Remove extra spaces
-	$str = strip_tags($str);	// Strip HTML tags
-	$str = trim($str);			// Trim spaces
+	$str = preg_replace('/\s\s+/', ' ', $str);	// Remove extra spaces
+	$str = trim($str);	// Trim spaces
 
 	return $str;
 }
