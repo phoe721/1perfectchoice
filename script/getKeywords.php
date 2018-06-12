@@ -58,7 +58,7 @@ if (isset($argv[1]) && isset($argv[2])) {
 }
 
 function filter_bad_keyword($str) {
-	$badKeywords = array('the','of','with','set','by','only','in','and','a');
+	$badKeywords = array('the','of','with','set','by','only','in','and','up','or','[A-Za-z]{1}');
 
 	foreach($badKeywords as $word) {
 		$str = preg_replace('/ ' . $word . '$/', '', $str);
@@ -84,7 +84,7 @@ function filter_bad_keyword($str) {
 
 function filter($str) {
 	$str = preg_replace('/' . PHP_EOL . '/', ' ', $str);
-	$str = preg_replace('/(w\/|-)/', '', $str);	// Remove w/ 
+	$str = preg_replace('/(w\/|-|\|)/', '', $str);	// Remove w/,-,| 
 	$str = preg_replace('/(\+|\/)/', ' ', $str);	// Replace plus sign to space
 	$str = preg_replace("/(?![.=$'€%-])\p{P}/u", "", $str);
 	$str = preg_replace('/\(\d+\)/', '', $str);	// Remove (numbers) 
