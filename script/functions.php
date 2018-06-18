@@ -259,15 +259,9 @@ function log_link_file($url) {
 // Log to logfile
 function logger($msg) {
 	// Write to log
-	$file = fopen(LOG_FILE, 'a+');
-	if ($file) {
-		$timestring = date('Y-m-d h:i:s', strtotime('now'));
-		$msg = $timestring . ' - ' . $msg . PHP_EOL;
-		fwrite($file, $msg);
-	} else {
-		fwrite($file, "[ERROR] Unable to open file!");
-	}
-	fclose($file);
+	global $db, $debug;
+	$timestring = date('Y-m-d H:i:s', strtotime('now'));
+	$result = $db->query("INSERT INTO 1perfectchoice_log (lid, message, datetime) VALUES ('', '$msg', '$timestring')");
 }
 
 // Log status

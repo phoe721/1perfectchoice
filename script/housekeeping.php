@@ -73,6 +73,6 @@ function connect_db() {
 function logger($msg) {
 	global $db, $debug;
 	$timestring = date('Y-m-d H:i:s', strtotime('now'));
-	$result = $db->query("INSERT INTO housekeeping_log (qid, message, datetime) VALUES ('', '$msg', '$timestring')");
+	$result = $db->query("INSERT INTO housekeeping_log (lid, message, datetime) VALUES ('', '$msg', '$timestring')");
 }
 ?>
