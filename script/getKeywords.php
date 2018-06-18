@@ -83,7 +83,6 @@ function filter_bad_keyword($str) {
 }
 
 function filter($str) {
-	$str = preg_replace('/' . PHP_EOL . '/', ' ', $str);
 	$str = preg_replace('/(w\/|-|\|)/', '', $str);	// Remove w/,-,| 
 	$str = preg_replace('/(\+|\/)/', ' ', $str);	// Replace plus sign to space
 	$str = preg_replace("/(?![.=$'€%-])\p{P}/u", "", $str);
@@ -91,7 +90,6 @@ function filter($str) {
 	$str = preg_replace('/\d(pcs|pc)/', '', $str);	// Remove Npcs
 	$str = preg_replace('/\d+/', '', $str);	// Remove numbers 
 	$str = preg_replace('/(\.)([[:alpha:]]{2,})/', '$1 $2', $str);
-	$str = preg_replace('/[A-Z0-9]{2,5}-[A-Z0-9]{3,15}{-}*[A-Z0-9]*/','', $str);
 	$str = preg_replace('/\s\s+/', ' ', $str);	// Remove extra spaces
 	$str = trim($str);	// Trim spaces
 
