@@ -2,6 +2,7 @@
 	/* Display Errors */
 	ini_set('display_errors', 1);
 	ini_set('display_startup_errors', 1);
+	ini_set('error_log', '/var/log/php_error.log');
 	ini_set('user_agent', 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/52.0.2743.116 Safari/537.36');
 	error_reporting(E_ALL);
 
