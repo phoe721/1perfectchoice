@@ -7,8 +7,8 @@
 	error_reporting(E_ALL);
 
 	/* Constants */
-	define('ROOT', '/var/www/html/phoe721.com/project/1perfectchoice/');
-	define('SCRIPT_ROOT', '/var/www/html/phoe721.com/project/1perfectchoice/script/');
+	define('ROOT', '/var/www/phoe721.com/project/1perfectchoice/');
+	define('SCRIPT_ROOT', '/var/www/phoe721.com/project/1perfectchoice/script/');
 	define('DOWNLOAD', ROOT . 'download/');
 	define('UPLOAD', ROOT . 'upload/');
 	define('INVENTORY', ROOT . 'inventory/');
