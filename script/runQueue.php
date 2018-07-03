@@ -21,7 +21,7 @@ process_queue();
 // Connect to DB
 function connect_db() {
 	$db	= new database;
-	$con = $db->connect("localhost", "root", "revive", "1perfectchoice");
+	$con = $db->connect("localhost", "root", "c7w2l181", "1perfectchoice");
 	mysqli_set_charset($con, "utf8");
 
 	return $db;
