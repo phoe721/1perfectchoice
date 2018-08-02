@@ -3,7 +3,6 @@
 	ini_set('display_errors', 1);
 	ini_set('display_startup_errors', 1);
 	ini_set('error_log', '/var/log/php_error.log');
-	ini_set('user_agent', 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/52.0.2743.116 Safari/537.36');
 	error_reporting(E_ALL);
 
 	/* Constants */
@@ -31,11 +30,7 @@
 	define('MAX_CUFT_ON_PALLET', 80);
 	define('ONE_DAY_IN_SECONDS', 86400); // 24 * 60 * 60 = 86400 = 1 Day
 
-	/* Set user agent */
-	$_SERVER['HTTP_USER_AGENT'] = "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/52.0.2743.116 Safari/537.36";
-
 	/* Global Variables */
 	$debug = false;
 	$cleanAll = true; // Housekeeping: clean all files
-
 ?>
