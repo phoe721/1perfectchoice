@@ -8,51 +8,81 @@ class database {
 
 	public function __construct() {
 		$this->output = new debugger;
+		$this->output->debug_on();
 	}
 
 	public function __destruct() {
-		$this->output->info("Close MySQL connection");
-		mysqli_close($this->con);
+		if (!$this->con) {
+			$this->output->info("Close DB connection");
+			mysqli_close($this->con);
+		}
 	}
 
 	public function connect($remoteHost, $username, $password, $database) {
 		$this->con = mysqli_connect($remoteHost, $username, $password, $database);
 		if (mysqli_connect_errno()) {
-			$this->output->error("Failed to connect to MySQL server: " . mysqli_connect_error());
-			echo "Failed to connect to MySQL: " . mysqli_connect_error();
+			$this->output->error("Failed to connect to DB server: " . mysqli_connect_error());
+			return $this->con;
+		} else {
+			$this->output->info("Connected to DB server");
+			return false;
 		}
-		$this->output->info("Connecting to MySQL server");
-		return $this->con;
 	}
 
 	public function query($query) {
-		$this->result = mysqli_query($this->con, $query);
-		if (!$this->result) {
-			$this->output->error("Query to MySQL server failed: " . $this->error());
-			return false;
-		} 
-		$this->output->info("Query to MySQL server successfully");
-		return $this->result;
+		if ($this->con) {
+			$this->result = mysqli_query($this->con, $query);
+			if (!$this->result) {
+				$this->output->error("Query to DB server failed: " . $this->error());
+			} else { 
+				$this->output->info("Query to DB server successfully");
+				return $this->result;
+			}
+		} else {
+			$this->output->notice("DB connection was not made");
+		}
+
+		return false;
 	}
 
 	public function getConnection() {
-		$this->output->info("Returning MySQL connection");
-		return $this->con;
+		if ($this->con) {
+			$this->output->info("Returning DB connection");
+			return $this->con;
+		} else {
+			$this->output->notice("DB connection was not made");
+			return false;
+		}
 	}
 
 	public function last_insert_id() {
-		$this->output->info("Returning last insert ID");
-		return mysqli_insert_id($this->con); 
+		if ($this->con) {
+			$this->output->info("Returning last insert ID");
+			return mysqli_insert_id($this->con); 
+		} else {
+			$this->output->notice("DB connection was not made");
+			return false;
+		}
 	}
 
 	public function get_info() {
-		$this->output->info("Getting info");
-		return mysqli_info($this->con);
+		if ($this->con) {
+			$this->output->info("Getting info");
+			return mysqli_info($this->con);
+		} else {
+			$this->output->notice("DB connection was not made");
+			return false;
+		}
 	}
 
 	public function error() {
-		$this->output->info("Returning MySQL error message");
-		return mysqli_errno($this->con) . ": " . mysqli_error($this->con);
+		if ($this->con) {
+			$this->output->info("Returning DB error message");
+			return mysqli_errno($this->con) . ": " . mysqli_error($this->con);
+		} else {
+			$this->output->notice("DB connection was not made");
+			return false;
+		}
 	}
 }
 ?>
