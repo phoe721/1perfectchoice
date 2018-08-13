@@ -43,7 +43,7 @@ class discontinued {
 	}
 	
 	public function get_record_count() {
-		$result = $this->db->query("SELECT COUNT(*) FROM discontinued");
+		$result = $this->db->query("SELECT * FROM discontinued");
 		return mysqli_num_rows($result);
 	}
 }
