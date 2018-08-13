@@ -30,6 +30,10 @@
 	define('TRUCKING_BASE_WEIGHT', 250);
 	define('MAX_CUFT_ON_PALLET', 80);
 	define('ONE_DAY_IN_SECONDS', 86400); // 24 * 60 * 60 = 86400 = 1 Day
+	define('DB_SERVER', 'localhost');
+	define('DB_USER', 'root');
+	define('DB_PASS', 'c7w2l181');
+	define('DATABASE', '1perfectchoice');
 
 	/* Global Variables */
 	$debug = false;
