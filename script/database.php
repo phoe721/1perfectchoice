@@ -12,9 +12,11 @@ class database {
 	}
 
 	public function __destruct() {
-		if (!$this->con) {
+		if ($this->con) {
 			$this->output->info("Close DB connection");
 			mysqli_close($this->con);
+		} else {
+			$this->output->notice("DB connection was not made");
 		}
 	}
 
