@@ -1,6 +1,6 @@
 <?	
 /* Initialization */
-require_once("database.php");
-$db = new database();
+require_once("discontinued.php");
+$dis = new discontinued();
 
 ?>

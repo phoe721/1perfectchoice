@@ -15,7 +15,7 @@ class discontinued {
 		mysqli_set_charset($this->db->getConnection(), "utf8");
 	}
 
-	public function insert_discontinued($code, $item_no) {
+	public function insert($code, $item_no) {
 		$result = $this->db->query("INSERT INTO discontinued (did, code, item_no) VALUES ('', '$code', '$item_no')");
 		if ($result) {
 			$this->output->info("Item: $item_no, Code: $code has been inserted successfully!");
@@ -24,7 +24,7 @@ class discontinued {
 		}
 	}
 	
-	public function truncate_discontinued_table() {
+	public function truncate_table() {
 		$result = $this->db->query("TRUNCATE TABLE discontinued");
 		if ($result) {
 			$this->output->info("Table truncated!");
@@ -33,7 +33,7 @@ class discontinued {
 		}
 	}
 	
-	public function update_discontinued_table_by_file($filePath) {
+	public function update_by_file($filePath) {
 		$result = $this->db->query("LOAD DATA LOCAL INFILE '$filePath' INTO TABLE discontinued");
 		if ($result) {
 			$this->output->info("Table updated with $filePath!");
@@ -42,7 +42,7 @@ class discontinued {
 		}
 	}
 	
-	public function discontinued_table_record_count() {
+	public function get_record_count() {
 		$result = $this->db->query("SELECT COUNT(*) FROM discontinued");
 		return mysqli_num_rows($result);
 	}
