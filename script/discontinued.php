@@ -24,6 +24,15 @@ class discontinued {
 		}
 	}
 	
+	public function check($code, $item_no) {
+		$result = $this->db->query("SELECT COUNT(*) FROM discontinued WHERE code = '$code' AND item_no = '$item_no'");
+		if (mysqli_num_rows($result) > 0) {
+			$this->output->info("Item: $item_no, Code: $code is discontinued!");
+		} else {
+			$this->output->info("Item: $item_no, Code: $code is still active!");
+		}
+	}
+
 	public function truncate_table() {
 		$result = $this->db->query("TRUNCATE TABLE discontinued");
 		if ($result) {

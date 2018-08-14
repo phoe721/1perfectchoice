@@ -2,6 +2,6 @@
 /* Initialization */
 require_once("discontinued.php");
 $dis = new discontinued();
-echo $dis->get_record_count();
+$dis->check('FA','CM-AC135WH');
 
 ?>
