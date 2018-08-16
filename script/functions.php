@@ -8,8 +8,8 @@ $page = $uid = $data_file = $link_file = $result_file = $status_file = $img_dir 
 $product = $result = $match = array();
 
 $db	= new database;
-$con = $db->connect("localhost", "root", "c7w2l181", "1perfectchoice");
-mysqli_set_charset($con, "utf8");
+$db->connect("localhost", "root", "c7w2l181", "1perfectchoice");
+mysqli_set_charset($db->getConnection(), "utf8");
 
 $debug = false;
 
