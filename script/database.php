@@ -85,5 +85,13 @@ class database {
 			return false;
 		}
 	}
+
+	public function debug_on() {
+		$this->output->debug_on();
+	}
+
+	public function debug_off() {
+		$this->output->debug_off();
+	}
 }
 ?>

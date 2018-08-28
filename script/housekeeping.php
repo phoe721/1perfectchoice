@@ -63,8 +63,8 @@ function remove_empty_dir($dir) {
 // Connect to DB
 function connect_db() {
 	$db	= new database;
-	$con = $db->connect("localhost", "root", "c7w2l181", "1perfectchoice");
-	mysqli_set_charset($con, "utf8");
+	$db->connect("localhost", "root", "c7w2l181", "1perfectchoice");
+	mysqli_set_charset($db->getConnection(), "utf8");
 
 	return $db;
 }
