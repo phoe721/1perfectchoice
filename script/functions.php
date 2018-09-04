@@ -88,7 +88,7 @@ function download($url, $path) {
 	curl_setopt($ch, CURLOPT_PROGRESSFUNCTION, 'progress');
 	curl_setopt($ch, CURLOPT_NOPROGRESS, false); 
 	curl_setopt($ch, CURLOPT_HEADER, 0);
-	curl_setopt($ch, CURLOPT_USERAGENT, $_SERVER['HTTP_USER_AGENT']);
+	//curl_setopt($ch, CURLOPT_USERAGENT, $_SERVER['HTTP_USER_AGENT']);
 	$data = curl_exec($ch);
 	$error = curl_error($ch);
 	curl_close($ch);
