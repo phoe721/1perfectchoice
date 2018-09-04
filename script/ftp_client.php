@@ -2,9 +2,10 @@
 /* Initialization */
 require_once('debugger.php');
 
-class ftp {
+class ftp_client {
 	private $conn;
 	private $server; 
+	private $files = array();
 
 	public function __construct() {
 		$this->output = new debugger;
@@ -69,13 +70,22 @@ class ftp {
 
 	public function list_files($path) {
 		if ($this->conn) {
-			$files = ftp_nlist($conn, $path);
-			return $files;
+			$this->files = ftp_nlist($this->conn, $path);
+			foreach ($this->files as $file) {
+				$this->output->info($file);
+			}
 		} else {
 			$this->output->error("Not connected to $this->server!");
 		}
 	}
 
+	public function pwd() {
+		if ($this->conn) {
+			$this->output->info("Current directory: " . ftp_pwd($this->conn) . "!");
+		} else {
+			$this->output->error("Not connected to $this->server!");
+		}
+	}
 	public function change_dir($dir) {
 		if ($this->conn) {
 			if (ftp_chdir($this->conn, $dir)) {
