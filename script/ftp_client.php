@@ -4,12 +4,14 @@ require_once('debugger.php');
 
 class ftp {
 	private $conn;
+	private $server; 
 
 	public function __construct() {
 		$this->output = new debugger;
 	}
 
 	public function connect($server) {
+		$this->server = $server;
 		$this->conn = ftp_connect($this->server);
 		if ($this->conn) {
 			$this->output->info("Connected to $this->server!");
@@ -62,6 +64,51 @@ class ftp {
 			} else {
 				$this->output->error("Failed to turn active mode on!");
 			}
+		}
+	}
+
+	public function list_files($path) {
+		if ($this->conn) {
+			$files = ftp_nlist($conn, $path);
+			return $files;
+		} else {
+			$this->output->error("Not connected to $this->server!");
+		}
+	}
+
+	public function change_dir($dir) {
+		if ($this->conn) {
+			if (ftp_chdir($this->conn, $dir)) {
+				$this->output->info("Changed to directory $dir!");
+			} else {
+				$this->output->error("Failed to change directory to $dir!");
+			}
+		} else {
+			$this->output->error("Not connected to $this->server!");
+		}
+	}
+
+	public function rename($file, $new_file) {
+		if ($this->conn) {
+			if (ftp_rename($this->conn, $file, $new_file)) {
+				$this->output->info("Renamed $file to $new_file!");
+			} else {
+				$this->output->error("Failed to rename $file to $new_file!");
+			}
+		} else {
+			$this->output->error("Not connected to $this->server!");
+		}
+	}
+
+	public function delete($file) {
+		if ($this->conn) {
+			if (ftp_delete($this->conn, $file)) {
+				$this->output->info("Deleted $file!");
+			} else {
+				$this->output->error("Failed to delete $file!");
+			}
+		} else {
+			$this->output->error("Not connected to $this->server!");
 		}
 	}
 }
