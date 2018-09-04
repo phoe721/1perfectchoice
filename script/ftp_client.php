@@ -9,6 +9,7 @@ class ftp_client {
 
 	public function __construct() {
 		$this->output = new debugger;
+		$this->output->debug_on();
 	}
 
 	public function connect($server) {
@@ -24,7 +25,7 @@ class ftp_client {
 	public function disconnect() {
 		if ($this->conn) {
 			ftp_close($this->conn);
-			$this->output->info("Connected to $this->server!");
+			$this->output->info("Disconnected to $this->server!");
 		} else {
 			$this->output->error("Failed to disconnect to $this->server!");
 		}
@@ -50,7 +51,7 @@ class ftp_client {
 
 	public function set_passive() {
 		if ($this->conn) {
-			if(ftp_pasv($conn, true)) {
+			if(ftp_pasv($this->conn, true)) {
 				$this->output->info("Turned passive mode on!");
 			} else {
 				$this->output->error("Failed to turn passive mode on!");
@@ -60,7 +61,7 @@ class ftp_client {
 
 	public function set_active() {
 		if ($this->conn) {
-			if(ftp_pasv($conn, false)) {
+			if(ftp_pasv($this->conn, false)) {
 				$this->output->info("Turned active mode on!");
 			} else {
 				$this->output->error("Failed to turn active mode on!");
