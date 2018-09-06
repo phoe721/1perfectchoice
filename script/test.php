@@ -1,7 +1,23 @@
 <?	
 /* Initialization */
+require_once("vendors.php");
+require_once("set_list.php");
+require_once("costs.php");
+$vendors = new vendors();
+$set_list = new set_list();
+$costs = new costs();
+
+$sku = "PDEX-F9153Q-F4569-70-71-72";
+$code = $vendors->get_code($sku);
+$item_no = $vendors->get_item_no($sku);
+$set_list->check($code, $item_no);
+$set = $set_list->get_set($code, $item_no);
+for ($i = 0; $i < count($set); $i++) {
+	echo $costs->get_cost($code, $set[$i]);
+}
 
 // vendors test
+/*
 require_once("vendors.php");
 $vendors = new vendors();
 echo $vendors->get_record_count();
@@ -9,6 +25,8 @@ $vendors->check("AC");
 $code = $vendors->get_code("AC-00156");
 $name  = $vendors->get_name("AC");
 echo $name; 
+*/
+
 // set_ist test
 /*
 require_once("set_list.php");
@@ -17,20 +35,6 @@ echo $set_list->get_record_count();
 $set_list->check("AC", "02018");
 $set_list->get_set("AC", "02018");
 */
-
-/*
-$file = fopen(UPLOAD . "input.txt", "r");
-while(!feof($file)) {
-	$line = trim(fgets($file));
-	if (!empty($line)) {
-		list($item, $cost) = explode("\t", $line);
-		list($code, $item_no) = explode("-", $item);
-		//echo "$code $item_no $cost" . PHP_EOL;
-		$costs->update_cost($code, $item_no, $cost);
-	}
-}
-fclose($file);
- */
 
 // costs test
 /*

@@ -41,11 +41,10 @@ class set_list {
 			for ($i = 1; $i <= 10; $i++) {
 				$count = "sku" . $i;
 				$sku = $row[$count];
-				if (!is_null($sku)) {
-					$this->output->info("Item: $item_no, Code: $code has $sku!");
-					array_push($set, $sku);
-				}
+				if (!is_null($sku)) array_push($set, $sku);
 			}
+			$set_str = implode(", ", $set);
+			$this->output->info("Item: $item_no, Code: $code has $set_str!");
 			return $set;
 		} else {
 			$this->output->error("Item: $item_no, Code: $code is not a set!");

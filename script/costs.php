@@ -2,6 +2,8 @@
 /* Initialization */
 require_once("init.php");
 require_once("database.php");
+require_once("set_list.php");
+require_once("costs.php");
 
 class costs {
 	private $db;

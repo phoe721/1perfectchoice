@@ -45,12 +45,22 @@ class vendors {
 		}
 	}
 
+	public function get_item_no($sku) {
+		$code = $this->get_code($sku);
+		$item_no = str_replace($code . "-", "", $sku);
+		if (!empty($item_no)) {
+			return $item_no;
+		} else {
+			$this->output->error("Failed to get item no from $sku!");
+			return false;
+		}
+	}
+
 	public function get_name($code) {
 		$result = $this->db->query("SELECT name FROM vendors WHERE code = '$code'");
 		if (mysqli_num_rows($result) > 0) {
 			$row = mysqli_fetch_array($result);	
 			$name = $row['name'];
-			$this->output->info("Name: $name for vendor code $code!");
 			return $name;
 		} else {
 			$this->output->error("Code: $code is not a valid vendor code!");
