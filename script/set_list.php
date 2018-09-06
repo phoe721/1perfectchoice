@@ -29,12 +29,13 @@ class set_list {
 		if (mysqli_num_rows($result) > 0) {
 			$this->output->info("Item: $item_no, Code: $code is a set!");
 		} else {
-			$this->output->info("Item: $item_no, Code: $code is not a set!");
+			$this->output->error("Item: $item_no, Code: $code is not a set!");
 		}
 	}
 
 	public function get_set($code, $item_no) {
 		$result = $this->db->query("SELECT * FROM set_list WHERE code = '$code' AND item_no = '$item_no'");
+		$set = array();
 		if (mysqli_num_rows($result) > 0) {
 			$row = mysqli_fetch_array($result);
 			for ($i = 1; $i <= 10; $i++) {
@@ -42,10 +43,13 @@ class set_list {
 				$sku = $row[$count];
 				if (!is_null($sku)) {
 					$this->output->info("Item: $item_no, Code: $code has $sku!");
+					array_push($set, $sku);
 				}
 			}
+			return $set;
 		} else {
-			$this->output->info("Item: $item_no, Code: $code failed to get its set!");
+			$this->output->error("Item: $item_no, Code: $code is not a set!");
+			return false;
 		}
 	}
 
