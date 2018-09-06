@@ -1,12 +1,23 @@
 <?	
 /* Initialization */
 
+// vendors test
+require_once("vendors.php");
+$vendors = new vendors();
+echo $vendors->get_record_count();
+$vendors->check("AC");
+$code = $vendors->get_code("AC-00156");
+$name  = $vendors->get_name("AC");
+echo $name; 
 // set_ist test
+/*
 require_once("set_list.php");
 $set_list = new set_list();
 echo $set_list->get_record_count();
 $set_list->check("AC", "02018");
 $set_list->get_set("AC", "02018");
+*/
+
 /*
 $file = fopen(UPLOAD . "input.txt", "r");
 while(!feof($file)) {
