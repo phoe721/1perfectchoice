@@ -1,8 +1,12 @@
 <?	
 /* Initialization */
-require_once("discontinued.php");
-$dis = new discontinued();
-$file = fopen(UPLOAD . "list.txt", "r");
+// costs test
+require_once("costs.php");
+$costs = new costs();
+echo $costs->get_record_count();
+$costs->get_unit('AC', '00114');
+/*
+$file = fopen(UPLOAD . "input.txt", "r");
 while(!feof($file)) {
 	$line = trim(fgets($file));
 	if (!empty($line)) {
@@ -11,6 +15,22 @@ while(!feof($file)) {
 	}
 }
 fclose($file);
+ */
+
+// discontinued test
+/*
+require_once("discontinued.php");
+$dis = new discontinued();
+$file = fopen(UPLOAD . "input.txt", "r");
+while(!feof($file)) {
+	$line = trim(fgets($file));
+	if (!empty($line)) {
+		list($code, $item_no) = explode("-", $line);
+		$dis->check($code, $item_no);
+	}
+}
+fclose($file);
+*/
 
 // ftp_client test 
 /*

@@ -53,7 +53,12 @@ class discontinued {
 	
 	public function get_record_count() {
 		$result = $this->db->query("SELECT * FROM discontinued");
-		return mysqli_num_rows($result);
+		if ($result) {
+			$count = mysqli_num_rows($result);
+			$this->output->info("There are $count records in table discontinued!");
+		} else {
+			$this->output->error("Failed to get record count in table discontinued!");
+		}
 	}
 }
 
