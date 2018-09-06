@@ -9,6 +9,7 @@ class discontinued {
 
 	public function __construct() {
 		$this->output = new debugger;
+		$this->output->debug_on();
 		$this->db = new database;
 		$this->db->connect(DB_SERVER, DB_USER, DB_PASS, DATABASE);
 		mysqli_set_charset($this->db->getConnection(), "utf8");
@@ -24,7 +25,7 @@ class discontinued {
 	}
 	
 	public function check($code, $item_no) {
-		$result = $this->db->query("SELECT COUNT(*) FROM discontinued WHERE code = '$code' AND item_no = '$item_no'");
+		$result = $this->db->query("SELECT * FROM discontinued WHERE code = '$code' AND item_no = '$item_no'");
 		if (mysqli_num_rows($result) > 0) {
 			$this->output->info("Item: $item_no, Code: $code is discontinued!");
 		} else {
