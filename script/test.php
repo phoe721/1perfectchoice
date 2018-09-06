@@ -3,19 +3,17 @@
 // costs test
 require_once("costs.php");
 $costs = new costs();
-echo $costs->get_record_count();
-$costs->get_unit('AC', '00114');
-/*
 $file = fopen(UPLOAD . "input.txt", "r");
 while(!feof($file)) {
 	$line = trim(fgets($file));
 	if (!empty($line)) {
-		list($code, $item_no) = explode("-", $line);
-		$dis->check($code, $item_no);
+		list($item, $cost) = explode("\t", $line);
+		list($code, $item_no) = explode("-", $item);
+		//echo "$code $item_no $cost" . PHP_EOL;
+		$costs->update_cost($code, $item_no, $cost);
 	}
 }
 fclose($file);
- */
 
 // discontinued test
 /*
