@@ -33,7 +33,37 @@ class set_list {
 		}
 	}
 
+	public function check_by_sku($sku) {
+		list($code, $item_no) = explode("-", $sku, 2);
+		$result = $this->db->query("SELECT * FROM set_list WHERE code = '$code' AND item_no = '$item_no'");
+		if (mysqli_num_rows($result) > 0) {
+			$this->output->info("Item: $item_no, Code: $code is a set!");
+		} else {
+			$this->output->error("Item: $item_no, Code: $code is not a set!");
+		}
+	}
+
 	public function get_set($code, $item_no) {
+		$result = $this->db->query("SELECT * FROM set_list WHERE code = '$code' AND item_no = '$item_no'");
+		$set = array();
+		if (mysqli_num_rows($result) > 0) {
+			$row = mysqli_fetch_array($result);
+			for ($i = 1; $i <= 10; $i++) {
+				$count = "sku" . $i;
+				$sku = $row[$count];
+				if (!is_null($sku)) array_push($set, $sku);
+			}
+			$set_str = implode(", ", $set);
+			$this->output->info("Item: $item_no, Code: $code has $set_str!");
+			return $set;
+		} else {
+			$this->output->error("Item: $item_no, Code: $code is not a set!");
+			return false;
+		}
+	}
+
+	public function get_set_by_sku($sku) {
+		list($code, $item_no) = explode("-", $sku, 2);
 		$result = $this->db->query("SELECT * FROM set_list WHERE code = '$code' AND item_no = '$item_no'");
 		$set = array();
 		if (mysqli_num_rows($result) > 0) {

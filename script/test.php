@@ -3,18 +3,20 @@
 require_once("vendors.php");
 require_once("set_list.php");
 require_once("costs.php");
+// test get cost with set
+/*
 $vendors = new vendors();
 $set_list = new set_list();
 $costs = new costs();
-
 $sku = "PDEX-F9153Q-F4569-70-71-72";
 $code = $vendors->get_code($sku);
-$item_no = $vendors->get_item_no($sku);
-$set_list->check($code, $item_no);
-$set = $set_list->get_set($code, $item_no);
+$set_list->check_by_sku($sku);
+$set = $set_list->get_set_by_sku($sku);
+var_dump($set);
 for ($i = 0; $i < count($set); $i++) {
 	echo $costs->get_cost($code, $set[$i]);
 }
+*/
 
 // vendors test
 /*
