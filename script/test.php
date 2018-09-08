@@ -1,10 +1,25 @@
 <?	
 /* Initialization */
+// test shipping
+require_once("shipping.php");
+$s = new shipping();
+$cost = 10;
+$length = 40;
+$width = 23.25;
+$height = 5.50;
+$weight = 38;
+$s->getUPSCost($cost, $length, $width, $height, $weight);
+$s->getTruckingCost($weight);
+$cuft = $s->getCuft($length, $width, $height);
+$s->getPalletCount($cuft);
+
 // test keywords
+/*
 require_once("keywords.php");
 $k = new keywords();
 $str = "Anybody who programs in PHP can be a contributing member of the community that develops and deploys it; the task of deploying PHP, documentation and associated websites is a never ending one. With every release, or release candidate comes a wave of work, which takes a lot of organization and co-ordination.";
 $k->get_keywords($str);
+*/
 
 // test check_links
 /*
