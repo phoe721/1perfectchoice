@@ -1,10 +1,10 @@
 <?	
 /* Initialization */
+// test get cost with set
+/*
 require_once("vendors.php");
 require_once("set_list.php");
 require_once("costs.php");
-// test get cost with set
-/*
 $vendors = new vendors();
 $set_list = new set_list();
 $costs = new costs();
