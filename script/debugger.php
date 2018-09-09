@@ -1,7 +1,6 @@
 <?php
 class debugger {
-	// Debug: 0 - False, 1 - True
-	private $debug = 0;
+	private $debug = true;
 
 	public function info($message) {
 		if ($this->debug) {
@@ -28,11 +27,11 @@ class debugger {
 	}
 
 	public function debug_on() {
-		$this->debug = 1;
+		$this->debug = true;
 	}
 
 	public function debug_off() {
-		$this->debug = 0;
+		$this->debug = false;
 	}
 }
 ?>

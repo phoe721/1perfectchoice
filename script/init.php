@@ -37,5 +37,4 @@
 
 	/* Global Variables */
 	$debug = false;
-	$cleanAll = true; // Housekeeping: clean all files
 ?>
