@@ -1,5 +1,5 @@
 <?
-require_once('init.php');
+/* Initialization */
 require_once('database.php');
 
 class cleaner {

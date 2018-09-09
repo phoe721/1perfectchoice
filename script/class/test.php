@@ -1,10 +1,12 @@
 <?	
 /* Initialization */
 // test inventory
+/*
 require_once("inventory.php");
 $inv = new inventory();
 $inv->get_inventory("PDEX-101");
 $inv->get_inventory("PDEX-F9231Q-F4735-36-37-38");
+*/
 // test shipping
 /*
 require_once("shipping.php");

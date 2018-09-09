@@ -34,7 +34,4 @@
 	define('DB_USER', 'root');
 	define('DB_PASS', 'c7w2l181');
 	define('DATABASE', '1perfectchoice');
-
-	/* Global Variables */
-	$debug = false;
 ?>

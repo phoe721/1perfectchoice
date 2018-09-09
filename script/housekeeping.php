@@ -1,5 +1,5 @@
 <?
-require_once('cleaner.php');
+require_once('class/cleaner.php');
 $cl = new cleaner();
 
 // Check download directory

@@ -1,6 +1,5 @@
 <?
 /* Initialization */
-require_once("init.php");
 require_once("database.php");
 
 class discontinued {

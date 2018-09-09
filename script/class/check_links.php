@@ -1,12 +1,4 @@
 <?
-/* ########## NOTES ##########
- * Purpose: 
- * Check whether links are valid
- * ########################### */
-
-// Initialization
-require_once('functions.php');
-
 class check_links {
 	private $output;
 
