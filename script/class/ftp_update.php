@@ -39,20 +39,29 @@ class ftp_update {
 		return false;
 	}
 
-	public function update($server) {
-		$result = $this->db->query("UPDATE ftp_update SET update_time = NOW() WHERE server = '$server'");
-		if ($result) {
-			$this->output->info("Record updated!");
+	public function update() {
+		$result = $this->db->query("SELECT * FROM ftp_update GROUP BY server");
+		if (mysqli_num_rows($result) == 0) {
+			$this->output->info("No records in database!");
 		} else {
-			$this->output->info("Failed to update record!");
+			while ($row = mysqli_fetch_array($result)) {
+				$server = $row['server'];
+				$user = $row['user'];
+				$pass = $row['pass'];
+				$remote_dir = $row['directory'];
+				$file = $row['path'];
+				$remote_file = $remote_dir . '/' . basename($file);
+
+				$this->ftp_client->connect($server);
+				$this->ftp_client->login($user, $pass);
+				$this->ftp_client->set_passive();
+				$this->output->info("Successfully login to $server!");
+
+				$this->ftp_client->put($remote_file, $file);
+				$this->output->info("Upload $file successfully!");
+				$this->ftp_client->disconnect();
+			}
 		}
-	}
-
-	public function list_files($path) {
-		$this->ftp_client->list_files($path);
-		$this->ftp_client->disconnect();
-
-		return $this->ftp_client->files;
 	}
 }
 ?>

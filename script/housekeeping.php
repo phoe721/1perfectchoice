@@ -1,6 +1,6 @@
 <?
 require_once('class/cleaner.php');
-$cl = new cleaner();
+$cl = new cleaner;
 
 // Check download directory
 $cl->remove_outdated_files(DOWNLOAD);
