@@ -18,7 +18,7 @@ class costs {
 	}
 
 	public function insert($code, $item_no, $cost, $unit) {
-		$result = $this->db->query("INSERT INTO costs (id, item_no, cost, unit, code) VALUES ('', '$item_no', '$cost', '$unit', '$code')");
+		$result = $this->db->query("INSERT INTO costs (code, item_no, cost, unit) VALUES ('$code', '$item_no', '$cost', '$unit')");
 		if ($result) {
 			$this->output->info("Item: $item_no, Code: $code with $cost per unit and $unit per box has been inserted successfully!");
 		} else {

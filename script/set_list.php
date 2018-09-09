@@ -16,7 +16,7 @@ class set_list {
 	}
 
 	public function insert($code, $item_no, $sku1, $sku2, $sku3, $sku4, $sku5, $sku6, $sku7, $sku8, $sku9, $sku10) {
-		$result = $this->db->query("INSERT INTO set_list (id, code, item_no, sku1, sku2, sku3, sku4, sku5, sku6, sku7, sku8, sku9, sku10) VALUES ('', '$code', '$item_no', '$sku1', '$sku2', '$sku3', '$sku4', '$sku5', '$sku6', '$sku7', '$sku8', '$sku9', '$sku10')");
+		$result = $this->db->query("INSERT INTO set_list (code, item_no, sku1, sku2, sku3, sku4, sku5, sku6, sku7, sku8, sku9, sku10) VALUES ('$code', '$item_no', '$sku1', '$sku2', '$sku3', '$sku4', '$sku5', '$sku6', '$sku7', '$sku8', '$sku9', '$sku10')");
 		if ($result) {
 			$this->output->info("Item: $item_no, Code: $code has been inserted successfully!");
 		} else {
