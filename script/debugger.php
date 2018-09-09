@@ -1,6 +1,6 @@
 <?php
 class debugger {
-	private $debug = true;
+	private $debug = false;
 
 	public function info($message) {
 		if ($this->debug) {

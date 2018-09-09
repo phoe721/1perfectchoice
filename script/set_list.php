@@ -30,7 +30,7 @@ class set_list {
 			$this->output->info("Item: $item_no, Code: $code is a set!");
 			return true;
 		} else {
-			$this->output->error("Item: $item_no, Code: $code is not a set!");
+			$this->output->info("Item: $item_no, Code: $code is not a set!");
 			return false;
 		}
 	}
@@ -42,7 +42,7 @@ class set_list {
 			$this->output->info("Item: $item_no, Code: $code is a set!");
 			return true;
 		} else {
-			$this->output->error("Item: $item_no, Code: $code is not a set!");
+			$this->output->info("Item: $item_no, Code: $code is not a set!");
 			return false;
 		}
 	}
