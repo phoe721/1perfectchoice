@@ -28,8 +28,10 @@ class set_list {
 		$result = $this->db->query("SELECT * FROM set_list WHERE code = '$code' AND item_no = '$item_no'");
 		if (mysqli_num_rows($result) > 0) {
 			$this->output->info("Item: $item_no, Code: $code is a set!");
+			return true;
 		} else {
 			$this->output->error("Item: $item_no, Code: $code is not a set!");
+			return false;
 		}
 	}
 
@@ -38,8 +40,10 @@ class set_list {
 		$result = $this->db->query("SELECT * FROM set_list WHERE code = '$code' AND item_no = '$item_no'");
 		if (mysqli_num_rows($result) > 0) {
 			$this->output->info("Item: $item_no, Code: $code is a set!");
+			return true;
 		} else {
 			$this->output->error("Item: $item_no, Code: $code is not a set!");
+			return false;
 		}
 	}
 
