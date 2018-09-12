@@ -25,11 +25,23 @@ class queues {
 		mysqli_set_charset($this->db->getConnection(), "utf8");
 	}
 
-	// Check queue with status 0
+	public function create_queue($command) {
+		$result = $this->db->query("INSERT INTO queues (command, status, insert_time, update_time) VALUES ('$command', '0', NOW(), NOW())");
+		if ($result) {
+			$last_id = $this->db->last_insert_id();
+			$this->output->info("Queue created, your queue number is $last_id!");
+		} else {
+			$last_id = null;
+			$this->output->error("Failed to create queue!");
+		}
+
+		return $last_id;
+	}
+
 	public function process_queue() {
 		$result = $this->db->query("SELECT qid, command FROM queues WHERE status = 0");
 		if ($result->num_rows == 0) {
-			//logger("No queue found!");	
+			$this->output->info("No queue found!");	
 		} else {
 			$row = $result->fetch_array(MYSQLI_ASSOC);
 			$qid = $row['qid'];

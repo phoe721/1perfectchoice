@@ -1,8 +1,8 @@
 <?
 /* Connect to Database */
 require_once('init.php');
-require_once('database.php');
-require_once('simple_html_dom.php');
+require_once('class/database.php');
+require_once('class/simple_html_dom.php');
 
 $page = $uid = $data_file = $link_file = $result_file = $status_file = $img_dir = $img_zip = '';
 $product = $result = $match = array();
@@ -27,56 +27,6 @@ function prepare($id) {
 	if (!is_dir($user_upload)) mkdir($user_upload, 0777, true);
 	if (!is_dir($user_download)) mkdir($user_download, 0777, true);
 	if (!is_dir($img_dir)) mkdir($img_dir, 0777, true);
-}
-
-// Create queue to run later
-function create_queue($uid, $command) {
-	global $db;
-	$result = $db->query("INSERT INTO queues (command, status, insert_time, update_time) VALUES ('$command', '0', NOW(), NOW())");
-	if ($result) {
-		$last_id = $db->last_insert_id();
-		log_status("Queue created, your queue number is $last_id!");
-	} else {
-		$last_id = null;
-		log_status("Failed to create queue!");
-	}
-
-	return $last_id;
-}
-
-// Move uploaded file
-function move_file($uid, $file, $destination) {
-	$tmp = $file["tmp_name"];
-	move_uploaded_file($tmp, $destination) ;
-}
-
-function truncate_inventory() {
-	global $db, $debug;
-	$result = $db->query("TRUNCATE TABLE inventory");
-	if ($result) {
-		logger("Inventory table truncated!");
-	} else {
-		logger("Failed to truncate inventory table!");
-	}
-}
-
-function update_inventory_by_file($filePath) {
-	global $db, $debug;
-	//$result = $db->query("LOAD DATA LOCAL INFILE '$filePath' INTO TABLE inventory LINES TERMINATED BY '\r\n'");
-	$result = $db->query("LOAD DATA LOCAL INFILE '$filePath' INTO TABLE inventory");
-	if ($result) {
-		logger("Inventory updated with $filePath!");
-	} else {
-		logger("Failed to update inventory with $filePath!");
-	}
-}
-
-function inventory_record_count() {
-	global $db, $debug;
-	$result = $db->query("SELECT COUNT(*) FROM inventory");
-	$row = $result->fetch_row();
-	$count = $row[0];
-	return $count;
 }
 
 function download($url, $path) {
@@ -165,58 +115,6 @@ function grab_img($sku, $url) {
 		return $img_path;
 	} else {
 		return null;
-	}
-}
-
-// Amazon Only
-function grab_amazon_img($sku, $url) {
-	global $img_dir;
-	$data = fetch_page($url, 5);
-	$html = str_get_html($data);
-	if (!empty($html)) {
-		$img_url = $html->getElementById("landingImage")->getAttribute('data-old-hires');
-		if (!empty($img_url)) {
-			logger("Found link: " . $img_url);
-			$img_path = $img_dir . $sku . ".jpg";
-			$result = download($img_url, $img_path);
-			if ($result) {
-				return $img_path;
-			} else {
-				return null;
-			}
-		}
-		$html->clear();
-	} else {
-		return null;
-	}
-}
-
-function compare_images($path1, $path2) {
-	global $img_dir;
-	$image1 = new imagick();
-	$image2 = new imagick();
-	$image1->SetOption('fuzz', '5%');
-	$image1->readImage($path1);
-	$image2->readImage($path2);
-	$d1 = $image1->getImageGeometry();
-	$d2 = $image2->getImageGeometry();
-
-	if (($d1['width'] == $d2['width']) && ($d1['height'] == $d2['height'])) {
-		$result = $image1->compareImages($image2, 1);
-		return $result[1];
-	} else {
-		$image1->scaleImage($d2['width'], $d2['height'], false); 
-		$image1->writeImage($path1);
-		$image1->destroy();
-		$image1->SetOption('fuzz', '5%');
-		$image1->readImage($path1);
-		$result = $image1->compareImages($image2, 1);
-		//$result[0]->writeImage(dirname($path1) . '/' . basename($path1, ".jpg") . "-3.jpg");
-		if ($result[1] > 1000) {
-			return 0;
-		} else {
-			return 1;
-		}
 	}
 }
 
