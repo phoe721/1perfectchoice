@@ -34,7 +34,7 @@ class debugger {
 
 	public function logger($msg) {
 		$timestring = date('Y-m-d H:i:s', strtotime('now'));
-		$msg = "$timestring: $msg\n";
+		$msg = "$timestring $msg\n";
 		$file = fopen(LOG_FILE, 'a+');
 		if ($file) fwrite($file, $msg);
 		fclose($file);
