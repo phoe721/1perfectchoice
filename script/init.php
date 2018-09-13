@@ -13,6 +13,7 @@
 	define('UPLOAD', ROOT . 'upload/');
 	define('INVENTORY', ROOT . 'inventory/');
 	define('FILTER', ROOT . 'filter/');
+	define('LOG_FILE', ROOT . 'log/1perfectchoice.log');
 	define('MAX_UPLOAD_SIZE', 800000);
 	define('TEST_NUMBER', 1000);
 	define('BRAND', '1PerfectChoice');

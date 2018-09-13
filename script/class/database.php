@@ -1,5 +1,4 @@
 <?php
-require_once(__DIR__ . "/../init.php");
 require_once("debugger.php");
 
 class database {
@@ -9,7 +8,6 @@ class database {
 
 	public function __construct() {
 		$this->output = new debugger;
-		$this->output->set_category("database");
 	}
 
 	public function __destruct() {
@@ -86,14 +84,6 @@ class database {
 			$this->output->notice("DB connection was not made");
 			return false;
 		}
-	}
-
-	public function debug_on() {
-		$this->output->debug_on();
-	}
-
-	public function debug_off() {
-		$this->output->debug_off();
 	}
 }
 ?>

@@ -167,7 +167,7 @@ function log_status($msg) {
 	global $status_file;
 	logger($msg); // Log first
 	$file = fopen($status_file, 'w');
-	if ($file) fwrite($file, $msg . PHP_EOL);
+	if ($file) fwrite($file, $msg . php_eol);
 	fclose($file);
 }
 

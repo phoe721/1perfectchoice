@@ -1,16 +1,8 @@
 <?php
-require_once('database.php');
+require_once(__DIR__ . "/../init.php");
 
 class debugger {
-	private $db;
-	private $category = "general";
 	private $debug = false;
-
-	public function __construct() {
-		$this->db = new database;
-		$this->db->connect(DB_SERVER, DB_USER, DB_PASS, DATABASE);
-		mysqli_set_charset($this->db->getConnection(), "utf8");
-	}
 
 	public function info($message) {
 		if ($this->debug) echo "[Info] $message\n";
@@ -32,15 +24,6 @@ class debugger {
 		$this->logger("[Error] $message");
 	}
 
-	public function set_category($category) {
-		$this->category = $category;
-	}
-
-	public function logger($msg) {
-		$timestring = date('Y-m-d H:i:s', strtotime('now'));
-		$result = $this->db->query("INSERT INTO log (id, category, message, datetime) VALUES ('', '$this->category', '$msg', '$timestring')");
-	}
-
 	public function debug_on() {
 		$this->debug = true;
 	}
@@ -49,5 +32,12 @@ class debugger {
 		$this->debug = false;
 	}
 
+	public function logger($msg) {
+		$timestring = date('Y-m-d H:i:s', strtotime('now'));
+		$msg = "$timestring: $msg\n";
+		$file = fopen(LOG_FILE, 'a+');
+		if ($file) fwrite($file, $msg);
+		fclose($file);
+	}
 }
 ?>
