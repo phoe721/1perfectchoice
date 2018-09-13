@@ -1,4 +1,6 @@
 <?
+require_once("debugger.php");
+
 class check_links {
 	private $output;
 

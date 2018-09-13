@@ -20,6 +20,7 @@ class queues {
 	public function __construct() {
 		$this->output = new debugger;
 		$this->output->debug_on();
+		$this->output->set_category("queue");
 		$this->db = new database;
 		$this->db->connect(DB_SERVER, DB_USER, DB_PASS, DATABASE);
 		mysqli_set_charset($this->db->getConnection(), "utf8");
@@ -68,15 +69,5 @@ class queues {
 		}
 	}
 
-	// Log queue message 
-	public function logger($msg) {
-		$timestring = date('Y-m-d H:i:s', strtotime('now'));
-		$result = $this->db->query("INSERT INTO queue_log (qid, message, datetime) VALUES ('', '$msg', '$timestring')");
-		if ($result) {
-			$this->output->info("Successfully Logged $msg to database!");
-		} else {
-			$this->output->error("Failed to log $msg to database!");
-		}
-	}
 }
 ?>

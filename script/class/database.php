@@ -9,6 +9,7 @@ class database {
 
 	public function __construct() {
 		$this->output = new debugger;
+		$this->output->set_category("database");
 	}
 
 	public function __destruct() {

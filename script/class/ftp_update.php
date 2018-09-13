@@ -11,6 +11,7 @@ class ftp_update {
 	public function __construct() {
 		$this->output = new debugger;
 		$this->output->debug_on();
+		$this->output->set_category("ftp update");
 		$this->db = new database;
 		$this->db->connect(DB_SERVER, DB_USER, DB_PASS, DATABASE);
 		mysqli_set_charset($this->db->getConnection(), "utf8");
