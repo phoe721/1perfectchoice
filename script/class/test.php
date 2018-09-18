@@ -31,13 +31,10 @@ $k->get_keywords($str);
 */
 
 // test check_links
-/*
-require_once("init.php");
 require_once("check_links.php");
 $cl = new check_links();
-$cl->check_link("http://php.net/manual/en/function.explode.php");
+//$cl->check_link("http://php.net/manual/en/function.explode.php");
 $cl->check_links_by_file(UPLOAD . "links.txt");
-*/
 
 // test get cost with set
 /*

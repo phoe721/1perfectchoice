@@ -48,12 +48,12 @@ class queues {
 			$command = $row['command'];
 	
 			// Going to process queue
-			update_status($qid, 1);
+			$this->update_status($qid, 1);
 			$this->output->info("Processing queue $qid");
 			shell_exec($command);
 	
 			// Done Processing
-			update_status($qid, 2);
+			$this->update_status($qid, 2);
 			$this->output->info("Finished processing queue $qid");
 		}
 	}

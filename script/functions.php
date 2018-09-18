@@ -4,11 +4,11 @@ require_once('init.php');
 require_once('class/database.php');
 require_once('class/simple_html_dom.php');
 
-$page = $uid = $data_file = $link_file = $result_file = $status_file = $img_dir = $img_zip = '';
+$page = $uid = $link_file = $result_file = $status_file = $img_dir = $img_zip = '';
 $product = $result = $match = array();
 
 $db	= new database;
-$db->connect("localhost", "root", "c7w2l181", "1perfectchoice");
+$db->connect(DB_SERVER, DB_USER, DB_PASS, DATABASE);
 mysqli_set_charset($db->getConnection(), "utf8");
 
 $debug = false;
@@ -18,7 +18,6 @@ function prepare($id) {
 	$uid = $id;
 	$user_upload = UPLOAD . $uid . '/';
 	$user_download = DOWNLOAD . $uid . '/';
-	if (empty($data_file)) $data_file = $user_download . 'data.txt';
 	if (empty($link_file)) $link_file = $user_download . 'links.txt';
 	if (empty($result_file)) $result_file = $user_download . 'result.txt';
 	if (empty($img_dir)) $img_dir = $user_download . 'img/';
@@ -167,7 +166,7 @@ function log_status($msg) {
 	global $status_file;
 	logger($msg); // Log first
 	$file = fopen($status_file, 'w');
-	if ($file) fwrite($file, $msg . php_eol);
+	if ($file) fwrite($file, $msg . PHP_EOL);
 	fclose($file);
 }
 
