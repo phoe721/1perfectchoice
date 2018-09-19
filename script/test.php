@@ -30,12 +30,6 @@ $str = "Anybody who programs in PHP can be a contributing member of the communit
 $k->get_keywords($str);
 */
 
-// test check_links
-require_once("class/check_links.php");
-$cl = new check_links();
-//$cl->check_link("http://php.net/manual/en/function.explode.php");
-$cl->check_links_by_file(UPLOAD . "input.txt");
-
 // test get cost with set
 /*
 require_once("vendors.php");
@@ -73,37 +67,6 @@ echo $set_list->get_record_count();
 $set_list->check("AC", "02018");
 $set_list->get_set("AC", "02018");
 */
-
-// costs test
-/*
-require_once("costs.php");
-$costs = new costs();
-$file = fopen(UPLOAD . "input.txt", "r");
-while(!feof($file)) {
-	$line = trim(fgets($file));
-	if (!empty($line)) {
-		list($code, $item_no) = explode("-", $line, 2);
-		//echo "$code $item_no" . PHP_EOL;
-		echo $costs->get_cost($code, $item_no);
-	}
-}
-fclose($file);
- */
-
-// discontinued test
-/*
-require_once("class/discontinued.php");
-$dis = new discontinued();
-$file = fopen(UPLOAD . "input.txt", "r");
-while(!feof($file)) {
-	$line = trim(fgets($file));
-	if (!empty($line)) {
-		list($code, $item_no) = explode("-", $line);
-		$dis->check($code, $item_no);
-	}
-}
-fclose($file);
- */
 
 // ftp_client test 
 /*
