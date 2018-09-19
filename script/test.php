@@ -31,10 +31,10 @@ $k->get_keywords($str);
 */
 
 // test check_links
-require_once("check_links.php");
+require_once("class/check_links.php");
 $cl = new check_links();
 //$cl->check_link("http://php.net/manual/en/function.explode.php");
-$cl->check_links_by_file(UPLOAD . "links.txt");
+$cl->check_links_by_file(UPLOAD . "input.txt");
 
 // test get cost with set
 /*
@@ -82,18 +82,17 @@ $file = fopen(UPLOAD . "input.txt", "r");
 while(!feof($file)) {
 	$line = trim(fgets($file));
 	if (!empty($line)) {
-		list($item, $cost) = explode("\t", $line);
-		list($code, $item_no) = explode("-", $item);
-		//echo "$code $item_no $cost" . PHP_EOL;
-		$costs->update_cost($code, $item_no, $cost);
+		list($code, $item_no) = explode("-", $line, 2);
+		//echo "$code $item_no" . PHP_EOL;
+		echo $costs->get_cost($code, $item_no);
 	}
 }
 fclose($file);
-*/
+ */
 
 // discontinued test
 /*
-require_once("discontinued.php");
+require_once("class/discontinued.php");
 $dis = new discontinued();
 $file = fopen(UPLOAD . "input.txt", "r");
 while(!feof($file)) {
@@ -104,7 +103,7 @@ while(!feof($file)) {
 	}
 }
 fclose($file);
-*/
+ */
 
 // ftp_client test 
 /*
