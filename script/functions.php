@@ -1,16 +1,8 @@
 <?
 /* Connect to Database */
 require_once('init.php');
-require_once('class/database.php');
-require_once('class/simple_html_dom.php');
-
 $page = $uid = $link_file = $result_file = $status_file = $img_dir = $img_zip = '';
 $product = $result = $match = array();
-
-$db	= new database;
-$db->connect(DB_SERVER, DB_USER, DB_PASS, DATABASE);
-mysqli_set_charset($db->getConnection(), "utf8");
-
 $debug = false;
 
 function prepare($id) {
@@ -155,10 +147,11 @@ function log_link_file($url) {
 
 // Log to logfile
 function logger($msg) {
-	// Write to log
-	global $db, $debug;
 	$timestring = date('Y-m-d H:i:s', strtotime('now'));
-	$result = $db->query("INSERT INTO 1perfectchoice_log (lid, message, datetime) VALUES ('', '$msg', '$timestring')");
+	$msg = "$timestring $msg\n";
+	$file = fopen(LOG_FILE, 'a+');
+	if ($file) fwrite($file, $msg);
+	fclose($file);
 }
 
 // Log status

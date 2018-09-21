@@ -1,6 +1,8 @@
 <?
 /* Initialization */
 require_once('functions.php');
+require_once('class/queues.php');
+$q = new queues;
 
 // Put Request Into Queue
 if (isset($_FILES["file1"]) && isset($_POST['uid']) && isset($_POST["server"]) && isset($_POST["user"]) && isset($_POST["pass"]) && isset($_POST["directory"])) {
@@ -18,7 +20,7 @@ if (isset($_FILES["file1"]) && isset($_POST['uid']) && isset($_POST["server"]) &
 
 	// Put task into queue
 	$command = "/usr/bin/php " . __FILE__ . " $uid $server $user $pass $directory $link_file";
-	$qid = create_queue($uid, $command);
+	$qid = $q->create_queue($command);
 
 	// Log status
 	log_status("Queue created, your queue number is $qid!");

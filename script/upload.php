@@ -2,17 +2,21 @@
 /* Initialization */
 require_once('init.php');
 
-if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES["file"])) { 
+if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['file']) && isset($_POST['task']) && isset($_POST['uid'])) { 
 	$name = $_FILES['file']['name'];
 	$tmpName = $_FILES['file']['tmp_name'];
 	$error = $_FILES['file']['error'];
 	$size = $_FILES['file']['size'];
 	$ext = strtolower(pathinfo($name, PATHINFO_EXTENSION));
+	$task = $_POST['task'];
+	$uid = $_POST['uid'];
+	$targetDir = UPLOAD . $uid . '/';
+	if (!is_dir($targetDir)) mkdir($targetDir, 0777, true);
 
 	switch($error) {
 		case UPLOAD_ERR_OK:
 			$sourceFile = $tmpName;
-			$targetFile = UPLOAD . basename($name);
+			$targetFile = $targetDir . basename($name);
 			if (file_exists($targetFile)) {
 				$response = "File already exists!";
 			} else {
