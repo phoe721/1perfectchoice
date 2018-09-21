@@ -1,6 +1,10 @@
 <?
 require_once("class/discontinued.php");
 $dis = new discontinued();
+$dis->insert('CO', '105543');
+$dis->insert('CO', '190127');
+$dis->insert('CO', '190129');
+/*
 $file = fopen(UPLOAD . "input.txt", "r");
 while(!feof($file)) {
 	$line = trim(fgets($file));
@@ -10,5 +14,6 @@ while(!feof($file)) {
 	}
 }
 fclose($file);
+ */
 
 ?>

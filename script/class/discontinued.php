@@ -15,10 +15,12 @@ class discontinued {
 	}
 
 	public function insert($code, $item_no) {
-		$result = $this->db->query("INSERT INTO discontinued (did, code, item_no) VALUES ('', '$code', '$item_no')");
+		$result = $this->db->query("INSERT INTO discontinued (code, item_no) VALUES ('$code', '$item_no')");
 		if ($result) {
 			$this->output->info("Item: $item_no, Code: $code has been inserted successfully!");
 		} else {
+			$error = $this->db->error();
+			$this->output->error("$error");
 			$this->output->error("Failed to insert $item_no!");
 		}
 	}
@@ -28,6 +30,8 @@ class discontinued {
 		if (mysqli_num_rows($result) > 0) {
 			$this->output->info("Item: $item_no, Code: $code is discontinued!");
 		} else {
+			$error = $this->db->error();
+			$this->output->error("$error");
 			$this->output->info("Item: $item_no, Code: $code is still active!");
 		}
 	}
@@ -37,6 +41,8 @@ class discontinued {
 		if ($result) {
 			$this->output->info("Table truncated!");
 		} else {
+			$error = $this->db->error();
+			$this->output->error("$error");
 			$this->output->error("Failed to truncate!");
 		}
 	}
@@ -46,6 +52,8 @@ class discontinued {
 		if ($result) {
 			$this->output->info("Table updated with $filePath!");
 		} else {
+			$error = $this->db->error();
+			$this->output->error("$error");
 			$this->output->error("Failed to update table with $filePath!");
 		}
 	}
@@ -56,6 +64,8 @@ class discontinued {
 			$count = mysqli_num_rows($result);
 			$this->output->info("There are $count records in table discontinued!");
 		} else {
+			$error = $this->db->error();
+			$this->output->error("$error");
 			$this->output->error("Failed to get record count in table discontinued!");
 		}
 	}

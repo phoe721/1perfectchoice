@@ -6,7 +6,13 @@
 <form id="form1" action="script/upload.php" method="POST" enctype="multipart/form-data">
 	<label for="file">Upload files to server</label>
 	<br>
+	<select id="task">
+	<option value="costs">Check Costs</option>
+	<option value="discontinued">Check Discontinued</option>
+	<option value="inventory">Check Inventory</option>
+	</select>
 	<input type="file" class="left" id="file" name="file">
+	<input type="hidden" id="uid" name="uid">
 	<input type="submit" id="upload" value="upload">
 </form>
 <div id="output"></div>
