@@ -8,6 +8,7 @@ class database {
 
 	public function __construct() {
 		$this->output = new debugger;
+		$this->output->debug_on();
 	}
 
 	public function __destruct() {
