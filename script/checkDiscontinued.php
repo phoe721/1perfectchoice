@@ -1,7 +1,6 @@
 <?
 require_once("class/discontinued.php");
 $dis = new discontinued();
-/*
 $file = fopen(UPLOAD . "input.txt", "r");
 while(!feof($file)) {
 	$line = trim(fgets($file));
@@ -11,6 +10,5 @@ while(!feof($file)) {
 	}
 }
 fclose($file);
- */
 
 ?>
