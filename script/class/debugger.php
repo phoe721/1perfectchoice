@@ -2,7 +2,7 @@
 require_once("init.php");
 
 class debugger {
-	private $debug = false;
+	private $debug = true;
 
 	public function info($message) {
 		if ($this->debug) echo "[Info] $message\n";
