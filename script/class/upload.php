@@ -2,11 +2,9 @@
 // Initialization
 require_once("init.php");
 require_once("debugger.php");
-require_once("queue.php");
 
 class upload{
 	private $output;
-	private $queue;
 	private $uid;
 	private $file;
 	private $fileName;
@@ -15,9 +13,10 @@ class upload{
 	private $size;
 	private $targetDir;
 	private $targetFile;
+	private $outputDir;
+	private $outputFile;
 
 	public function __construct() {
-		$this->queue = new queue();
 		$this->output = new debugger();
 		$this->output->debug_on();
 	}
@@ -41,6 +40,7 @@ class upload{
 		$this->outputDir = DOWNLOAD . $this->uid . '/';
 		if (!is_dir($this->outputDir)) mkdir($this->outputDir, 0777, true);
 		$this->targetFile = $this->targetDir . basename($this->fileName);
+		$this->outputFile = $this->outputDir . "result.txt";
 	}
 
 	public function get_filename() {
@@ -110,14 +110,8 @@ class upload{
 		return $this->targetFile;
 	}
 
-	public function set_task($task) {
-		switch($task) {
-			case: "check_costs":
-				$script = SCRIPT_ROOT . "checkCosts.php";
-				$command = "/usr/bin/php $script " . $this->get_UID() . " " . $this->get_targetFile();
-				$qid = $queue->create_queue($command);
-				break;
-		}
+	public function get_outputFile() {
+		return $this->outputFile;
 	}
 }
 ?>

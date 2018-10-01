@@ -8,7 +8,6 @@ class vendors {
 
 	public function __construct() {
 		$this->output = new debugger;
-		$this->output->debug_on();
 		$this->db = new database;
 		$this->db->connect(DB_SERVER, DB_USER, DB_PASS, DATABASE);
 		mysqli_set_charset($this->db->getConnection(), "utf8");

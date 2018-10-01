@@ -9,7 +9,6 @@ class ftp_client {
 
 	public function __construct() {
 		$this->output = new debugger;
-		$this->output->debug_on();
 	}
 
 	public function connect($server) {
