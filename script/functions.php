@@ -1,6 +1,6 @@
 <?
 /* Connect to Database */
-require_once('init.php');
+require_once('class/init.php');
 $page = $uid = $link_file = $result_file = $status_file = $img_dir = $img_zip = '';
 $product = $result = $match = array();
 $debug = false;
