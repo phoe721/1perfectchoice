@@ -1,9 +1,12 @@
 <?
 // Initialization
+require_once("init.php");
 require_once("debugger.php");
+require_once("queue.php");
 
 class upload{
 	private $output;
+	private $queue;
 	private $uid;
 	private $file;
 	private $fileName;
@@ -14,12 +17,17 @@ class upload{
 	private $targetFile;
 
 	public function __construct() {
-		$this->output = new debugger;
+		$this->queue = new queue();
+		$this->output = new debugger();
 		$this->output->debug_on();
 	}
 
 	public function set_UID($uid) {
 		$this->uid = $uid;
+	}
+
+	public function get_UID() {
+		return $this->uid;
 	}
 
 	public function set_file($file) {
@@ -30,6 +38,9 @@ class upload{
 		$this->size = $file['size'];
 		$this->targetDir = UPLOAD . $this->uid . '/';
 		if (!is_dir($this->targetDir)) mkdir($this->targetDir, 0777, true);
+		$this->outputDir = DOWNLOAD . $this->uid . '/';
+		if (!is_dir($this->outputDir)) mkdir($this->outputDir, 0777, true);
+		$this->targetFile = $this->targetDir . basename($this->fileName);
 	}
 
 	public function get_filename() {
@@ -48,7 +59,6 @@ class upload{
 	public function get_error() {
 		switch($this->error) {
 			case UPLOAD_ERR_OK:
-				$this->targetFile = $this->targetDir . basename($this->fileName);
 				if (file_exists($this->targetFile)) {
 					$response = "File already exists!";
 				} else {
@@ -96,12 +106,18 @@ class upload{
 		return $this->size;
 	}
 
-	public function set_targetDir($dir) {
-		$this->targetDir = $dir;
+	public function get_targetFile() {
+		return $this->targetFile;
 	}
 
-	public function get_targetDir() {
-		return $this->targetDir;
+	public function set_task($task) {
+		switch($task) {
+			case: "check_costs":
+				$script = SCRIPT_ROOT . "checkCosts.php";
+				$command = "/usr/bin/php $script " . $this->get_UID() . " " . $this->get_targetFile();
+				$qid = $queue->create_queue($command);
+				break;
+		}
 	}
 }
 ?>
