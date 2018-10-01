@@ -1,35 +1,32 @@
 <?php
+// loglevel: 0 = info, 1 = notice, 2 = warning, 3 = error 
 require_once("init.php");
 
 class debugger {
-	private $debug = true;
+	private $loglevel = 0;
 
 	public function info($message) {
-		if ($this->debug) echo "[Info] $message\n";
+		if ($this->loglevel == 0) echo $message . PHP_EOL;
 		$this->logger("[Info] $message");
 	}
 
 	public function notice($message) {
-		if ($this->debug) echo "[Notice] $message\n";
+		if ($this->loglevel >= 1) echo $message . PHP_EOL;
 		$this->logger("[Notice] $message");
 	}
 
 	public function warning($message) {
-		if ($this->debug) echo "[Warning] $message\n";
+		if ($this->loglevel >= 2) echo $message . PHP_EOL;
 		$this->logger("[Warning] $message");
 	}
 
 	public function error($message) {
-		if ($this->debug) echo "[Error] $message\n";
+		if ($this->loglevel >= 3) echo $message . PHP_EOL;
 		$this->logger("[Error] $message");
 	}
 
-	public function debug_on() {
-		$this->debug = true;
-	}
-
-	public function debug_off() {
-		$this->debug = false;
+	public function set_log_level($level) {
+		$this->loglevel = $level;
 	}
 
 	public function logger($msg) {

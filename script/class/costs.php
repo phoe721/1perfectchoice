@@ -43,6 +43,7 @@ class costs {
 	}
 
 	public function get_cost($code, $item_no) {
+		$cost = -1;
 		$result = $this->db->query("SELECT cost FROM costs WHERE code = '$code' AND item_no = '$item_no'");
 		if (mysqli_num_rows($result) > 0) {
 			$row = mysqli_fetch_array($result);
@@ -51,9 +52,11 @@ class costs {
 		} else {
 			$this->output->info("Item: $item_no, Code: $code cost not found!");
 		}
+		return $cost;
 	}
 
 	public function get_unit($code, $item_no) {
+		$unit = -1;
 		$result = $this->db->query("SELECT unit FROM costs WHERE code = '$code' AND item_no = '$item_no'");
 		if (mysqli_num_rows($result) > 0) {
 			$row = mysqli_fetch_array($result);
@@ -62,6 +65,7 @@ class costs {
 		} else {
 			$this->output->info("Item: $item_no, Code: $code unit per box not found!");
 		}
+		return $unit;
 	}
 
 	public function truncate_table() {

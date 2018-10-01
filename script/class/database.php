@@ -12,10 +12,10 @@ class database {
 
 	public function __destruct() {
 		if ($this->con) {
-			$this->output->info("Close DB connection");
+			$this->output->notice("Close DB connection");
 			mysqli_close($this->con);
 		} else {
-			$this->output->notice("DB connection was not made");
+			$this->output->warning("DB connection was not made");
 		}
 	}
 
@@ -25,7 +25,7 @@ class database {
 			$this->output->error("Failed to connect to DB server: " . mysqli_connect_error());
 			return $this->con;
 		} else {
-			$this->output->info("Connected to DB server");
+			$this->output->notice("Connected to DB server");
 			return false;
 		}
 	}
@@ -36,11 +36,11 @@ class database {
 			if (!$this->result) {
 				$this->output->error("Query to DB server failed: " . $this->error());
 			} else { 
-				$this->output->info("Query to DB server successfully");
+				$this->output->notice("Query to DB server successfully");
 				return $this->result;
 			}
 		} else {
-			$this->output->notice("DB connection was not made");
+			$this->output->warning("DB connection was not made");
 		}
 
 		return false;
@@ -48,40 +48,40 @@ class database {
 
 	public function getConnection() {
 		if ($this->con) {
-			$this->output->info("Returning DB connection");
+			$this->output->notice("Returning DB connection");
 			return $this->con;
 		} else {
-			$this->output->notice("DB connection was not made");
+			$this->output->warning("DB connection was not made");
 			return false;
 		}
 	}
 
 	public function last_insert_id() {
 		if ($this->con) {
-			$this->output->info("Returning last insert ID");
+			$this->output->notice("Returning last insert ID");
 			return mysqli_insert_id($this->con); 
 		} else {
-			$this->output->notice("DB connection was not made");
+			$this->output->warning("DB connection was not made");
 			return false;
 		}
 	}
 
 	public function get_info() {
 		if ($this->con) {
-			$this->output->info("Getting info");
+			$this->output->notice("Getting info");
 			return mysqli_info($this->con);
 		} else {
-			$this->output->notice("DB connection was not made");
+			$this->output->warning("DB connection was not made");
 			return false;
 		}
 	}
 
 	public function error() {
 		if ($this->con) {
-			$this->output->info("Returning DB error message");
+			$this->output->notice("Returning DB error message");
 			return mysqli_errno($this->con) . ": " . mysqli_error($this->con);
 		} else {
-			$this->output->notice("DB connection was not made");
+			$this->output->warning("DB connection was not made");
 			return false;
 		}
 	}

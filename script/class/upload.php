@@ -18,7 +18,6 @@ class upload{
 
 	public function __construct() {
 		$this->output = new debugger();
-		$this->output->debug_on();
 	}
 
 	public function set_UID($uid) {
@@ -102,7 +101,6 @@ class upload{
 	}
 
 	public function get_size() {
-		$this->output->info("file size: $this->size");
 		return $this->size;
 	}
 

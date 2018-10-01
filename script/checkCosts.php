@@ -8,12 +8,14 @@ if (isset($argv[1]) && isset($argv[2]) && isset($argv[3])) {
 	$output = $argv[3];
 	$file = fopen($input, "r");
 	$file2 = fopen($output, "a+");
-	while(!feof($file)) {
-		$line = trim(fgets($file));
-		if (!empty($line)) {
-			list($code, $item_no) = explode("-", $line, 2);
-			$output = $costs->get_cost($code, $item_no);
-			fwrite($file2, $output);
+	if ($file && $file2) {
+		while(!feof($file)) {
+			$line = trim(fgets($file));
+			if (!empty($line)) {
+				list($code, $item_no) = explode("-", $line, 2);
+				$output = "$code-$item_no: " . $costs->get_cost($code, $item_no) . PHP_EOL;
+				fwrite($file2, $output);
+			}
 		}
 	}
 	fclose($file);
