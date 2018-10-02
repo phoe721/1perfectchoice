@@ -12,7 +12,7 @@
 
 /* Initialization */
 require_once("class/queues.php");
-$q = new queues;
-$q->process_queue();
+$queue = new queues;
+$queue->process_queue();
 
 ?>

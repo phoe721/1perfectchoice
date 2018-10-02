@@ -2,12 +2,11 @@
 require_once("class/costs.php");
 $costs = new costs();
 
-if (isset($argv[1]) && isset($argv[2]) && isset($argv[3])) {
+if (isset($argv[1]) && isset($argv[2])) {
 	$uid = $argv[1];
 	$input = $argv[2];
-	$output = $argv[3];
 	$file = fopen($input, "r");
-	$file2 = fopen($output, "a+");
+	$file2 = fopen(DOWNLOAD . ", "a+");
 	if ($file && $file2) {
 		while(!feof($file)) {
 			$line = trim(fgets($file));

@@ -13,8 +13,6 @@ class upload{
 	private $size;
 	private $targetDir;
 	private $targetFile;
-	private $outputDir;
-	private $outputFile;
 
 	public function __construct() {
 		$this->output = new debugger();
@@ -36,10 +34,7 @@ class upload{
 		$this->size = $file['size'];
 		$this->targetDir = UPLOAD . $this->uid . '/';
 		if (!is_dir($this->targetDir)) mkdir($this->targetDir, 0777, true);
-		$this->outputDir = DOWNLOAD . $this->uid . '/';
-		if (!is_dir($this->outputDir)) mkdir($this->outputDir, 0777, true);
 		$this->targetFile = $this->targetDir . basename($this->fileName);
-		$this->outputFile = $this->outputDir . "result.txt";
 	}
 
 	public function get_filename() {
@@ -106,10 +101,6 @@ class upload{
 
 	public function get_targetFile() {
 		return $this->targetFile;
-	}
-
-	public function get_outputFile() {
-		return $this->outputFile;
 	}
 }
 ?>
