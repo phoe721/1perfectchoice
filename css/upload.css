@@ -2,11 +2,13 @@
     margin-left: .5em;
     float: left;
 }
-#field,
-label {
+#field, label {
     float: left;
     font-family: Arial, Helvetica, sans-serif;
     font-size: small;
+}
+#loading {
+	display: none;
 }
 br {
     clear: both;

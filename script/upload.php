@@ -9,7 +9,8 @@ $script = "";
 if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['file']) && isset($_POST['task']) && isset($_POST['uid'])) { 
 	$upload->set_UID($_POST['uid']);
 	$upload->set_file($_FILES['file']);
-	if ($upload->get_error() == "File uploaded!") {
+	$output = $upload->get_error();
+	if ($output == "File uploaded!") {
 		$task = $_POST['task'];
 		switch($task) {
 			case "check_costs":
@@ -28,10 +29,8 @@ if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['file']) && isset($_POS
 
 		$command = "/usr/bin/php $script " . $upload->get_targetFile() . " " . $upload->get_outputDir();
 		$qid = $queue->create_queue($command);
-		echo "Queue created, your queue number is $qid!";
-	} else {
-		echo $upload->get_error();
+		$output .= " Queue created, your queue number is $qid!";
 	}
+
+	echo json_encode($output);
 }
-echo "<br><br>";
-echo "<a href='../upload.htm'>Go back to upload</a>";
