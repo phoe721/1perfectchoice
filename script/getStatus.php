@@ -11,7 +11,7 @@ if (isset($_POST["uid"])) {
 
 	// Push output to result
 	if (file_exists($outputFile)) {
-		$result["link"] = $outputFile;
+		$result["link"] = str_replace(ROOT, "", $outputFile);
 	}
 
 	// Output status
@@ -19,8 +19,8 @@ if (isset($_POST["uid"])) {
 		$file = fopen($statusFile, "r") or die("Unable to open file!");
 		if ($file) $result["status"] = trim(fgets($file));
 		fclose($file);
-
-		echo json_encode($result["status"]);
 	}
+
+	echo json_encode($result);
 }
 ?>

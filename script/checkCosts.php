@@ -1,6 +1,7 @@
 <?
 require_once("class/costs.php");
 $costs = new costs();
+$statusFile = "";
 
 if (isset($argv[1]) && isset($argv[2]) && isset($argv[3])) {
 	$inputFile = $argv[1];
@@ -8,22 +9,29 @@ if (isset($argv[1]) && isset($argv[2]) && isset($argv[3])) {
 	$statusFile = $argv[3];
 	$input = fopen($inputFile, "r");
 	$result = fopen($outputFile, "a+");
-	$status = fopen($statusFile, "w+");
-	if ($input && $result && $status) {
+	if ($input && $result) {
 		while(!feof($input)) {
-			$line = trim(fgets($input));
-			if (!empty($line)) {
-				fwrite($status, "Checking $line..." . PHP_EOL);
-				list($code, $item_no) = explode("-", $line, 2);
+			$sku = trim(fgets($input));
+			if (!empty($sku)) {
+				log_status("Checking $sku...");
+				list($code, $item_no) = explode("-", $sku, 2);
 				$output = "$code-$item_no: " . $costs->get_cost($code, $item_no) . PHP_EOL;
 				fwrite($result, $output);
 			}
 		}
 	}
 
-	fwrite($status, "Done" . PHP_EOL);
 	fclose($input);
 	fclose($result);
+	log_status("Done");
+}
+
+function log_status($msg) {
+	global $statusFile;
+	$status = fopen($statusFile, "w");
+	$msg = $msg . PHP_EOL;
+	if ($status) fwrite($status, $msg);
 	fclose($status);
+	
 }
 ?>

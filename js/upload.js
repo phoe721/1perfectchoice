@@ -56,9 +56,7 @@ $('#upload').click(function() {
 				cur = result.status;
 				if (cur.match(/Done/)) {
 					$('#output').html('').append(result.status + '<br>');
-					for (var i = 0; i < result.link.length; i++) {	
-			    		$('#output').append('<a href="' + result.link[i] + '" target="_blank" download>' + result.link[i] + '</a><br>');
-					}
+			    	$('#output').append('<a href="' + result.link + '" target="_blank" download>result.txt</a><br>');
 					clearInterval(check);
 				} else if (prev != cur) {
 					$('#output').append(result.status + '<br>');
