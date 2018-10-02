@@ -13,7 +13,7 @@ form.validate({
     }
 });
 
-$.post('script/getUID.php', {getUID: "yes"}, function(id) {
+$.post('script/getUID.php', {getUID: 'yes'}, function(id) {
 	if (typeof id != 'undefined') {
 		$('#uid').val(id);
 	} else {
@@ -44,29 +44,27 @@ $('#upload').click(function() {
 			contentType: false,
 			processData: false,
 			dataType: 'json',
-			success: function(result) {
-				$('#output').append(result + '<br>');
+			success: function(output) {
+				$('#output').append(output + '<br>');
 			}
 		});
 
-		/*	
 		var time = 10000;
 		var prev = cur = '';
 		var check = setInterval(function(){ 
 			$.post('script/getStatus.php', {uid: uid}, function(result) { 
 				cur = result.status;
 				if (cur.match(/Done/)) {
-					$('#output').html('').append(result.status + "<br>");
+					$('#output').html('').append(result.status + '<br>');
 					for (var i = 0; i < result.link.length; i++) {	
 			    		$('#output').append('<a href="' + result.link[i] + '" target="_blank" download>' + result.link[i] + '</a><br>');
 					}
 					clearInterval(check);
 				} else if (prev != cur) {
-					$('#output').append(result.status + "<br>");
+					$('#output').append(result.status + '<br>');
 					prev = cur;
 				}
-			}, "json");
+			}, 'json');
 		}, time);
-		*/
 	}
 });

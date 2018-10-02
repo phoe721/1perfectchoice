@@ -1,6 +1,6 @@
 <?
 // Initialization
-require_once("init.php");
+require_once(__DIR__ . "/../init.php");
 require_once("debugger.php");
 
 class upload{
@@ -14,6 +14,8 @@ class upload{
 	private $targetDir;
 	private $targetFile;
 	private $outputDir;
+	private $outputFile;
+	private $statusFile;
 
 	public function __construct() {
 		$this->output = new debugger();
@@ -21,6 +23,10 @@ class upload{
 
 	public function set_UID($uid) {
 		$this->uid = $uid;
+		$this->outputDir = DOWNLOAD . $this->uid . '/';
+		if (!is_dir($this->outputDir)) mkdir($this->outputDir, 0777, true);
+		$this->outputFile = $this->outputDir . "result.txt";
+		$this->statusFile = $this->outputDir . "status.txt";
 	}
 
 	public function get_UID() {
@@ -35,8 +41,6 @@ class upload{
 		$this->size = $file['size'];
 		$this->targetDir = UPLOAD . $this->uid . '/';
 		if (!is_dir($this->targetDir)) mkdir($this->targetDir, 0777, true);
-		$this->outputDir = DOWNLOAD . $this->uid . '/';
-		if (!is_dir($this->outputDir)) mkdir($this->outputDir, 0777, true);
 		$this->targetFile = $this->targetDir . basename($this->fileName);
 	}
 
@@ -106,8 +110,12 @@ class upload{
 		return $this->targetFile;
 	}
 
-	public function get_outputDir() {
-		return $this->outputDir;
+	public function get_outputFile() {
+		return $this->outputFile;
+	}
+
+	public function get_statusFile() {
+		return $this->statusFile;
 	}
 }
 ?>

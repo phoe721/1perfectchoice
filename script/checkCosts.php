@@ -2,23 +2,28 @@
 require_once("class/costs.php");
 $costs = new costs();
 
-if (isset($argv[1]) && isset($argv[2])) {
+if (isset($argv[1]) && isset($argv[2]) && isset($argv[3])) {
 	$inputFile = $argv[1];
-	$outputDir = $argv[2];
-	$outputFile = $outputDir . "/result.txt";
-	$file = fopen($inputFile, "r");
-	$file2 = fopen($outputFile, "a+");
-	if ($file && $file2) {
-		while(!feof($file)) {
-			$line = trim(fgets($file));
+	$outputFile = $argv[2];
+	$statusFile = $argv[3];
+	$input = fopen($inputFile, "r");
+	$result = fopen($outputFile, "a+");
+	$status = fopen($statusFile, "w+");
+	if ($input && $result && $status) {
+		while(!feof($input)) {
+			$line = trim(fgets($input));
 			if (!empty($line)) {
+				fwrite($status, "Checking $line..." . PHP_EOL);
 				list($code, $item_no) = explode("-", $line, 2);
 				$output = "$code-$item_no: " . $costs->get_cost($code, $item_no) . PHP_EOL;
-				fwrite($file2, $output);
+				fwrite($result, $output);
 			}
 		}
 	}
-	fclose($file);
-	fclose($file2);
+
+	fwrite($status, "Done" . PHP_EOL);
+	fclose($input);
+	fclose($result);
+	fclose($status);
 }
 ?>

@@ -1,27 +1,8 @@
 <?
-/* Connect to Database */
-require_once('class/init.php');
-$page = $uid = $link_file = $result_file = $status_file = $img_dir = $img_zip = '';
-$product = $result = $match = array();
-$debug = false;
-
-function prepare($id) {
-	global $uid, $data_file, $link_file, $result_file, $status_file, $img_dir, $img_zip, $debug;
-	$uid = $id;
-	$user_upload = UPLOAD . $uid . '/';
-	$user_download = DOWNLOAD . $uid . '/';
-	if (empty($link_file)) $link_file = $user_download . 'links.txt';
-	if (empty($result_file)) $result_file = $user_download . 'result.txt';
-	if (empty($img_dir)) $img_dir = $user_download . 'img/';
-	if (empty($img_zip)) $img_zip = $user_download . 'images.zip';
-	if (empty($status_file)) $status_file = $user_download . 'status';
-	if (!is_dir($user_upload)) mkdir($user_upload, 0777, true);
-	if (!is_dir($user_download)) mkdir($user_download, 0777, true);
-	if (!is_dir($img_dir)) mkdir($img_dir, 0777, true);
-}
+/* Initialization */
+require_once("init.php");
 
 function download($url, $path) {
-	global $debug;
 	$ch = curl_init();
 	curl_setopt($ch, CURLOPT_URL, $url);
 	//curl_setopt($ch, CURLOPT_BUFFERSIZE, 128);
@@ -38,7 +19,7 @@ function download($url, $path) {
 	if ($file) {
 		fputs($file, $data);
 	} else {
-		if ($debug) logger("[ERROR] Could not save $file to $path");
+		echo "[ERROR] Could not save $file to $path";
 	}
 	fclose($file);
 
@@ -46,7 +27,6 @@ function download($url, $path) {
 }
 
 function fetch_page($url, $timeout) {
-	global $debug;
 	$ch = curl_init();
 	curl_setopt($ch, CURLOPT_URL, $url);
 	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -129,55 +109,7 @@ function upload_img_dir($server, $user, $pass, $directory, $img_dir) {
 	ftp_close($conn);
 }
 
-/* ########## LOG RELATED - START ########## */
-// Log links to file
-function log_link_file($url) {
-	global $link_file, $debug;
-
-	$link = substr($url, strlen(ROOT));
-	$file = fopen($link_file, 'a+');
-	if ($file) {
-		fwrite($file, $link . PHP_EOL);
-		logger("Write $url to $link_file");
-	} else {
-		logger("[ERROR] Could not save $url to $link_file");
-	}
-	fclose($file);
-}
-
-// Log to logfile
-function logger($msg) {
-	$timestring = date('Y-m-d H:i:s', strtotime('now'));
-	$msg = "$timestring $msg\n";
-	$file = fopen(LOG_FILE, 'a+');
-	if ($file) fwrite($file, $msg);
-	fclose($file);
-}
-
-// Log status
-function log_status($msg) {
-	global $status_file;
-	logger($msg); // Log first
-	$file = fopen($status_file, 'w');
-	if ($file) fwrite($file, $msg . PHP_EOL);
-	fclose($file);
-}
-
-// Log result
-function log_result($msg) {
-	global $result_file;
-	logger($msg); // Log first
-	$file = fopen($result_file, 'a+');
-	if ($file) {
-		fwrite($file, $msg . PHP_EOL);
-	} else {
-		fwrite($file, "[ERROR] Unable to open file!");
-	}
-	fclose($file);
-}
-/* ########## LOG RELATED - END ########## */
-
-/* ########## TEST TOOLS - START ########## */
+// Test Tools
 $startTime = $endTime = $duration = 0;
 function stop_watch_start() {
 	global $startTime, $debug;
@@ -195,6 +127,4 @@ function stop_watch_stop() {
 		logger("##### Time executed: $duration seconds #####");
 	}
 }
-/* ########## TEST TOOLS - END ########## */
-
 ?>
