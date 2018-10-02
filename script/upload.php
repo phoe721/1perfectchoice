@@ -26,7 +26,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['file']) && isset($_POS
 				break;
 		}
 
-		$command = "/usr/bin/php $script " . $upload->get_targetFile();
+		$command = "/usr/bin/php $script " . $upload->get_targetFile() . " " . $upload->get_outputDir();
 		$qid = $queue->create_queue($command);
 		echo "Queue created, your queue number is $qid!";
 	} else {
