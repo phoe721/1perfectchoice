@@ -109,22 +109,4 @@ function upload_img_dir($server, $user, $pass, $directory, $img_dir) {
 	ftp_close($conn);
 }
 
-// Test Tools
-$startTime = $endTime = $duration = 0;
-function stop_watch_start() {
-	global $startTime, $debug;
-	$startTime = microtime(true);
-	if ($debug) logger("##### Start time: $startTime #####");
-}
-
-function stop_watch_stop() {
-	global $startTime, $endTime, $duration, $debug;
-	$endTime = microtime(true);
-	$duration = $endTime - $startTime;
-	$duration = round($duration, 2);
-	if ($debug) { 
-		logger("##### End time: $endTime #####");
-		logger("##### Time executed: $duration seconds #####");
-	}
-}
 ?>
