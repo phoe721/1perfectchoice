@@ -62,10 +62,8 @@ class dimensions {
 		$result = $this->db->query("SELECT ship_length, ship_width, ship_height FROM dimensions WHERE code = '$code' AND item_no = '$item_no'");
 		if (mysqli_num_rows($result) > 0) {
 			$row = mysqli_fetch_array($result);
-			$dim["length"] = $row["ship_length"];
-			$dim["width"] = $row["ship_width"];
-			$dim["height"] = $row["ship_height"];
-			$this->output->info("item: $item_no, code: $code dimensions $length x $width x $height!");
+			array_push($dim, $row["ship_length"], $row["ship_width"], $row["ship_height"]);
+			$this->output->info("item: $item_no, code: $code dimensions " . $dim[0] . " x " . $dim[1] . " x " . $dim[2] . "!");
 		} else {
 			$this->output->info("item: $item_no, code: $code dimensions not found!");
 		}
