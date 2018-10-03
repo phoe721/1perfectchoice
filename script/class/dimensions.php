@@ -17,34 +17,42 @@ class dimensions {
 	}
 
 	public function insert($code, $item_no, $length, $width, $height, $weight) {
-		$result = $this->db->query("INSERT INTO dimensions (code, item_no, ship_length, ship_width, ship_height, ship_weight) VALUES ('$code', '$item_no', '$length', '$width', '$height', '$wegith')");
-		if ($result) {
-			$this->output->info("Item: $item_no, Code: $code dimensions has been inserted successfully!");
-			return true;
+		if (!$this->exists($code, $item_no)) {
+			$result = $this->db->query("INSERT INTO dimensions (code, item_no, ship_length, ship_width, ship_height, ship_weight) VALUES ('$code', '$item_no', '$length', '$width', '$height', '$wegith')");
+			if ($result) {
+				$this->output->info("Item: $item_no, Code: $code dimensions has been inserted successfully!");
+				return true;
+			} else {
+				$this->output->error("Failed to insert $item_no!");
+				return false;
+			}
 		} else {
-			$this->output->error("Failed to insert $item_no!");
-			return false;
+			$this->output->error("Item: $item_no, Code: $code exists, updating it!");
+			return $this->update($code, $item_no, $length, $width, $height, $weight);
 		}
 	}
 	
-	public function update_dimensions($code, $item_no, $length, $width, $height) {
-		$result = $this->db->query("UPDATE dimensions SET ship_length = '$length', ship_width = '$width', ship_height = '$height' WHERE code = '$code' AND item_no = '$item_no'");
-		if ($result) {
-			$this->output->info("Item: $item_no, Code: $code dimensions has been updated!");
-			return true;
+	public function update($code, $item_no, $length, $width, $height, $weight) {
+		if ($this->exists($code, $item_no)) {
+			$result = $this->db->query("UPDATE dimensions SET ship_length = '$length', ship_width = '$width', ship_height = '$height', ship_weight = '$weight' WHERE code = '$code' AND item_no = '$item_no'");
+			if ($result) {
+				$this->output->info("Item: $item_no, Code: $code dimensions has been updated!");
+				return true;
+			} else {
+				$this->output->info("Item: $item_no, Code: $code failed to update dimensions!");
+				return false;
+			}
 		} else {
-			$this->output->info("Item: $item_no, Code: $code failed to update dimensions!");
-			return false;
+			$this->output->error("Item: $item_no, Code: $code does not exist! Inserting it!");
+			return $this->insert($code, $item_no, $length, $width, $height, $weight);
 		}
 	}
 
-	public function update_weight($code, $item_no, $weight) {
-		$result = $this->db->query("UPDATE dimensions SET weight = '$weight' WHERE code = '$code' AND item_no = '$item_no'");
-		if ($result) {
-			$this->output->info("Item: $item_no, Code: $code weight has been updated!");
+	public function exists($code, $item_no) {
+		$result = $this->db->query("SELECT * FROM dimensions WHERE code = '$code' AND item_no = '$item_no'");
+		if (mysqli_num_rows($result) > 0) {
 			return true;
 		} else {
-			$this->output->info("Item: $item_no, Code: $code failed to update weight!");
 			return false;
 		}
 	}

@@ -16,6 +16,9 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_FILES["file"]) && isset($_POS
 			case "insert_costs":
 				$script = SCRIPT_ROOT . "insertCosts.php";
 				break;
+			case "insert_dimensions":
+				$script = SCRIPT_ROOT . "insertDimensions.php";
+				break;
 			case "check_costs":
 				$script = SCRIPT_ROOT . "checkCosts.php";
 				break;
