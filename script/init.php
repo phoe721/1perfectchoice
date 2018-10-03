@@ -16,7 +16,7 @@
 	define('LOG_FILE', ROOT . 'log/1perfectchoice.log');
 	define('MAX_UPLOAD_SIZE', 800000);
 	define('TEST_NUMBER', 1000);
-	define('BRAND', '1PerfectChoice');
+	define('BRAND', 'Simple Relax');
 	define('UPS_DIMENSION_WEIGHT_DIVIDER', 166);
 	define('UPS_WEIGHT_LIMIT', 150);
 	define('UPS_MEASUREMENT_LIMIT', 165);
@@ -35,5 +35,8 @@
 	define('DB_SERVER', 'localhost');
 	define('DB_USER', 'root');
 	define('DB_PASS', 'c7w2l181');
+	define('FTP_SERVER', '3pxusa.com');
+	define('FTP_USER', 'aaron@3pxusa.com');
+	define('FTP_PASS', 'c7w2l181');
 	define('DATABASE', '1perfectchoice');
 ?>
