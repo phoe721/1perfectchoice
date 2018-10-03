@@ -6,12 +6,14 @@ require_once("set_list.php");
 class costs {
 	private $db;
 	private $output;
+	private $set_list;
 
 	public function __construct() {
 		$this->output = new debugger;
 		$this->db = new database;
 		$this->db->connect(DB_SERVER, DB_USER, DB_PASS, DATABASE);
 		mysqli_set_charset($this->db->getConnection(), "utf8");
+		$this->set_list = new set_list();
 	}
 
 	public function insert($code, $item_no, $cost, $unit) {
@@ -48,15 +50,23 @@ class costs {
 	}
 
 	public function get_cost($code, $item_no) {
-		$cost = -1;
-		$result = $this->db->query("SELECT cost FROM costs WHERE code = '$code' AND item_no = '$item_no'");
-		if (mysqli_num_rows($result) > 0) {
-			$row = mysqli_fetch_array($result);
-			$cost = $row['cost'];
-			$this->output->info("Item: $item_no, Code: $code costs $cost!");
+		$cost = 0;
+		if ($this->set_list->check($code, $item_no)) {
+			$set = $this->set_list->get_set($code, $item_no);
+			for ($i = 0; $i < count($set); $i++) {
+				$cost += $this->get_cost($code, $set[$i]);
+			}
 		} else {
-			$this->output->info("Item: $item_no, Code: $code cost not found!");
+			$result = $this->db->query("select cost from costs where code = '$code' and item_no = '$item_no'");
+			if (mysqli_num_rows($result) > 0) {
+				$row = mysqli_fetch_array($result);
+				$cost = $row['cost'];
+				$this->output->info("item: $item_no, code: $code costs $cost!");
+			} else {
+				$this->output->info("item: $item_no, code: $code cost not found!");
+			}
 		}
+
 		return $cost;
 	}
 
