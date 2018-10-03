@@ -4,6 +4,7 @@ require_once(__DIR__ . "/../init.php");
 
 class debugger {
 	private $loglevel = 0;
+	private $statusFile;
 
 	public function info($message) {
 		if ($this->loglevel == 0) echo $message . PHP_EOL;
@@ -29,10 +30,21 @@ class debugger {
 		$this->loglevel = $level;
 	}
 
+	public function set_status_file($path) {
+		$this->statusFile = $path;
+	}
+
 	public function logger($msg) {
 		$timestring = date('Y-m-d H:i:s', strtotime('now'));
 		$msg = "$timestring $msg" . PHP_EOL;
 		$file = fopen(LOG_FILE, 'a+');
+		if ($file) fwrite($file, $msg);
+		fclose($file);
+	}
+
+	public function log_status($msg) {
+		$msg .= PHP_EOL;
+		$file = fopen($this->statusFile, "w");
 		if ($file) fwrite($file, $msg);
 		fclose($file);
 	}

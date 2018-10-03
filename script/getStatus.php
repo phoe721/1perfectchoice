@@ -19,8 +19,7 @@ if (isset($_POST["uid"])) {
 		$file = fopen($statusFile, "r") or die("Unable to open file!");
 		if ($file) $result["status"] = trim(fgets($file));
 		fclose($file);
+		echo json_encode($result);
 	}
-
-	echo json_encode($result);
 }
 ?>
