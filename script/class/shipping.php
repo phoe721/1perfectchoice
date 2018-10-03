@@ -31,7 +31,7 @@ class shipping {
 		if ($weight <= TRUCKING_BASE_WEIGHT) {
 			$trucking_cost = TRUCKING_BASE_COST;
 		} else {
-			$trucking_cost = round($weight * 1.5, 2);
+			$trucking_cost = round($weight * TRUCKING_RATE, 2);
 		}
 
 		$this->output->info("Trucking cost is $trucking_cost");

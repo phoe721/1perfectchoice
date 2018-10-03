@@ -29,6 +29,7 @@
 	define('UPS_BASE_INSURANCE_COVERAGE', 300);
 	define('TRUCKING_BASE_COST', 375);
 	define('TRUCKING_BASE_WEIGHT', 250);
+	define('TRUCKING_RATE', 1.5);
 	define('MAX_CUFT_ON_PALLET', 80);
 	define('ONE_DAY_IN_SECONDS', 86400); // 24 * 60 * 60 = 86400 = 1 Day
 	define('DB_SERVER', 'localhost');
