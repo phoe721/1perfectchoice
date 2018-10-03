@@ -51,11 +51,23 @@ class costs {
 
 	public function get_cost($code, $item_no) {
 		$cost = 0;
+		$total = 0;
 		if ($this->set_list->check($code, $item_no)) {
 			$set = $this->set_list->get_set($code, $item_no);
 			for ($i = 0; $i < count($set); $i++) {
-				$cost += $this->get_cost($code, $set[$i]);
+				$item_no = $set[$i];
+				$result = $this->db->query("select cost from costs where code = '$code' and item_no = '$item_no'");
+				if (mysqli_num_rows($result) > 0) {
+					$row = mysqli_fetch_array($result);
+					$cost = $row['cost'];
+					$total += $cost;
+					$this->output->info("item: $item_no, code: $code costs $cost!");
+				} else {
+					$this->output->info("item: $item_no, code: $code cost not found!");
+				}
 			}
+
+			return $total;
 		} else {
 			$result = $this->db->query("select cost from costs where code = '$code' and item_no = '$item_no'");
 			if (mysqli_num_rows($result) > 0) {
@@ -65,9 +77,9 @@ class costs {
 			} else {
 				$this->output->info("item: $item_no, code: $code cost not found!");
 			}
-		}
 
-		return $cost;
+			return $cost;
+		}
 	}
 
 	public function get_unit($code, $item_no) {
