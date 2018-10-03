@@ -18,8 +18,10 @@ class costs {
 		$result = $this->db->query("INSERT INTO costs (code, item_no, cost, unit) VALUES ('$code', '$item_no', '$cost', '$unit')");
 		if ($result) {
 			$this->output->info("Item: $item_no, Code: $code with $cost per unit and $unit per box has been inserted successfully!");
+			return true;
 		} else {
 			$this->output->error("Failed to insert $item_no!");
+			return false;
 		}
 	}
 	
@@ -27,8 +29,10 @@ class costs {
 		$result = $this->db->query("UPDATE costs SET cost = '$cost' WHERE code = '$code' AND item_no = '$item_no'");
 		if ($result) {
 			$this->output->info("Item: $item_no, Code: $code has updated cost to $cost!");
+			return true;
 		} else {
 			$this->output->info("Item: $item_no, Code: $code failed to update cost!");
+			return false;
 		}
 	}
 
@@ -36,8 +40,10 @@ class costs {
 		$result = $this->db->query("UPDATE costs SET unit = '$unit' WHERE code = '$code' AND item_no = '$item_no'");
 		if ($result) {
 			$this->output->info("Item: $item_no, Code: $code has updated unit per box to $unit!");
+			return true;
 		} else {
 			$this->output->info("Item: $item_no, Code: $code failed to update unit per box!");
+			return false;
 		}
 	}
 
@@ -71,8 +77,10 @@ class costs {
 		$result = $this->db->query("TRUNCATE TABLE costs");
 		if ($result) {
 			$this->output->info("Table truncated!");
+			return true;
 		} else {
 			$this->output->error("Failed to truncate!");
+			return false;
 		}
 	}
 	
@@ -80,12 +88,15 @@ class costs {
 		$result = $this->db->query("LOAD DATA LOCAL INFILE '$filePath' INTO TABLE costs");
 		if ($result) {
 			$this->output->info("Table updated with $filePath!");
+			return true;
 		} else {
 			$this->output->error("Failed to update table with $filePath!");
+			return false;
 		}
 	}
 	
 	public function get_record_count() {
+		$count = -1;
 		$result = $this->db->query("SELECT * FROM costs");
 		if ($result) {
 			$count = mysqli_num_rows($result);
@@ -93,6 +104,8 @@ class costs {
 		} else {
 			$this->output->error("Failed to get record count in table costs!");
 		}
+
+		return $count;
 	}
 }
 

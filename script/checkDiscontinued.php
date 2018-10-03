@@ -16,7 +16,7 @@ if (isset($argv[1]) && isset($argv[2]) && isset($argv[3])) {
 			if (!empty($sku)) {
 				$status->log_status("Checking $sku...");
 				list($code, $item_no) = explode("-", $sku, 2);
-				$result = $dis->check($code, $item_no);
+				$result = $dis->check($code, $item_no) ? "$sku\tDiscontinued" . PHP_EOL : "$sku\tActive" . PHP_EOL;
 				fwrite($output, $result);
 			}
 		}
