@@ -1,6 +1,6 @@
 <?
-require_once("class/discontinued.php");
-$dis = new discontinued();
+require_once("class/costs.php");
+$costs = new costs();
 $status = new debugger();
 
 if (isset($argv[1]) && isset($argv[2]) && isset($argv[3])) {
@@ -12,14 +12,15 @@ if (isset($argv[1]) && isset($argv[2]) && isset($argv[3])) {
 	$output = fopen($outputFile, "a+");
 	if ($input && $output) {
 		while(!feof($input)) {
-			$sku = trim(fgets($input));
-			if (!empty($sku)) {
-				$status->log_status("Checking $sku...");
+			$line = trim(fgets($input));
+			if (!empty($line)) {
+				$status->log_status("Inserting $line...");
+				list($sku, $new_cost, $unit) = explode("\t", $line);
 				list($code, $item_no) = explode("-", $sku, 2);
-				if ($dis->check($code, $item_no)) { 
-					$result = "$sku\tDiscontinued" . PHP_EOL;
+				if ($costs->insert($code, $item_no, $new_cost, $unit)) { 
+					$result = "$sku\tOK" . PHP_EOL;
 				} else {
-					$result = "$sku\tActive" . PHP_EOL;
+					$result = "$sku\tFail" . PHP_EOL;
 				}
 				fwrite($output, $result);
 			}

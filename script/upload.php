@@ -13,6 +13,9 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_FILES["file"]) && isset($_POS
 	if ($output == "File uploaded!") {
 		$task = $_POST["task"];
 		switch($task) {
+			case "insert_costs":
+				$script = SCRIPT_ROOT . "insertCosts.php";
+				break;
 			case "check_costs":
 				$script = SCRIPT_ROOT . "checkCosts.php";
 				break;
