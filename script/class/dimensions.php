@@ -1,16 +1,19 @@
 <?
 /* Initialization */
 require_once("database.php");
+require_once("set_list.php");
 
 class dimensions {
 	private $db;
 	private $output;
+	private $set_list;
 
 	public function __construct() {
 		$this->output = new debugger;
 		$this->db = new database;
 		$this->db->connect(DB_SERVER, DB_USER, DB_PASS, DATABASE);
 		mysqli_set_charset($this->db->getConnection(), "utf8");
+		$this->set_list = new set_list();
 	}
 
 	public function insert($code, $item_no, $length, $width, $height, $weight) {
@@ -64,15 +67,34 @@ class dimensions {
 
 	public function get_weight($code, $item_no) {
 		$weight = -1;
-		$result = $this->db->query("SELECT ship_weight FROM dimensions WHERE code = '$code' AND item_no = '$item_no'");
-		if (mysqli_num_rows($result) > 0) {
-			$row = mysqli_fetch_array($result);
-			$weight = $row["ship_weight"];
-			$this->output->info("Item: $item_no, Code: $code has weight $weight!");
+		if ($this->set_list->check($code, $item_no)) {
+			$total = 0;
+			$set = $this->set_list->get_set($code, $item_no);
+			for ($i = 0; $i < count($set); $i++) {
+				$item_no = $set[$i];
+				$result = $this->db->query("SELECT ship_weight FROM dimensions WHERE code = '$code' AND item_no = '$item_no'");
+				if (mysqli_num_rows($result) > 0) {
+					$row = mysqli_fetch_array($result);
+					$weight = $row["ship_weight"];
+					$total += $weight;
+					$this->output->info("Item: $item_no, Code: $code has weight $weight!");
+				} else {
+					$this->output->info("Item: $item_no, Code: $code weight not found!");
+				}
+			}
+
+			return $total;
 		} else {
-			$this->output->info("Item: $item_no, Code: $code weight not found!");
+			$result = $this->db->query("SELECT ship_weight FROM dimensions WHERE code = '$code' AND item_no = '$item_no'");
+			if (mysqli_num_rows($result) > 0) {
+				$row = mysqli_fetch_array($result);
+				$weight = $row["ship_weight"];
+				$this->output->info("Item: $item_no, Code: $code has weight $weight!");
+			} else {
+				$this->output->info("Item: $item_no, Code: $code weight not found!");
+			}
+			return $weight;
 		}
-		return $weight;
 	}
 
 	public function truncate_table() {

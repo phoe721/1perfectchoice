@@ -19,6 +19,12 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_FILES["file"]) && isset($_POS
 			case "check_costs":
 				$script = SCRIPT_ROOT . "checkCosts.php";
 				break;
+			case "check_dimensions":
+				$script = SCRIPT_ROOT . "checkDimensions.php";
+				break;
+			case "check_weights":
+				$script = SCRIPT_ROOT . "checkWeights.php";
+				break;
 			case "check_discontinued":
 				$script = SCRIPT_ROOT . "checkDiscontinued.php";
 				break;

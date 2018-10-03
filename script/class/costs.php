@@ -50,13 +50,13 @@ class costs {
 	}
 
 	public function get_cost($code, $item_no) {
-		$cost = 0;
-		$total = 0;
+		$cost = -1;
 		if ($this->set_list->check($code, $item_no)) {
+			$total = 0;
 			$set = $this->set_list->get_set($code, $item_no);
 			for ($i = 0; $i < count($set); $i++) {
 				$item_no = $set[$i];
-				$result = $this->db->query("select cost from costs where code = '$code' and item_no = '$item_no'");
+				$result = $this->db->query("SELECT cost FROM costs WHERE code = '$code' AND item_no = '$item_no'");
 				if (mysqli_num_rows($result) > 0) {
 					$row = mysqli_fetch_array($result);
 					$cost = $row['cost'];
@@ -69,7 +69,7 @@ class costs {
 
 			return $total;
 		} else {
-			$result = $this->db->query("select cost from costs where code = '$code' and item_no = '$item_no'");
+			$result = $this->db->query("SELECT cost FROM costs WHERE code = '$code' AND item_no = '$item_no'");
 			if (mysqli_num_rows($result) > 0) {
 				$row = mysqli_fetch_array($result);
 				$cost = $row['cost'];
