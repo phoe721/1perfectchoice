@@ -10,7 +10,6 @@ class stop_watch {
 
 	public function __construct() {
 		$this->output = new debugger;
-		$this->db = new database;
 	}
 
 	public function stop_watch_start() {
