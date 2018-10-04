@@ -1,7 +1,5 @@
 <?
-require_once("class/vendors.php");
 require_once("class/costs.php");
-$vendors = new vendors();
 $costs = new costs();
 $status = new debugger();
 
@@ -17,13 +15,16 @@ if (isset($argv[1]) && isset($argv[2]) && isset($argv[3])) {
 			$sku = trim(fgets($input));
 			if (!empty($sku)) {
 				$status->log_status("Checking $sku...");
-				list($code, $item_no) = explode("-", $sku, 2);
-				if ($vendors->check($code)) {
+				if (preg_match('/^[A-Z]+-[A-Z0-9]+$/', $sku)) {
+					list($code, $item_no) = explode("-", $sku, 2);
 					$cost = $costs->get_cost($code, $item_no);
 					$unit = $costs->get_unit($code, $item_no);
 					$result = "$sku\t$cost\t$unit" . PHP_EOL;
-					fwrite($output, $result);
+				} else {
+					$status->info("Invalid SKU: $sku");
+					$result = "$sku\t-\t-" . PHP_EOL;
 				}
+				fwrite($output, $result);
 			}
 		}
 	}
@@ -36,10 +37,7 @@ if (isset($argv[1]) && isset($argv[2]) && isset($argv[3])) {
 if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["sku"])) { 
 	$sku = $_POST["sku"];
 	list($code, $item_no) = explode("-", $sku, 2);
-	if ($vendors->check($code)) {
-		$costs->get_cost($code, $item_no);
-		$costs->get_unit($code, $item_no);
-	}
-
+	$costs->get_cost($code, $item_no);
+	$costs->get_unit($code, $item_no);
 }
 ?>
