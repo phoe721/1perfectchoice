@@ -1,10 +1,11 @@
 $(document).ready(function() {	
+	// Form validator
 	jQuery.validator.setDefaults({
 	    debug: false,
 	    success: 'valid'
 	});
-	
-	
+
+	// Form 1	
 	var form = $('#form');
 	form.validate({
 	    rules: {
@@ -13,7 +14,8 @@ $(document).ready(function() {
 	        }
 	    }
 	});
-	
+
+	// Form 2	
 	var form2 = $('#form2');
 	form2.validate({
 	    rules: {
@@ -25,7 +27,8 @@ $(document).ready(function() {
 
 	// Hide this button until upload
 	$('#run').hide();
-	
+
+	// Get UID	
 	$.post('script/getUID.php', {getUID: 'yes'}, function(id) {
 		if (typeof id != 'undefined') {
 			$('#uid').val(id);
@@ -33,17 +36,25 @@ $(document).ready(function() {
 			console.log('Unable to get ID for this process!');
 		}
 	});
-	
+
+	// Validate file	
 	$('#file').change(function() {
 	    if (!form.valid()) {
 	        console.log('Invalid File!');
 	    }
 	});
-	
+
+	// Run queue	
 	$('#run').click(function() {
 		$.post('script/runQueue.php');
 	});
 
+	// Reset button
+	$('#reset').click(function() {
+		location.reload();
+	});
+
+	// Check button
 	$('#check').click(function() {
 		if (form2.valid()) {
 			var sku = $('#sku').val();
@@ -56,6 +67,7 @@ $(document).ready(function() {
 		}
 	});	
 
+	// Upload button
 	$('#upload').click(function() {
 		if (form.valid()) {
 			$f1 = $('#file');
