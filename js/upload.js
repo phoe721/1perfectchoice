@@ -10,7 +10,8 @@ $(document).ready(function() {
 	form.validate({
 	    rules: {
 	        sku: {
-	            required: true
+	            required: true,
+				pattern: /^[A-Z]+-[A-Z0-9]+$/
 	        }
 	    }
 	});
