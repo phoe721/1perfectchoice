@@ -16,36 +16,34 @@ class inventory {
 		$this->set_list = new set_list;
 	}
 
-	public function get_inventory($sku) {
-		list($code, $item_no) = explode("-", $sku, 2);
-		$is_set = $this->set_list->check($code, $item_no);
-		if ($is_set) {
-			$set = $this->set_list->get_set($code, $item_no);
+	public function get_inventory($code, $item) {
+		if ($this->set_list->check($code, $item)) {
+			$set = $this->set_list->get_set($code, $item);
 			$qty_list = array();
-			foreach ($set as $item) {
-				$result = $this->db->query("SELECT inventory FROM inventory WHERE code = '$code' AND item_no = '$item'");
-				if ($result) {
+			foreach ($set as $item_no) {
+				$result = $this->db->query("SELECT qty FROM inventory WHERE code = '$code' AND item_no = '$item_no'");
+				if (mysqli_num_rows($result) > 0) {
 					$row = mysqli_fetch_array($result);
-					$qty = $row['inventory'];
+					$qty = $row['qty'];
 					array_push($qty_list, $qty);
-					$this->output->info("Item: $item has inventory $qty!");
+					$this->output->info("Item: $item_no, code: $code has inventory $qty!");
 				} else {
-					$this->output->error("Failed to find inventory for $item!");
+					$this->output->info("Item: $item_no, code: $code inventory not found!");
 				}
 			}
 
 			$min = min($qty_list);
-			$this->output->info("SKU: $sku has inventory $min!");
+			$this->output->info("Item: $item, code: $code has inventory $min!");
 			return $min;
 		} else {
 			$qty = -1;
-			$result = $this->db->query("SELECT inventory FROM inventory WHERE code = '$code' AND item_no = '$item_no'");
-			if ($result) {
+			$result = $this->db->query("SELECT qty FROM inventory WHERE code = '$code' AND item_no = '$item_no'");
+			if (mysqli_num_rows($result) > 0) {
 				$row = mysqli_fetch_array($result);
-				$qty = $row['inventory'];
-				$this->output->info("SKU: $sku has inventory $qty!");
+				$qty = $row['qty'];
+				$this->output->info("Item: $item_no, code: $code has inventory $qty!");
 			} else {
-				$this->output->error("Failed to find inventory for $sku!");
+				$this->output->info("Item: $item_no, code: $code inventory not found!");
 			}
 
 			return $qty;

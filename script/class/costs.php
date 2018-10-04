@@ -49,11 +49,11 @@ class costs {
 		}
 	}
 
-	public function get_cost($code, $item_no) {
+	public function get_cost($code, $item) {
 		$cost = -1;
-		if ($this->set_list->check($code, $item_no)) {
+		if ($this->set_list->check($code, $item)) {
 			$total = 0;
-			$set = $this->set_list->get_set($code, $item_no);
+			$set = $this->set_list->get_set($code, $item);
 			for ($i = 0; $i < count($set); $i++) {
 				$item_no = $set[$i];
 				$result = $this->db->query("SELECT cost FROM costs WHERE code = '$code' AND item_no = '$item_no'");
@@ -67,6 +67,7 @@ class costs {
 				}
 			}
 
+			$this->output->info("Item: $item, code: $code has total costs $total!");
 			return $total;
 		} else {
 			$result = $this->db->query("SELECT cost FROM costs WHERE code = '$code' AND item_no = '$item_no'");
