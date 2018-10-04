@@ -22,7 +22,7 @@ class costs {
 			$this->output->info("Item: $item_no, Code: $code with $cost per unit and $unit per box has been inserted successfully!");
 			return true;
 		} else {
-			$this->output->error("Failed to insert $item_no!");
+			$this->output->info("Failed to insert $item_no!");
 			return false;
 		}
 	}
@@ -61,9 +61,9 @@ class costs {
 					$row = mysqli_fetch_array($result);
 					$cost = $row['cost'];
 					$total += $cost;
-					$this->output->info("item: $item_no, code: $code costs $cost!");
+					$this->output->info("Item: $item_no, code: $code costs $cost!");
 				} else {
-					$this->output->info("item: $item_no, code: $code cost not found!");
+					$this->output->info("Item: $item_no, code: $code cost not found!");
 				}
 			}
 
@@ -73,9 +73,9 @@ class costs {
 			if (mysqli_num_rows($result) > 0) {
 				$row = mysqli_fetch_array($result);
 				$cost = $row['cost'];
-				$this->output->info("item: $item_no, code: $code costs $cost!");
+				$this->output->info("Item: $item_no, code: $code costs $cost!");
 			} else {
-				$this->output->info("item: $item_no, code: $code cost not found!");
+				$this->output->info("Item: $item_no, code: $code cost not found!");
 			}
 
 			return $cost;

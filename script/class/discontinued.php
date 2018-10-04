@@ -19,7 +19,7 @@ class discontinued {
 			$this->output->info("Item: $item_no, Code: $code has been inserted successfully!");
 			return true;
 		} else {
-			$this->output->error("Failed to insert $item_no!");
+			$this->output->info("Failed to insert $item_no!");
 			return false;
 		}
 	}
