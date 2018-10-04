@@ -34,18 +34,6 @@ class vendors {
 		}
 	}
 
-	public function separate($sku) {
-		if (preg_match('/[A-Z]+-[A-Z0-9]/', $sku)) {
-			$pieces = explode("-", $sku, 2);
-			$code = $pieces[0];
-			$item_no = $pieces[1];
-			return array($code, $item_no);
-		} else {
-			$this->output->info("Not a valid SKU: $sku!");
-			return false;
-		}
-	}
-
 	public function get_name($code) {
 		$result = $this->db->query("SELECT name FROM vendors WHERE code = '$code'");
 		if (mysqli_num_rows($result) > 0) {
