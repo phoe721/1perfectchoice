@@ -70,13 +70,13 @@ class costs {
 			$this->output->info("Item: $item, code: $code has total costs $total!");
 			return $total;
 		} else {
-			$result = $this->db->query("SELECT cost FROM costs WHERE code = '$code' AND item_no = '$item_no'");
+			$result = $this->db->query("SELECT cost FROM costs WHERE code = '$code' AND item_no = '$item'");
 			if (mysqli_num_rows($result) > 0) {
 				$row = mysqli_fetch_array($result);
 				$cost = $row['cost'];
-				$this->output->info("Item: $item_no, code: $code costs $cost!");
+				$this->output->info("Item: $item, code: $code costs $cost!");
 			} else {
-				$this->output->info("Item: $item_no, code: $code cost not found!");
+				$this->output->info("Item: $item, code: $code cost not found!");
 			}
 
 			return $cost;

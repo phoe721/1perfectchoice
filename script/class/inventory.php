@@ -37,13 +37,13 @@ class inventory {
 			return $min;
 		} else {
 			$qty = -1;
-			$result = $this->db->query("SELECT qty FROM inventory WHERE code = '$code' AND item_no = '$item_no'");
+			$result = $this->db->query("SELECT qty FROM inventory WHERE code = '$code' AND item_no = '$item'");
 			if (mysqli_num_rows($result) > 0) {
 				$row = mysqli_fetch_array($result);
 				$qty = $row['qty'];
-				$this->output->info("Item: $item_no, code: $code has inventory $qty!");
+				$this->output->info("Item: $item, code: $code has inventory $qty!");
 			} else {
-				$this->output->info("Item: $item_no, code: $code inventory not found!");
+				$this->output->info("Item: $item, code: $code inventory not found!");
 			}
 
 			return $qty;
