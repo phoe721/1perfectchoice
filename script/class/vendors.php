@@ -34,13 +34,14 @@ class vendors {
 		}
 	}
 
-	public function get_code($sku) {
-		$pieces = explode("-", $sku);
-		$code = $pieces[0];
-		if ($this->check($code)) {
-			return $code;
+	public function separate($sku) {
+		if (preg_match('/[A-Z]+-[A-Z0-9]/', $sku)) {
+			$pieces = explode("-", $sku, 2);
+			$code = $pieces[0];
+			$item_no = $pieces[1];
+			return array($code, $item_no);
 		} else {
-			$this->output->info("Code: $code is not a valid vendor code!");
+			$this->output->info("Not a valid SKU: $sku!");
 			return false;
 		}
 	}

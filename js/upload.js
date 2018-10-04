@@ -59,7 +59,6 @@ $(document).ready(function() {
 		if (form.valid()) {
 			var sku = $('#sku').val();
 			var script = 'script/' + $('#task').val() + '.php';
-			console.log(script);
 			$.post(script, {sku: sku})
 		   	.done(function(output) {
 				$('#output').append(output + '<br>');
