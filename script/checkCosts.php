@@ -17,7 +17,8 @@ if (isset($argv[1]) && isset($argv[2]) && isset($argv[3])) {
 				$status->log_status("Checking $sku...");
 				list($code, $item_no) = explode("-", $sku, 2);
 				$cost = $costs->get_cost($code, $item_no);
-				$result = "$sku\t$cost" . PHP_EOL;
+				$unit = $costs->get_unit($code, $item_no);
+				$result = "$sku\t$cost\t$unit" . PHP_EOL;
 				fwrite($output, $result);
 			}
 		}
@@ -32,5 +33,6 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["sku"])) {
 	$sku = $_POST["sku"];
 	list($code, $item_no) = explode("-", $sku, 2);
 	$costs->get_cost($code, $item_no);
+	$costs->get_unit($code, $item_no);
 }
 ?>
