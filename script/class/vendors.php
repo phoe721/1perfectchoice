@@ -17,8 +17,10 @@ class vendors {
 		$result = $this->db->query("INSERT INTO vendors (code, name) VALUES ('$code', '$name')");
 		if ($result) {
 			$this->output->info("Vendor name: $name, Code: $code has been inserted successfully!");
+			return true;
 		} else {
-			$this->output->error("Failed to insert vendor!");
+			$this->output->info("Failed to insert vendor!");
+			return false;
 		}
 	}
 	
@@ -27,7 +29,7 @@ class vendors {
 		if (mysqli_num_rows($result) > 0) {
 			return true;
 		} else {
-			$this->output->error("Code: $code is not a valid vendor code!");
+			$this->output->info("Code: $code is not a valid vendor code!");
 			return false;
 		}
 	}
@@ -38,7 +40,7 @@ class vendors {
 		if ($this->check($code)) {
 			return $code;
 		} else {
-			$this->output->error("Code: $code is not a valid vendor code!");
+			$this->output->info("Code: $code is not a valid vendor code!");
 			return false;
 		}
 	}
@@ -50,7 +52,7 @@ class vendors {
 			$name = $row['name'];
 			return $name;
 		} else {
-			$this->output->error("Code: $code is not a valid vendor code!");
+			$this->output->info("Code: $code is not a valid vendor code!");
 			return false;
 		}
 	}
@@ -58,7 +60,7 @@ class vendors {
 	public function truncate_table() {
 		$result = $this->db->query("TRUNCATE TABLE vendors");
 		if ($result) {
-			$this->output->info("Table truncated!");
+			$this->output->notice("Table truncated!");
 		} else {
 			$this->output->error("Failed to truncate!");
 		}
@@ -67,7 +69,7 @@ class vendors {
 	public function update_by_file($filePath) {
 		$result = $this->db->query("LOAD DATA LOCAL INFILE '$filePath' INTO TABLE vendors");
 		if ($result) {
-			$this->output->info("Table updated with $filePath!");
+			$this->output->notice("Table updated with $filePath!");
 		} else {
 			$this->output->error("Failed to update table with $filePath!");
 		}
@@ -77,7 +79,7 @@ class vendors {
 		$result = $this->db->query("SELECT * FROM vendors");
 		if ($result) {
 			$count = mysqli_num_rows($result);
-			$this->output->info("There are $count records in table vendors!");
+			$this->output->notice("There are $count records in table vendors!");
 		} else {
 			$this->output->error("Failed to get record count in table vendors!");
 		}
