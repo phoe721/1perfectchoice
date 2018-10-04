@@ -19,13 +19,18 @@ if (isset($argv[1]) && isset($argv[2]) && isset($argv[3])) {
 			$sku = trim(fgets($input));
 			if (!empty($sku)) {
 				$status->log_status("Checking $sku...");
-				list($code, $item_no) = explode("-", $sku, 2);
-				$cost = $c->get_cost($code, $item_no);
-				list($length, $width, $height) = $d->get_dimensions($code, $item_no);
-				$weight = $d->get_weight($code, $item_no);
-				$ups_cost = $s->getUPSCost($cost, $length, $width, $height, $weight);
-				$trucking_cost = $s->getTruckingCost($weight);
-				$result = "$sku\t$ups_cost\t$trucking_cost" . PHP_EOL;
+				if (preg_match('/^[A-Z]+-[A-Z0-9]+$/', $sku)) {
+					list($code, $item_no) = explode("-", $sku, 2);
+					$cost = $c->get_cost($code, $item_no);
+					list($length, $width, $height) = $d->get_dimensions($code, $item_no);
+					$weight = $d->get_weight($code, $item_no);
+					$ups_cost = $s->getUPSCost($cost, $length, $width, $height, $weight);
+					$trucking_cost = $s->getTruckingCost($weight);
+					$result = "$sku\t$ups_cost\t$trucking_cost" . PHP_EOL;
+				} else {
+					$status->info("Invalid SKU: $sku");
+					$result = "$sku\t-\t-" . PHP_EOL;
+				}
 				fwrite($output, $result);
 			}
 		}

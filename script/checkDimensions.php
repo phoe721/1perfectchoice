@@ -15,9 +15,14 @@ if (isset($argv[1]) && isset($argv[2]) && isset($argv[3])) {
 			$sku = trim(fgets($input));
 			if (!empty($sku)) {
 				$status->log_status("Checking $sku...");
-				list($code, $item_no) = explode("-", $sku, 2);
-				$dimensions = implode("\t", $dim->get_dimensions($code, $item_no));
-				$result = "$sku\t$dimensions" . PHP_EOL;
+				if (preg_match('/^[A-Z]+-[A-Z0-9]+$/', $sku)) {
+					list($code, $item_no) = explode("-", $sku, 2);
+					$dimensions = implode("\t", $dim->get_dimensions($code, $item_no));
+					$result = "$sku\t$dimensions" . PHP_EOL;
+				} else {
+					$status->info("Invalid SKU: $sku");
+					$result = "$sku\t-\t-\t-" . PHP_EOL;
+				}
 				fwrite($output, $result);
 			}
 		}
