@@ -22,6 +22,21 @@
 	<input type="button" id="upload" value="Upload">
 	<input type="button" id="run" value="Run">
 </form>
+<form id="form2"> 
+	<label for="sku">Check SKU:</label>
+	<br>
+	<input type="text" id="sku" name="sku">
+	<select id="task2">
+	<option value="checkCosts">Check Costs</option>
+	<option value="checkShipping">Check Shipping</option>
+	<option value="checkDimensions">Check Dimensions</option>
+	<option value="checkWeights">Check Weights</option>
+	<option value="checkDiscontinued">Check Discontinued</option>
+	<option value="checkInventory">Check Inventory</option>
+	<option value="getCategory">Get Category</option>
+	</select>
+	<input type="button" id="check" value="Check">
+</form>
 <div id="output"></div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.3/jquery.min.js"></script>
 <script src="http://cdn.jsdelivr.net/jquery.validation/1.15.0/jquery.validate.min.js"></script>

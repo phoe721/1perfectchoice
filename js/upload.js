@@ -14,6 +14,15 @@ $(document).ready(function() {
 	    }
 	});
 	
+	var form2 = $('#form2');
+	form2.validate({
+	    rules: {
+	        sku: {
+	            required: true
+	        }
+	    }
+	});
+
 	// Hide this button until upload
 	$('#run').hide();
 	
@@ -34,7 +43,19 @@ $(document).ready(function() {
 	$('#run').click(function() {
 		$.post('script/runQueue.php');
 	});
-	
+
+	$('#check').click(function() {
+		if (form2.valid()) {
+			var sku = $('#sku').val();
+			var script = 'script/' + $('#task2').val() + '.php';
+			console.log(script);
+			$.post(script, {sku: sku})
+		   	.done(function(output) {
+				$('#output').append(output + '<br>');
+			});
+		}
+	});	
+
 	$('#upload').click(function() {
 		if (form.valid()) {
 			$f1 = $('#file');
