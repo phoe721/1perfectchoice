@@ -15,7 +15,7 @@ if (isset($argv[1]) && isset($argv[2]) && isset($argv[3])) {
 			$sku = trim(fgets($input));
 			if (!empty($sku)) {
 				$status->log_status("Checking $sku...");
-				if (preg_match('/^[A-Z]+-[A-Z0-9]+$/', $sku)) {
+				if (preg_match('/^[A-Z]+-[A-Z0-9-]+$/', $sku)) {
 					list($code, $item_no) = explode("-", $sku, 2);
 					$cost = $costs->get_cost($code, $item_no);
 					$unit = $costs->get_unit($code, $item_no);
