@@ -30,4 +30,10 @@ if (isset($argv[1]) && isset($argv[2]) && isset($argv[3])) {
 	fclose($input);
 	fclose($output);
 }
+
+if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["sku"])) { 
+	$sku = $_POST["sku"];
+	list($code, $item_no) = explode("-", $sku, 2);
+	$dis->check($code, $item_no);
+}
 ?>

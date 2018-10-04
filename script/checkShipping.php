@@ -35,4 +35,14 @@ if (isset($argv[1]) && isset($argv[2]) && isset($argv[3])) {
 	fclose($input);
 	fclose($output);
 }
+
+if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["sku"])) { 
+	$sku = $_POST["sku"];
+	list($code, $item_no) = explode("-", $sku, 2);
+	$cost = $c->get_cost($code, $item_no);
+	list($length, $width, $height) = $d->get_dimensions($code, $item_no);
+	$weight = $d->get_weight($code, $item_no);
+	$ups_cost = $s->getUPSCost($cost, $length, $width, $height, $weight);
+	$trucking_cost = $s->getTruckingCost($weight);
+}
 ?>
