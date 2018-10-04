@@ -3,10 +3,29 @@
 <link rel="stylesheet" href="css/upload.css">
 </head>
 <body>
+<div id="box1">
 <form id="form"> 
+	<label for="sku">Check SKU:</label>
+	<br>
+	<input type="text" id="sku" name="sku">
+	<select id="task">
+	<option value="checkCosts">Check Costs</option>
+	<option value="checkShipping">Check Shipping</option>
+	<option value="checkDimensions">Check Dimensions</option>
+	<option value="checkWeights">Check Weights</option>
+	<option value="checkDiscontinued">Check Discontinued</option>
+	<option value="checkInventory">Check Inventory</option>
+	</select>
+	<input type="button" id="check" value="Check">
+	<input type="button" id="reset2" value="Reset">
+</form>
+<div id="output"></div>
+</div>
+<div id="box2">
+<form id="form2"> 
 	<label for="file">Upload files to server</label>
 	<br>
-	<select id="task">
+	<select id="task2">
 	<option value="checkCosts">Check Costs</option>
 	<option value="checkShipping">Check Shipping</option>
 	<option value="checkDimensions">Check Dimensions</option>
@@ -21,23 +40,10 @@
 	<input type="hidden" id="uid" name="uid">
 	<input type="button" id="upload" value="Upload">
 	<input type="button" id="run" value="Run">
-</form>
-<form id="form2"> 
-	<label for="sku">Check SKU:</label>
-	<br>
-	<input type="text" id="sku" name="sku">
-	<select id="task2">
-	<option value="checkCosts">Check Costs</option>
-	<option value="checkShipping">Check Shipping</option>
-	<option value="checkDimensions">Check Dimensions</option>
-	<option value="checkWeights">Check Weights</option>
-	<option value="checkDiscontinued">Check Discontinued</option>
-	<option value="checkInventory">Check Inventory</option>
-	</select>
-	<input type="button" id="check" value="Check">
 	<input type="button" id="reset" value="Reset">
 </form>
-<div id="output"></div>
+<div id="output2"></div>
+</div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.3/jquery.min.js"></script>
 <script src="http://cdn.jsdelivr.net/jquery.validation/1.15.0/jquery.validate.min.js"></script>
 <script src="http://cdn.jsdelivr.net/jquery.validation/1.15.0/additional-methods.min.js"></script>

@@ -9,7 +9,7 @@ $(document).ready(function() {
 	var form = $('#form');
 	form.validate({
 	    rules: {
-	        file: {
+	        sku: {
 	            required: true
 	        }
 	    }
@@ -19,14 +19,14 @@ $(document).ready(function() {
 	var form2 = $('#form2');
 	form2.validate({
 	    rules: {
-	        sku: {
+	        file: {
 	            required: true
 	        }
 	    }
 	});
 
-	// Hide this button until upload
-	$('#run').hide();
+	// Disable this button until upload
+	$('#run').attr("disabled", true);
 
 	// Get UID	
 	$.post('script/getUID.php', {getUID: 'yes'}, function(id) {
@@ -39,7 +39,7 @@ $(document).ready(function() {
 
 	// Validate file	
 	$('#file').change(function() {
-	    if (!form.valid()) {
+	    if (!form2.valid()) {
 	        console.log('Invalid File!');
 	    }
 	});
@@ -49,16 +49,16 @@ $(document).ready(function() {
 		$.post('script/runQueue.php');
 	});
 
-	// Reset button
-	$('#reset').click(function() {
+	// Reset buttons
+	$('#reset, #reset2').click(function() {
 		location.reload();
 	});
 
 	// Check button
 	$('#check').click(function() {
-		if (form2.valid()) {
+		if (form.valid()) {
 			var sku = $('#sku').val();
-			var script = 'script/' + $('#task2').val() + '.php';
+			var script = 'script/' + $('#task').val() + '.php';
 			console.log(script);
 			$.post(script, {sku: sku})
 		   	.done(function(output) {
@@ -69,10 +69,10 @@ $(document).ready(function() {
 
 	// Upload button
 	$('#upload').click(function() {
-		if (form.valid()) {
+		if (form2.valid()) {
 			$f1 = $('#file');
 			var uid = $('#uid').val();
-			var task = $('#task').val();
+			var task = $('#task2').val();
 			var formData = new FormData();
 			formData.append('uid', uid);
 			formData.append('task', task);
@@ -87,12 +87,12 @@ $(document).ready(function() {
 				processData: false,
 				dataType: 'json',
 				success: function(output) {
-					$('#output').append(output + '<br>');
+					$('#output2').append(output + '<br>');
 				}
 			});
 	
-			// Show run button
-			$('#run').show();
+			// Enable run button
+			$('#run').attr("disabled", false);
 	
 			// Wait for result
 			var time = 10000;
@@ -101,11 +101,11 @@ $(document).ready(function() {
 				$.post('script/getStatus.php', {uid: uid}, function(result) { 
 					cur = result.status;
 					if (cur.match(/Done/)) {
-						$('#output').html('').append(result.status + '<br>');
-				    	$('#output').append('<a href="' + result.link + '" target="_blank" download>result.txt</a><br>');
+						$('#output2').html('').append(result.status + ' ');
+				    	$('#output2').append('<a href="' + result.link + '" target="_blank" download>result.txt</a><br>');
 						clearInterval(check);
 					} else if (prev != cur) {
-						$('#output').append(result.status + '<br>');
+						$('#output2').append(result.status + '<br>');
 						prev = cur;
 					}
 				}, 'json');
