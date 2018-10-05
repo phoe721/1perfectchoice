@@ -72,7 +72,7 @@ class dimensions {
 	}
 
 	public function get_weight($code, $item_no) {
-		$weight = -1;
+		$weight = 0;
 		if ($this->set_list->check($code, $item_no)) {
 			$total = 0;
 			$set = $this->set_list->get_set($code, $item_no);
