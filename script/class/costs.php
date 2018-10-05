@@ -50,7 +50,7 @@ class costs {
 	}
 
 	public function get_cost($code, $item) {
-		$cost = -1;
+		$cost = 0;
 		if ($this->set_list->check($code, $item)) {
 			$total = 0;
 			$set = $this->set_list->get_set($code, $item);
