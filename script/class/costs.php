@@ -94,15 +94,11 @@ class costs {
 				if (mysqli_num_rows($result) > 0) {
 					$row = mysqli_fetch_array($result);
 					$unit = $row['unit'];
-					$total += $unit;
 					$this->output->info("Item: $item_no, Code: $code has $unit unit per box!");
 				} else {
 					$this->output->info("Item: $item_no, Code: $code unit per box not found!");
 				}
 			}
-
-			$this->output->info("Item: $item, code: $code has total units $total!");
-			return $total;
 		} else {
 			$result = $this->db->query("SELECT unit FROM costs WHERE code = '$code' AND item_no = '$item'");
 			if (mysqli_num_rows($result) > 0) {
@@ -112,9 +108,9 @@ class costs {
 			} else {
 				$this->output->info("Item: $item, Code: $code unit per box not found!");
 			}
-
-			return $unit;
 		}
+
+		return $unit;
 	}
 
 	public function truncate_table() {

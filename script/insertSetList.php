@@ -17,7 +17,7 @@ if (isset($argv[1]) && isset($argv[2]) && isset($argv[3])) {
 				$status->log_status("Checking $line...");
 				list($sku, $item1, $item2, $item3, $item4, $item5, $item6, $item7, $item8, $item9, $item10) = explode("\t", $line);
 				if (preg_match('/^[A-Z]+-[A-Z0-9-]+$/', $sku)) {
-					list($code, $item_no) = explode("-", $sku);
+					list($code, $item_no) = explode("-", $sku, 2);
 					if ($set_list->insert($code, $item_no, $item1, $item2, $item3, $item4, $item5, $item6, $item7, $item8, $item9, $item10)) { 
 						$result = "$sku\tOK" . PHP_EOL;
 					} else {
