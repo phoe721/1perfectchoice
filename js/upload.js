@@ -87,7 +87,7 @@ $(document).ready(function() {
 				processData: false,
 				dataType: 'json',
 				success: function(output) {
-					$('#output2').append(output + '<br>');
+					$('#output').append(output + '<br>');
 				}
 			});
 	
@@ -101,11 +101,11 @@ $(document).ready(function() {
 				$.post('script/getStatus.php', {uid: uid}, function(result) { 
 					cur = result.status;
 					if (cur.match(/Done/)) {
-						$('#output2').html('').append(result.status + ' ');
-				    	$('#output2').append('<a href="' + result.link + '" target="_blank" download>result.txt</a><br>');
+						$('#output').html('').append(result.status + ' ');
+				    	$('#output').append('<a href="' + result.link + '" target="_blank" download>result.txt</a><br>');
 						clearInterval(check);
 					} else if (prev != cur) {
-						$('#output2').append(result.status + '<br>');
+						$('#output').append(result.status + '<br>');
 						prev = cur;
 					}
 				}, 'json');

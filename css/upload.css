@@ -1,9 +1,6 @@
 div#box1, div#box2 {
-	border: 1px solid black;
 	margin: 10px;
-	padding: 10px;
 	width: 550px;
-	height: 100px;
 }
 label {
     float: left;
