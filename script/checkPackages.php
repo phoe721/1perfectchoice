@@ -17,11 +17,12 @@ if (isset($argv[1]) && isset($argv[2]) && isset($argv[3])) {
 				$status->log_status("Checking $sku...");
 				if (preg_match('/^[A-Z]+-[A-Z0-9-]+$/', $sku)) {
 					list($code, $item_no) = explode("-", $sku, 2);
+					$weight = $pg->get_weight($code, $item_no);
 					$dimensions = implode("\t", $pg->get_dimensions($code, $item_no));
-					$result = "$sku\t$dimensions" . PHP_EOL;
+					$result = "$sku\t$weight\t$dimensions" . PHP_EOL;
 				} else {
 					$status->info("Invalid SKU: $sku");
-					$result = "$sku\t-\t-\t-" . PHP_EOL;
+					$result = "$sku\t-\t-\t-\t-" . PHP_EOL;
 				}
 				fwrite($output, $result);
 			}
@@ -36,8 +37,10 @@ if (isset($argv[1]) && isset($argv[2]) && isset($argv[3])) {
 if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["sku"])) { 
 	$sku = $_POST["sku"];
 	list($code, $item_no) = explode("-", $sku, 2);
-	$dimensions = implode(" x ", $pg->get_dimensions($code, $item_no));
-	$result = "$sku has dimensions $dimensions!";
+	$weight = $pg->get_weight($code, $item_no);
+	$dimensions = $pg->get_dimensions($code, $item_no);
+	$dim_str = implode(" x ", $dimensions);
+	$result = "$sku is $weight lbs and has dimensions $dim_str!";
 
 	echo json_encode($result);
 }
