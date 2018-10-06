@@ -49,7 +49,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["sku"])) {
 	$weight = $d->get_weight($code, $item_no);
 	$ups_cost = $s->getUPSCost($cost, $length, $width, $height, $weight);
 	$trucking_cost = $s->getTruckingCost($weight);
-	$result = "SKU: $sku, UPS cost: $ups_cost, Trucking cost: $trucking_cost";
+	$result = "$sku: UPS cost $ups_cost, Trucking cost $trucking_cost!";
 
 	echo json_encode($result);
 }

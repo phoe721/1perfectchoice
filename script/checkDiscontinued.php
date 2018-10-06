@@ -40,9 +40,9 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["sku"])) {
 	$sku = $_POST["sku"];
 	list($code, $item_no) = explode("-", $sku, 2);
 	if ($dis->check($code, $item_no)) { 
-		$result = "$sku\tDiscontinued" . PHP_EOL;
+		$result = "$sku is discontinued!";
 	} else {
-		$result = "$sku\tActive" . PHP_EOL;
+		$result = "$sku is Active!";
 	}
 
 	echo json_encode($result);

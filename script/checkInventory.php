@@ -37,7 +37,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["sku"])) {
 	$sku = $_POST["sku"];
 	list($code, $item_no) = explode("-", $sku, 2);
 	$qty = $inventory->get_inventory($code, $item_no);
-	$result = "$sku\t$qty" . PHP_EOL;
+	$result = "$sku has $qty!";
 
 	echo json_encode($result);
 }
