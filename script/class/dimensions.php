@@ -59,16 +59,31 @@ class dimensions {
 
 	public function get_dimensions($code, $item_no) {
 		$dim = array();
-		$result = $this->db->query("SELECT ship_length, ship_width, ship_height FROM dimensions WHERE code = '$code' AND item_no = '$item_no'");
-		if (mysqli_num_rows($result) > 0) {
-			$row = mysqli_fetch_array($result);
-			array_push($dim, $row["ship_length"], $row["ship_width"], $row["ship_height"]);
-			$this->output->notice("Item: $item_no, code: $code dimensions " . $dim[0] . " x " . $dim[1] . " x " . $dim[2] . "!");
-		} else {
-			$this->output->notice("Item: $item_no, code: $code dimensions not found!");
-		}
+		if ($this->set_list->check($code, $item_no)) {
+			$set = $this->set_list->get_set($code, $item_no);
+			$item = $set[0];
+			$result = $this->db->query("SELECT ship_length, ship_width, ship_height FROM dimensions WHERE code = '$code' AND item_no = '$item'");
+			if (mysqli_num_rows($result) > 0) {
+				$row = mysqli_fetch_array($result);
+				array_push($dim, $row["ship_length"], $row["ship_width"], $row["ship_height"]);
+				$this->output->notice("Item: $item_no, code: $code dimensions " . $dim[0] . " x " . $dim[1] . " x " . $dim[2] . "!");
+			} else {
+				$this->output->notice("Item: $item_no, code: $code dimensions not found!");
+			}
 
-		return $dim;
+			return $dim;
+		} else {
+			$result = $this->db->query("SELECT ship_length, ship_width, ship_height FROM dimensions WHERE code = '$code' AND item_no = '$item_no'");
+			if (mysqli_num_rows($result) > 0) {
+				$row = mysqli_fetch_array($result);
+				array_push($dim, $row["ship_length"], $row["ship_width"], $row["ship_height"]);
+				$this->output->notice("Item: $item_no, code: $code dimensions " . $dim[0] . " x " . $dim[1] . " x " . $dim[2] . "!");
+			} else {
+				$this->output->notice("Item: $item_no, code: $code dimensions not found!");
+			}
+	
+			return $dim;
+		}
 	}
 
 	public function get_weight($code, $item_no) {
