@@ -1,10 +1,6 @@
 <?
-require_once("class/costs.php");
 require_once("class/packages.php");
-require_once("class/shipping.php");
-$c = new costs();
-$p = new packages();
-$s = new shipping();
+$pg = new packages();
 $status = new debugger();
 
 if (isset($argv[1]) && isset($argv[2]) && isset($argv[3])) {
@@ -21,15 +17,11 @@ if (isset($argv[1]) && isset($argv[2]) && isset($argv[3])) {
 				$status->log_status("Checking $sku...");
 				if (preg_match('/^[A-Z]+-[A-Z0-9-]+$/', $sku)) {
 					list($code, $item_no) = explode("-", $sku, 2);
-					$cost = $c->get_cost($code, $item_no);
-					list($length, $width, $height) = $p->get_dimensions($code, $item_no);
-					$weight = $p->get_weight($code, $item_no);
-					$ups_cost = $s->getUPSCost($cost, $length, $width, $height, $weight);
-					$trucking_cost = $s->getTruckingCost($weight);
-					$result = "$sku\t$ups_cost\t$trucking_cost" . PHP_EOL;
+					$dimensions = implode("\t", $pg->get_dimensions($code, $item_no));
+					$result = "$sku\t$dimensions" . PHP_EOL;
 				} else {
 					$status->info("Invalid SKU: $sku");
-					$result = "$sku\t-\t-" . PHP_EOL;
+					$result = "$sku\t-\t-\t-" . PHP_EOL;
 				}
 				fwrite($output, $result);
 			}
@@ -44,12 +36,8 @@ if (isset($argv[1]) && isset($argv[2]) && isset($argv[3])) {
 if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["sku"])) { 
 	$sku = $_POST["sku"];
 	list($code, $item_no) = explode("-", $sku, 2);
-	$cost = $c->get_cost($code, $item_no);
-	list($length, $width, $height) = $p->get_dimensions($code, $item_no);
-	$weight = $p->get_weight($code, $item_no);
-	$ups_cost = $s->getUPSCost($cost, $length, $width, $height, $weight);
-	$trucking_cost = $s->getTruckingCost($weight);
-	$result = "$sku: UPS cost $ups_cost, Trucking cost $trucking_cost!";
+	$dimensions = implode(" x ", $pg->get_dimensions($code, $item_no));
+	$result = "$sku has dimensions $dimensions!";
 
 	echo json_encode($result);
 }

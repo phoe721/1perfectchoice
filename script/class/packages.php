@@ -57,7 +57,7 @@ class packages {
 		}
 	}
 
-	public function get_packages($code, $item_no) {
+	public function get_dimensions($code, $item_no) {
 		$dim = array();
 		if ($this->set_list->check($code, $item_no)) {
 			$set = $this->set_list->get_set($code, $item_no);
