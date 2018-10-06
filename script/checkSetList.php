@@ -45,6 +45,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["sku"])) {
 	} else {
 		$result = "$sku is not a set!";
 	}
+
 	echo json_encode($result);
 }
 ?>

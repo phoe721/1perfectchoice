@@ -37,7 +37,10 @@ if (isset($argv[1]) && isset($argv[2]) && isset($argv[3])) {
 if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["sku"])) { 
 	$sku = $_POST["sku"];
 	list($code, $item_no) = explode("-", $sku, 2);
-	$costs->get_cost($code, $item_no);
-	$costs->get_unit($code, $item_no);
+	$cost = $costs->get_cost($code, $item_no);
+	$unit = $costs->get_unit($code, $item_no);
+	$result = "$sku has cost $cost and $unit per box!";
+
+	echo json_encode($result);
 }
 ?>

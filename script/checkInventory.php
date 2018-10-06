@@ -36,6 +36,9 @@ if (isset($argv[1]) && isset($argv[2]) && isset($argv[3])) {
 if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["sku"])) { 
 	$sku = $_POST["sku"];
 	list($code, $item_no) = explode("-", $sku, 2);
-	$inventory->get_inventory($code, $item_no);
+	$qty = $inventory->get_inventory($code, $item_no);
+	$result = "$sku\t$qty" . PHP_EOL;
+
+	echo json_encode($result);
 }
 ?>
