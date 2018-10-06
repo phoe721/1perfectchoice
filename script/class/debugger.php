@@ -3,7 +3,7 @@
 require_once(__DIR__ . "/../init.php");
 
 class debugger {
-	private $loglevel = 0;
+	private $loglevel = 3;
 	private $statusFile;
 
 	public function info($message) {
@@ -15,21 +15,18 @@ class debugger {
 
 	public function notice($message) {
 		if ($this->loglevel >= 1) {
-			echo $message . PHP_EOL;
 			$this->logger("[Notice] $message");
 		}
 	}
 
 	public function warning($message) {
 		if ($this->loglevel >= 2) {
-			echo $message . PHP_EOL;
 			$this->logger("[Warning] $message");
 		}
 	}
 
 	public function error($message) {
 		if ($this->loglevel >= 3) {
-			echo $message . PHP_EOL;
 			$this->logger("[Error] $message");
 		}
 	}

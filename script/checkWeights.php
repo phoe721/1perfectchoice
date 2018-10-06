@@ -37,7 +37,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["sku"])) {
 	$sku = $_POST["sku"];
 	list($code, $item_no) = explode("-", $sku, 2);
 	$weight = $dim->get_weight($code, $item_no);
-	$result = "$sku has $weight!";
+	$result = "$sku is $weight lbs!";
 
 	echo json_encode($result);
 }
