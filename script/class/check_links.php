@@ -13,8 +13,10 @@ class check_links {
 			$check = @fopen($url, "r");
 			if ($check) {
 				$this->output->notice("URL: $url\tOK");
+				return true;
 			} else {
 				$this->output->error("URL: $url\tFail");
+				return false;
 			}
 		}
 	}
