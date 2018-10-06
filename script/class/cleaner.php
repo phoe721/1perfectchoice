@@ -25,16 +25,16 @@ class cleaner {
 				$diff = time() - $mtime;
 				$format = gmdate('H:i:s', $diff);
 	
-	        	$this->output->info("File name: $fileName");
-				$this->output->info("$fileName was last modified: " . date('Y-m-d H:i:s', $mtime));
-				$this->output->info("Current time: " . date('Y-m-d H:i:s', time()));
-				$this->output->info("Difference: $diff seconds, which is $format (hour:minute:second)");
+	        	$this->output->notice("File name: $fileName");
+				$this->output->notice("$fileName was last modified: " . date('Y-m-d H:i:s', $mtime));
+				$this->output->notice("Current time: " . date('Y-m-d H:i:s', time()));
+				$this->output->notice("Difference: $diff seconds, which is $format (hour:minute:second)");
 	
 				if ($this->cleanAll) {
-					if (unlink($filePath)) $this->output->info("$fileName has been deleted");
+					if (unlink($filePath)) $this->output->notice("$fileName has been deleted");
 				} else if ($diff >= ONE_DAY_IN_SECONDS) {
-					$this->output->info("$fileName is over one day old, going to delete this file");
-					if (unlink($filePath)) $this->output->info("$fileName has been deleted");
+					$this->output->notice("$fileName is over one day old, going to delete this file");
+					if (unlink($filePath)) $this->output->notice("$fileName has been deleted");
 				} 
 			}
 	
@@ -48,8 +48,8 @@ class cleaner {
 		foreach ($it as $file) {
 			if (is_dir($file)) {
 				if (iterator_count($it->getChildren()) == 0) {
-					$this->output->info("Empty directory: $file");
-					if (rmdir($file)) $this->output->info("$file has been removed");
+					$this->output->notice("Empty directory: $file");
+					if (rmdir($file)) $this->output->notice("$file has been removed");
 				} else {
 					$this->output->notice("$file is not empty");
 				}

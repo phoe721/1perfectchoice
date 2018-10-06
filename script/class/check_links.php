@@ -12,7 +12,7 @@ class check_links {
 		if (!empty($url)) { 
 			$check = @fopen($url, "r");
 			if ($check) {
-				$this->output->info("URL: $url\tOK");
+				$this->output->notice("URL: $url\tOK");
 			} else {
 				$this->output->error("URL: $url\tFail");
 			}
@@ -29,7 +29,7 @@ class check_links {
 				if (!empty($url)) { 
 					$check = @fopen($url, "r");
 					if ($check) {
-						$this->output->info("URL: $url\tOK");
+						$this->output->notice("URL: $url\tOK");
 						$pass++;
 					} else {
 						$this->output->error("URL: $url\tFail");
@@ -38,7 +38,7 @@ class check_links {
 					$count++;
 				}
 			}
-			$this->output->info("Pass: $pass Fail: $fail Progress: $count / $total");
+			$this->output->notice("Pass: $pass Fail: $fail Progress: $count / $total");
 		} else {
 			$this->output->error("Failed to open $file");
 		}

@@ -14,14 +14,14 @@ class stop_watch {
 
 	public function stop_watch_start() {
 		$this->startTime = microtime(true);
-		$this->output->info("##### Start time: $startTime #####");
+		$this->output->notice("##### Start time: $startTime #####");
 	}
 
 	public function stop_watch_stop() {
 		$this->endTime = microtime(true);
 		$this->duration = $this->endTime - $this->startTime;
 		$this->duration = round($this->duration, 2);
-		$this->output->info("##### End time: $this->endTime #####");
-		$this->output->info("##### Time executed: $this->duration seconds #####");
+		$this->output->notice("##### End time: $this->endTime #####");
+		$this->output->notice("##### Time executed: $this->duration seconds #####");
 	}
 }

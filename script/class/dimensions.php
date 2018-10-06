@@ -20,14 +20,14 @@ class dimensions {
 		if (!$this->exists($code, $item_no)) {
 			$result = $this->db->query("INSERT INTO dimensions (code, item_no, ship_length, ship_width, ship_height, ship_weight) VALUES ('$code', '$item_no', '$length', '$width', '$height', '$wegith')");
 			if ($result) {
-				$this->output->info("Item: $item_no, Code: $code dimensions has been inserted successfully!");
+				$this->output->notice("Item: $item_no, Code: $code dimensions has been inserted successfully!");
 				return true;
 			} else {
-				$this->output->info("Failed to insert $item_no!");
+				$this->output->notice("Failed to insert $item_no!");
 				return false;
 			}
 		} else {
-			$this->output->info("Item: $item_no, Code: $code exists, updating it!");
+			$this->output->notice("Item: $item_no, Code: $code exists, updating it!");
 			return $this->update($code, $item_no, $length, $width, $height, $weight);
 		}
 	}
@@ -36,14 +36,14 @@ class dimensions {
 		if ($this->exists($code, $item_no)) {
 			$result = $this->db->query("UPDATE dimensions SET ship_length = '$length', ship_width = '$width', ship_height = '$height', ship_weight = '$weight' WHERE code = '$code' AND item_no = '$item_no'");
 			if ($result) {
-				$this->output->info("Item: $item_no, Code: $code dimensions has been updated!");
+				$this->output->notice("Item: $item_no, Code: $code dimensions has been updated!");
 				return true;
 			} else {
-				$this->output->info("Item: $item_no, Code: $code failed to update dimensions!");
+				$this->output->notice("Item: $item_no, Code: $code failed to update dimensions!");
 				return false;
 			}
 		} else {
-			$this->output->info("Item: $item_no, Code: $code does not exist! Inserting it!");
+			$this->output->notice("Item: $item_no, Code: $code does not exist! Inserting it!");
 			return $this->insert($code, $item_no, $length, $width, $height, $weight);
 		}
 	}
@@ -63,9 +63,9 @@ class dimensions {
 		if (mysqli_num_rows($result) > 0) {
 			$row = mysqli_fetch_array($result);
 			array_push($dim, $row["ship_length"], $row["ship_width"], $row["ship_height"]);
-			$this->output->info("Item: $item_no, code: $code dimensions " . $dim[0] . " x " . $dim[1] . " x " . $dim[2] . "!");
+			$this->output->notice("Item: $item_no, code: $code dimensions " . $dim[0] . " x " . $dim[1] . " x " . $dim[2] . "!");
 		} else {
-			$this->output->info("Item: $item_no, code: $code dimensions not found!");
+			$this->output->notice("Item: $item_no, code: $code dimensions not found!");
 		}
 
 		return $dim;
@@ -83,9 +83,9 @@ class dimensions {
 					$row = mysqli_fetch_array($result);
 					$weight = $row["ship_weight"];
 					$total += $weight;
-					$this->output->info("Item: $item_no, Code: $code has weight $weight!");
+					$this->output->notice("Item: $item_no, Code: $code has weight $weight!");
 				} else {
-					$this->output->info("Item: $item_no, Code: $code weight not found!");
+					$this->output->notice("Item: $item_no, Code: $code weight not found!");
 				}
 			}
 
@@ -95,9 +95,9 @@ class dimensions {
 			if (mysqli_num_rows($result) > 0) {
 				$row = mysqli_fetch_array($result);
 				$weight = $row["ship_weight"];
-				$this->output->info("Item: $item_no, Code: $code has weight $weight!");
+				$this->output->notice("Item: $item_no, Code: $code has weight $weight!");
 			} else {
-				$this->output->info("Item: $item_no, Code: $code weight not found!");
+				$this->output->notice("Item: $item_no, Code: $code weight not found!");
 			}
 			return $weight;
 		}
@@ -106,7 +106,7 @@ class dimensions {
 	public function truncate_table() {
 		$result = $this->db->query("TRUNCATE TABLE dimensions");
 		if ($result) {
-			$this->output->info("Table truncated!");
+			$this->output->notice("Table truncated!");
 			return true;
 		} else {
 			$this->output->error("Failed to truncate!");
@@ -117,7 +117,7 @@ class dimensions {
 	public function update_by_file($filePath) {
 		$result = $this->db->query("LOAD DATA LOCAL INFILE '$filePath' INTO TABLE dimensions");
 		if ($result) {
-			$this->output->info("Table updated with $filePath!");
+			$this->output->notice("Table updated with $filePath!");
 			return true;
 		} else {
 			$this->output->error("Failed to update table with $filePath!");
@@ -130,7 +130,7 @@ class dimensions {
 		$result = $this->db->query("SELECT * FROM dimensions");
 		if ($result) {
 			$count = mysqli_num_rows($result);
-			$this->output->info("There are $count records in table dimensions!");
+			$this->output->notice("There are $count records in table dimensions!");
 		} else {
 			$this->output->error("Failed to get record count in table dimensions!");
 		}

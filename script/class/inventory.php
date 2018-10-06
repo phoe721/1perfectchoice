@@ -26,14 +26,14 @@ class inventory {
 					$row = mysqli_fetch_array($result);
 					$qty = $row['qty'];
 					array_push($qty_list, $qty);
-					$this->output->info("Item: $item_no, code: $code has inventory $qty!");
+					$this->output->notice("Item: $item_no, code: $code has inventory $qty!");
 				} else {
-					$this->output->info("Item: $item_no, code: $code inventory not found!");
+					$this->output->notice("Item: $item_no, code: $code inventory not found!");
 				}
 			}
 
 			$min = min($qty_list);
-			$this->output->info("Item: $item, code: $code has inventory $min!");
+			$this->output->notice("Item: $item, code: $code has inventory $min!");
 			return $min;
 		} else {
 			$qty = -1;
@@ -41,9 +41,9 @@ class inventory {
 			if (mysqli_num_rows($result) > 0) {
 				$row = mysqli_fetch_array($result);
 				$qty = $row['qty'];
-				$this->output->info("Item: $item, code: $code has inventory $qty!");
+				$this->output->notice("Item: $item, code: $code has inventory $qty!");
 			} else {
-				$this->output->info("Item: $item, code: $code inventory not found!");
+				$this->output->notice("Item: $item, code: $code inventory not found!");
 			}
 
 			return $qty;

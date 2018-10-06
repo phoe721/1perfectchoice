@@ -16,10 +16,10 @@ class vendors {
 	public function insert($code, $name) {
 		$result = $this->db->query("INSERT INTO vendors (code, name) VALUES ('$code', '$name')");
 		if ($result) {
-			$this->output->info("Vendor name: $name, Code: $code has been inserted successfully!");
+			$this->output->notice("Vendor name: $name, Code: $code has been inserted successfully!");
 			return true;
 		} else {
-			$this->output->info("Failed to insert vendor!");
+			$this->output->notice("Failed to insert vendor!");
 			return false;
 		}
 	}
@@ -27,9 +27,10 @@ class vendors {
 	public function check($code) {
 		$result = $this->db->query("SELECT * FROM vendors WHERE code = '$code'");
 		if (mysqli_num_rows($result) > 0) {
+			$this->output->notice("Code: $code is a valid vendor code!");
 			return true;
 		} else {
-			$this->output->info("Code: $code is not a valid vendor code!");
+			$this->output->notice("Code: $code is not a valid vendor code!");
 			return false;
 		}
 	}
@@ -39,9 +40,10 @@ class vendors {
 		if (mysqli_num_rows($result) > 0) {
 			$row = mysqli_fetch_array($result);	
 			$name = $row['name'];
+			$this->output->notice("Code: $code vendor name is $name!");
 			return $name;
 		} else {
-			$this->output->info("Code: $code is not a valid vendor code!");
+			$this->output->notice("Code: $code is not a valid vendor code!");
 			return false;
 		}
 	}

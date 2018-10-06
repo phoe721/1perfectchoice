@@ -63,7 +63,7 @@ $(document).ready(function() {
 			$.post(script, {sku: sku})
 		   	.done(function(output) {
 				$('#output').append(output + '<br>');
-			});
+			}, 'json');
 		}
 	});	
 

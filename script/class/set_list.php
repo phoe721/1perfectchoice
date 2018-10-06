@@ -19,10 +19,10 @@ class set_list {
 		} else {
 			$result = $this->db->query("INSERT INTO set_list (code, item_no, item1, item2, item3, item4, item5, item6, item7, item8, item9, item10) VALUES ('$code', '$item_no', '$item1', '$item2', '$item3', '$item4', '$item5', '$item6', '$item7', '$item8', '$item9', '$item10')");
 			if ($result) {
-				$this->output->info("Item: $item_no, Code: $code has been inserted successfully!");
+				$this->output->notice("Item: $item_no, Code: $code has been inserted successfully!");
 				return true;
 			} else {
-				$this->output->info("Failed to insert $item_no!");
+				$this->output->notice("Failed to insert $item_no!");
 				return false;
 			}
 		}
@@ -31,10 +31,10 @@ class set_list {
 	public function update($code, $item_no, $item1, $item2, $item3, $item4, $item5, $item6, $item7, $item8, $item9, $item10) {
 		$result = $this->db->query("UPDATE set_list SET item1 = '$item1', item2 = '$item2', item3 = '$item3', item4 = '$item4', item5 = '$item5', item6 = '$item6', item7 = '$item7', item8 = '$item8', item9 = '$item9', item10 = '$item10' WHERE code = '$code' AND item_no = '$item_no'");
 		if ($result) {
-			$this->output->info("Item: $item_no, Code: $code updated!");
+			$this->output->notice("Item: $item_no, Code: $code updated!");
 			return true;
 		} else {
-			$this->output->info("Item: $item_no, Code: $code failed to update!");
+			$this->output->notice("Item: $item_no, Code: $code failed to update!");
 			return false;
 		}
 	}
@@ -42,10 +42,10 @@ class set_list {
 	public function check($code, $item_no) {
 		$result = $this->db->query("SELECT * FROM set_list WHERE code = '$code' AND item_no = '$item_no'");
 		if (mysqli_num_rows($result) > 0) {
-			$this->output->info("Item: $item_no, Code: $code is a set!");
+			$this->output->notice("Item: $item_no, Code: $code is a set!");
 			return true;
 		} else {
-			$this->output->info("Item: $item_no, Code: $code is not a set!");
+			$this->output->notice("Item: $item_no, Code: $code is not a set!");
 			return false;
 		}
 	}
@@ -61,10 +61,10 @@ class set_list {
 				if (!is_null($item) && !empty($item)) array_push($set, $item);
 			}
 			$set_str = implode(", ", $set);
-			$this->output->info("Item: $item_no, Code: $code has $set_str!");
+			$this->output->notice("Item: $item_no, Code: $code has $set_str!");
 			return $set;
 		} else {
-			$this->output->info("Item: $item_no, Code: $code is not a set!");
+			$this->output->notice("Item: $item_no, Code: $code is not a set!");
 			return false;
 		}
 	}

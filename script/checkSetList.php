@@ -39,6 +39,12 @@ if (isset($argv[1]) && isset($argv[2]) && isset($argv[3])) {
 if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["sku"])) { 
 	$sku = $_POST["sku"];
 	list($code, $item_no) = explode("-", $sku, 2);
-	$set_list->check($code, $item_no);
+	if ($set_list->check($code, $item_no)) {
+		$set_str = implode(", ", $set_list->get_set($code, $item_no));
+		$result = "$sku has set $set_str!"; 
+	} else {
+		$result = "$sku is not a set!";
+	}
+	echo json_encode($result);
 }
 ?>

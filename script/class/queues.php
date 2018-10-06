@@ -40,7 +40,7 @@ class queues {
 	public function process_queue() {
 		$result = $this->db->query("SELECT qid, command FROM queues WHERE status = 0");
 		if ($result->num_rows == 0) {
-			$this->output->info("No queue found!");	
+			$this->output->notice("No queue found!");	
 		} else {
 			$row = $result->fetch_array(MYSQLI_ASSOC);
 			$qid = $row['qid'];
