@@ -16,7 +16,7 @@ if (isset($argv[1]) && isset($argv[2]) && isset($argv[3])) {
 			if (!empty($line)) {
 				$status->log_status("Inserting $line...");
 				list($sku, $new_cost, $unit) = explode("\t", $line);
-				if (preg_match('/^[A-Z]+-[A-Z0-9-]+$/', $sku)) {
+				if (preg_match('/^[A-Z]+-[A-Z0-9-x]+$/', $sku)) {
 					list($code, $item_no) = explode("-", $sku, 2);
 					if ($costs->insert($code, $item_no, $new_cost, $unit)) { 
 						$result = "$sku\tOK" . PHP_EOL;
