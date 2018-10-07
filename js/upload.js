@@ -60,10 +60,20 @@ $(document).ready(function() {
 		if (form.valid()) {
 			var sku = $('#sku').val();
 			var script = 'script/' + $('#task').val() + '.php';
-			$.post(script, {sku: sku})
-		   	.done(function(output) {
-				$('#output').append(output + '<br>');
-			}, 'json');
+			var formData = new FormData();
+			formData.append('sku', sku);
+
+			$.ajax({
+				url: script,
+				data: formData,
+				type: 'POST',
+				contentType: false,
+				processData: false,
+				dataType: 'json',
+				success: function(output) {
+					$('#output').append(output + '<br>');
+				}
+			});
 		}
 	});	
 
