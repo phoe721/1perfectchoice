@@ -19,7 +19,7 @@ if (isset($argv[1]) && isset($argv[2]) && isset($argv[3])) {
 					list($code, $item_no) = explode("-", $sku, 2);
 					$weight = $pg->get_weight($code, $item_no);
 					$dimensions = implode("\t", $pg->get_dimensions($code, $item_no));
-					$result = "$sku\t$weight\t$dimensions" . PHP_EOL;
+					$result = "$sku\t$dimensions\t$weight" . PHP_EOL;
 				} else {
 					$status->info("Invalid SKU: $sku");
 					$result = "$sku\t-\t-\t-\t-" . PHP_EOL;
