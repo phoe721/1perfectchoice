@@ -38,6 +38,17 @@ class inventory {
 		}
 	}
 
+	public function delete($code, $item_no) {
+		$result = $this->db->query("DELETE FROM inventory WHERE code = '$code' AND item_no = '$item_no'");
+		if ($result) {
+			$this->output->notice("Item: $item_no, Code: $code has been deleted!");
+			return true;
+		} else {
+			$this->output->notice("Item: $item_no, Code: $code failed to delete!");
+			return false;
+		}
+	}
+
 	public function get($code, $item) {
 		if ($this->set_list->check($code, $item)) {
 			$set = $this->set_list->get_set($code, $item);

@@ -38,6 +38,17 @@ class costs {
 		}
 	}
 
+	public function delete($code, $item_no) {
+		$result = $this->db->query("DELETE FROM costs WHERE code = '$code' AND item_no = '$item_no'");
+		if ($result) {
+			$this->output->notice("Item: $item_no, Code: $code has been deleted!");
+			return true;
+		} else {
+			$this->output->notice("Item: $item_no, Code: $code failed to delete!");
+			return false;
+		}
+	}
+
 	public function get_cost($code, $item) {
 		$cost = 0;
 		if ($this->set_list->check($code, $item)) {
@@ -102,28 +113,6 @@ class costs {
 		return $unit;
 	}
 
-	public function truncate_table() {
-		$result = $this->db->query("TRUNCATE TABLE costs");
-		if ($result) {
-			$this->output->notice("Table truncated!");
-			return true;
-		} else {
-			$this->output->error("Failed to truncate!");
-			return false;
-		}
-	}
-	
-	public function update_by_file($filePath) {
-		$result = $this->db->query("LOAD DATA LOCAL INFILE '$filePath' INTO TABLE costs");
-		if ($result) {
-			$this->output->notice("Table updated with $filePath!");
-			return true;
-		} else {
-			$this->output->error("Failed to update table with $filePath!");
-			return false;
-		}
-	}
-	
 	public function get_record_count() {
 		$count = -1;
 		$result = $this->db->query("SELECT * FROM costs");

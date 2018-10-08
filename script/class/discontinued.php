@@ -24,6 +24,17 @@ class discontinued {
 		}
 	}
 	
+	public function delete($code, $item_no) {
+		$result = $this->db->query("DELETE FROM discontinued WHERE code = '$code' AND item_no = '$item_no'");
+		if ($result) {
+			$this->output->notice("Item: $item_no, Code: $code has been deleted!");
+			return true;
+		} else {
+			$this->output->notice("Item: $item_no, Code: $code failed to delete!");
+			return false;
+		}
+	}
+
 	public function check($code, $item_no) {
 		$result = $this->db->query("SELECT * FROM discontinued WHERE code = '$code' AND item_no = '$item_no'");
 		if (mysqli_num_rows($result) > 0) {
@@ -35,28 +46,6 @@ class discontinued {
 		}
 	}
 
-	public function truncate_table() {
-		$result = $this->db->query("TRUNCATE TABLE discontinued");
-		if ($result) {
-			$this->output->notice("Table truncated!");
-			return true;
-		} else {
-			$this->output->error("Failed to truncate!");
-			return false;
-		}
-	}
-	
-	public function update_by_file($filePath) {
-		$result = $this->db->query("LOAD DATA LOCAL INFILE '$filePath' INTO TABLE discontinued");
-		if ($result) {
-			$this->output->notice("Table updated with $filePath!");
-			return true;
-		} else {
-			$this->output->error("Failed to update table with $filePath!");
-			return false;
-		}
-	}
-	
 	public function get_record_count() {
 		$count = -1;
 		$result = $this->db->query("SELECT * FROM discontinued");

@@ -24,6 +24,17 @@ class vendors {
 		}
 	}
 	
+	public function delete($code) {
+		$result = $this->db->query("DELETE FROM vendors WHERE code = '$code'");
+		if ($result) {
+			$this->output->notice("Vendor Code: $code has been deleted!");
+			return true;
+		} else {
+			$this->output->notice("Vendor Code: $code failed to delete!");
+			return false;
+		}
+	}
+
 	public function check($code) {
 		$result = $this->db->query("SELECT * FROM vendors WHERE code = '$code'");
 		if (mysqli_num_rows($result) > 0) {
@@ -48,24 +59,6 @@ class vendors {
 		}
 	}
 
-	public function truncate_table() {
-		$result = $this->db->query("TRUNCATE TABLE vendors");
-		if ($result) {
-			$this->output->notice("Table truncated!");
-		} else {
-			$this->output->error("Failed to truncate!");
-		}
-	}
-	
-	public function update_by_file($filePath) {
-		$result = $this->db->query("LOAD DATA LOCAL INFILE '$filePath' INTO TABLE vendors");
-		if ($result) {
-			$this->output->notice("Table updated with $filePath!");
-		} else {
-			$this->output->error("Failed to update table with $filePath!");
-		}
-	}
-	
 	public function get_record_count() {
 		$result = $this->db->query("SELECT * FROM vendors");
 		if ($result) {
