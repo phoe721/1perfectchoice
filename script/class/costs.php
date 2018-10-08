@@ -86,19 +86,8 @@ class costs {
 	public function get_unit($code, $item) {
 		$unit = 0;
 		if ($this->set_list->check($code, $item)) {
-			$total = 0;
-			$set = $this->set_list->get_set($code, $item);
-			for ($i = 0; $i < count($set); $i++) {
-				$item_no = $set[$i];
-				$result = $this->db->query("SELECT unit FROM costs WHERE code = '$code' AND item_no = '$item_no'");
-				if (mysqli_num_rows($result) > 0) {
-					$row = mysqli_fetch_array($result);
-					$unit = $row['unit'];
-					$this->output->notice("Item: $item_no, Code: $code has $unit unit per box!");
-				} else {
-					$this->output->notice("Item: $item_no, Code: $code unit per box not found!");
-				}
-			}
+			$unit = 1; // It's a set!
+			$this->output->notice("Item: $item, Code: $code is a set, unit is $unit!");
 		} else {
 			$result = $this->db->query("SELECT unit FROM costs WHERE code = '$code' AND item_no = '$item'");
 			if (mysqli_num_rows($result) > 0) {
