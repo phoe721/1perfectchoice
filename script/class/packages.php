@@ -27,8 +27,8 @@ class packages {
 				return false;
 			}
 		} else {
-			$this->output->notice("Item: $item_no, Code: $code exists, updating it!");
-			return $this->update($code, $item_no, $length, $width, $height, $weight);
+			$this->output->notice("Item: $item_no, Code: $code exists!");
+			return false;
 		}
 	}
 	

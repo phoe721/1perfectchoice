@@ -15,7 +15,8 @@ class set_list {
 
 	public function insert($code, $item_no, $item1, $item2, $item3, $item4, $item5, $item6, $item7, $item8, $item9, $item10) {
 		if ($this->check($code, $item_no)) {
-			$this->update($code, $item_no, $item1, $item2, $item3, $item4, $item5, $item6, $item7, $item8, $item9, $item10);
+			$this->output->notice("Item: $item_no, Code: $code exists!");
+			return false;
 		} else {
 			$result = $this->db->query("INSERT INTO set_list (code, item_no, item1, item2, item3, item4, item5, item6, item7, item8, item9, item10) VALUES ('$code', '$item_no', '$item1', '$item2', '$item3', '$item4', '$item5', '$item6', '$item7', '$item8', '$item9', '$item10')");
 			if ($result) {
