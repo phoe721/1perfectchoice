@@ -27,24 +27,13 @@ class costs {
 		}
 	}
 	
-	public function update_cost($code, $item_no, $cost) {
-		$result = $this->db->query("UPDATE costs SET cost = '$cost' WHERE code = '$code' AND item_no = '$item_no'");
+	public function update($code, $item_no, $cost, $unit) {
+		$result = $this->db->query("UPDATE costs SET cost = '$cost', unit = '$unit' WHERE code = '$code' AND item_no = '$item_no'");
 		if ($result) {
-			$this->output->notice("Item: $item_no, Code: $code has updated cost to $cost!");
+			$this->output->notice("Item: $item_no, Code: $code has updated cost to $cost with $unit per box!");
 			return true;
 		} else {
-			$this->output->notice("Item: $item_no, Code: $code failed to update cost!");
-			return false;
-		}
-	}
-
-	public function update_unit($code, $item_no, $unit) {
-		$result = $this->db->query("UPDATE costs SET unit = '$unit' WHERE code = '$code' AND item_no = '$item_no'");
-		if ($result) {
-			$this->output->notice("Item: $item_no, Code: $code has updated unit per box to $unit!");
-			return true;
-		} else {
-			$this->output->notice("Item: $item_no, Code: $code failed to update unit per box!");
+			$this->output->notice("Item: $item_no, Code: $code failed to update cost and unit!");
 			return false;
 		}
 	}
