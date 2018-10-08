@@ -12,16 +12,20 @@ if (isset($argv[1]) && isset($argv[2]) && isset($argv[3])) {
 	$output = fopen($outputFile, "a+");
 	if ($input && $output) {
 		while(!feof($input)) {
-			$sku = trim(fgets($input));
-			if (!empty($sku)) {
-				$status->log_status("Checking $sku...");
+			$line = trim(fgets($input));
+			if (!empty($line)) {
+				$status->log_status("Upating $line...");
+				list($sku, $qty) = explode("\t", $line);
 				if (preg_match('/^[A-Z]+-[A-Z0-9-x]+$/', $sku)) {
 					list($code, $item_no) = explode("-", $sku, 2);
-					$qty = $inventory->get($code, $item_no);
-					$result = "$sku\t$qty" . PHP_EOL;
+					if ($inventory->update($code, $item_no, $qty)) {
+						$result = "$sku\tOK" . PHP_EOL;
+					} else {
+						$result = "$sku\tFail" . PHP_EOL;
+					}
 				} else {
 					$status->info("Invalid SKU: $sku");
-					$result = "$sku\t-" . PHP_EOL;
+					$result = "$sku\tFail" . PHP_EOL;
 				}
 				fwrite($output, $result);
 			}
@@ -31,14 +35,5 @@ if (isset($argv[1]) && isset($argv[2]) && isset($argv[3])) {
 	$status->log_status("Done!");
 	fclose($input);
 	fclose($output);
-}
-
-if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["sku"])) { 
-	$sku = $_POST["sku"];
-	list($code, $item_no) = explode("-", $sku, 2);
-	$qty = $inventory->get($code, $item_no);
-	$result = "$sku has $qty!";
-
-	echo json_encode($result);
 }
 ?>
