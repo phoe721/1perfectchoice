@@ -14,7 +14,7 @@ if (isset($argv[1]) && isset($argv[2]) && isset($argv[3])) {
 		while(!feof($input)) {
 			$line = trim(fgets($input));
 			if (!empty($line)) {
-				$status->log_status("Checking $line...");
+				$status->log_status("Updating $line...");
 				list($sku, $item1, $item2, $item3, $item4, $item5, $item6, $item7, $item8, $item9, $item10) = explode("\t", $line);
 				if (preg_match('/^[A-Z]+-[A-Z0-9-x]+$/', $sku)) {
 					list($code, $item_no) = explode("-", $sku, 2);

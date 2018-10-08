@@ -1,6 +1,6 @@
 <?
-require_once("class/discontinued.php");
-$dis = new discontinued();
+require_once("class/packages.php");
+$pg = new packages();
 $status = new debugger();
 
 if (isset($argv[1]) && isset($argv[2]) && isset($argv[3])) {
@@ -14,10 +14,10 @@ if (isset($argv[1]) && isset($argv[2]) && isset($argv[3])) {
 		while(!feof($input)) {
 			$sku = trim(fgets($input));
 			if (!empty($sku)) {
-				$status->log_status("Inserting $sku...");
+				$status->log_status("Deleting $sku...");
 				if (preg_match('/^[A-Z]+-[A-Z0-9-x]+$/', $sku)) {
 					list($code, $item_no) = explode("-", $sku, 2);
-					if ($dis->insert($code, $item_no)) { 
+					if ($pg->delete($code, $item_no)) {
 						$result = "$sku\tOK" . PHP_EOL;
 					} else {
 						$result = "$sku\tFail" . PHP_EOL;
