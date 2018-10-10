@@ -275,7 +275,7 @@ class category {
 			$this->category = "sideboards";
 		}
 		
-		$this->output->notice("Category: $this->category for $str!");	
+		$this->output->notice("Title: $str, Category: $this->category!");	
 		return $this->category;
 	}
 }
