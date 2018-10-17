@@ -1,13 +1,14 @@
 <?
 require_once("class/discontinued.php");
+require_once("class/status.php");
 $dis = new discontinued();
-$status = new debugger();
+$status = new status();
 
 if (isset($argv[1]) && isset($argv[2]) && isset($argv[3])) {
 	$inputFile = $argv[1];
 	$outputFile = $argv[2];
 	$statusFile = $argv[3];
-	$status->set_status_file($statusFile);
+	$status->set_file($statusFile);
 	$input = fopen($inputFile, "r");
 	$output = fopen($outputFile, "a+");
 	if ($input && $output) {
