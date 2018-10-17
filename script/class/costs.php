@@ -17,7 +17,7 @@ class costs {
 	}
 
 	public function insert($code, $item_no, $cost, $unit) {
-		$result = $this->db->query("INSERT INTO costs (code, item_no, cost, unit) VALUES ('$code', '$item_no', '$cost', '$unit')");
+		$result = $this->db->query("INSERT INTO costs (code, item_no, cost, unit, updated_at) VALUES ('$code', '$item_no', '$cost', '$unit',NOW())");
 		if ($result) {
 			$this->output->notice("Item: $item_no, Code: $code with $cost per unit and $unit per box has been inserted successfully!");
 			return true;
@@ -28,7 +28,7 @@ class costs {
 	}
 	
 	public function update($code, $item_no, $cost, $unit) {
-		$result = $this->db->query("UPDATE costs SET cost = '$cost', unit = '$unit' WHERE code = '$code' AND item_no = '$item_no'");
+		$result = $this->db->query("UPDATE costs SET cost = '$cost', unit = '$unit', updated_at = NOW() WHERE code = '$code' AND item_no = '$item_no'");
 		if ($result) {
 			$this->output->notice("Item: $item_no, Code: $code has updated cost to $cost with $unit per box!");
 			return true;
