@@ -39,7 +39,8 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["sku"])) {
 	list($code, $item_no) = explode("-", $sku, 2);
 	$cost = $costs->get_cost($code, $item_no);
 	$unit = $costs->get_unit($code, $item_no);
-	$result = "$sku has cost $cost and $unit per box!";
+	$total = $cost * $unit;
+	$result = "$sku has cost $cost and $unit per box and total is $total!";
 
 	echo json_encode($result);
 }
