@@ -15,7 +15,7 @@ if (isset($argv[1]) && isset($argv[2]) && isset($argv[3])) {
 			$sku = trim(fgets($input));
 			if (!empty($sku)) {
 				$status->log_status("Deleting $sku...");
-				if (preg_match('/^[A-Z]+-[A-Z0-9-x]+$/', $sku)) {
+				if (preg_match('/^[A-Z]+-[A-Z0-9-x. ]+$/', $sku)) {
 					list($code, $item_no) = explode("-", $sku, 2);
 					if ($dim->delete($code, $item_no)) {
 						$result = "$sku\tOK" . PHP_EOL;

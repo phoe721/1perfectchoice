@@ -16,7 +16,7 @@ if (isset($argv[1]) && isset($argv[2]) && isset($argv[3])) {
 			if (!empty($line)) {
 				$status->log_status("Upating $line...");
 				list($sku, $qty) = explode("\t", $line);
-				if (preg_match('/^[A-Z]+-[A-Z0-9-x]+$/', $sku)) {
+				if (preg_match('/^[A-Z]+-[A-Z0-9-x. ]+$/', $sku)) {
 					list($code, $item_no) = explode("-", $sku, 2);
 					if ($inventory->update($code, $item_no, $qty)) {
 						$result = "$sku\tOK" . PHP_EOL;
