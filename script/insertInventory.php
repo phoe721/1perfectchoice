@@ -1,8 +1,10 @@
 <?
 require_once("class/inventory.php");
 require_once("class/status.php");
+require_once("class/validator.php");
 $inventory = new inventory();
 $status = new status();
+$validator = new validator();
 
 if (isset($argv[1]) && isset($argv[2]) && isset($argv[3])) {
 	$inputFile = $argv[1];
@@ -17,7 +19,7 @@ if (isset($argv[1]) && isset($argv[2]) && isset($argv[3])) {
 			if (!empty($line)) {
 				$status->log_status("Inserting $line...");
 				list($sku, $qty) = explode("\t", $line);
-				if (preg_match('/^[A-Z]+-[A-Z0-9-x. ]+$/', $sku)) {
+				if ($validator->check_sku($sku)) {
 					list($code, $item_no) = explode("-", $sku, 2);
 					if ($inventory->insert($code, $item_no, $qty)) {
 						$result = "$sku\tOK" . PHP_EOL;
@@ -25,8 +27,7 @@ if (isset($argv[1]) && isset($argv[2]) && isset($argv[3])) {
 						$result = "$sku\tFail" . PHP_EOL;
 					}
 				} else {
-					$status->info("Invalid SKU: $sku");
-					$result = "$sku\tFail" . PHP_EOL;
+					$result = "$sku\tInvalid" . PHP_EOL;
 				}
 				fwrite($output, $result);
 			}

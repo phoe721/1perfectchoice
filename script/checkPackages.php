@@ -1,7 +1,9 @@
 <?
 require_once("class/packages.php");
+require_once("class/validator.php");
 $pg = new packages();
 $status = new status();
+$validator = new validator();
 
 if (isset($argv[1]) && isset($argv[2]) && isset($argv[3])) {
 	$inputFile = $argv[1];
@@ -15,14 +17,13 @@ if (isset($argv[1]) && isset($argv[2]) && isset($argv[3])) {
 			$sku = trim(fgets($input));
 			if (!empty($sku)) {
 				$status->log_status("Checking $sku...");
-				if (preg_match('/^[A-Z]+-[A-Z0-9-x. ]+$/', $sku)) {
+				if ($validator->check_sku($sku)) {
 					list($code, $item_no) = explode("-", $sku, 2);
 					$weight = $pg->get_weight($code, $item_no);
 					$dimensions = implode("\t", $pg->get_dimensions($code, $item_no));
 					$result = "$sku\t$dimensions\t$weight" . PHP_EOL;
 				} else {
-					$status->info("Invalid SKU: $sku");
-					$result = "$sku\t-\t-\t-\t-" . PHP_EOL;
+					$result = "$sku\tInvalid" . PHP_EOL;
 				}
 				fwrite($output, $result);
 			}
