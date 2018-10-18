@@ -1,5 +1,6 @@
 <?
 require_once("class/dimensions.php");
+require_once("class/status.php");
 require_once("class/validator.php");
 $dim = new dimensions();
 $status = new status();
