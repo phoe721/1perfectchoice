@@ -1,5 +1,6 @@
 <?
 require_once("class/packages.php");
+require_once("class/status.php");
 require_once("class/validator.php");
 $pg = new packages();
 $status = new status();
