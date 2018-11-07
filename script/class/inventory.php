@@ -27,7 +27,7 @@ class inventory {
 		}
 	}
 
-	public function update($code, $item, $qty) {
+	public function update($code, $item_no, $qty) {
 		$result = $this->db->query("UPDATE inventory SET qty = '$qty' WHERE code = '$code' AND item_no = '$item_no'");
 		if ($result) {
 			$this->output->notice("Item: $item_no, Code: $code inventory has been updated to $qty!");
