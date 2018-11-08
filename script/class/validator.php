@@ -18,5 +18,21 @@ class validator {
 			return false;
 		}
 	}
+
+	public function check_url($url) {
+		if (!filter_var($url, FILTER_VALIDATE_URL) === false) {
+			$check = @fopen($url, "r");
+			if ($check) {
+				$this->output->notice("URL: $url is valid!");
+				return true;
+			} else {
+				$this->output->error("URL: $url is not valid!");
+				return false;
+			}
+		} else {
+			$this->output->error("URL: $url is not a valid URL!");
+			return false;
+		}
+	}
 }
 ?>

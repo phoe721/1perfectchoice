@@ -1,7 +1,7 @@
 <?
-require_once("class/check_links.php");
+require_once("class/validator.php");
 require_once("class/status.php");
-$cl = new check_links();
+$validator = new validator();
 $status = new status();
 
 if (isset($argv[1]) && isset($argv[2]) && isset($argv[3])) {
@@ -16,7 +16,7 @@ if (isset($argv[1]) && isset($argv[2]) && isset($argv[3])) {
 			$url = trim(fgets($input));
 			if (!empty($url)) {
 				$status->log_status("Checking $url...");
-				if ($cl->check_link($url)) {
+				if ($validator->check_url($url)) {
 					$result = "$url\tOK" . PHP_EOL;
 				} else {
 					$result = "$url\tFail" . PHP_EOL;
