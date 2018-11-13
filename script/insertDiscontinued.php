@@ -26,7 +26,6 @@ if (isset($argv[1]) && isset($argv[2]) && isset($argv[3])) {
 						$result = "$sku\tFail" . PHP_EOL;
 					}
 				} else {
-					$status->info("Invalid SKU: $sku");
 					$result = "$sku\tFail" . PHP_EOL;
 				}
 				fwrite($output, $result);
