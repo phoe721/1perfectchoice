@@ -47,6 +47,7 @@ class ASIN {
 	}
 
 	public function get_asin($code, $item) {
+		$asin = false;
 		$result = $this->db->query("SELECT asin FROM ASIN WHERE code = '$code' AND item_no = '$item'");
 		if (mysqli_num_rows($result) > 0) {
 			$row = mysqli_fetch_array($result);
@@ -57,6 +58,22 @@ class ASIN {
 		}
 
 		return $asin;
+	}
+
+	public function get_sku($asin) {
+		$sku = false;
+		$result = $this->db->query("SELECT code, item_no FROM ASIN WHERE asin = '$asin'");
+		if (mysqli_num_rows($result) > 0) {
+			$row = mysqli_fetch_array($result);
+			$code = $row['code'];
+			$item_no = $row['item_no'];
+			$sku = $code . "-" . $item_no;
+			$this->output->notice("ASIN $asin SKU $sku!");
+		} else {
+			$this->output->notice("ASIN $asin SKU not found!");
+		}
+
+		return $sku;
 	}
 
 	public function get_record_count() {

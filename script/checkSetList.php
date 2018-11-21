@@ -21,7 +21,8 @@ if (isset($argv[1]) && isset($argv[2]) && isset($argv[3])) {
 				if ($validator->check_sku($sku)) {
 					list($code, $item_no) = explode("-", $sku, 2);
 					if ($set_list->check($code, $item_no)) {
-						$result = "$sku\tYes" . PHP_EOL;
+						$set_str = implode("\t", $set_list->get_set($code, $item_no));
+						$result = "$sku\t$set_str" . PHP_EOL;
 					} else {
 						$result = "$sku\tNo" . PHP_EOL;
 					}
