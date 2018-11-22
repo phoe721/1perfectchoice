@@ -12,12 +12,12 @@ class stop_watch {
 		$this->output = new debugger;
 	}
 
-	public function stop_watch_start() {
+	public function start() {
 		$this->startTime = microtime(true);
 		$this->output->notice("##### Start time: $startTime #####");
 	}
 
-	public function stop_watch_stop() {
+	public function stop() {
 		$this->endTime = microtime(true);
 		$this->duration = $this->endTime - $this->startTime;
 		$this->duration = round($this->duration, 2);
