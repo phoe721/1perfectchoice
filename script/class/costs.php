@@ -52,6 +52,7 @@ class costs {
 	public function get_cost($code, $item) {
 		$cost = 0;
 		if ($this->set_list->check($code, $item)) {
+			// Set cost
 			$total = 0;
 			$set = $this->set_list->get_set($code, $item);
 			for ($i = 0; $i < count($set); $i++) {
@@ -67,6 +68,18 @@ class costs {
 				}
 			}
 
+			// Item cost
+			$result = $this->db->query("SELECT cost FROM costs WHERE code = '$code' AND item_no = '$item'");
+			if (mysqli_num_rows($result) > 0) {
+				$row = mysqli_fetch_array($result);
+				$cost = $row['cost'];
+				$this->output->notice("Item: $item, code: $code costs $cost!");
+			} else {
+				$this->output->notice("Item: $item, code: $code cost not found!");
+			}
+
+			// Get max between item cost & set cost
+			$total = max($cost, $total);
 			$this->output->notice("Item: $item, code: $code has total costs $total!");
 			return $total;
 		} else {
