@@ -16,9 +16,9 @@ class packages {
 		$this->set_list = new set_list();
 	}
 
-	public function insert($code, $item_no, $length, $width, $height, $weight) {
+	public function insert($code, $item_no, $box1_length, $box1_width, $box1_height, $box1_weight, $box2_length, $box2_width, $box2_height, $box2_weight, $box3_length, $box3_width, $box3_height, $box3_weight, $box4_legnth, $box4_width, $box4_height, $box4_weight, $box5_length, $box5_width, $box5_height, $box5_weight) {
 		if (!$this->exists($code, $item_no)) {
-			$result = $this->db->query("INSERT INTO packages (code, item_no, ship_length, ship_width, ship_height, ship_weight) VALUES ('$code', '$item_no', '$length', '$width', '$height', '$wegith')");
+			$result = $this->db->query("INSERT INTO packages (code, item_no, ship_length, ship_width, ship_height, ship_weight) VALUES ('$code', '$item_no', '$box1_length', '$box1_width', '$box1_height', '$box1_weight', '$box2_length', '$box2_width', '$box2_height', '$box2_weight', '$box3_length', '$box3_width', '$box3_height', '$box3_weight', '$box4_legnth', '$box4_width', '$box4_height', '$box4_weight', '$box5_length', '$box5_width', '$box5_height', '$box5_weight')");
 			if ($result) {
 				$this->output->notice("Item: $item_no, Code: $code packages has been inserted successfully!");
 				return true;
@@ -32,9 +32,9 @@ class packages {
 		}
 	}
 	
-	public function update($code, $item_no, $length, $width, $height, $weight) {
+	public function update($code, $item_no, $box1_length, $box1_width, $box1_height, $box1_weight, $box2_length, $box2_width, $box2_height, $box2_weight, $box3_length, $box3_width, $box3_height, $box3_weight, $box4_legnth, $box4_width, $box4_height, $box4_weight, $box5_length, $box5_width, $box5_height, $box5_weight) {
 		if ($this->exists($code, $item_no)) {
-			$result = $this->db->query("UPDATE packages SET ship_length = '$length', ship_width = '$width', ship_height = '$height', ship_weight = '$weight' WHERE code = '$code' AND item_no = '$item_no'");
+			$result = $this->db->query("UPDATE packages SET box1_length = '$box1_length', box1_width = '$box1_width', box1_height = '$box1_height', box1_weight = '$box1_weight', box2_length = '$box2_length', box2_width = '$box2_width', box2_height = '$box2_height', box2_weight = '$box2_weight', box3_length = '$box3_length', box3_width = '$box3_width', box3_height = '$box3_height', box3_weight = '$box3_weight', box4_length = '$box4_legnth', box4_width = '$box4_width', box4_height = '$box4_height', box4_weight = '$box4_weight ', box5_length = '$box5_length', box5_width = '$box5_width', box5_height = '$box5_height', box5_weight = '$box5_weight' WHERE code = '$code' AND item_no = '$item_no'");
 			if ($result) {
 				$this->output->notice("Item: $item_no, Code: $code packages has been updated!");
 				return true;
@@ -69,64 +69,79 @@ class packages {
 	}
 
 	public function get_dimensions($code, $item_no) {
-		$dim = array();
+		$dimensions = array();
 		if ($this->set_list->check($code, $item_no)) {
 			$set = $this->set_list->get_set($code, $item_no);
 			$item = $set[0];
-			$result = $this->db->query("SELECT ship_length, ship_width, ship_height FROM packages WHERE code = '$code' AND item_no = '$item'");
+			$result = $this->db->query("SELECT box1_length, box1_width, box1_height, box2_length, box2_width, box2_height, box3_length, box3_width, box3_height, box4_length, box4_width, box4_height, box5_length, box5_width, box5_height FROM packages WHERE code = '$code' AND item_no = '$item_no'");
 			if (mysqli_num_rows($result) > 0) {
 				$row = mysqli_fetch_array($result);
-				array_push($dim, $row["ship_length"], $row["ship_width"], $row["ship_height"]);
-				$this->output->notice("Item: $item_no, code: $code packages " . $dim[0] . " x " . $dim[1] . " x " . $dim[2] . "!");
+				array_push($dimensions, $row["box1_length"], $row["box1_width"], $row["box1_height"], $row["box2_length"], $row["box2_width"], $row["box2_height"], $row["box3_length"], $row["box3_width"], $row["box3_height"], $row["box4_length"], $row["box4_width"], $row["box4_height"], $row["box5_length"], $row["box5_width"], $row["box5_height"]);
+				$this->output->notice("Item: $item_no, code: $code packages dimensions found!");
 			} else {
-				$this->output->notice("Item: $item_no, code: $code packages not found!");
+				$this->output->notice("Item: $item_no, code: $code packages dimensions not found!");
 			}
 
-			return $dim;
+			return $dimensions;
 		} else {
-			$result = $this->db->query("SELECT ship_length, ship_width, ship_height FROM packages WHERE code = '$code' AND item_no = '$item_no'");
+			$result = $this->db->query("SELECT box1_length, box1_width, box1_height, box2_length, box2_width, box2_height, box3_length, box3_width, box3_height, box4_length, box4_width, box4_height, box5_length, box5_width, box5_height FROM packages WHERE code = '$code' AND item_no = '$item_no'");
 			if (mysqli_num_rows($result) > 0) {
 				$row = mysqli_fetch_array($result);
-				array_push($dim, $row["ship_length"], $row["ship_width"], $row["ship_height"]);
-				$this->output->notice("Item: $item_no, code: $code packages " . $dim[0] . " x " . $dim[1] . " x " . $dim[2] . "!");
+				array_push($dimensions, $row["box1_length"], $row["box1_width"], $row["box1_height"], $row["box2_length"], $row["box2_width"], $row["box2_height"], $row["box3_length"], $row["box3_width"], $row["box3_height"], $row["box4_length"], $row["box4_width"], $row["box4_height"], $row["box5_length"], $row["box5_width"], $row["box5_height"]);
+				$this->output->notice("Item: $item_no, code: $code packages dimensions found!");
 			} else {
-				$this->output->notice("Item: $item_no, code: $code packages not found!");
+				$this->output->notice("Item: $item_no, code: $code packages dimensions not found!");
 			}
 	
-			return $dim;
+			return $dimensions;
 		}
 	}
 
 	public function get_weight($code, $item_no) {
-		$weight = 0;
+		$weights = array();
 		if ($this->set_list->check($code, $item_no)) {
 			$total = 0;
 			$set = $this->set_list->get_set($code, $item_no);
 			for ($i = 0; $i < count($set); $i++) {
 				$item_no = $set[$i];
-				$result = $this->db->query("SELECT ship_weight FROM packages WHERE code = '$code' AND item_no = '$item_no'");
+				$result = $this->db->query("SELECT box1_weight, box2_weight, box3_weight, box4_weight, box5_weight FROM packages WHERE code = '$code' AND item_no = '$item_no'");
 				if (mysqli_num_rows($result) > 0) {
 					$row = mysqli_fetch_array($result);
-					$weight = $row["ship_weight"];
-					$total += $weight;
-					$this->output->notice("Item: $item_no, Code: $code has weight $weight!");
+					array_push($weights, $row["box1_weight"] + $row["box2_weight"] + $row["box3_weight"] + $row["box4_weight"] + $row["box5_weight"]);
+					$this->output->notice("Item: $item_no, Code: $code packages weights found!");
 				} else {
-					$this->output->notice("Item: $item_no, Code: $code weight not found!");
+					$this->output->notice("Item: $item_no, Code: $code packages weights not found!");
 				}
 			}
 
-			return $total;
+			return $weight;
 		} else {
-			$result = $this->db->query("SELECT ship_weight FROM packages WHERE code = '$code' AND item_no = '$item_no'");
+			$result = $this->db->query("SELECT box1_weight, box2_weight, box3_weight, box4_weight, box5_weight FROM packages WHERE code = '$code' AND item_no = '$item_no'");
 			if (mysqli_num_rows($result) > 0) {
 				$row = mysqli_fetch_array($result);
-				$weight = $row["ship_weight"];
-				$this->output->notice("Item: $item_no, Code: $code has weight $weight!");
+				array_push($weights, $row["box1_weight"] + $row["box2_weight"] + $row["box3_weight"] + $row["box4_weight"] + $row["box5_weight"]);
+				$this->output->notice("Item: $item_no, Code: $code packages weights found!");
 			} else {
-				$this->output->notice("Item: $item_no, Code: $code weight not found!");
+				$this->output->notice("Item: $item_no, Code: $code packages weights not found!");
 			}
-			return $weight;
+			return $weights;
 		}
+	}
+
+	public function get_box_count($code, $item_no) {
+			$box_count = 0;
+			$result = $this->db->query("SELECT box1_length, box2_length, box3_length, box4_length, box5_length FROM packages WHERE code = '$code' AND item_no = '$item_no'");
+			if (mysqli_num_rows($result) > 0) {
+				$row = mysqli_fetch_array($result);
+				for ($i = 1; $i <= 5; $i++) {
+					if (!is_null($row["box" . $i . "_length"])) $box_count = $i;
+				}
+				$this->output->notice("Item: $item_no, code: $code with $box_count packages!");
+			} else {
+				$this->output->notice("Item: $item_no, code: $code packages not found!");
+			}
+	
+			return $box_count;
 	}
 
 	public function get_record_count() {

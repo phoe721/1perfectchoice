@@ -20,9 +20,14 @@ if (isset($argv[1]) && isset($argv[2]) && isset($argv[3])) {
 				$status->log_status("Checking $sku...");
 				if ($validator->check_sku($sku)) {
 					list($code, $item_no) = explode("-", $sku, 2);
-					$weight = $pg->get_weight($code, $item_no);
-					$dimensions = implode("\t", $pg->get_dimensions($code, $item_no));
-					$result = "$sku\t$dimensions\t$weight" . PHP_EOL;
+					$box_count = $pg->get_box_count($code, $item_no);
+					$weights = $pg->get_weight($code, $item_no);
+					$dimensions = $pg->get_dimensions($code, $item_no);
+					$result = "$sku\t";
+					for ($i = 0; $i < $box_count; $i++) {
+						$result .= $dimensions[$i] . "\t" . $dimensions[$i+1] . "\t" . $dimensions[$i+2] . "\t" . $weights[$i];
+					}
+					$result .= PHP_EOL;
 				} else {
 					$result = "$sku\tInvalid" . PHP_EOL;
 				}
@@ -39,10 +44,15 @@ if (isset($argv[1]) && isset($argv[2]) && isset($argv[3])) {
 if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["sku"])) { 
 	$sku = $_POST["sku"];
 	list($code, $item_no) = explode("-", $sku, 2);
-	$weight = $pg->get_weight($code, $item_no);
+	$box_count = $pg->get_box_count($code, $item_no);
+	$weights = $pg->get_weight($code, $item_no);
 	$dimensions = $pg->get_dimensions($code, $item_no);
-	$dim_str = implode(" x ", $dimensions);
-	$result = "$sku is $weight lbs and has dimensions $dim_str!";
+	$result = "$sku has ";
+	for ($i = 0; $i < $box_count; $i++) {
+		$count = $i + 1;
+		$result .= "box $count weight: $weights[0] lbs, ";
+		$result .= "box $count dimensions: " . $dimensions[$i] . " x " . $dimensions[$i+1] . " x " . $dimensions[$i+2] . "." . PHP_EOL;
+	}
 
 	echo json_encode($result);
 }
