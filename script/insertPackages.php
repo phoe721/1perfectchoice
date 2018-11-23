@@ -18,10 +18,10 @@ if (isset($argv[1]) && isset($argv[2]) && isset($argv[3])) {
 			$line = trim(fgets($input));
 			if (!empty($line)) {
 				$status->log_status("Inserting $line...");
-				list($sku, $length, $width, $height, $weight) = explode("\t", $line);
+				list($sku, $box1_length, $box1_width, $box1_height, $box1_weight, $box2_length, $box2_width, $box2_height, $box2_weight, $box3_length, $box3_width, $box3_height, $box3_weight, $box4_legnth, $box4_width, $box4_height, $box4_weight, $box5_length, $box5_width, $box5_height, $box5_weight) = explode("\t", $line);
 				if ($validator->check_sku($sku)) {
 					list($code, $item_no) = explode("-", $sku, 2);
-					if ($pg->insert($code, $item_no, $length, $width, $height, $weight)) {
+					if ($pg->insert($code, $item_no, $box1_length, $box1_width, $box1_height, $box1_weight, $box2_length, $box2_width, $box2_height, $box2_weight, $box3_length, $box3_width, $box3_height, $box3_weight, $box4_legnth, $box4_width, $box4_height, $box4_weight, $box5_length, $box5_width, $box5_height, $box5_weight)) {
 						$result = "$sku\tOK" . PHP_EOL;
 					} else {
 						$result = "$sku\tFail" . PHP_EOL;
