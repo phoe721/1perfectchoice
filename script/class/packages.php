@@ -18,12 +18,12 @@ class packages {
 
 	public function insert($code, $item_no, $box1_length, $box1_width, $box1_height, $box1_weight, $box2_length, $box2_width, $box2_height, $box2_weight, $box3_length, $box3_width, $box3_height, $box3_weight, $box4_legnth, $box4_width, $box4_height, $box4_weight, $box5_length, $box5_width, $box5_height, $box5_weight) {
 		if (!$this->exists($code, $item_no)) {
-			$result = $this->db->query("INSERT INTO packages (code, item_no, ship_length, ship_width, ship_height, ship_weight) VALUES ('$code', '$item_no', '$box1_length', '$box1_width', '$box1_height', '$box1_weight', '$box2_length', '$box2_width', '$box2_height', '$box2_weight', '$box3_length', '$box3_width', '$box3_height', '$box3_weight', '$box4_legnth', '$box4_width', '$box4_height', '$box4_weight', '$box5_length', '$box5_width', '$box5_height', '$box5_weight')");
+			$result = $this->db->query("INSERT INTO packages (code, item_no, box1_length, box1_width, box1_height, box1_weight, box2_length, box2_width, box2_height, box2_weight, box3_length, box3_width, box3_height, box3_weight, box4_length, box4_width, box4_height, box4_weight, box5_length, box5_width, box5_height, box5_weight) VALUES ('$code', '$item_no', '$box1_length', '$box1_width', '$box1_height', '$box1_weight', '$box2_length', '$box2_width', '$box2_height', '$box2_weight', '$box3_length', '$box3_width', '$box3_height', '$box3_weight', '$box4_legnth', '$box4_width', '$box4_height', '$box4_weight', '$box5_length', '$box5_width', '$box5_height', '$box5_weight')");
 			if ($result) {
 				$this->output->notice("Item: $item_no, Code: $code packages has been inserted successfully!");
 				return true;
 			} else {
-				$this->output->notice("Failed to insert $item_no!");
+				$this->output->notice("Item: $item_no, Code: $code failed to insert!");
 				return false;
 			}
 		} else {
@@ -43,8 +43,8 @@ class packages {
 				return false;
 			}
 		} else {
-			$this->output->notice("Item: $item_no, Code: $code does not exist! Inserting it!");
-			return $this->insert($code, $item_no, $length, $width, $height, $weight);
+			$this->output->notice("Item: $item_no, Code: $code does not exist!");
+			return false;
 		}
 	}
 
@@ -77,9 +77,9 @@ class packages {
 			if (mysqli_num_rows($result) > 0) {
 				$row = mysqli_fetch_array($result);
 				array_push($dimensions, $row["box1_length"], $row["box1_width"], $row["box1_height"], $row["box2_length"], $row["box2_width"], $row["box2_height"], $row["box3_length"], $row["box3_width"], $row["box3_height"], $row["box4_length"], $row["box4_width"], $row["box4_height"], $row["box5_length"], $row["box5_width"], $row["box5_height"]);
-				$this->output->notice("Item: $item_no, code: $code packages dimensions found!");
+				$this->output->notice("Item: $item_no, code: $code package dimensions found!");
 			} else {
-				$this->output->notice("Item: $item_no, code: $code packages dimensions not found!");
+				$this->output->notice("Item: $item_no, code: $code package dimensions not found!");
 			}
 
 			return $dimensions;
@@ -88,9 +88,9 @@ class packages {
 			if (mysqli_num_rows($result) > 0) {
 				$row = mysqli_fetch_array($result);
 				array_push($dimensions, $row["box1_length"], $row["box1_width"], $row["box1_height"], $row["box2_length"], $row["box2_width"], $row["box2_height"], $row["box3_length"], $row["box3_width"], $row["box3_height"], $row["box4_length"], $row["box4_width"], $row["box4_height"], $row["box5_length"], $row["box5_width"], $row["box5_height"]);
-				$this->output->notice("Item: $item_no, code: $code packages dimensions found!");
+				$this->output->notice("Item: $item_no, code: $code package dimensions found!");
 			} else {
-				$this->output->notice("Item: $item_no, code: $code packages dimensions not found!");
+				$this->output->notice("Item: $item_no, code: $code package dimensions not found!");
 			}
 	
 			return $dimensions;
@@ -108,9 +108,9 @@ class packages {
 				if (mysqli_num_rows($result) > 0) {
 					$row = mysqli_fetch_array($result);
 					array_push($weights, $row["box1_weight"] + $row["box2_weight"] + $row["box3_weight"] + $row["box4_weight"] + $row["box5_weight"]);
-					$this->output->notice("Item: $item_no, Code: $code packages weights found!");
+					$this->output->notice("Item: $item_no, Code: $code package weights found!");
 				} else {
-					$this->output->notice("Item: $item_no, Code: $code packages weights not found!");
+					$this->output->notice("Item: $item_no, Code: $code package weights not found!");
 				}
 			}
 
@@ -120,9 +120,9 @@ class packages {
 			if (mysqli_num_rows($result) > 0) {
 				$row = mysqli_fetch_array($result);
 				array_push($weights, $row["box1_weight"] + $row["box2_weight"] + $row["box3_weight"] + $row["box4_weight"] + $row["box5_weight"]);
-				$this->output->notice("Item: $item_no, Code: $code packages weights found!");
+				$this->output->notice("Item: $item_no, Code: $code package weights found!");
 			} else {
-				$this->output->notice("Item: $item_no, Code: $code packages weights not found!");
+				$this->output->notice("Item: $item_no, Code: $code package weights not found!");
 			}
 			return $weights;
 		}
@@ -138,7 +138,7 @@ class packages {
 				}
 				$this->output->notice("Item: $item_no, code: $code with $box_count packages!");
 			} else {
-				$this->output->notice("Item: $item_no, code: $code packages not found!");
+				$this->output->notice("Item: $item_no, code: $code not found!");
 			}
 	
 			return $box_count;
