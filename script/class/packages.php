@@ -107,19 +107,19 @@ class packages {
 				$result = $this->db->query("SELECT box1_weight, box2_weight, box3_weight, box4_weight, box5_weight FROM packages WHERE code = '$code' AND item_no = '$item_no'");
 				if (mysqli_num_rows($result) > 0) {
 					$row = mysqli_fetch_array($result);
-					array_push($weights, $row["box1_weight"] + $row["box2_weight"] + $row["box3_weight"] + $row["box4_weight"] + $row["box5_weight"]);
+					array_push($weights, $row["box1_weight"], $row["box2_weight"], $row["box3_weight"], $row["box4_weight"], $row["box5_weight"]);
 					$this->output->notice("Item: $item_no, Code: $code package weights found!");
 				} else {
 					$this->output->notice("Item: $item_no, Code: $code package weights not found!");
 				}
 			}
 
-			return $weight;
+			return $weights;
 		} else {
 			$result = $this->db->query("SELECT box1_weight, box2_weight, box3_weight, box4_weight, box5_weight FROM packages WHERE code = '$code' AND item_no = '$item_no'");
 			if (mysqli_num_rows($result) > 0) {
 				$row = mysqli_fetch_array($result);
-				array_push($weights, $row["box1_weight"] + $row["box2_weight"] + $row["box3_weight"] + $row["box4_weight"] + $row["box5_weight"]);
+				array_push($weights, $row["box1_weight"], $row["box2_weight"], $row["box3_weight"], $row["box4_weight"], $row["box5_weight"]);
 				$this->output->notice("Item: $item_no, Code: $code package weights found!");
 			} else {
 				$this->output->notice("Item: $item_no, Code: $code package weights not found!");
@@ -134,7 +134,7 @@ class packages {
 			if (mysqli_num_rows($result) > 0) {
 				$row = mysqli_fetch_array($result);
 				for ($i = 1; $i <= 5; $i++) {
-					if (!is_null($row["box" . $i . "_length"])) $box_count = $i;
+					if (!empty($row["box" . $i . "_length"])) $box_count = $i;
 				}
 				$this->output->notice("Item: $item_no, code: $code with $box_count packages!");
 			} else {

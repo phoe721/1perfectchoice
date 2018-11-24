@@ -50,7 +50,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["sku"])) {
 	$result = "$sku has ";
 	for ($i = 0; $i < $box_count; $i++) {
 		$count = $i + 1;
-		$result .= "box $count weight: $weights[0] lbs, ";
+		$result .= "box $count weight: " . $weights[$i] . " lbs, ";
 		$result .= "box $count dimensions: " . $dimensions[$i] . " x " . $dimensions[$i+1] . " x " . $dimensions[$i+2] . "." . PHP_EOL;
 	}
 
