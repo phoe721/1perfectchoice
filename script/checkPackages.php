@@ -23,9 +23,9 @@ if (isset($argv[1]) && isset($argv[2]) && isset($argv[3])) {
 					$box_count = $pg->get_box_count($code, $item_no);
 					$weights = $pg->get_weight($code, $item_no);
 					$dimensions = $pg->get_dimensions($code, $item_no);
-					$result = "$sku\t";
+					$result = "$sku";
 					for ($i = 0; $i < $box_count; $i++) {
-						$result .= $dimensions[$i] . "\t" . $dimensions[$i+1] . "\t" . $dimensions[$i+2] . "\t" . $weights[$i] . "\t";
+						$result .= "\t" . $dimensions[$i] . "\t" . $dimensions[$i+1] . "\t" . $dimensions[$i+2] . "\t" . $weights[$i];
 					}
 					$result .= PHP_EOL;
 				} else {
