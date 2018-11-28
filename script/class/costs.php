@@ -17,12 +17,17 @@ class costs {
 	}
 
 	public function insert($code, $item_no, $cost, $unit) {
-		$result = $this->db->query("INSERT INTO costs (code, item_no, cost, unit, updated_at) VALUES ('$code', '$item_no', '$cost', '$unit',NOW())");
-		if ($result) {
-			$this->output->notice("Item: $item_no, Code: $code with $cost per unit and $unit per box has been inserted successfully!");
-			return true;
+		if ($this->check_exist($code, $item_no)) {
+			$result = $this->db->query("INSERT INTO costs (code, item_no, cost, unit, updated_at) VALUES ('$code', '$item_no', '$cost', '$unit',NOW())");
+			if ($result) {
+				$this->output->notice("Item: $item_no, Code: $code with $cost per unit and $unit per box has been inserted successfully!");
+				return true;
+			} else {
+				$this->output->notice("Failed to insert $item_no!");
+				return false;
+			}
 		} else {
-			$this->output->notice("Failed to insert $item_no!");
+			$this->output->notice("Failed to insert $item_no because it exists!");
 			return false;
 		}
 	}
@@ -117,6 +122,17 @@ class costs {
 			}
 
 			return $unit;
+		}
+	}
+
+	public function check_exist($code, $item_no) {
+		$result = $this->db->query("SELECT * FROM costs WHERE code = '$code' AND item_no = '$item_no'");
+		if (mysqli_num_rows($result) > 0) {
+			$this->output->notice("Item: $item_no, Code: $code exists!");
+			return true;
+		} else {
+			$this->output->notice("Item: $item_no, Code: $code not exist!");
+			return false;
 		}
 	}
 
