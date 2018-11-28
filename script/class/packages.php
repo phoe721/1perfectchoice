@@ -72,14 +72,18 @@ class packages {
 		$dimensions = array();
 		if ($this->set_list->check($code, $item_no)) {
 			$set = $this->set_list->get_set($code, $item_no);
-			$item = $set[0];
-			$result = $this->db->query("SELECT box1_length, box1_width, box1_height, box2_length, box2_width, box2_height, box3_length, box3_width, box3_height, box4_length, box4_width, box4_height, box5_length, box5_width, box5_height FROM packages WHERE code = '$code' AND item_no = '$item_no'");
-			if (mysqli_num_rows($result) > 0) {
-				$row = mysqli_fetch_array($result);
-				array_push($dimensions, $row["box1_length"], $row["box1_width"], $row["box1_height"], $row["box2_length"], $row["box2_width"], $row["box2_height"], $row["box3_length"], $row["box3_width"], $row["box3_height"], $row["box4_length"], $row["box4_width"], $row["box4_height"], $row["box5_length"], $row["box5_width"], $row["box5_height"]);
-				$this->output->notice("Item: $item_no, code: $code package dimensions found!");
-			} else {
-				$this->output->notice("Item: $item_no, code: $code package dimensions not found!");
+			for ($i = 0; $i < count($set); $i++) {
+				$item = $set[$i];
+				$result = $this->db->query("SELECT box1_length, box1_width, box1_height, box2_length, box2_width, box2_height, box3_length, box3_width, box3_height, box4_length, box4_width, box4_height, box5_length, box5_width, box5_height FROM packages WHERE code = '$code' AND item_no = '$item'");
+				if (mysqli_num_rows($result) > 0) {
+					$row = mysqli_fetch_array($result);
+					for ($j = 1; $j <= 5; $j++) {
+						if (!empty($row["box" . $j . "_length"])) array_push($dimensions, $row["box" . $j . "_length"], $row["box" . $j . "_width"], $row["box" . $j . "_height"]);
+					}
+					$this->output->notice("Item: $item, code: $code package dimensions found!");
+				} else {
+					$this->output->notice("Item: $item, code: $code package dimensions not found!");
+				}
 			}
 
 			return $dimensions;
@@ -87,7 +91,9 @@ class packages {
 			$result = $this->db->query("SELECT box1_length, box1_width, box1_height, box2_length, box2_width, box2_height, box3_length, box3_width, box3_height, box4_length, box4_width, box4_height, box5_length, box5_width, box5_height FROM packages WHERE code = '$code' AND item_no = '$item_no'");
 			if (mysqli_num_rows($result) > 0) {
 				$row = mysqli_fetch_array($result);
-				array_push($dimensions, $row["box1_length"], $row["box1_width"], $row["box1_height"], $row["box2_length"], $row["box2_width"], $row["box2_height"], $row["box3_length"], $row["box3_width"], $row["box3_height"], $row["box4_length"], $row["box4_width"], $row["box4_height"], $row["box5_length"], $row["box5_width"], $row["box5_height"]);
+				for ($j = 1; $j <= 5; $j++) {
+					if (!empty($row["box" . $j . "_length"])) array_push($dimensions, $row["box" . $j . "_length"], $row["box" . $j . "_width"], $row["box" . $j . "_height"]);
+				}
 				$this->output->notice("Item: $item_no, code: $code package dimensions found!");
 			} else {
 				$this->output->notice("Item: $item_no, code: $code package dimensions not found!");
@@ -103,11 +109,13 @@ class packages {
 			$total = 0;
 			$set = $this->set_list->get_set($code, $item_no);
 			for ($i = 0; $i < count($set); $i++) {
-				$item_no = $set[$i];
-				$result = $this->db->query("SELECT box1_weight, box2_weight, box3_weight, box4_weight, box5_weight FROM packages WHERE code = '$code' AND item_no = '$item_no'");
+				$item = $set[$i];
+				$result = $this->db->query("SELECT box1_weight, box2_weight, box3_weight, box4_weight, box5_weight FROM packages WHERE code = '$code' AND item_no = '$item'");
 				if (mysqli_num_rows($result) > 0) {
 					$row = mysqli_fetch_array($result);
-					array_push($weights, $row["box1_weight"], $row["box2_weight"], $row["box3_weight"], $row["box4_weight"], $row["box5_weight"]);
+					for ($j = 1; $j <= 5; $j++) {
+						if (!empty($row["box" . $j . "_weight"])) array_push($weights, $row["box" . $j . "_weight"]);
+					}
 					$this->output->notice("Item: $item_no, Code: $code package weights found!");
 				} else {
 					$this->output->notice("Item: $item_no, Code: $code package weights not found!");
@@ -119,7 +127,9 @@ class packages {
 			$result = $this->db->query("SELECT box1_weight, box2_weight, box3_weight, box4_weight, box5_weight FROM packages WHERE code = '$code' AND item_no = '$item_no'");
 			if (mysqli_num_rows($result) > 0) {
 				$row = mysqli_fetch_array($result);
-				array_push($weights, $row["box1_weight"], $row["box2_weight"], $row["box3_weight"], $row["box4_weight"], $row["box5_weight"]);
+				for ($j = 1; $j <= 5; $j++) {
+					if (!empty($row["box" . $j . "_weight"])) array_push($weights, $row["box" . $j . "_weight"]);
+				}
 				$this->output->notice("Item: $item_no, Code: $code package weights found!");
 			} else {
 				$this->output->notice("Item: $item_no, Code: $code package weights not found!");
@@ -130,18 +140,39 @@ class packages {
 
 	public function get_box_count($code, $item_no) {
 			$box_count = 0;
-			$result = $this->db->query("SELECT box1_length, box2_length, box3_length, box4_length, box5_length FROM packages WHERE code = '$code' AND item_no = '$item_no'");
-			if (mysqli_num_rows($result) > 0) {
-				$row = mysqli_fetch_array($result);
-				for ($i = 1; $i <= 5; $i++) {
-					if (!empty($row["box" . $i . "_length"])) $box_count = $i;
+			if ($this->set_list->check($code, $item_no)) {
+				$total = 0;
+				$set = $this->set_list->get_set($code, $item_no);
+				for ($i = 0; $i < count($set); $i++) {
+					$item = $set[$i];
+					$result = $this->db->query("SELECT box1_length, box2_length, box3_length, box4_length, box5_length FROM packages WHERE code = '$code' AND item_no = '$item'");
+					if (mysqli_num_rows($result) > 0) {
+						$row = mysqli_fetch_array($result);
+						for ($j = 1; $j <= 5; $j++) {
+							if (!empty($row["box" . $j . "_length"])) $box_count = $j;
+						}
+						$this->output->notice("Item: $item, code: $code with $box_count packages!");
+						$total += $box_count;
+					} else {
+						$this->output->notice("Item: $item, code: $code not found!");
+					}
 				}
-				$this->output->notice("Item: $item_no, code: $code with $box_count packages!");
+
+				return $total;
 			} else {
-				$this->output->notice("Item: $item_no, code: $code not found!");
-			}
+				$result = $this->db->query("SELECT box1_length, box2_length, box3_length, box4_length, box5_length FROM packages WHERE code = '$code' AND item_no = '$item_no'");
+				if (mysqli_num_rows($result) > 0) {
+					$row = mysqli_fetch_array($result);
+					for ($i = 1; $i <= 5; $i++) {
+						if (!empty($row["box" . $i . "_length"])) $box_count = $i;
+					}
+					$this->output->notice("Item: $item_no, code: $code with $box_count packages!");
+				} else {
+					$this->output->notice("Item: $item_no, code: $code not found!");
+				}
 	
-			return $box_count;
+				return $box_count;
+			}
 	}
 
 	public function get_record_count() {
