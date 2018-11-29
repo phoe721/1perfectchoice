@@ -21,10 +21,11 @@ if (isset($argv[1]) && isset($argv[2]) && isset($argv[3])) {
 				list($sku, $new_cost, $unit) = explode("\t", $line);
 				if ($validator->check_sku($sku)) {
 					list($code, $item_no) = explode("-", $sku, 2);
-					if ($costs->update($code, $item_no, $new_cost, $unit)) { 
-						$result = "$sku\tOK" . PHP_EOL;
+					if ($costs->check_exist($code, $item_no)) {
+						$result = $costs->update($code, $item_no, $new_cost, $unit); 
+						$result = $result ? "$sku\tOK" . PHP_EOL : "$sku\tFail" . PHP_EOL;
 					} else {
-						$result = "$sku\tFail" . PHP_EOL;
+						$result = "$sku\tNot Exist" . PHP_EOL;
 					}
 				} else {
 					$result = "$sku\tInvalid" . PHP_EOL;

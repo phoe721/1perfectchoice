@@ -17,17 +17,12 @@ class costs {
 	}
 
 	public function insert($code, $item_no, $cost, $unit) {
-		if ($this->check_exist($code, $item_no)) {
-			$result = $this->db->query("INSERT INTO costs (code, item_no, cost, unit, updated_at) VALUES ('$code', '$item_no', '$cost', '$unit',NOW())");
-			if ($result) {
-				$this->output->notice("Item: $item_no, Code: $code with $cost per unit and $unit per box has been inserted successfully!");
-				return true;
-			} else {
-				$this->output->notice("Failed to insert $item_no!");
-				return false;
-			}
+		$result = $this->db->query("INSERT INTO costs (code, item_no, cost, unit, updated_at) VALUES ('$code', '$item_no', '$cost', '$unit',NOW())");
+		if ($result) {
+			$this->output->notice("Item: $item_no, Code: $code with $cost per unit and $unit per box has been inserted successfully!");
+			return true;
 		} else {
-			$this->output->notice("Failed to insert $item_no because it exists!");
+			$this->output->notice("Failed to insert $item_no!");
 			return false;
 		}
 	}

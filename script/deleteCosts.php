@@ -20,10 +20,11 @@ if (isset($argv[1]) && isset($argv[2]) && isset($argv[3])) {
 				$status->log_status("Deleteing $sku...");
 				if ($validator->check_sku($sku)) {
 					list($code, $item_no) = explode("-", $sku, 2);
-					if ($costs->delete($code, $item_no)) { 
-						$result = "$sku\tOK" . PHP_EOL;
+					if ($costs->check_exist($code, $item_no)) {
+						$result = $costs->delete($code, $item_no); 
+						$result = $result ? "$sku\tOK" . PHP_EOL : "$sku\tFail" . PHP_EOL;
 					} else {
-						$result = "$sku\tFail" . PHP_EOL;
+						$result = "$sku\tNot Exist" . PHP_EOL;
 					}
 				} else {
 					$result = "$sku\tInvalid" . PHP_EOL;
