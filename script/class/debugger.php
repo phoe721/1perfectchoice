@@ -3,11 +3,10 @@
 require_once(__DIR__ . "/../init.php");
 
 class debugger {
-	private $loglevel = 1;
+	private $loglevel = 0;
 
 	public function info($message) {
-		if ($this->loglevel == 0) echo $message . PHP_EOL;
-		$this->logger("[Info] $message");
+		if ($this->loglevel == 0) $this->logger("[Info] $message");
 	}
 
 	public function notice($message) {
