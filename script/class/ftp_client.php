@@ -98,6 +98,18 @@ class ftp_client {
 		}
 	}
 
+	public function get($file, $remote_file) {
+		if ($this->conn) {
+			if (ftp_get($this->conn, $file, $remote_file, FTP_BINARY)) {
+				$this->output->notice("Downloaded $remote_file!");
+			} else {
+				$this->output->error("Failed to download $remote_file!");
+			}
+		} else {
+			$this->output->error("Not connected to $this->server!");
+		}
+	}
+
 	public function put($remote_file, $file) {
 		if ($this->conn) {
 			if (ftp_put($this->conn, $remote_file, $file, FTP_BINARY)) {
