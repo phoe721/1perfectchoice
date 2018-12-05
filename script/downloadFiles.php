@@ -16,15 +16,15 @@ if (isset($argv[1]) && isset($argv[2]) && isset($argv[3])) {
 	if ($input && $output) {
 		while(!feof($input)) {
 			$line = trim(fgets($input));
-			$status->log_status("Processing $line...");
 			if (!empty($line)) {
 				list($sku, $url) = explode("\t", $line, 2);
-				if ($validator->check_sku($sku) && $validator->check_url($url)) {
+				$status->log_status("Processing $url...");
+				if ($validator->check_url($url)) {
 					$path = DOWNLOAD . $sku . ".jpg";
 					$downloader->download($url, $path);
-					$result = "$line\tDownloaded" . PHP_EOL;
+					$result = "$url\tDownloaded" . PHP_EOL;
 				} else {
-					$result = "$line\tInvalid" . PHP_EOL;
+					$result = "$url\tInvalid" . PHP_EOL;
 				}
 				fwrite($output, $result);
 			}
