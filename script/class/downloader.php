@@ -14,7 +14,7 @@ class downloader {
 		curl_setopt($ch, CURLOPT_URL, $url);
 		//curl_setopt($ch, CURLOPT_BUFFERSIZE, 128);
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-		curl_setopt($ch, CURLOPT_PROGRESSFUNCTION, 'progress');
+		//curl_setopt($ch, CURLOPT_PROGRESSFUNCTION, 'progress');
 		curl_setopt($ch, CURLOPT_NOPROGRESS, false); 
 		curl_setopt($ch, CURLOPT_HEADER, 0);
 		//curl_setopt($ch, CURLOPT_USERAGENT, $_SERVER['HTTP_USER_AGENT']);
@@ -46,6 +46,7 @@ class downloader {
 			return $data;
 		} else {
 			$this->output->error(curl_error($ch));
+			return false;
 		}
 	
 		curl_close($ch);
