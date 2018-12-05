@@ -25,7 +25,7 @@ if (isset($argv[1]) && isset($argv[2]) && isset($argv[3])) {
 					$dimensions = $pg->get_dimensions($code, $item_no);
 					$result = "$sku";
 					for ($i = 0; $i < $box_count; $i++) {
-						$result .= "\t" . $dimensions[$i] . "\t" . $dimensions[$i+1] . "\t" . $dimensions[$i+2] . "\t" . $weights[$i];
+						$result .= "\t" . $dimensions[$i*3] . "\t" . $dimensions[$i*3+1] . "\t" . $dimensions[$i*3+2] . "\t" . $weights[$i];
 					}
 					$result .= PHP_EOL;
 				} else {
@@ -51,7 +51,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["sku"])) {
 	for ($i = 0; $i < $box_count; $i++) {
 		$count = $i + 1;
 		$result .= "box $count weight: " . $weights[$i] . " lbs, ";
-		$result .= "box $count dimensions: " . $dimensions[$i] . " x " . $dimensions[$i+1] . " x " . $dimensions[$i+2] . "." . PHP_EOL;
+		$result .= "box $count dimensions: " . $dimensions[$i*3] . " x " . $dimensions[$i*3+1] . " x " . $dimensions[$i*3+2] . ". ";
 	}
 
 	echo json_encode($result);
