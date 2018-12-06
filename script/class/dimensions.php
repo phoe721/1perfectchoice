@@ -10,7 +10,6 @@ class dimensions {
 
 	public function __construct() {
 		$this->output = new debugger;
-		$this->output->set_log_level(1);
 		$this->db = new database;
 		$this->db->connect(DB_SERVER, DB_USER, DB_PASS, DATABASE);
 		mysqli_set_charset($this->db->getConnection(), "utf8");
