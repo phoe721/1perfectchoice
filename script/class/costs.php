@@ -54,7 +54,9 @@ class costs {
 		$result = $this->db->query("SELECT cost FROM costs WHERE code = '$code' AND item_no = '$item_no'");
 		if (mysqli_num_rows($result) > 0) {
 			$row = mysqli_fetch_array($result);
-			$cost = $row['cost'];
+			$cost = $row['cost']; 
+			$unit = $this->get_unit($code, $item_no);
+			$cost = $cost * $unit;
 			$this->output->notice("Item: $item_no, code: $code costs $cost!");
 		} else {
 			$this->output->notice("Item: $item_no, code: $code cost not found!");
@@ -69,13 +71,14 @@ class costs {
 				if (mysqli_num_rows($result) > 0) {
 					$row = mysqli_fetch_array($result);
 					$cost = $row['cost'];
+					$unit = $this->get_unit($code, $item);
+					$cost = $cost * $unit;
 					array_push($costs, $cost);
 					$this->output->notice("Item: $item_no, code: $code costs $cost!");
 				} else {
 					$this->output->notice("Item: $item_no, code: $code cost not found!");
 				}
 			}
-
 
 			// Get MAX(Item Cost, Set Cost)
 			$total = max($cost, array_sum($costs));
@@ -103,9 +106,10 @@ class costs {
 					$this->output->notice("Item: $item, Code: $code unit per box not found!");
 				}
 			}
-			$this->output->notice("Item: $item, Code: $code is a set!");
+			$total = array_sum($units);
+			$this->output->notice("Item: $item, Code: $code is a set and has $total units!");
 
-			return 1;
+			return $total;
 		} else {
 			$result = $this->db->query("SELECT unit FROM costs WHERE code = '$code' AND item_no = '$item_no'");
 			if (mysqli_num_rows($result) > 0) {
