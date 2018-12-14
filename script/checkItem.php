@@ -1,0 +1,76 @@
+<?
+require_once("class/ASIN.php");
+require_once("class/costs.php");
+require_once("class/inventory.php");
+require_once("class/discontinued.php");
+require_once("class/dimensions.php");
+require_once("class/packages.php");
+require_once("class/product.php");
+require_once("class/set_list.php");
+require_once("class/status.php");
+require_once("class/vendors.php");
+require_once("class/validator.php");
+$a = new ASIN();
+$c = new costs();
+$dis = new discontinued();
+$dim = new dimensions();
+$inv = new inventory();
+$pg = new packages();
+$p = new product();
+$sl = new set_list();
+$v = new vendors();
+$status = new status();
+$validator = new validator();
+
+if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["sku"])) { 
+	$sku = $_POST["sku"];
+	list($code, $item_no) = explode("-", $sku, 2);
+	$vendor = $v->get_name($code);
+	$asin = $a->get_asin($code, $item_no);
+	$upc = $p->get_upc($code, $item_no);
+	$discontinued = $dis->check($code, $item_no) ? "Active" : "Discontinued";
+	$cost = $c->get_cost($code, $item_no);
+	$unit = $c->get_unit($code, $item_no);
+	$url = IMAGE_SERVER . "$code/$item_no.jpg";
+	$url = ($validator->check_url($url)) ? "<img src='$url' width='500px' alt='$sku'>" : "<img src='' alt='Not Found'>";
+	$qty = $inv->get($code, $item_no);
+	$set = $sl->get_set($code, $item_no);
+	$set_str = $set ? implode(", ", $set) : "No";
+	$weight = $dim->get_weight($code, $item_no);
+	$dimensions = $dim->get_dimensions($code, $item_no);
+	$box_count = $pg->get_box_count($code, $item_no);
+	$pg_weights = $pg->get_weight($code, $item_no);
+	$pg_dimensions = $pg->get_dimensions($code, $item_no);
+
+	$result = "SKU: $sku<br>";
+	$result .= "Vendor: $vendor<br>";
+	$result .= "ASIN: $asin<br>";
+	$result .= "UPC: $upc<br>";
+	$result .= "Status: $discontinued<br>";
+	$result .= "Cost: $cost<br>";
+	$result .= "Unit: $unit<br>";
+	$result .= "Quantity: $qty<br>";
+	$result .= "Set List: $set_str<br>";
+
+	if ($set) {
+		for ($i = 0; $i < count($set); $i++) {
+			$item = $set[$i];
+			$result .= "Item $item Weight: " . $weight[$i] . " lbs<br>";
+			$result .= "Item $item Dimensions: " . $dimensions[$i*3] . " x " . $dimensions[$i*3+1] . " x " . $dimensions[$i*3+2] . "<br>";
+		}
+	} else {
+		$result .= "Weight: $weight[0]<br>";
+		$result .= "Dimensions: " . implode(" x ", $dimensions) . "<br>";
+	}
+
+	$result .= "Box Count: $box_count<br>";
+	for ($i = 0; $i < $box_count; $i++) {
+		$count = $i + 1;
+		$result .= "Box $count Weight: " . $pg_weights[$i] . " lbs<br>";
+		$result .= "Box $count Dimensions: " . $pg_dimensions[$i*3] . " x " . $pg_dimensions[$i*3+1] . " x " . $pg_dimensions[$i*3+2] . "<br>";
+	}
+	//$result .= $url;
+
+	echo json_encode($result);
+}
+?>
