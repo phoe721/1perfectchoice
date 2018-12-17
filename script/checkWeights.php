@@ -36,22 +36,4 @@ if (isset($argv[1]) && isset($argv[2]) && isset($argv[3])) {
 	fclose($input);
 	fclose($output);
 }
-
-if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["sku"])) { 
-	$sku = $_POST["sku"];
-	list($code, $item_no) = explode("-", $sku, 2);
-	$weight = $dim->get_weight($code, $item_no);
-	if ($set_list->check($code, $item_no)) {
-		$set = $set_list->get_set($code, $item_no);
-		$result = "$sku has ";
-		for ($i = 0; $i < count($set); $i++) {
-			$item = $set[$i];
-			$result .= "$item weight: " . $weight[$i] . ". ";
-		}
-	} else {
-		$result = "$sku has weight " . $weight[0] . " lb!";
-	}
-
-	echo json_encode($result);
-}
 ?>

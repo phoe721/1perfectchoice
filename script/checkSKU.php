@@ -33,12 +33,4 @@ if (isset($argv[1]) && isset($argv[2]) && isset($argv[3])) {
 	fclose($input);
 	fclose($output);
 }
-
-if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["asin"])) { 
-	$asin = $_POST["asin"];
-	$sku = $a->get_sku($asin);
-	$result = "$asin has SKU $sku!";
-
-	echo json_encode($result);
-}
 ?>

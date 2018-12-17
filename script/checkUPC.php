@@ -34,13 +34,4 @@ if (isset($argv[1]) && isset($argv[2]) && isset($argv[3])) {
 	fclose($input);
 	fclose($output);
 }
-
-if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["sku"])) { 
-	$sku = $_POST["sku"];
-	list($code, $item_no) = explode("-", $sku, 2);
-	$upc = $product->get_upc($code, $item_no);
-	$result = "$sku has UPC $upc!";
-
-	echo json_encode($result);
-}
 ?>

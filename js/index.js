@@ -59,7 +59,7 @@ $(document).ready(function() {
 	$('#check').click(function() {
 		if (form.valid()) {
 			var sku = $('#sku').val();
-			var script = 'script/' + $('#task').val() + '.php';
+			var script = 'script/checkItem.php';
 			var formData = new FormData();
 			formData.append('sku', sku);
 

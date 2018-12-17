@@ -40,20 +40,4 @@ if (isset($argv[1]) && isset($argv[2]) && isset($argv[3])) {
 	fclose($input);
 	fclose($output);
 }
-
-if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["sku"])) { 
-	$sku = $_POST["sku"];
-	list($code, $item_no) = explode("-", $sku, 2);
-	$box_count = $pg->get_box_count($code, $item_no);
-	$weights = $pg->get_weight($code, $item_no);
-	$dimensions = $pg->get_dimensions($code, $item_no);
-	$result = "$sku has ";
-	for ($i = 0; $i < $box_count; $i++) {
-		$count = $i + 1;
-		$result .= "box $count weight: " . $weights[$i] . " lbs, ";
-		$result .= "box $count dimensions: " . $dimensions[$i*3] . " x " . $dimensions[$i*3+1] . " x " . $dimensions[$i*3+2] . ". ";
-	}
-
-	echo json_encode($result);
-}
 ?>
