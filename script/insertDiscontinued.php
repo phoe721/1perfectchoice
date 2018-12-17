@@ -20,10 +20,11 @@ if (isset($argv[1]) && isset($argv[2]) && isset($argv[3])) {
 				$status->log_status("Inserting $sku...");
 				if ($validator->check_sku($sku)) {
 					list($code, $item_no) = explode("-", $sku, 2);
-					if ($dis->insert($code, $item_no)) { 
-						$result = "$sku\tOK" . PHP_EOL;
+					if ($dis->check($code, $item_no)) {
+						$result = "$sku\tExists" . PHP_EOL;
 					} else {
-						$result = "$sku\tFail" . PHP_EOL;
+						$result = $dis->insert($code, $item_no); 
+						$result = $result ? "$sku\tOK" . PHP_EOL : "$sku\tFail" . PHP_EOL;
 					}
 				} else {
 					$result = "$sku\tFail" . PHP_EOL;
