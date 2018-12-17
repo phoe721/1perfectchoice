@@ -69,7 +69,8 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["sku"])) {
 		$result .= "Box $count Weight: " . $pg_weights[$i] . " lbs<br>";
 		$result .= "Box $count Dimensions: " . $pg_dimensions[$i*3] . " x " . $pg_dimensions[$i*3+1] . " x " . $pg_dimensions[$i*3+2] . "<br>";
 	}
-	//$result .= $url;
+
+	$result .= $url;
 
 	echo json_encode($result);
 }

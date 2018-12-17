@@ -67,7 +67,7 @@ class ASIN {
 			$row = mysqli_fetch_array($result);
 			$code = $row['code'];
 			$item_no = $row['item_no'];
-			$sku = $code . "-" . $item_no;
+			$sku = "$code-$item_no";
 			$this->output->notice("ASIN $asin SKU $sku!");
 		} else {
 			$this->output->notice("ASIN $asin SKU not found!");
