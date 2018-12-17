@@ -21,10 +21,11 @@ if (isset($argv[1]) && isset($argv[2]) && isset($argv[3])) {
 				list($sku, $length, $width, $height, $weight) = explode("\t", $line);
 				if ($validator->check_sku($sku)) {
 					list($code, $item_no) = explode("-", $sku, 2);
-					if ($dim->insert($code, $item_no, $length, $width, $height, $weight)) {
-						$result = "$sku\tOK" . PHP_EOL;
+					if ($dim->check_exist($code, $item_no)) {
+						$result = "$sku\tExists" . PHP_EOL;
 					} else {
-						$result = "$sku\tFail" . PHP_EOL;
+						$result = $dim->insert($code, $item_no, $length, $width, $height, $weight);
+						$result = $result ? "$sku\tOK" . PHP_EOL : "$sku\tFail" . PHP_EOL;
 					}
 				} else {
 					$result = "$sku\tInvalid" . PHP_EOL;

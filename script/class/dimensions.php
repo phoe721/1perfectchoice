@@ -49,11 +49,13 @@ class dimensions {
 		}
 	}
 
-	public function exists($code, $item_no) {
+	public function check_exist($code, $item_no) {
 		$result = $this->db->query("SELECT * FROM dimensions WHERE code = '$code' AND item_no = '$item_no'");
 		if (mysqli_num_rows($result) > 0) {
+			$this->output->notice("Item: $item_no, Code: $code exists!");
 			return true;
 		} else {
+			$this->output->notice("Item: $item_no, Code: $code not exist!");
 			return false;
 		}
 	}
