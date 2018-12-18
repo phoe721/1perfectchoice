@@ -54,30 +54,37 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["sku"])) {
 	if ($dim->check_exist($code, $item_no)) {
 		$weight = $dim->get_weight($code, $item_no);
 		$dimensions = $dim->get_dimensions($code, $item_no);
+
+		if ($set) {
+			for ($i = 0; $i < count($set); $i++) {
+				$item = $set[$i];
+				$result .= "Item $item Weight: " . $weight[$i] . " lbs<br>";
+				$result .= "Item $item Dimensions: " . $dimensions[$i*3] . " x " . $dimensions[$i*3+1] . " x " . $dimensions[$i*3+2] . "<br>";
+			}
+		} else {
+			$result .= "Weight: $weight[0]<br>";
+			$result .= "Dimensions: " . implode(" x ", $dimensions) . "<br>";
+		}
+	} else {
+		$result .= "Weight: Not Found<br>";
+		$result .= "Dimensions: Not Found<br>";
 	}
 
 	if ($pg->check_exist($code, $item_no)) {
 		$box_count = $pg->get_box_count($code, $item_no); 
 		$pg_weights = $pg->get_weight($code, $item_no);
 		$pg_dimensions = $pg->get_dimensions($code, $item_no);
-	}
 
-	if ($set) {
-		for ($i = 0; $i < count($set); $i++) {
-			$item = $set[$i];
-			$result .= "Item $item Weight: " . $weight[$i] . " lbs<br>";
-			$result .= "Item $item Dimensions: " . $dimensions[$i*3] . " x " . $dimensions[$i*3+1] . " x " . $dimensions[$i*3+2] . "<br>";
+		$result .= "Box Count: $box_count<br>";
+		for ($i = 0; $i < $box_count; $i++) {
+			$count = $i + 1;
+			$result .= "Box $count Weight: " . $pg_weights[$i] . " lbs<br>";
+			$result .= "Box $count Dimensions: " . $pg_dimensions[$i*3] . " x " . $pg_dimensions[$i*3+1] . " x " . $pg_dimensions[$i*3+2] . "<br>";
 		}
 	} else {
-		$result .= "Weight: $weight[0]<br>";
-		$result .= "Dimensions: " . implode(" x ", $dimensions) . "<br>";
-	}
-
-	$result .= "Box Count: $box_count<br>";
-	for ($i = 0; $i < $box_count; $i++) {
-		$count = $i + 1;
-		$result .= "Box $count Weight: " . $pg_weights[$i] . " lbs<br>";
-		$result .= "Box $count Dimensions: " . $pg_dimensions[$i*3] . " x " . $pg_dimensions[$i*3+1] . " x " . $pg_dimensions[$i*3+2] . "<br>";
+		$result .= "Box Count: Not Found<br>";
+		$result .= "Box Weight: Not Found<br>";
+		$result .= "Box Dimensions: Not Found<br>";
 	}
 
 	$result .= "</div>";

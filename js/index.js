@@ -57,6 +57,7 @@ $(document).ready(function() {
 
 	// Check button
 	$('#check').click(function() {
+		$('#output').html('');
 		if (form.valid()) {
 			var sku = $('#sku').val();
 			var script = 'script/checkItem.php';
