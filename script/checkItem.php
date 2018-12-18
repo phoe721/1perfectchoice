@@ -34,12 +34,14 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["sku"])) {
 	$cost = $c->check_exist($code, $item_no) ? $c->get_cost($code, $item_no) : "Not Found";
 	$unit = $c->check_exist($code, $item_no) ? $c->get_unit($code, $item_no) : "Not Found";
 	$url = IMAGE_SERVER . "$code/$item_no.jpg";
-	$img = ($validator->check_url($url)) ? "<img src='$url' width='500px' alt='$sku'>" : "<img src='' alt='Not Found'>";
+	$img = ($validator->check_url($url)) ? "<img src='$url' width='300px' alt='$sku'>" : "<img src='' alt='Not Found'>";
 	$qty = $inv->check_exist($code, $item_no) ? $inv->get($code, $item_no) : "Not Found";
 	$set = $sl->get_set($code, $item_no);
 	$set_str = $set ? implode(", ", $set) : "No";
 
-	$result = "SKU: $sku<br>";
+	$result = "<div style='float: left;margin: 5px'>" . $img . "</div>";
+	$result .= "<div style='float: left;margin: 5px;'>";
+	$result .= "SKU: $sku<br>";
 	$result .= "Vendor: $vendor<br>";
 	$result .= "ASIN: $asin<br>";
 	$result .= "UPC: $upc<br>";
@@ -78,7 +80,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["sku"])) {
 		$result .= "Box $count Dimensions: " . $pg_dimensions[$i*3] . " x " . $pg_dimensions[$i*3+1] . " x " . $pg_dimensions[$i*3+2] . "<br>";
 	}
 
-	$result .= $img;
+	$result .= "</div>";
 
 	echo json_encode($result);
 }
