@@ -27,22 +27,17 @@ $validator = new validator();
 if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["sku"])) { 
 	$sku = $_POST["sku"];
 	list($code, $item_no) = explode("-", $sku, 2);
-	$vendor = $v->get_name($code);
-	$asin = $a->get_asin($code, $item_no);
-	$upc = $p->get_upc($code, $item_no);
+	$vendor = $v->check_exist($code) ? $v->get_name($code) : "Not Found";
+	$asin = $a->check_exist($code, $item_no) ? $a->get_asin($code, $item_no) : "Not Found";
+	$upc = $p->check_exist($code, $item_no) ? $p->get_upc($code, $item_no) : "Not Found";
 	$discontinued = $dis->check($code, $item_no) ? "Active" : "Discontinued";
-	$cost = $c->get_cost($code, $item_no);
-	$unit = $c->get_unit($code, $item_no);
+	$cost = $c->check_exist($code, $item_no) ? $c->get_cost($code, $item_no) : "Not Found";
+	$unit = $c->check_exist($code, $item_no) ? $c->get_unit($code, $item_no) : "Not Found";
 	$url = IMAGE_SERVER . "$code/$item_no.jpg";
-	$url = ($validator->check_url($url)) ? "<img src='$url' width='500px' alt='$sku'>" : "<img src='' alt='Not Found'>";
-	$qty = $inv->get($code, $item_no);
+	$img = ($validator->check_url($url)) ? "<img src='$url' width='500px' alt='$sku'>" : "<img src='' alt='Not Found'>";
+	$qty = $inv->check_exist($code, $item_no) ? $inv->get($code, $item_no) : "Not Found";
 	$set = $sl->get_set($code, $item_no);
 	$set_str = $set ? implode(", ", $set) : "No";
-	$weight = $dim->get_weight($code, $item_no);
-	$dimensions = $dim->get_dimensions($code, $item_no);
-	$box_count = $pg->get_box_count($code, $item_no);
-	$pg_weights = $pg->get_weight($code, $item_no);
-	$pg_dimensions = $pg->get_dimensions($code, $item_no);
 
 	$result = "SKU: $sku<br>";
 	$result .= "Vendor: $vendor<br>";
@@ -53,6 +48,17 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["sku"])) {
 	$result .= "Unit: $unit<br>";
 	$result .= "Quantity: $qty<br>";
 	$result .= "Set List: $set_str<br>";
+
+	if ($dim->check_exist($code, $item_no)) {
+		$weight = $dim->get_weight($code, $item_no);
+		$dimensions = $dim->get_dimensions($code, $item_no);
+	}
+
+	if ($pg->check_exist($code, $item_no)) {
+		$box_count = $pg->get_box_count($code, $item_no); 
+		$pg_weights = $pg->get_weight($code, $item_no);
+		$pg_dimensions = $pg->get_dimensions($code, $item_no);
+	}
 
 	if ($set) {
 		for ($i = 0; $i < count($set); $i++) {
@@ -72,7 +78,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["sku"])) {
 		$result .= "Box $count Dimensions: " . $pg_dimensions[$i*3] . " x " . $pg_dimensions[$i*3+1] . " x " . $pg_dimensions[$i*3+2] . "<br>";
 	}
 
-	$result .= $url;
+	$result .= $img;
 
 	echo json_encode($result);
 }

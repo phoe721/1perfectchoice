@@ -59,6 +59,17 @@ class vendors {
 		}
 	}
 
+	public function check_exist($code, $item_no) {
+		$result = $this->db->query("SELECT * FROM vendors WHERE code = '$code'");
+		if (mysqli_num_rows($result) > 0) {
+			$this->output->notice("Item: $item_no, Code: $code exists!");
+			return true;
+		} else {
+			$this->output->notice("Item: $item_no, Code: $code not exist!");
+			return false;
+		}
+	}
+
 	public function get_record_count() {
 		$result = $this->db->query("SELECT * FROM vendors");
 		if ($result) {

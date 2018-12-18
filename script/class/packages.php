@@ -17,33 +17,23 @@ class packages {
 	}
 
 	public function insert($code, $item_no, $box1_length, $box1_width, $box1_height, $box1_weight, $box2_length, $box2_width, $box2_height, $box2_weight, $box3_length, $box3_width, $box3_height, $box3_weight, $box4_legnth, $box4_width, $box4_height, $box4_weight, $box5_length, $box5_width, $box5_height, $box5_weight) {
-		if (!$this->exists($code, $item_no)) {
-			$result = $this->db->query("INSERT INTO packages (code, item_no, box1_length, box1_width, box1_height, box1_weight, box2_length, box2_width, box2_height, box2_weight, box3_length, box3_width, box3_height, box3_weight, box4_length, box4_width, box4_height, box4_weight, box5_length, box5_width, box5_height, box5_weight) VALUES ('$code', '$item_no', '$box1_length', '$box1_width', '$box1_height', '$box1_weight', '$box2_length', '$box2_width', '$box2_height', '$box2_weight', '$box3_length', '$box3_width', '$box3_height', '$box3_weight', '$box4_legnth', '$box4_width', '$box4_height', '$box4_weight', '$box5_length', '$box5_width', '$box5_height', '$box5_weight')");
-			if ($result) {
-				$this->output->notice("Item: $item_no, Code: $code packages has been inserted successfully!");
-				return true;
-			} else {
-				$this->output->notice("Item: $item_no, Code: $code failed to insert!");
-				return false;
-			}
+		$result = $this->db->query("INSERT INTO packages (code, item_no, box1_length, box1_width, box1_height, box1_weight, box2_length, box2_width, box2_height, box2_weight, box3_length, box3_width, box3_height, box3_weight, box4_length, box4_width, box4_height, box4_weight, box5_length, box5_width, box5_height, box5_weight) VALUES ('$code', '$item_no', '$box1_length', '$box1_width', '$box1_height', '$box1_weight', '$box2_length', '$box2_width', '$box2_height', '$box2_weight', '$box3_length', '$box3_width', '$box3_height', '$box3_weight', '$box4_legnth', '$box4_width', '$box4_height', '$box4_weight', '$box5_length', '$box5_width', '$box5_height', '$box5_weight')");
+		if ($result) {
+			$this->output->notice("Item: $item_no, Code: $code packages has been inserted successfully!");
+			return true;
 		} else {
-			$this->output->notice("Item: $item_no, Code: $code exists!");
+			$this->output->notice("Item: $item_no, Code: $code failed to insert!");
 			return false;
 		}
 	}
 	
 	public function update($code, $item_no, $box1_length, $box1_width, $box1_height, $box1_weight, $box2_length, $box2_width, $box2_height, $box2_weight, $box3_length, $box3_width, $box3_height, $box3_weight, $box4_legnth, $box4_width, $box4_height, $box4_weight, $box5_length, $box5_width, $box5_height, $box5_weight) {
-		if ($this->exists($code, $item_no)) {
-			$result = $this->db->query("UPDATE packages SET box1_length = '$box1_length', box1_width = '$box1_width', box1_height = '$box1_height', box1_weight = '$box1_weight', box2_length = '$box2_length', box2_width = '$box2_width', box2_height = '$box2_height', box2_weight = '$box2_weight', box3_length = '$box3_length', box3_width = '$box3_width', box3_height = '$box3_height', box3_weight = '$box3_weight', box4_length = '$box4_legnth', box4_width = '$box4_width', box4_height = '$box4_height', box4_weight = '$box4_weight ', box5_length = '$box5_length', box5_width = '$box5_width', box5_height = '$box5_height', box5_weight = '$box5_weight' WHERE code = '$code' AND item_no = '$item_no'");
-			if ($result) {
-				$this->output->notice("Item: $item_no, Code: $code packages has been updated!");
-				return true;
-			} else {
-				$this->output->notice("Item: $item_no, Code: $code failed to update packages!");
-				return false;
-			}
+		$result = $this->db->query("UPDATE packages SET box1_length = '$box1_length', box1_width = '$box1_width', box1_height = '$box1_height', box1_weight = '$box1_weight', box2_length = '$box2_length', box2_width = '$box2_width', box2_height = '$box2_height', box2_weight = '$box2_weight', box3_length = '$box3_length', box3_width = '$box3_width', box3_height = '$box3_height', box3_weight = '$box3_weight', box4_length = '$box4_legnth', box4_width = '$box4_width', box4_height = '$box4_height', box4_weight = '$box4_weight ', box5_length = '$box5_length', box5_width = '$box5_width', box5_height = '$box5_height', box5_weight = '$box5_weight' WHERE code = '$code' AND item_no = '$item_no'");
+		if ($result) {
+			$this->output->notice("Item: $item_no, Code: $code packages has been updated!");
+			return true;
 		} else {
-			$this->output->notice("Item: $item_no, Code: $code does not exist!");
+			$this->output->notice("Item: $item_no, Code: $code failed to update packages!");
 			return false;
 		}
 	}
@@ -59,11 +49,13 @@ class packages {
 		}
 	}
 
-	public function exists($code, $item_no) {
+	public function check_exist($code, $item_no) {
 		$result = $this->db->query("SELECT * FROM packages WHERE code = '$code' AND item_no = '$item_no'");
 		if (mysqli_num_rows($result) > 0) {
+			$this->output->notice("Item: $item_no, Code: $code exists!");
 			return true;
 		} else {
+			$this->output->notice("Item: $item_no, Code: $code not exist!");
 			return false;
 		}
 	}
