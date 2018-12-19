@@ -30,7 +30,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["sku"])) {
 	$vendor = $v->check_exist($code) ? $v->get_name($code) : "Not Found";
 	$asin = $a->check_exist($code, $item_no) ? $a->get_asin($code, $item_no) : "Not Found";
 	$upc = $p->check_exist($code, $item_no) ? $p->get_upc($code, $item_no) : "Not Found";
-	$discontinued = $dis->check($code, $item_no) ? "Active" : "Discontinued";
+	$discontinued = $dis->check($code, $item_no) ? "Discontinued" : "Active";
 	$cost = $c->check_exist($code, $item_no) ? $c->get_cost($code, $item_no) : "Not Found";
 	$unit = $c->check_exist($code, $item_no) ? $c->get_unit($code, $item_no) : "Not Found";
 	$url = IMAGE_SERVER . "$code/$item_no.jpg";
