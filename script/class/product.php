@@ -52,12 +52,68 @@ class product {
 		if (mysqli_num_rows($result) > 0) {
 			$row = mysqli_fetch_array($result);
 			$upc = $row['upc'];
-			$this->output->notice("Item: $item, code: $code product $upc!");
+			$this->output->notice("Item: $item, code: $code product UPC found!");
 		} else {
-			$this->output->notice("Item: $item, code: $code product not found!");
+			$this->output->notice("Item: $item, code: $code product UPC not found!");
 		}
 
 		return $upc;
+	}
+
+	public function get_title($code, $item) {
+		$title = '';
+		$result = $this->db->query("SELECT title FROM product WHERE code = '$code' AND item_no = '$item'");
+		if (mysqli_num_rows($result) > 0) {
+			$row = mysqli_fetch_array($result);
+			$title = $row['title'];
+			$this->output->notice("Item: $item, code: $code product title found!");
+		} else {
+			$this->output->notice("Item: $item, code: $code product title not found!");
+		}
+
+		return $title;
+	}
+
+	public function get_description($code, $item) {
+		$description = '';
+		$result = $this->db->query("SELECT description FROM product WHERE code = '$code' AND item_no = '$item'");
+		if (mysqli_num_rows($result) > 0) {
+			$row = mysqli_fetch_array($result);
+			$description = $row['description'];
+			$this->output->notice("Item: $item, code: $code product description found!");
+		} else {
+			$this->output->notice("Item: $item, code: $code product description not found!");
+		}
+
+		return $description;
+	}
+
+	public function get_color($code, $item) {
+		$color = '';
+		$result = $this->db->query("SELECT color FROM product WHERE code = '$code' AND item_no = '$item'");
+		if (mysqli_num_rows($result) > 0) {
+			$row = mysqli_fetch_array($result);
+			$color = $row['color'];
+			$this->output->notice("Item: $item, code: $code product color found!");
+		} else {
+			$this->output->notice("Item: $item, code: $code product color not found!");
+		}
+
+		return $color;
+	}
+
+	public function get_material($code, $item) {
+		$material = '';
+		$result = $this->db->query("SELECT material FROM product WHERE code = '$code' AND item_no = '$item'");
+		if (mysqli_num_rows($result) > 0) {
+			$row = mysqli_fetch_array($result);
+			$material = $row['material'];
+			$this->output->notice("Item: $item, code: $code product material found!");
+		} else {
+			$this->output->notice("Item: $item, code: $code product material not found!");
+		}
+
+		return $material;
 	}
 
 	public function check_exist($code, $item_no) {

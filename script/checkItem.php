@@ -29,6 +29,10 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["sku"])) {
 	list($code, $item_no) = explode("-", $sku, 2);
 	$vendor = $v->check_exist($code) ? $v->get_name($code) : "Not Found";
 	$asin = $a->check_exist($code, $item_no) ? $a->get_asin($code, $item_no) : "Not Found";
+	$title = $p->check_exist($code, $item_no) ? $p->get_title($code, $item_no) : "Not Found";
+	$description = $p->check_exist($code, $item_no) ? $p->get_description($code, $item_no) : "Not Found";
+	$color = $p->check_exist($code, $item_no) ? $p->get_color($code, $item_no) : "Not Found";
+	$material = $p->check_exist($code, $item_no) ? $p->get_material($code, $item_no) : "Not Found";
 	$upc = $p->check_exist($code, $item_no) ? $p->get_upc($code, $item_no) : "Not Found";
 	$discontinued = $dis->check($code, $item_no) ? "Discontinued" : "Active";
 	$cost = $c->check_exist($code, $item_no) ? $c->get_cost($code, $item_no) : "Not Found";
@@ -49,6 +53,8 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["sku"])) {
 	$result .= "Cost: $cost<br>";
 	$result .= "Unit: $unit<br>";
 	$result .= "Quantity: $qty<br>";
+	$result .= "Color: $color<br>";
+	$result .= "Material: $material<br>";
 	$result .= "Set List: $set_str<br>";
 
 	if ($dim->check_exist($code, $item_no)) {
