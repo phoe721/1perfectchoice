@@ -21,10 +21,14 @@ if (isset($argv[1]) && isset($argv[2]) && isset($argv[3])) {
 				list($sku, $item1, $item2, $item3, $item4, $item5, $item6, $item7, $item8, $item9, $item10) = explode("\t", $line);
 				if ($validator->check_sku($sku)) {
 					list($code, $item_no) = explode("-", $sku, 2);
-					if ($set_list->insert($code, $item_no, $item1, $item2, $item3, $item4, $item5, $item6, $item7, $item8, $item9, $item10)) { 
-						$result = "$sku\tOK" . PHP_EOL;
+					if (empty($item2) && ($item_no == $item1)) { 
+						$result = "$sku\tInvalid Set" . PHP_EO;
 					} else {
-						$result = "$sku\tFail" . PHP_EOL;
+						if ($set_list->insert($code, $item_no, $item1, $item2, $item3, $item4, $item5, $item6, $item7, $item8, $item9, $item10)) { 
+							$result = "$sku\tOK" . PHP_EOL;
+						} else {
+							$result = "$sku\tFail" . PHP_EOL;
+						}
 					}
 				} else {
 					$result = "$sku\tInvalid" . PHP_EOL;
