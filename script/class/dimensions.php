@@ -101,6 +101,7 @@ class dimensions {
 				array_push($weights, $row["weight"]);
 				$this->output->notice("Item: $item_no, Code: $code weight found!");
 			} else {
+				array_push($weights, 0);
 				$this->output->notice("Item: $item_no, Code: $code weight not found!");
 			}
 
