@@ -40,25 +40,10 @@ class discontinued {
 
 	public function check($code, $item_no) {
 		if ($this->set_list->check($code, $item_no)) {
-			$count = 0;
 			$set = $this->set_list->get_set($code, $item_no);
 			for ($i = 0; $i < count($set); $i++) {
 				$item = $set[$i];
-				$result = $this->db->query("SELECT * FROM discontinued WHERE code = '$code' AND item_no = '$item'");
-				if (mysqli_num_rows($result) > 0) {
-					$this->output->notice("Item: $item, Code: $code is discontinued!");
-					$count++;
-				} else {
-					$this->output->notice("Item: $item, Code: $code is still active!");
-				}
-			}
-
-			if ($count > 0) {
-				$this->output->notice("Item: $item_no, Code: $code is discontinued!");
-				return true;
-			} else {
-				$this->output->notice("Item: $item_no, Code: $code is still active!");
-				return false;
+				if ($this->check($code, $item)) return true;
 			}
 		} else {
 			$result = $this->db->query("SELECT * FROM discontinued WHERE code = '$code' AND item_no = '$item_no'");
