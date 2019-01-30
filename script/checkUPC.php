@@ -1,8 +1,8 @@
 <?
-require_once("class/product.php");
+require_once("class/upc.php");
 require_once("class/status.php");
 require_once("class/validator.php");
-$product = new product();
+$UPC = new UPC();
 $status = new status();
 $validator = new validator();
 
@@ -20,7 +20,7 @@ if (isset($argv[1]) && isset($argv[2]) && isset($argv[3])) {
 				$status->log_status("Checking $sku...");
 				if ($validator->check_sku($sku)) {
 					list($code, $item_no) = explode("-", $sku, 2);
-					$upc = $product->get_upc($code, $item_no);
+					$upc = $UPC->get_upc($code, $item_no);
 					$result = "$sku\t$upc" . PHP_EOL;
 				} else {
 					$result = "$sku\tInvalid" . PHP_EOL;

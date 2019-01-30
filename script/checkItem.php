@@ -1,5 +1,6 @@
 <?
 require_once("class/ASIN.php");
+require_once("class/UPC.php");
 require_once("class/costs.php");
 require_once("class/inventory.php");
 require_once("class/discontinued.php");
@@ -12,6 +13,7 @@ require_once("class/status.php");
 require_once("class/vendors.php");
 require_once("class/validator.php");
 $a = new ASIN();
+$u = new UPC();
 $c = new costs();
 $dis = new discontinued();
 $dim = new dimensions();
@@ -33,7 +35,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["sku"])) {
 	$description = $p->get_description($code, $item_no);
 	$color = $p->get_color($code, $item_no);
 	$material = $p->get_material($code, $item_no);
-	$upc = $p->get_upc($code, $item_no);
+	$upc = $u->get_upc($code, $item_no);
 	$discontinued = $dis->check($code, $item_no) ? "Discontinued" : "Active";
 	$cost = $c->get_cost($code, $item_no);
 	$unit = $c->get_unit($code, $item_no);
