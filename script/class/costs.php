@@ -115,9 +115,9 @@ class costs {
 			if (mysqli_num_rows($result) > 0) {
 				$row = mysqli_fetch_array($result);
 				$unit = $row['unit'];
-				$this->output->notice("Item: $item, Code: $code - Found $unit per box!");
+				$this->output->notice("Item: $item_no, Code: $code - Found $unit per box!");
 			} else {
-				$this->output->notice("Item: $item, Code: $code - Unit not found!");
+				$this->output->notice("Item: $item_no, Code: $code - Unit not found!");
 			}
 
 			return $unit;
