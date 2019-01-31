@@ -16,10 +16,10 @@ class UPC {
 	public function insert($code, $item_no, $upc) {
 		$result = $this->db->query("INSERT INTO UPC (code, item_no, upc) VALUES ('$code', '$item_no', '$upc')");
 		if ($result) {
-			$this->output->notice("Item: $item_no, Code: $code has been inserted successfully!");
+			$this->output->notice("Item: $item_no, Code: $code, UPC: $upc  - Inserted successfully!");
 			return true;
 		} else {
-			$this->output->notice("Failed to insert $item_no!");
+			$this->output->notice("Item: $item_no, Code: $code, UPC: $upc  - Failed to insert!");
 			return false;
 		}
 	}
@@ -27,10 +27,10 @@ class UPC {
 	public function update($code, $item_no, $upc) {
 		$result = $this->db->query("UPDATE UPC SET upc = '$upc' WHERE code = '$code' AND item_no = '$item_no'");
 		if ($result) {
-			$this->output->notice("Item: $item_no, Code: $code has been updated!");
+			$this->output->notice("Item: $item_no, Code: $code - Updated to $upc!");
 			return true;
 		} else {
-			$this->output->notice("Item: $item_no, Code: $code failed to update product!");
+			$this->output->notice("Item: $item_no, Code: $code - Failed to update UPC code!");
 			return false;
 		}
 	}
@@ -38,10 +38,10 @@ class UPC {
 	public function delete($code, $item_no) {
 		$result = $this->db->query("DELETE FROM UPC WHERE code = '$code' AND item_no = '$item_no'");
 		if ($result) {
-			$this->output->notice("Item: $item_no, Code: $code has been deleted!");
+			$this->output->notice("Item: $item_no, Code: $code - Deleted!");
 			return true;
 		} else {
-			$this->output->notice("Item: $item_no, Code: $code failed to delete!");
+			$this->output->notice("Item: $item_no, Code: $code - Failed to delete!");
 			return false;
 		}
 	}
@@ -52,9 +52,9 @@ class UPC {
 		if (mysqli_num_rows($result) > 0) {
 			$row = mysqli_fetch_array($result);
 			$upc = $row['upc'];
-			$this->output->notice("Item: $item, code: $code product UPC found!");
+			$this->output->notice("Item: $item, Code: $code - UPC: $upc found!");
 		} else {
-			$this->output->notice("Item: $item, code: $code product UPC not found!");
+			$this->output->notice("Item: $item, Code: $code - UPC not found!");
 		}
 
 		return $upc;
@@ -63,22 +63,23 @@ class UPC {
 	public function check_exist($code, $item_no) {
 		$result = $this->db->query("SELECT * FROM UPC WHERE code = '$code' AND item_no = '$item_no'");
 		if (mysqli_num_rows($result) > 0) {
-			$this->output->notice("Item: $item_no, Code: $code exists!");
+			$this->output->notice("Item: $item_no, Code: $code - Exists!");
 			return true;
 		} else {
-			$this->output->notice("Item: $item_no, Code: $code not exist!");
+			$this->output->notice("Item: $item_no, Code: $code - Not exist!");
 			return false;
 		}
 	}
 
 	public function get_record_count() {
 		$count = -1;
-		$result = $this->db->query("SELECT * FROM UPC");
+		$result = $this->db->query("SELECT COUNT(*) AS total FROM UPC");
 		if ($result) {
-			$count = mysqli_num_rows($result);
-			$this->output->notice("There are $count records in table product!");
+			$row = mysqli_fetch_array($result);
+			$count = $row['total'];
+			$this->output->notice("There are $count records in table UPC!");
 		} else {
-			$this->output->error("Failed to get record count in table product!");
+			$this->output->error("Failed to get record count in table UPC!");
 		}
 
 		return $count;

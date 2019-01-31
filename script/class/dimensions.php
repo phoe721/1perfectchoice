@@ -16,24 +16,24 @@ class dimensions {
 		$this->set_list = new set_list();
 	}
 
-	public function insert($code, $item_no, $length, $width, $height, $weight) {
-		$result = $this->db->query("INSERT INTO dimensions (code, item_no, length, width, height, weight) VALUES ('$code', '$item_no', '$length', '$width', '$height', '$wegith')");
+	public function insert($code, $item_no, $length, $width, $height) {
+		$result = $this->db->query("INSERT INTO dimensions (code, item_no, length, width, height) VALUES ('$code', '$item_no', '$length', '$width', '$height')");
 		if ($result) {
-			$this->output->notice("Item: $item_no, Code: $code dimensions has been inserted successfully!");
+			$this->output->notice("Item: $item_no, Code: $code - Dimensions $length x $width x $height has been inserted successfully!");
 			return true;
 		} else {
-			$this->output->notice("Failed to insert $item_no!");
+			$this->output->notice("Item: $item_no, Code: $code - Failed to insert!");
 			return false;
 		}
 	}
 	
-	public function update($code, $item_no, $length, $width, $height, $weight) {
-		$result = $this->db->query("UPDATE dimensions SET length = '$length', width = '$width', height = '$height', weight = '$weight' WHERE code = '$code' AND item_no = '$item_no'");
+	public function update($code, $item_no, $length, $width, $height) {
+		$result = $this->db->query("UPDATE dimensions SET length = '$length', width = '$width', height = '$height' WHERE code = '$code' AND item_no = '$item_no'");
 		if ($result) {
-			$this->output->notice("Item: $item_no, Code: $code dimensions has been updated!");
+			$this->output->notice("Item: $item_no, Code: $code - Dimensions has been updated to $length x $width x $height!");
 			return true;
 		} else {
-			$this->output->notice("Item: $item_no, Code: $code failed to update dimensions!");
+			$this->output->notice("Item: $item_no, Code: $code - Failed to update dimensions!");
 			return false;
 		}
 	}
@@ -41,10 +41,10 @@ class dimensions {
 	public function delete($code, $item_no) {
 		$result = $this->db->query("DELETE FROM dimensions WHERE code = '$code' AND item_no = '$item_no'");
 		if ($result) {
-			$this->output->notice("Item: $item_no, Code: $code has been deleted!");
+			$this->output->notice("Item: $item_no, Code: $code - Deleted!");
 			return true;
 		} else {
-			$this->output->notice("Item: $item_no, Code: $code failed to delete!");
+			$this->output->notice("Item: $item_no, Code: $code - Failed to delete!");
 			return false;
 		}
 	}
@@ -52,10 +52,10 @@ class dimensions {
 	public function check_exist($code, $item_no) {
 		$result = $this->db->query("SELECT * FROM dimensions WHERE code = '$code' AND item_no = '$item_no'");
 		if (mysqli_num_rows($result) > 0) {
-			$this->output->notice("Item: $item_no, Code: $code exists!");
+			$this->output->notice("Item: $item_no, Code: $code - Exists!");
 			return true;
 		} else {
-			$this->output->notice("Item: $item_no, Code: $code not exist!");
+			$this->output->notice("Item: $item_no, Code: $code - Not exist!");
 			return false;
 		}
 	}
@@ -74,46 +74,26 @@ class dimensions {
 			$result = $this->db->query("SELECT length, width, height FROM dimensions WHERE code = '$code' AND item_no = '$item_no'");
 			if (mysqli_num_rows($result) > 0) {
 				$row = mysqli_fetch_array($result);
-				array_push($dimensions, $row["length"], $row["width"], $row["height"]);
-				$this->output->notice("Item: $item_no, code: $code dimensions found!");
+				$length = $row["length"];
+				$width = $row["width"];
+				$height = $row["height"];
+				array_push($dimensions, $length, $width, $height);
+				$this->output->notice("Item: $item_no, Code: $code - Dimensions $length x $width x $height found!");
 			} else {
-				$this->output->notice("Item: $item_no, code: $code dimensions not found!");
+				array_push($dimensions, 0, 0, 0);
+				$this->output->notice("Item: $item_no, Code: $code - Dimensions not found!");
 			}
 
 			return $dimensions;
 		}
 	}
 
-	public function get_weight($code, $item_no) {
-		$weights = array();
-		if ($this->set_list->check($code, $item_no)) {
-			$set = $this->set_list->get_set($code, $item_no);
-			for ($i = 0; $i < count($set); $i++) {
-				$item = $set[$i];
-				$weights = array_merge($weights, $this->get_weight($code, $item));
-			}
-
-			return $weights;
-		} else {
-			$result = $this->db->query("SELECT weight FROM dimensions WHERE code = '$code' AND item_no = '$item_no'");
-			if (mysqli_num_rows($result) > 0) {
-				$row = mysqli_fetch_array($result);
-				array_push($weights, $row["weight"]);
-				$this->output->notice("Item: $item_no, Code: $code weight found!");
-			} else {
-				array_push($weights, 0);
-				$this->output->notice("Item: $item_no, Code: $code weight not found!");
-			}
-
-			return $weights;
-		}
-	}
-
 	public function get_record_count() {
 		$count = -1;
-		$result = $this->db->query("SELECT * FROM dimensions");
+		$result = $this->db->query("SELECT COUNT(*) AS total FROM dimensions");
 		if ($result) {
-			$count = mysqli_num_rows($result);
+			$row = mysqli_fetch_array($result);
+			$count = $row['total'];
 			$this->output->notice("There are $count records in table dimensions!");
 		} else {
 			$this->output->error("Failed to get record count in table dimensions!");

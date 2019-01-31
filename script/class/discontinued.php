@@ -19,10 +19,10 @@ class discontinued {
 	public function insert($code, $item_no) {
 		$result = $this->db->query("INSERT INTO discontinued (code, item_no) VALUES ('$code', '$item_no')");
 		if ($result) {
-			$this->output->notice("Item: $item_no, Code: $code has been inserted successfully!");
+			$this->output->notice("Item: $item_no, Code: $code - Inserted successfully!");
 			return true;
 		} else {
-			$this->output->notice("Failed to insert $item_no!");
+			$this->output->notice("Item: $item_no, Code: $code - Failed to insert!");
 			return false;
 		}
 	}
@@ -30,10 +30,10 @@ class discontinued {
 	public function delete($code, $item_no) {
 		$result = $this->db->query("DELETE FROM discontinued WHERE code = '$code' AND item_no = '$item_no'");
 		if ($result) {
-			$this->output->notice("Item: $item_no, Code: $code has been deleted!");
+			$this->output->notice("Item: $item_no, Code: $code - Deleted!");
 			return true;
 		} else {
-			$this->output->notice("Item: $item_no, Code: $code failed to delete!");
+			$this->output->notice("Item: $item_no, Code: $code - Failed to delete!");
 			return false;
 		}
 	}
@@ -48,10 +48,10 @@ class discontinued {
 		} else {
 			$result = $this->db->query("SELECT * FROM discontinued WHERE code = '$code' AND item_no = '$item_no'");
 			if (mysqli_num_rows($result) > 0) {
-				$this->output->notice("Item: $item_no, Code: $code is discontinued!");
+				$this->output->notice("Item: $item_no, Code: $code - Discontinued!");
 				return true;
 			} else {
-				$this->output->notice("Item: $item_no, Code: $code is still active!");
+				$this->output->notice("Item: $item_no, Code: $code - Active!");
 				return false;
 			}
 		}
@@ -59,9 +59,10 @@ class discontinued {
 
 	public function get_record_count() {
 		$count = -1;
-		$result = $this->db->query("SELECT * FROM discontinued");
+		$result = $this->db->query("SELECT COUNT(*) AS total FROM discontinued");
 		if ($result) {
-			$count = mysqli_num_rows($result);
+			$row = mysqli_fetch_array($result);
+			$count = $row['total'];
 			$this->output->notice("There are $count records in table discontinued!");
 		} else {
 			$this->output->error("Failed to get record count in table discontinued!");
@@ -70,5 +71,4 @@ class discontinued {
 		return $count;
 	}
 }
-
 ?>

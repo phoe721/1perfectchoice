@@ -19,10 +19,10 @@ class inventory {
 	public function insert($code, $item_no, $qty) {
 		$result = $this->db->query("INSERT INTO inventory (code, item_no, qty) VALUES ('$code', '$item_no', '$qty')");
 		if ($result) {
-			$this->output->notice("Item: $item_no, Code: $code with $qty quantity has been inserted successfully!");
+			$this->output->notice("Item: $item_no, Code: $code - Inventory ($qty) has been inserted successfully!");
 			return true;
 		} else {
-			$this->output->notice("Failed to insert $item_no!");
+			$this->output->notice("Item: $item_no, Code: $code - Failed to insert!");
 			return false;
 		}
 	}
@@ -30,10 +30,10 @@ class inventory {
 	public function update($code, $item_no, $qty) {
 		$result = $this->db->query("UPDATE inventory SET qty = '$qty' WHERE code = '$code' AND item_no = '$item_no'");
 		if ($result) {
-			$this->output->notice("Item: $item_no, Code: $code inventory has been updated to $qty!");
+			$this->output->notice("Item: $item_no, Code: $code - Inventory has been updated to $qty!");
 			return true;
 		} else {
-			$this->output->notice("Item: $item_no, Code: $code inventory failed to update!");
+			$this->output->notice("Item: $item_no, Code: $code - Failed to update inventory!");
 			return false;
 		}
 	}
@@ -41,10 +41,10 @@ class inventory {
 	public function delete($code, $item_no) {
 		$result = $this->db->query("DELETE FROM inventory WHERE code = '$code' AND item_no = '$item_no'");
 		if ($result) {
-			$this->output->notice("Item: $item_no, Code: $code has been deleted!");
+			$this->output->notice("Item: $item_no, Code: $code - Deleted!");
 			return true;
 		} else {
-			$this->output->notice("Item: $item_no, Code: $code failed to delete!");
+			$this->output->notice("Item: $item_no, Code: $code - Failed to delete!");
 			return false;
 		}
 	}
@@ -52,42 +52,34 @@ class inventory {
 	public function check_exist($code, $item_no) {
 		$result = $this->db->query("SELECT * FROM inventory WHERE code = '$code' AND item_no = '$item_no'");
 		if (mysqli_num_rows($result) > 0) {
-			$this->output->notice("Item: $item_no, Code: $code exists!");
+			$this->output->notice("Item: $item_no, Code: $code - Exists!");
 			return true;
 		} else {
-			$this->output->notice("Item: $item_no, Code: $code not exist!");
+			$this->output->notice("Item: $item_no, Code: $code - Not exist!");
 			return false;
 		}
 	}
 
-	public function get($code, $item) {
-		if ($this->set_list->check($code, $item)) {
-			$set = $this->set_list->get_set($code, $item);
+	public function get($code, $item_no) {
+		if ($this->set_list->check($code, $item_no)) {
 			$qty_list = array();
-			foreach ($set as $item_no) {
-				$result = $this->db->query("SELECT qty FROM inventory WHERE code = '$code' AND item_no = '$item_no'");
-				if (mysqli_num_rows($result) > 0) {
-					$row = mysqli_fetch_array($result);
-					$qty = $row['qty'];
-					array_push($qty_list, $qty);
-					$this->output->notice("Item: $item_no, Code: $code has inventory $qty!");
-				} else {
-					$this->output->notice("Item: $item_no, Code: $code inventory not found!");
-				}
+			$set = $this->set_list->get_set($code, $item_no);
+			foreach ($set as $item) {
+				$qty = $this->get($code, $item);
+				array_push($qty_list, $qty);
 			}
 
-			$min = min($qty_list);
-			$this->output->notice("Item: $item, Code: $code has inventory $min!");
+			$this->output->notice("Item: $item, Code: $code - Inventory has " . $min($qty_list) . " for a set!");
 			return $min;
 		} else {
 			$qty = -1;
-			$result = $this->db->query("SELECT qty FROM inventory WHERE code = '$code' AND item_no = '$item'");
+			$result = $this->db->query("SELECT qty FROM inventory WHERE code = '$code' AND item_no = '$item_no'");
 			if (mysqli_num_rows($result) > 0) {
 				$row = mysqli_fetch_array($result);
 				$qty = $row['qty'];
-				$this->output->notice("Item: $item, Code: $code has inventory $qty!");
+				$this->output->notice("Item: $item_no, Code: $code - Inventory has $qty!");
 			} else {
-				$this->output->notice("Item: $item, Code: $code inventory not found!");
+				$this->output->notice("Item: $item_no, Code: $code - Inventory not found!");
 			}
 
 			return $qty;
