@@ -57,7 +57,7 @@ class costs {
 			$cost = $row['cost']; 
 			$unit = $this->get_unit($code, $item_no);
 			$cost = $cost * $unit;
-			$this->output->notice("Item: $item_no, code: $code - Found cost $cost!");
+			$this->output->notice("Item: $item_no, code: $code - Cost: $cost!");
 		} else {
 			$this->output->notice("Item: $item_no, code: $code - Cost not found!");
 		}
@@ -74,7 +74,7 @@ class costs {
 					$unit = $this->get_unit($code, $item);
 					$cost = $cost * $unit;
 					array_push($costs, $cost);
-					$this->output->notice("Item: $item_no, code: $code - Found cost $cost!");
+					$this->output->notice("Item: $item_no, code: $code - Cost: $cost!");
 				} else {
 					$this->output->notice("Item: $item_no, code: $code - Cost not found!");
 				}
@@ -101,7 +101,7 @@ class costs {
 					$row = mysqli_fetch_array($result);
 					$unit = $row['unit'];
 					array_push($units, $unit);
-					$this->output->notice("Item: $item, Code: $code - Found $unit per box!");
+					$this->output->notice("Item: $item, Code: $code - $unit per box!");
 				} else {
 					$this->output->notice("Item: $item, Code: $code - Unit not found!");
 				}
@@ -115,7 +115,7 @@ class costs {
 			if (mysqli_num_rows($result) > 0) {
 				$row = mysqli_fetch_array($result);
 				$unit = $row['unit'];
-				$this->output->notice("Item: $item_no, Code: $code - Found $unit per box!");
+				$this->output->notice("Item: $item_no, Code: $code - $unit per box!");
 			} else {
 				$this->output->notice("Item: $item_no, Code: $code - Unit not found!");
 			}

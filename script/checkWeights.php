@@ -1,9 +1,9 @@
 <?
-require_once("class/dimensions.php");
+require_once("class/weights.php");
 require_once("class/set_list.php");
 require_once("class/status.php");
 require_once("class/validator.php");
-$dim = new dimensions();
+$w = new weights();
 $set_list = new set_list();
 $status = new status();
 $validator = new validator();
@@ -22,7 +22,7 @@ if (isset($argv[1]) && isset($argv[2]) && isset($argv[3])) {
 				$status->log_status("Checking $sku...");
 				if ($validator->check_sku($sku)) {
 					list($code, $item_no) = explode("-", $sku, 2);
-					$weights = implode("\t", $dim->get_weight($code, $item_no));
+					$weights = implode("\t", $w->get_weight($code, $item_no));
 					$result = "$sku\t$weights" . PHP_EOL;
 				} else {
 					$result = "$sku\tInvalid" . PHP_EOL;

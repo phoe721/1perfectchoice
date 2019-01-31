@@ -94,9 +94,9 @@ class product {
 		if (mysqli_num_rows($result) > 0) {
 			$row = mysqli_fetch_array($result);
 			$material = $row['material'];
-			$this->output->notice("Item: $item, Code: $code product - Material: $material found!");
+			$this->output->notice("Item: $item, Code: $code - Material: $material found!");
 		} else {
-			$this->output->notice("Item: $item, Code: $code product - Material not found!");
+			$this->output->notice("Item: $item, Code: $code - Material not found!");
 		}
 
 		return $material;
