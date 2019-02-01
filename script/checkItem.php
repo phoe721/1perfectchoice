@@ -51,7 +51,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["sku"])) {
 	$result .= "<div style='float: left;margin: 5px;'>";
 	$result .= "SKU: $sku<br>";
 	$result .= "Vendor: $vendor<br>";
-	$result .= "ASIN: $asin<br>";
+	$result .= "ASIN: <a href='https://www.amazon.com/dp/$asin' target='_blank'>$asin</a><br>";
 	$result .= "UPC: $upc<br>";
 	$result .= "Status: $discontinued<br>";
 	$result .= "Cost: $cost<br>";
