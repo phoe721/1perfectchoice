@@ -62,30 +62,20 @@ class dimensions {
 
 	public function get_dimensions($code, $item_no) {
 		$dimensions = array();
-		if ($this->set_list->check($code, $item_no)) {
-			$set = $this->set_list->get_set($code, $item_no);
-			for ($i = 0; $i < count($set); $i++) {
-				$item = $set[$i];
-				$dimensions = array_merge($dimensions, $this->get_dimensions($code, $item));
-			}
-
-			return $dimensions;
+		$result = $this->db->query("SELECT length, width, height FROM dimensions WHERE code = '$code' AND item_no = '$item_no'");
+		if (mysqli_num_rows($result) > 0) {
+			$row = mysqli_fetch_array($result);
+			$length = $row["length"];
+			$width = $row["width"];
+			$height = $row["height"];
+			array_push($dimensions, $length, $width, $height);
+			$this->output->notice("Item: $item_no, Code: $code - Dimensions $length x $width x $height found!");
 		} else {
-			$result = $this->db->query("SELECT length, width, height FROM dimensions WHERE code = '$code' AND item_no = '$item_no'");
-			if (mysqli_num_rows($result) > 0) {
-				$row = mysqli_fetch_array($result);
-				$length = $row["length"];
-				$width = $row["width"];
-				$height = $row["height"];
-				array_push($dimensions, $length, $width, $height);
-				$this->output->notice("Item: $item_no, Code: $code - Dimensions $length x $width x $height found!");
-			} else {
-				array_push($dimensions, 0, 0, 0);
-				$this->output->notice("Item: $item_no, Code: $code - Dimensions not found!");
-			}
-
-			return $dimensions;
+			array_push($dimensions, 0, 0, 0);
+			$this->output->notice("Item: $item_no, Code: $code - Dimensions not found!");
 		}
+
+		return $dimensions;
 	}
 
 	public function get_record_count() {

@@ -18,13 +18,13 @@ if (isset($argv[1]) && isset($argv[2]) && isset($argv[3])) {
 			$line = trim(fgets($input));
 			if (!empty($line)) {
 				$status->log_status("Inserting $line...");
-				list($sku, $length, $width, $height, $weight) = explode("\t", $line);
+				list($sku, $length, $width, $height) = explode("\t", $line);
 				if ($validator->check_sku($sku)) {
 					list($code, $item_no) = explode("-", $sku, 2);
 					if ($dim->check_exist($code, $item_no)) {
 						$result = "$sku\tExists" . PHP_EOL;
 					} else {
-						$result = $dim->insert($code, $item_no, $length, $width, $height, $weight);
+						$result = $dim->insert($code, $item_no, $length, $width, $height);
 						$result = $result ? "$sku\tOK" . PHP_EOL : "$sku\tFail" . PHP_EOL;
 					}
 				} else {

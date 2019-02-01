@@ -63,30 +63,21 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["sku"])) {
 
 	$weight = $w->get_weight($code, $item_no);
 	$dimensions = $dim->get_dimensions($code, $item_no);
-
-	if ($set) {
-		for ($i = 0; $i < count($set); $i++) {
-			$item = $set[$i];
-			$result .= "Item $item Weight: " . $weight[$i] . " lbs<br>";
-			$result .= "Item $item Dimensions: " . $dimensions[$i*3] . " x " . $dimensions[$i*3+1] . " x " . $dimensions[$i*3+2] . "<br>";
-		}
-	} else {
-		$result .= "Weight: $weight<br>";
-		$result .= "Dimensions: " . implode(" x ", $dimensions) . "<br>";
-	}
+	$result .= "Weight: $weight[0]<br>";
+	$result .= "Dimensions: " . implode(" x ", $dimensions) . "<br>";
 
 	$box_count = $pg->get_box_count($code, $item_no); 
 	$pg_weights = $pg->get_weight($code, $item_no);
 	$pg_dimensions = $pg->get_dimensions($code, $item_no);
 	$total_weight = 0;
 
-	$result .= "Box Count: $box_count<br>";
 	for ($i = 0; $i < $box_count; $i++) {
 		$count = $i + 1;
 		$total_weight += $pg_weights[$i];
 		$result .= "Box $count Weight: " . $pg_weights[$i] . " lbs<br>";
 		$result .= "Box $count Dimensions: " . $pg_dimensions[$i*3] . " x " . $pg_dimensions[$i*3+1] . " x " . $pg_dimensions[$i*3+2] . "<br>";
 	}
+	$result .= "Box Count: $box_count<br>";
 	$result .= "Total Weight: $total_weight lbs<br>";
 
 	$result .= "</div>";
