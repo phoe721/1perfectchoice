@@ -69,7 +69,8 @@ class inventory {
 				array_push($qty_list, $qty);
 			}
 
-			$this->output->notice("Item: $item, Code: $code - Inventory has " . $min($qty_list) . " for a set!");
+			$min = min($qty_list);
+			$this->output->notice("Item: $item, Code: $code - Inventory has $min for a set!");
 			return $min;
 		} else {
 			$qty = -1;

@@ -105,12 +105,16 @@ class packages {
 				$row = mysqli_fetch_array($result);
 				$box_count = $this->get_box_count($code, $item_no);
 				for ($j = 1; $j <= $box_count; $j++) {
-					if (!empty($row["box" . $j . "_weight"])) array_push($weights, $row["box" . $j . "_weight"]);
+					if (!empty($row["box" . $j . "_weight"])) {
+						array_push($weights, $row["box" . $j . "_weight"]);
+					} else {
+						array_push($weights, 0);
+					}
 				}
-				$this->output->notice("Item: $item_no, Code: $code - Package weights found!");
+				$this->output->notice("Item: $item_no, Code: $code - Package weight found!");
 			} else {
 				array_push($weights, 0);
-				$this->output->notice("Item: $item_no, Code: $code - Package weights not found!");
+				$this->output->notice("Item: $item_no, Code: $code - Package weight not found!");
 			}
 
 			return $weights;
