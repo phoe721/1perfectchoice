@@ -41,6 +41,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["sku"])) {
 	$discontinued = $dis->check($code, $item_no) ? "Discontinued" : "Active";
 	$cost = $c->get_cost($code, $item_no);
 	$unit = $c->get_unit($code, $item_no);
+	$updated_time = $c->get_updated_time($code, $item_no);
 	$url = IMAGE_SERVER . "$code/$item_no.jpg";
 	$img = ($validator->check_url($url)) ? "<img src='$url' width='300px' alt='$sku'>" : "<img src='' alt='Not Found'>";
 	$qty = $inv->get($code, $item_no);
@@ -54,7 +55,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["sku"])) {
 	$result .= "ASIN: <a href='https://www.amazon.com/dp/$asin' target='_blank'>$asin</a><br>";
 	$result .= "UPC: $upc<br>";
 	$result .= "Status: $discontinued<br>";
-	$result .= "Cost: $cost<br>";
+	$result .= "Cost: $cost ($updated_time)<br>";
 	$result .= "Unit: $unit<br>";
 	$result .= "Quantity: $qty<br>";
 	$result .= "Color: $color<br>";

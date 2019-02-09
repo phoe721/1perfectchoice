@@ -124,6 +124,36 @@ class costs {
 		}
 	}
 
+	public function get_updated_time($code, $item_no) {
+		$updated_time = date('Y-m-d H:i:s', time()); 
+		if ($this->set_list->check($code, $item_no)) {
+			$costs = array();
+			$set = $this->set_list->get_set($code, $item_no);
+			$item = $set[0];
+			$result = $this->db->query("SELECT updated_at FROM costs WHERE code = '$code' AND item_no = '$item'");
+			if (mysqli_num_rows($result) > 0) {
+				$row = mysqli_fetch_array($result);
+				$updated_time = date('Y-m-d H:i:s', strtotime($row['updated_at'])); 
+				$this->output->notice("Item: $item_no, code: $code - Updated At: $updated_time!");
+			} else {
+				$this->output->notice("Item: $item_no, code: $code - Updated time not found!");
+			}
+
+			return $udpated_time;
+		} else {
+			$result = $this->db->query("SELECT updated_at FROM costs WHERE code = '$code' AND item_no = '$item_no'");
+			if (mysqli_num_rows($result) > 0) {
+				$row = mysqli_fetch_array($result);
+				$updated_time = date('Y-m-d H:i:s', strtotime($row['updated_at'])); 
+				$this->output->notice("Item: $item_no, code: $code - Updated At: $updated_time!");
+			} else {
+				$this->output->notice("Item: $item_no, code: $code - Updated time not found!");
+			}
+
+			return $updated_time;
+		}
+	}
+
 	public function check_exist($code, $item_no) {
 		$result = $this->db->query("SELECT * FROM costs WHERE code = '$code' AND item_no = '$item_no'");
 		if (mysqli_num_rows($result) > 0) {
