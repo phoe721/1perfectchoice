@@ -40,6 +40,7 @@ $(document).ready(function() {
 
 	// Validate file	
 	$('#file').change(function() {
+		$('#output').html('');
 	    if (!form2.valid()) {
 	        console.log('Invalid File!');
 	    }
