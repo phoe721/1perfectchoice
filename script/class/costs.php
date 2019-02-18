@@ -139,7 +139,7 @@ class costs {
 				$this->output->notice("Item: $item_no, code: $code - Updated time not found!");
 			}
 
-			return $udpated_time;
+			return $updated_time;
 		} else {
 			$result = $this->db->query("SELECT updated_at FROM costs WHERE code = '$code' AND item_no = '$item_no'");
 			if (mysqli_num_rows($result) > 0) {
