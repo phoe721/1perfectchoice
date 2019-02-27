@@ -8,9 +8,7 @@ class set_list {
 
 	public function __construct() {
 		$this->output = new debugger;
-		$this->db = new database;
-		$this->db->connect(DB_SERVER, DB_USER, DB_PASS, DATABASE);
-		mysqli_set_charset($this->db->getConnection(), "utf8");
+		$this->db = database::getInstance();
 	}
 
 	public function insert($code, $item_no, $item1, $item2, $item3, $item4, $item5, $item6, $item7, $item8, $item9, $item10) {

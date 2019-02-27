@@ -19,9 +19,7 @@ class queues {
 
 	public function __construct() {
 		$this->output = new debugger;
-		$this->db = new database;
-		$this->db->connect(DB_SERVER, DB_USER, DB_PASS, DATABASE);
-		mysqli_set_charset($this->db->getConnection(), "utf8");
+		$this->db = database::getInstance();
 	}
 
 	public function create_queue($command) {

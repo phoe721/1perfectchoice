@@ -10,9 +10,7 @@ class inventory {
 
 	public function __construct() {
 		$this->output = new debugger;
-		$this->db = new database;
-		$this->db->connect(DB_SERVER, DB_USER, DB_PASS, DATABASE);
-		mysqli_set_charset($this->db->getConnection(), "utf8");
+		$this->db = database::getInstance();
 		$this->set_list = new set_list;
 	}
 	
