@@ -2,15 +2,12 @@
 require_once("debugger.php");
 
 class database {
-	private static $instance = null;
 	private $con;
 	private $result;
 	private $output;
 
 	public function __construct() {
 		$this->output = new debugger;
-		$this->con = $this->connect(DB_SERVER, DB_USER, DB_PASS, DATABASE);
-		mysqli_set_charset($this->con, "utf8");
 	}
 
 	public function __destruct() {
@@ -57,11 +54,6 @@ class database {
 			$this->output->warning("DB connection was not made!");
 			return false;
 		}
-	}
-
-	public static function getInstance() {
-		if (!self::$instance) self::$instance = new database;
-		return self::$instance;
 	}
 
 	public function last_insert_id() {
