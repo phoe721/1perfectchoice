@@ -64,7 +64,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["sku"])) {
 
 	$weight = $w->get_weight($code, $item_no);
 	$dimensions = $dim->get_dimensions($code, $item_no);
-	$result .= "Weight: $weight[0]<br>";
+	$result .= "Weight: $weight[0]<br>"; // BUG!!!!
 	$result .= "Dimensions: " . implode(" x ", $dimensions) . "<br>";
 
 	$box_count = $pg->get_box_count($code, $item_no); 
