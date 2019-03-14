@@ -11,8 +11,8 @@ class product {
 		$this->db = database::getInstance();
 	}
 
-	public function insert($code, $item_no, $item_type, $upc, $title, $description, $feature1, $feature2, $feature3, $feature4, $feature5, $color, $material) {
-		$result = $this->db->query("INSERT INTO product (code, item_no, item_type, upc, title, description, feature1, feature2, feature3, feature4, feature5, color, material) VALUES ('$code', '$item_no', '$item_type', '$upc', '$title', '$description', '$feature1', '$feature2', '$feature3', '$feature4', '$feature5', '$color', '$material')");
+	public function insert($code, $item_no, $item_type, $upc, $title, $description, $feature1, $feature2, $feature3, $feature4, $feature5, $feature6, $feature7, $feature8, $feature9, $feature10, $color, $material) {
+		$result = $this->db->query("INSERT INTO product (code, item_no, item_type, upc, title, description, feature1, feature2, feature3, feature4, feature5, feature6, feature7, feature8, feature9, feature10, color, material) VALUES ('$code', '$item_no', '$item_type', '$upc', '$title', '$description', '$feature1', '$feature2', '$feature3', '$feature4', '$feature5', '$feature6', '$feature7', '$feature8', '$feature9', '$feature10', '$color', '$material')");
 		if ($result) {
 			$this->output->notice("Item: $item_no, Code: $code - Inserted successfully!");
 			return true;
@@ -22,8 +22,8 @@ class product {
 		}
 	}
 	
-	public function update($code, $item_no, $item_type, $upc, $title, $description, $feature1, $feature2, $feature3, $feature4, $feature5, $color, $material) {
-		$result = $this->db->query("UPDATE product SET item_type = '$item_type', upc = '$upc', title = '$title', description = '$description', feature1 = '$feature1', feature2 = '$feature2', feature3 = '$feature3', feature4 = '$feature4', feature5 = '$feature5', color = '$color', material = '$material' WHERE code = '$code' AND item_no = '$item_no'");
+	public function update ($code, $item_no, $item_type, $upc, $title, $description, $feature1, $feature2, $feature3, $feature4, $feature5, $feature6, $feature7, $feature8, $feature9, $feature10, $color, $material) {
+		$result = $this->db->query("UPDATE product SET item_type = '$item_type', upc = '$upc', title = '$title', description = '$description', feature1 = '$feature1', feature2 = '$feature2', feature3 = '$feature3', feature4 = '$feature4', feature5 = '$feature5', feature6 = '$feature6', feature7 = '$feature7', feature8 = '$feature8', feature9 = '$feature9', feature10 = '$feature10', color = '$color', material = '$material' WHERE code = '$code' AND item_no = '$item_no'");
 		if ($result) {
 			$this->output->notice("Item: $item_no, Code: $code - Updated!");
 			return true;
@@ -42,6 +42,20 @@ class product {
 			$this->output->notice("Item: $item_no, Code: $code - Failed to delete!");
 			return false;
 		}
+	}
+
+	public function get_type($code, $item) {
+		$item_type = '';
+		$result = $this->db->query("SELECT item_type FROM product WHERE code = '$code' AND item_no = '$item'");
+		if (mysqli_num_rows($result) > 0) {
+			$row = mysqli_fetch_array($result);
+			$item_type = $row['item_type'];
+			$this->output->notice("Item: $item, code: $code - Item Type: $item_type found!");
+		} else {
+			$this->output->notice("Item: $item, code: $code - Item type not found!");
+		}
+
+		return $item_type;
 	}
 
 	public function get_title($code, $item) {
@@ -70,6 +84,25 @@ class product {
 		}
 
 		return $description;
+	}
+
+	public function get_features($code, $item) {
+		$features = array();
+		$result = $this->db->query("SELECT feature1, feature2, feature3, feature4, feature5, feature6, feature7, feature8, feature9, feature10 FROM product WHERE code = '$code' AND item_no = '$item'");
+		if (mysqli_num_rows($result) > 0) {
+			$row = mysqli_fetch_array($result);
+			for ($i = 1; $i <= 10; $i++) {
+				$feature = $row["feature" . $i];
+				if (!empty($feature)) {
+					array_push($features, $feature);
+					$this->output->notice("Item: $item, Code: $code - Feature $i: $feature found!");
+				}
+			}
+		} else {
+			$this->output->notice("Item: $item, Code: $code - Features not found!");
+		}
+
+		return $features;
 	}
 
 	public function get_color($code, $item) {
