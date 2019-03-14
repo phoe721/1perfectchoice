@@ -35,6 +35,8 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["sku"])) {
 	$asin = $a->get_asin($code, $item_no);
 	$title = $p->get_title($code, $item_no);
 	$description = $p->get_description($code, $item_no);
+	$type = $p->get_type($code, $item_no);
+	$features = $p->get_features($code, $item_no);
 	$color = $p->get_color($code, $item_no);
 	$material = $p->get_material($code, $item_no);
 	$upc = $u->get_upc($code, $item_no);
@@ -50,21 +52,29 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["sku"])) {
 
 	$result = "<div style='float: left;margin: 5px'>" . $img . "</div>";
 	$result .= "<div style='float: left;margin: 5px;'>";
-	$result .= "SKU: $sku<br>";
 	$result .= "Vendor: $vendor<br>";
-	$result .= "ASIN: <a href='https://www.amazon.com/dp/$asin' target='_blank'>$asin</a><br>";
+	$result .= "SKU: $sku<br>";
 	$result .= "UPC: $upc<br>";
+	$result .= "ASIN: <a href='https://www.amazon.com/dp/$asin' target='_blank'>$asin</a><br>";
 	$result .= "Status: $discontinued<br>";
+	$result .= "Set List: $set_str<br>";
 	$result .= "Cost: $cost ($updated_time)<br>";
 	$result .= "Unit: $unit<br>";
 	$result .= "Quantity: $qty<br>";
+	$result .= "Title: $title<br>";
 	$result .= "Color: $color<br>";
 	$result .= "Material: $material<br>";
-	$result .= "Set List: $set_str<br>";
+
+	for ($i = 0; $i < 10; $i++) {
+		$count = $i + 1;
+		if (!empty($features[$i])) {
+			$result .= "Feature $count: " . $features[$i] . "<br>";
+		}
+	}
 
 	$weight = $w->get_weight($code, $item_no);
+	if (!empty($weight)) $result .= "Weight: $weight[0]<br>";
 	$dimensions = $dim->get_dimensions($code, $item_no);
-	$result .= "Weight: $weight[0]<br>"; // BUG!!!!
 	$result .= "Dimensions: " . implode(" x ", $dimensions) . "<br>";
 
 	$box_count = $pg->get_box_count($code, $item_no); 
@@ -80,7 +90,6 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["sku"])) {
 	}
 	$result .= "Box Count: $box_count<br>";
 	$result .= "Total Weight: $total_weight lbs<br>";
-
 	$result .= "</div>";
 
 	echo json_encode($result);
