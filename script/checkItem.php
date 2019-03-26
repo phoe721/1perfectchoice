@@ -72,8 +72,12 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["sku"])) {
 		}
 	}
 
+	$total_weight = 0;
 	$weight = $w->get_weight($code, $item_no);
-	if (!empty($weight)) $result .= "Weight: $weight[0]<br>";
+	for ($i = 0; $i < count($weight); $i++) {
+		$total_weight += $weight[$i];
+	}
+	$result .= "Weights: $total_weight<br>";
 	$dimensions = $dim->get_dimensions($code, $item_no);
 	$result .= "Dimensions: " . implode(" x ", $dimensions) . "<br>";
 
@@ -81,7 +85,6 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["sku"])) {
 	$pg_weights = $pg->get_weight($code, $item_no);
 	$pg_dimensions = $pg->get_dimensions($code, $item_no);
 	$total_weight = 0;
-
 	for ($i = 0; $i < $box_count; $i++) {
 		$count = $i + 1;
 		$total_weight += $pg_weights[$i];

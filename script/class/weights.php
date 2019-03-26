@@ -69,17 +69,17 @@ class weights {
 
 			return $weights;
 		} else {
+			$weight = 0;
 			$result = $this->db->query("SELECT weight FROM weights WHERE code = '$code' AND item_no = '$item_no'");
 			if (mysqli_num_rows($result) > 0) {
 				$row = mysqli_fetch_array($result);
 				$weight = $row["weight"];
-				array_push($weights, $weight);
 				$this->output->notice("Item: $item_no, Code: $code - Found weight $weight!");
 			} else {
 				$this->output->notice("Item: $item_no, Code: $code - Weight not found!");
 			}
 
-			return $weights;
+			return $weight;
 		}
 	}
 
