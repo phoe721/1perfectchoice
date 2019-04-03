@@ -11,13 +11,13 @@ class vendors {
 		$this->db = database::getInstance();
 	}
 
-	public function insert($code, $name) {
-		$result = $this->db->query("INSERT INTO vendors (code, name) VALUES ('$code', '$name')");
+	public function insert($code, $name, $per_box) {
+		$result = $this->db->query("INSERT INTO vendors (code, name, per_box) VALUES ('$code', '$name', '$per_box')");
 		if ($result) {
-			$this->output->notice("Code: $code, Name: $name - Inserted successfully!");
+			$this->output->notice("Code: $code, Name: $name, Per Box: $per_box - Inserted successfully!");
 			return true;
 		} else {
-			$this->output->notice("Code: $code, Name: $name - Failed to insert!");
+			$this->output->notice("Code: $code, Name: $name, Per Box: $per_box - Failed to insert!");
 			return false;
 		}
 	}
@@ -53,6 +53,19 @@ class vendors {
 			return $name;
 		} else {
 			$this->output->notice("Code: $code - Vendor name not found!");
+			return false;
+		}
+	}
+
+	public function per_box($code) {
+		$result = $this->db->query("SELECT per_box FROM vendors WHERE code = '$code'");
+		if (mysqli_num_rows($result) > 0) {
+			$row = mysqli_fetch_array($result);	
+			$per_box = $row['per_box'];
+			$this->output->notice("Code: $code - Per box is $per_box!");
+			return $per_box;
+		} else {
+			$this->output->notice("Code: $code - Per box not found!");
 			return false;
 		}
 	}

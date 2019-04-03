@@ -1,6 +1,7 @@
 <?
 /* Initialization */
 require_once("database.php");
+require_once("vendors.php");
 require_once("set_list.php");
 
 class costs {
@@ -11,6 +12,7 @@ class costs {
 	public function __construct() {
 		$this->output = new debugger;
 		$this->db = database::getInstance();
+		$this->vendors = new vendors();
 		$this->set_list = new set_list();
 	}
 
@@ -49,12 +51,13 @@ class costs {
 
 	public function get_cost($code, $item_no) {
 		$cost = 0;
+		$per_box = $this->vendors->per_box($code);
 		$result = $this->db->query("SELECT cost FROM costs WHERE code = '$code' AND item_no = '$item_no'");
 		if (mysqli_num_rows($result) > 0) {
 			$row = mysqli_fetch_array($result);
 			$cost = $row['cost']; 
 			$unit = $this->get_unit($code, $item_no);
-			$cost = $cost * $unit;
+			$cost = $per_box ? $cost : ($cost * $unit);
 			$this->output->notice("Item: $item_no, code: $code - Cost: $cost!");
 		} else {
 			$this->output->notice("Item: $item_no, code: $code - Cost not found!");
@@ -62,17 +65,18 @@ class costs {
 
 		if ($this->set_list->check($code, $item_no)) {
 			$costs = array();
+			$cost2 = 0;
 			$set = $this->set_list->get_set($code, $item_no);
 			for ($i = 0; $i < count($set); $i++) {
 				$item = $set[$i];
 				$result = $this->db->query("SELECT cost FROM costs WHERE code = '$code' AND item_no = '$item'");
 				if (mysqli_num_rows($result) > 0) {
 					$row = mysqli_fetch_array($result);
-					$cost = $row['cost'];
-					$unit = $this->get_unit($code, $item);
-					$cost = $cost * $unit;
-					array_push($costs, $cost);
-					$this->output->notice("Item: $item_no, code: $code - Cost: $cost!");
+					$cost2 = $row['cost'];
+					$unit2 = $this->get_unit($code, $item);
+					$cost2 = $per_box ? $cost2 : ($cost2 * $unit2);
+					array_push($costs, $cost2);
+					$this->output->notice("Item: $item_no, code: $code - Cost: $cost2!");
 				} else {
 					$this->output->notice("Item: $item_no, code: $code - Cost not found!");
 				}
@@ -89,6 +93,15 @@ class costs {
 
 	public function get_unit($code, $item_no) {
 		$unit = 0;
+		$result = $this->db->query("SELECT unit FROM costs WHERE code = '$code' AND item_no = '$item_no'");
+		if (mysqli_num_rows($result) > 0) {
+			$row = mysqli_fetch_array($result);
+			$unit = $row['unit'];
+			$this->output->notice("Item: $item_no, Code: $code - $unit per box!");
+		} else {
+			$this->output->notice("Item: $item_no, Code: $code - Unit not found!");
+		}
+
 		if ($this->set_list->check($code, $item_no)) {
 			$units = array();
 			$set = $this->set_list->get_set($code, $item_no);
@@ -97,27 +110,19 @@ class costs {
 				$result = $this->db->query("SELECT unit FROM costs WHERE code = '$code' AND item_no = '$item'");
 				if (mysqli_num_rows($result) > 0) {
 					$row = mysqli_fetch_array($result);
-					$unit = $row['unit'];
-					array_push($units, $unit);
-					$this->output->notice("Item: $item, Code: $code - $unit per box!");
+					$unit2 = $row['unit'];
+					array_push($units, $unit2);
+					$this->output->notice("Item: $item, Code: $code - $unit2 per box!");
 				} else {
 					$this->output->notice("Item: $item, Code: $code - Unit not found!");
 				}
 			}
-			$total = array_sum($units);
-			$this->output->notice("Item: $item, Code: $code is a set and has $total units!");
 
+			// Get MAX(Item Unit, Set Unit)
+			$total = max($unit, array_sum($units));
+			$this->output->notice("Item: $item, Code: $code is a set and has $total units!");
 			return $total;
 		} else {
-			$result = $this->db->query("SELECT unit FROM costs WHERE code = '$code' AND item_no = '$item_no'");
-			if (mysqli_num_rows($result) > 0) {
-				$row = mysqli_fetch_array($result);
-				$unit = $row['unit'];
-				$this->output->notice("Item: $item_no, Code: $code - $unit per box!");
-			} else {
-				$this->output->notice("Item: $item_no, Code: $code - Unit not found!");
-			}
-
 			return $unit;
 		}
 	}
