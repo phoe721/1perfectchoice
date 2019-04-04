@@ -3,7 +3,7 @@
 require_once(__DIR__ . "/../init.php");
 
 class debugger {
-	private $loglevel = 1;
+	private $loglevel = 0;
 
 	public function info($message) {
 		if ($this->loglevel == 0) $this->logger("[Info] $message");
@@ -13,12 +13,12 @@ class debugger {
 		if ($this->loglevel == 1) $this->logger("[Notice] $message");
 	}
 
-	public function warning($message) {
-		if ($this->loglevel == 2) $this->logger("[Warning] $message");
+	public function error($message) {
+		if ($this->loglevel == 2) $this->logger("[Error] $message");
 	}
 
-	public function error($message) {
-		if ($this->loglevel == 3) $this->logger("[Error] $message");
+	public function warning($message) {
+		if ($this->loglevel == 3) $this->logger("[Warning] $message");
 	}
 
 	public function set_log_level($level) {

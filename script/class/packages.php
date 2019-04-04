@@ -17,10 +17,10 @@ class packages {
 	public function insert($code, $item_no, $box1_length, $box1_width, $box1_height, $box1_weight, $box2_length, $box2_width, $box2_height, $box2_weight, $box3_length, $box3_width, $box3_height, $box3_weight, $box4_legnth, $box4_width, $box4_height, $box4_weight, $box5_length, $box5_width, $box5_height, $box5_weight) {
 		$result = $this->db->query("INSERT INTO packages (code, item_no, box1_length, box1_width, box1_height, box1_weight, box2_length, box2_width, box2_height, box2_weight, box3_length, box3_width, box3_height, box3_weight, box4_length, box4_width, box4_height, box4_weight, box5_length, box5_width, box5_height, box5_weight) VALUES ('$code', '$item_no', '$box1_length', '$box1_width', '$box1_height', '$box1_weight', '$box2_length', '$box2_width', '$box2_height', '$box2_weight', '$box3_length', '$box3_width', '$box3_height', '$box3_weight', '$box4_legnth', '$box4_width', '$box4_height', '$box4_weight', '$box5_length', '$box5_width', '$box5_height', '$box5_weight')");
 		if ($result) {
-			$this->output->notice("Item: $item_no, Code: $code - Packages has been inserted successfully!");
+			$this->output->info("Item: $item_no, Code: $code - Packages has been inserted successfully!");
 			return true;
 		} else {
-			$this->output->notice("Item: $item_no, Code: $code - Failed to insert!");
+			$this->output->info("Item: $item_no, Code: $code - Failed to insert!");
 			return false;
 		}
 	}
@@ -28,10 +28,10 @@ class packages {
 	public function update($code, $item_no, $box1_length, $box1_width, $box1_height, $box1_weight, $box2_length, $box2_width, $box2_height, $box2_weight, $box3_length, $box3_width, $box3_height, $box3_weight, $box4_legnth, $box4_width, $box4_height, $box4_weight, $box5_length, $box5_width, $box5_height, $box5_weight) {
 		$result = $this->db->query("UPDATE packages SET box1_length = '$box1_length', box1_width = '$box1_width', box1_height = '$box1_height', box1_weight = '$box1_weight', box2_length = '$box2_length', box2_width = '$box2_width', box2_height = '$box2_height', box2_weight = '$box2_weight', box3_length = '$box3_length', box3_width = '$box3_width', box3_height = '$box3_height', box3_weight = '$box3_weight', box4_length = '$box4_legnth', box4_width = '$box4_width', box4_height = '$box4_height', box4_weight = '$box4_weight ', box5_length = '$box5_length', box5_width = '$box5_width', box5_height = '$box5_height', box5_weight = '$box5_weight' WHERE code = '$code' AND item_no = '$item_no'");
 		if ($result) {
-			$this->output->notice("Item: $item_no, Code: $code - Packages updated!");
+			$this->output->info("Item: $item_no, Code: $code - Packages updated!");
 			return true;
 		} else {
-			$this->output->notice("Item: $item_no, Code: $code - Failed to update packages!");
+			$this->output->info("Item: $item_no, Code: $code - Failed to update packages!");
 			return false;
 		}
 	}
@@ -39,10 +39,10 @@ class packages {
 	public function delete($code, $item_no) {
 		$result = $this->db->query("DELETE FROM packages WHERE code = '$code' AND item_no = '$item_no'");
 		if ($result) {
-			$this->output->notice("Item: $item_no, Code: $code - Deleted!");
+			$this->output->info("Item: $item_no, Code: $code - Deleted!");
 			return true;
 		} else {
-			$this->output->notice("Item: $item_no, Code: $code - Failed to delete!");
+			$this->output->info("Item: $item_no, Code: $code - Failed to delete!");
 			return false;
 		}
 	}
@@ -50,10 +50,10 @@ class packages {
 	public function check_exist($code, $item_no) {
 		$result = $this->db->query("SELECT * FROM packages WHERE code = '$code' AND item_no = '$item_no'");
 		if (mysqli_num_rows($result) > 0) {
-			$this->output->notice("Item: $item_no, Code: $code - Exists!");
+			$this->output->info("Item: $item_no, Code: $code - Exists!");
 			return true;
 		} else {
-			$this->output->notice("Item: $item_no, Code: $code - Not exist!");
+			$this->output->info("Item: $item_no, Code: $code - Not exist!");
 			return false;
 		}
 	}
@@ -76,10 +76,10 @@ class packages {
 				for ($j = 1; $j <= $box_count; $j++) {
 					if (!empty($row["box" . $j . "_length"])) array_push($dimensions, $row["box" . $j . "_length"], $row["box" . $j . "_width"], $row["box" . $j . "_height"]);
 				}
-				$this->output->notice("Item: $item_no, Code: $code - Package dimensions found!");
+				$this->output->info("Item: $item_no, Code: $code - Package dimensions found!");
 			} else {
 				array_push($dimensions, 0, 0, 0);
-				$this->output->notice("Item: $item_no, Code: $code - Package dimensions not found!");
+				$this->output->info("Item: $item_no, Code: $code - Package dimensions not found!");
 			}
 	
 			return $dimensions;
@@ -109,10 +109,10 @@ class packages {
 						array_push($weights, 0);
 					}
 				}
-				$this->output->notice("Item: $item_no, Code: $code - Package weight found!");
+				$this->output->info("Item: $item_no, Code: $code - Package weight found!");
 			} else {
 				array_push($weights, 0);
-				$this->output->notice("Item: $item_no, Code: $code - Package weight not found!");
+				$this->output->info("Item: $item_no, Code: $code - Package weight not found!");
 			}
 
 			return $weights;
@@ -129,7 +129,7 @@ class packages {
 					$total += $this->get_box_count($code, $item);
 				}
 
-				$this->output->notice("Item: $item_no, Code: $code - Total Box count: $total!");
+				$this->output->info("Item: $item_no, Code: $code - Total Box count: $total!");
 				return $total;
 			} else {
 				$result = $this->db->query("SELECT box1_length, box2_length, box3_length, box4_length, box5_length FROM packages WHERE code = '$code' AND item_no = '$item_no'");
@@ -138,9 +138,9 @@ class packages {
 					for ($i = 1; $i <= 5; $i++) {
 						if (!empty($row["box" . $i . "_length"])) $box_count = $i;
 					}
-					$this->output->notice("Item: $item_no, Code: $code - Box count: $box_count!");
+					$this->output->info("Item: $item_no, Code: $code - Box count: $box_count!");
 				} else {
-					$this->output->notice("Item: $item_no, Code: $code - Not found!");
+					$this->output->info("Item: $item_no, Code: $code - Not found!");
 				}
 	
 				return $box_count;
@@ -153,7 +153,7 @@ class packages {
 		if ($result) {
 			$row = mysqli_fetch_array($result);
 			$count = $row['total'];
-			$this->output->notice("There are $count records in table packages!");
+			$this->output->info("There are $count records in table packages!");
 		} else {
 			$this->output->error("Failed to get record count in table packages!");
 		}

@@ -17,10 +17,10 @@ class weights {
 	public function insert($code, $item_no, $weight) {
 		$result = $this->db->query("INSERT INTO weights (code, item_no, weight) VALUES ('$code', '$item_no', '$wegith')");
 		if ($result) {
-			$this->output->notice("Item: $item_no, Code: $code - Weight ($weight) has been inserted successfully!");
+			$this->output->info("Item: $item_no, Code: $code - Weight ($weight) has been inserted successfully!");
 			return true;
 		} else {
-			$this->output->notice("Item: $item_no, Code: $code - Failed to insert!");
+			$this->output->info("Item: $item_no, Code: $code - Failed to insert!");
 			return false;
 		}
 	}
@@ -28,10 +28,10 @@ class weights {
 	public function update($code, $item_no, $weight) {
 		$result = $this->db->query("UPDATE weights SET weight = '$weight' WHERE code = '$code' AND item_no = '$item_no'");
 		if ($result) {
-			$this->output->notice("Item: $item_no, Code: $code - Weight has been updated to $weight!");
+			$this->output->info("Item: $item_no, Code: $code - Weight has been updated to $weight!");
 			return true;
 		} else {
-			$this->output->notice("Item: $item_no, Code: $code - Failed to update weight!");
+			$this->output->info("Item: $item_no, Code: $code - Failed to update weight!");
 			return false;
 		}
 	}
@@ -39,10 +39,10 @@ class weights {
 	public function delete($code, $item_no) {
 		$result = $this->db->query("DELETE FROM weights WHERE code = '$code' AND item_no = '$item_no'");
 		if ($result) {
-			$this->output->notice("Item: $item_no, Code: $code - Deleted!");
+			$this->output->info("Item: $item_no, Code: $code - Deleted!");
 			return true;
 		} else {
-			$this->output->notice("Item: $item_no, Code: $code - Failed to delete!");
+			$this->output->info("Item: $item_no, Code: $code - Failed to delete!");
 			return false;
 		}
 	}
@@ -50,10 +50,10 @@ class weights {
 	public function check_exist($code, $item_no) {
 		$result = $this->db->query("SELECT * FROM weights WHERE code = '$code' AND item_no = '$item_no'");
 		if (mysqli_num_rows($result) > 0) {
-			$this->output->notice("Item: $item_no, Code: $code - Exists!");
+			$this->output->info("Item: $item_no, Code: $code - Exists!");
 			return true;
 		} else {
-			$this->output->notice("Item: $item_no, Code: $code - Not exist!");
+			$this->output->info("Item: $item_no, Code: $code - Not exist!");
 			return false;
 		}
 	}
@@ -74,10 +74,10 @@ class weights {
 				$row = mysqli_fetch_array($result);
 				$weight = $row["weight"];
 				array_push($weights, $weight);
-				$this->output->notice("Item: $item_no, Code: $code - Found weight $weight!");
+				$this->output->info("Item: $item_no, Code: $code - Found weight $weight!");
 			} else {
 				array_push($weights, 0);
-				$this->output->notice("Item: $item_no, Code: $code - Weight not found!");
+				$this->output->info("Item: $item_no, Code: $code - Weight not found!");
 			}
 
 			return $weights;
@@ -90,7 +90,7 @@ class weights {
 		if ($result) {
 			$row = mysqli_fetch_array($result);
 			$count = $row['total'];
-			$this->output->notice("There are $count records in table weights!");
+			$this->output->info("There are $count records in table weights!");
 		} else {
 			$this->output->error("Failed to get record count in table weights!");
 		}

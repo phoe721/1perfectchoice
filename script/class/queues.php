@@ -26,7 +26,7 @@ class queues {
 		$result = $this->db->query("INSERT INTO queues (command, status, insert_time, update_time) VALUES ('$command', '0', NOW(), NOW())");
 		if ($result) {
 			$last_id = $this->db->last_insert_id();
-			$this->output->notice("Queue created, queue number is $last_id!");
+			$this->output->info("Queue created, queue number is $last_id!");
 		} else {
 			$last_id = null;
 			$this->output->error("Failed to create queue!");
@@ -38,7 +38,7 @@ class queues {
 	public function process_queue() {
 		$result = $this->db->query("SELECT qid, command FROM queues WHERE status = 0");
 		if ($result->num_rows == 0) {
-			$this->output->notice("No queue found!");	
+			$this->output->info("No queue found!");	
 		} else {
 			$row = $result->fetch_array(MYSQLI_ASSOC);
 			$qid = $row['qid'];
@@ -46,12 +46,12 @@ class queues {
 	
 			// Going to process queue
 			$this->update_status($qid, 1);
-			$this->output->notice("Processing queue $qid");
+			$this->output->info("Processing queue $qid");
 			shell_exec($command);
 	
 			// Done Processing
 			$this->update_status($qid, 2);
-			$this->output->notice("Finished processing queue $qid");
+			$this->output->info("Finished processing queue $qid");
 		}
 	}
 
@@ -59,7 +59,7 @@ class queues {
 	public function update_status($qid, $status) {
 		$result = $this->db->query("UPDATE queues SET status = '$status', update_time = NOW() WHERE qid = '$qid'");
 		if ($result) {
-			$this->output->notice("Updated queue $qid status to $status");
+			$this->output->info("Updated queue $qid status to $status");
 		} else {
 			$this->output->error("Failed to update queue $qid status!");
 		}

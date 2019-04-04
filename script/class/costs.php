@@ -19,10 +19,10 @@ class costs {
 	public function insert($code, $item_no, $cost, $unit) {
 		$result = $this->db->query("INSERT INTO costs (code, item_no, cost, unit, updated_at) VALUES ('$code', '$item_no', '$cost', '$unit',NOW())");
 		if ($result) {
-			$this->output->notice("Item: $item_no, Code: $code, Cost: $cost, Unit: $unit - Inserted successfully!");
+			$this->output->info("Item: $item_no, Code: $code, Cost: $cost, Unit: $unit - Inserted successfully!");
 			return true;
 		} else {
-			$this->output->notice("Item: $item_no, Code: $code, Cost: $cost, Unit: $unit - Failed to insert!");
+			$this->output->info("Item: $item_no, Code: $code, Cost: $cost, Unit: $unit - Failed to insert!");
 			return false;
 		}
 	}
@@ -30,10 +30,10 @@ class costs {
 	public function update($code, $item_no, $cost, $unit) {
 		$result = $this->db->query("UPDATE costs SET cost = '$cost', unit = '$unit', updated_at = NOW() WHERE code = '$code' AND item_no = '$item_no'");
 		if ($result) {
-			$this->output->notice("Item: $item_no, Code: $code, Cost: $cost, Unit: $unit - Updated!");
+			$this->output->info("Item: $item_no, Code: $code, Cost: $cost, Unit: $unit - Updated!");
 			return true;
 		} else {
-			$this->output->notice("Item: $item_no, Code: $code, Cost: $cost, Unit: $unit - Failed to update!");
+			$this->output->info("Item: $item_no, Code: $code, Cost: $cost, Unit: $unit - Failed to update!");
 			return false;
 		}
 	}
@@ -41,10 +41,10 @@ class costs {
 	public function delete($code, $item_no) {
 		$result = $this->db->query("DELETE FROM costs WHERE code = '$code' AND item_no = '$item_no'");
 		if ($result) {
-			$this->output->notice("Item: $item_no, Code: $code - Deleted!");
+			$this->output->info("Item: $item_no, Code: $code - Deleted!");
 			return true;
 		} else {
-			$this->output->notice("Item: $item_no, Code: $code - Failed to delete!");
+			$this->output->info("Item: $item_no, Code: $code - Failed to delete!");
 			return false;
 		}
 	}
@@ -58,9 +58,9 @@ class costs {
 			$cost = $row['cost']; 
 			$unit = $this->get_unit($code, $item_no);
 			$cost = $per_box ? $cost : ($cost * $unit);
-			$this->output->notice("Item: $item_no, code: $code - Cost: $cost!");
+			$this->output->info("Item: $item_no, code: $code - Cost: $cost!");
 		} else {
-			$this->output->notice("Item: $item_no, code: $code - Cost not found!");
+			$this->output->info("Item: $item_no, code: $code - Cost not found!");
 		}
 
 		if ($this->set_list->check($code, $item_no)) {
@@ -76,15 +76,15 @@ class costs {
 					$unit2 = $this->get_unit($code, $item);
 					$cost2 = $per_box ? $cost2 : ($cost2 * $unit2);
 					array_push($costs, $cost2);
-					$this->output->notice("Item: $item_no, code: $code - Cost: $cost2!");
+					$this->output->info("Item: $item_no, code: $code - Cost: $cost2!");
 				} else {
-					$this->output->notice("Item: $item_no, code: $code - Cost not found!");
+					$this->output->info("Item: $item_no, code: $code - Cost not found!");
 				}
 			}
 
 			// Get MAX(Item Cost, Set Cost)
 			$total = max($cost, array_sum($costs));
-			$this->output->notice("Item: $item, code: $code - Total cost $total!");
+			$this->output->info("Item: $item, code: $code - Total cost $total!");
 			return $total;
 		} else {
 			return $cost;
@@ -97,9 +97,9 @@ class costs {
 		if (mysqli_num_rows($result) > 0) {
 			$row = mysqli_fetch_array($result);
 			$unit = $row['unit'];
-			$this->output->notice("Item: $item_no, Code: $code - $unit per box!");
+			$this->output->info("Item: $item_no, Code: $code - $unit per box!");
 		} else {
-			$this->output->notice("Item: $item_no, Code: $code - Unit not found!");
+			$this->output->info("Item: $item_no, Code: $code - Unit not found!");
 		}
 
 		if ($this->set_list->check($code, $item_no)) {
@@ -112,15 +112,15 @@ class costs {
 					$row = mysqli_fetch_array($result);
 					$unit2 = $row['unit'];
 					array_push($units, $unit2);
-					$this->output->notice("Item: $item, Code: $code - $unit2 per box!");
+					$this->output->info("Item: $item, Code: $code - $unit2 per box!");
 				} else {
-					$this->output->notice("Item: $item, Code: $code - Unit not found!");
+					$this->output->info("Item: $item, Code: $code - Unit not found!");
 				}
 			}
 
 			// Get MAX(Item Unit, Set Unit)
 			$total = max($unit, array_sum($units));
-			$this->output->notice("Item: $item, Code: $code is a set and has $total units!");
+			$this->output->info("Item: $item, Code: $code is a set and has $total units!");
 			return $total;
 		} else {
 			return $unit;
@@ -137,9 +137,9 @@ class costs {
 			if (mysqli_num_rows($result) > 0) {
 				$row = mysqli_fetch_array($result);
 				$updated_time = date('Y-m-d H:i:s', strtotime($row['updated_at'])); 
-				$this->output->notice("Item: $item_no, code: $code - Updated At: $updated_time!");
+				$this->output->info("Item: $item_no, code: $code - Updated At: $updated_time!");
 			} else {
-				$this->output->notice("Item: $item_no, code: $code - Updated time not found!");
+				$this->output->info("Item: $item_no, code: $code - Updated time not found!");
 			}
 
 			return $updated_time;
@@ -148,9 +148,9 @@ class costs {
 			if (mysqli_num_rows($result) > 0) {
 				$row = mysqli_fetch_array($result);
 				$updated_time = date('Y-m-d H:i:s', strtotime($row['updated_at'])); 
-				$this->output->notice("Item: $item_no, code: $code - Updated At: $updated_time!");
+				$this->output->info("Item: $item_no, code: $code - Updated At: $updated_time!");
 			} else {
-				$this->output->notice("Item: $item_no, code: $code - Updated time not found!");
+				$this->output->info("Item: $item_no, code: $code - Updated time not found!");
 			}
 
 			return $updated_time;
@@ -160,10 +160,10 @@ class costs {
 	public function check_exist($code, $item_no) {
 		$result = $this->db->query("SELECT * FROM costs WHERE code = '$code' AND item_no = '$item_no'");
 		if (mysqli_num_rows($result) > 0) {
-			$this->output->notice("Item: $item_no, Code: $code - Exists!");
+			$this->output->info("Item: $item_no, Code: $code - Exists!");
 			return true;
 		} else {
-			$this->output->notice("Item: $item_no, Code: $code - Not exist!");
+			$this->output->info("Item: $item_no, Code: $code - Not exist!");
 			return false;
 		}
 	}
@@ -174,7 +174,7 @@ class costs {
 		if ($result) {
 			$row = mysqli_fetch_array($result);
 			$count = $row['total'];
-			$this->output->notice("There are $count records in table costs!");
+			$this->output->info("There are $count records in table costs!");
 		} else {
 			$this->output->error("Failed to get record count in table costs!");
 		}

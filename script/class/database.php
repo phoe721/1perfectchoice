@@ -18,7 +18,7 @@ class database {
 			$this->output->notice("Close DB connection!");
 			mysqli_close($this->con);
 		} else {
-			$this->output->warning("DB connection was not made!");
+			$this->output->error("DB connection was not made!");
 		}
 	}
 
@@ -43,7 +43,7 @@ class database {
 				return $this->result;
 			}
 		} else {
-			$this->output->warning("DB connection was not made!");
+			$this->output->error("DB connection was not made!");
 		}
 
 		return false;
@@ -54,7 +54,7 @@ class database {
 			$this->output->notice("Returning DB connection!");
 			return $this->con;
 		} else {
-			$this->output->warning("DB connection was not made!");
+			$this->output->error("DB connection was not made!");
 			return false;
 		}
 	}
@@ -69,7 +69,7 @@ class database {
 			$this->output->notice("Returning last insert ID!");
 			return mysqli_insert_id($this->con); 
 		} else {
-			$this->output->warning("DB connection was not made!");
+			$this->output->error("DB connection was not made!");
 			return false;
 		}
 	}
@@ -79,7 +79,7 @@ class database {
 			$this->output->notice("Getting info!");
 			return mysqli_info($this->con);
 		} else {
-			$this->output->warning("DB connection was not made!");
+			$this->output->error("DB connection was not made!");
 			return false;
 		}
 	}
@@ -89,7 +89,7 @@ class database {
 			$this->output->notice("Returning DB error message!");
 			return mysqli_errno($this->con) . ": " . mysqli_error($this->con);
 		} else {
-			$this->output->warning("DB connection was not made!");
+			$this->output->error("DB connection was not made!");
 			return false;
 		}
 	}

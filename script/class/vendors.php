@@ -14,10 +14,10 @@ class vendors {
 	public function insert($code, $name, $per_box) {
 		$result = $this->db->query("INSERT INTO vendors (code, name, per_box) VALUES ('$code', '$name', '$per_box')");
 		if ($result) {
-			$this->output->notice("Code: $code, Name: $name, Per Box: $per_box - Inserted successfully!");
+			$this->output->info("Code: $code, Name: $name, Per Box: $per_box - Inserted successfully!");
 			return true;
 		} else {
-			$this->output->notice("Code: $code, Name: $name, Per Box: $per_box - Failed to insert!");
+			$this->output->info("Code: $code, Name: $name, Per Box: $per_box - Failed to insert!");
 			return false;
 		}
 	}
@@ -25,10 +25,10 @@ class vendors {
 	public function delete($code) {
 		$result = $this->db->query("DELETE FROM vendors WHERE code = '$code'");
 		if ($result) {
-			$this->output->notice("Code: $code - Deleted!");
+			$this->output->info("Code: $code - Deleted!");
 			return true;
 		} else {
-			$this->output->notice("Code: $code - Failed to delete!");
+			$this->output->info("Code: $code - Failed to delete!");
 			return false;
 		}
 	}
@@ -36,10 +36,10 @@ class vendors {
 	public function check($code) {
 		$result = $this->db->query("SELECT * FROM vendors WHERE code = '$code'");
 		if (mysqli_num_rows($result) > 0) {
-			$this->output->notice("Code: $code - Valid vendor code!");
+			$this->output->info("Code: $code - Valid vendor code!");
 			return true;
 		} else {
-			$this->output->notice("Code: $code - Not a valid vendor code!");
+			$this->output->info("Code: $code - Not a valid vendor code!");
 			return false;
 		}
 	}
@@ -49,10 +49,10 @@ class vendors {
 		if (mysqli_num_rows($result) > 0) {
 			$row = mysqli_fetch_array($result);	
 			$name = $row['name'];
-			$this->output->notice("Code: $code - Vendor name is $name!");
+			$this->output->info("Code: $code - Vendor name is $name!");
 			return $name;
 		} else {
-			$this->output->notice("Code: $code - Vendor name not found!");
+			$this->output->info("Code: $code - Vendor name not found!");
 			return false;
 		}
 	}
@@ -62,10 +62,10 @@ class vendors {
 		if (mysqli_num_rows($result) > 0) {
 			$row = mysqli_fetch_array($result);	
 			$per_box = $row['per_box'];
-			$this->output->notice("Code: $code - Per box is $per_box!");
+			$this->output->info("Code: $code - Per box is $per_box!");
 			return $per_box;
 		} else {
-			$this->output->notice("Code: $code - Per box not found!");
+			$this->output->info("Code: $code - Per box not found!");
 			return false;
 		}
 	}
@@ -73,10 +73,10 @@ class vendors {
 	public function check_exist($code) {
 		$result = $this->db->query("SELECT * FROM vendors WHERE code = '$code'");
 		if (mysqli_num_rows($result) > 0) {
-			$this->output->notice("Code: $code - Exists!");
+			$this->output->info("Code: $code - Exists!");
 			return true;
 		} else {
-			$this->output->notice("Code: $code - Not exist!");
+			$this->output->info("Code: $code - Not exist!");
 			return false;
 		}
 	}
@@ -87,7 +87,7 @@ class vendors {
 		if ($result) {
 			$row = mysqli_fetch_array($result);
 			$count = $row['total'];
-			$this->output->notice("There are $count records in table vendors!");
+			$this->output->info("There are $count records in table vendors!");
 		} else {
 			$this->output->error("Failed to get record count in table vendors!");
 		}
