@@ -76,15 +76,15 @@ class costs {
 					$unit2 = $this->get_unit($code, $item);
 					$cost2 = $per_box ? $cost2 : ($cost2 * $unit2);
 					array_push($costs, $cost2);
-					$this->output->info("Item: $item_no, code: $code - Cost: $cost2!");
+					$this->output->info("Item: $item, code: $code - Cost: $cost2!");
 				} else {
-					$this->output->info("Item: $item_no, code: $code - Cost not found!");
+					$this->output->info("Item: $item, code: $code - Cost not found!");
 				}
 			}
 
 			// Get MAX(Item Cost, Set Cost)
 			$total = max($cost, array_sum($costs));
-			$this->output->info("Item: $item, code: $code - Total cost $total!");
+			$this->output->info("Item: $item_no, code: $code - Total cost $total!");
 			return $total;
 		} else {
 			return $cost;
