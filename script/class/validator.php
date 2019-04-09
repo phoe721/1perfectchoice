@@ -11,16 +11,20 @@ class validator {
 
 	public function check_sku($sku) {
 		if (preg_match('/^[A-Z]+-[A-Z0-9-+x. \/]+$/', $sku)) {
+			$this->output->info("SKU: $sku - Valid SKU!");
 			return true;
 		} else {
+			$this->output->info("SKU: $sku - Invalid SKU!");
 			return false;
 		}
 	}
 
 	public function check_asin($asin) {
 		if (preg_match('/^[A-Z0-9]{10}$/', $asin)) {
+			$this->output->info("ASIN: $asin - Valid ASIN!");
 			return true;
 		} else {
+			$this->output->info("ASIN: $asin - Invalid ASIN!");
 			return false;
 		}
 	}
@@ -29,8 +33,10 @@ class validator {
 		if (!filter_var($url, FILTER_VALIDATE_URL) === false) {
 			$check = @fopen($url, "r");
 			if ($check) {
+				$this->output->info("URL: $url - Valid link!");
 				return true;
 			} else {
+				$this->output->info("URL: $url - Not a valid link!");
 				return false;
 			}
 		} else {
