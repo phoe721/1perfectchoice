@@ -14,7 +14,7 @@
 	define('INVENTORY', ROOT . 'inventory/');
 	define('FILTER', ROOT . 'filter/');
 	define('LOG_FILE', ROOT . 'log/1perfectchoice.log');
-	define('MAX_UPLOAD_SIZE', 800000);
+	define('MAX_UPLOAD_SIZE', 8000000);
 	define('TEST_NUMBER', 1000);
 	define('BRAND', 'Simple Relax');
 	define('UPS_DIMENSION_WEIGHT_DIVIDER', 166);

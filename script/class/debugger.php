@@ -6,19 +6,19 @@ class debugger {
 	private $loglevel = 0;
 
 	public function info($message) {
-		if ($this->loglevel == 0) $this->logger("[Info] $message");
+		if ($this->loglevel == 0) $this->logger("[Info][" . basename($_SERVER['PHP_SELF']) . "] $message");
 	}
 
 	public function notice($message) {
-		if ($this->loglevel == 1) $this->logger("[Notice] $message");
+		if ($this->loglevel == 1) $this->logger("[Notice][" . basename($_SERVER['PHP_SELF']) . "] $message");
 	}
 
 	public function error($message) {
-		if ($this->loglevel == 2) $this->logger("[Error] $message");
+		if ($this->loglevel == 2) $this->logger("[Error][" . basename($_SERVER['PHP_SELF']) . "] $message");
 	}
 
 	public function warning($message) {
-		if ($this->loglevel == 3) $this->logger("[Warning] $message");
+		if ($this->loglevel == 3) $this->logger("[Warning][" . basename($_SERVER['PHP_SELF']) . "] $message");
 	}
 
 	public function set_log_level($level) {
