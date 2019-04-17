@@ -29,6 +29,16 @@ class validator {
 		}
 	}
 
+	public function check_upc($upc) {
+		if (preg_match('/^[0-9]{12}$/', $upc)) {
+			$this->output->info("UPC: $upc - Valid UPC!");
+			return true;
+		} else {
+			$this->output->info("UPC: $upc - Invalid UPC!");
+			return false;
+		}
+	}
+
 	public function check_url($url) {
 		if (!filter_var($url, FILTER_VALIDATE_URL) === false) {
 			$check = @fopen($url, "r");
