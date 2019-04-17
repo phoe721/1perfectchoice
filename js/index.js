@@ -11,7 +11,7 @@ $(document).ready(function() {
 	    rules: {
 	        sku: {
 	            required: true,
-				pattern: /^[A-Z]+-[A-Z0-9-+x. \/]+$/
+				pattern: /^[A-Z]+-[A-Z0-9-+x. \/*]+$/
 	        }
 	    }
 	});

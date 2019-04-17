@@ -1,5 +1,5 @@
 <?
-require_once("class/upc.php");
+require_once("class/UPC.php");
 require_once("class/status.php");
 require_once("class/validator.php");
 $UPC = new UPC();
