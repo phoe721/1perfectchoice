@@ -1,0 +1,30 @@
+<html>
+<head>
+<link rel="stylesheet" href="css/index.css">
+</head>
+<body>
+<div id="box1">
+<form id="form"> 
+	<label for="file">Upload File</label>
+	<br>
+	<select id="task">
+	<option value="checkLinks">Check Links</option>
+	<option value="getCategory">Get Category</option>
+	<option value="downloadFiles">Download Files</option>
+	<option value="ftpDownloadFiles">FTP Download Files</option>
+	<option value="convertURI2Img">Convert URI to Image</option>
+	</select>
+	<input type="file" class="left" id="file" name="file">
+	<input type="hidden" id="uid" name="uid">
+	<input type="button" id="upload" value="Upload">
+	<input type="button" id="run" value="Run">
+	<input type="button" id="reset" value="Reset">
+</form>
+</div>
+<div id="output"></div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.3/jquery.min.js"></script>
+<script src="http://cdn.jsdelivr.net/jquery.validation/1.15.0/jquery.validate.min.js"></script>
+<script src="http://cdn.jsdelivr.net/jquery.validation/1.15.0/additional-methods.min.js"></script>
+<script src="js/tools.js"></script>
+</body>
+</html>
