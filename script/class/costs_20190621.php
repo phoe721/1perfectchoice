@@ -50,37 +50,43 @@ class costs {
 	}
 
 	public function get_cost($code, $item_no) {
+		$cost = 0;
 		$per_box = $this->vendors->per_box($code);
+		$result = $this->db->query("SELECT cost FROM costs WHERE code = '$code' AND item_no = '$item_no'");
+		if (mysqli_num_rows($result) > 0) {
+			$row = mysqli_fetch_array($result);
+			$cost = $row['cost']; 
+			$unit = $this->get_unit($code, $item_no);
+			$cost = $per_box ? $cost : ($cost * $unit);
+			$this->output->info("Item: $item_no, code: $code - Cost: $cost!");
+		} else {
+			$this->output->info("Item: $item_no, code: $code - Cost not found!");
+		}
+
 		if ($this->set_list->check($code, $item_no)) {
 			$costs = array();
+			$cost2 = 0;
 			$set = $this->set_list->get_set($code, $item_no);
 			for ($i = 0; $i < count($set); $i++) {
 				$item = $set[$i];
-				$cost = $this->get_cost($code, $item);
-				if ($cost > 0) {
-					$unit = $this->get_unit($code, $item);
-					$cost = $cost * $unit;
-					array_push($costs, $cost);
+				$result = $this->db->query("SELECT cost FROM costs WHERE code = '$code' AND item_no = '$item'");
+				if (mysqli_num_rows($result) > 0) {
+					$row = mysqli_fetch_array($result);
+					$cost2 = $row['cost'];
+					$unit2 = $this->get_unit($code, $item);
+					$cost2 = $per_box ? $cost2 : ($cost2 * $unit2);
+					array_push($costs, $cost2);
+					$this->output->info("Item: $item, code: $code - Cost: $cost2!");
+				} else {
+					$this->output->info("Item: $item, code: $code - Cost not found!");
 				}
 			}
 
-			$total = array_sum($costs);
+			// Get MAX(Item Cost, Set Cost)
+			$total = max($cost, array_sum($costs));
 			$this->output->info("Item: $item_no, code: $code - Total cost $total!");
-
 			return $total;
 		} else {
-			$cost = 0;
-			$result = $this->db->query("SELECT cost FROM costs WHERE code = '$code' AND item_no = '$item_no'");
-			if (mysqli_num_rows($result) > 0) {
-				$row = mysqli_fetch_array($result);
-				$cost = $row['cost']; 
-				$unit = $this->get_unit($code, $item_no);
-				$cost = $per_box ? $cost : ($cost * $unit);
-				$this->output->info("Item: $item_no, code: $code - Cost: $cost!");
-			} else {
-				$this->output->info("Item: $item_no, code: $code - Cost not found!");
-			}
-
 			return $cost;
 		}
 	}
@@ -96,7 +102,29 @@ class costs {
 			$this->output->info("Item: $item_no, Code: $code - Unit not found!");
 		}
 
-		return $unit;
+		if ($this->set_list->check($code, $item_no)) {
+			$units = array();
+			$set = $this->set_list->get_set($code, $item_no);
+			for ($i = 0; $i < count($set); $i++) {
+				$item = $set[$i];
+				$result = $this->db->query("SELECT unit FROM costs WHERE code = '$code' AND item_no = '$item'");
+				if (mysqli_num_rows($result) > 0) {
+					$row = mysqli_fetch_array($result);
+					$unit2 = $row['unit'];
+					array_push($units, $unit2);
+					$this->output->info("Item: $item, Code: $code - $unit2 per box!");
+				} else {
+					$this->output->info("Item: $item, Code: $code - Unit not found!");
+				}
+			}
+
+			// Get MAX(Item Unit, Set Unit)
+			$total = max($unit, array_sum($units));
+			$this->output->info("Item: $item, Code: $code is a set and has $total units!");
+			return $total;
+		} else {
+			return $unit;
+		}
 	}
 
 	public function get_updated_time($code, $item_no) {
