@@ -57,11 +57,7 @@ class costs {
 			for ($i = 0; $i < count($set); $i++) {
 				$item = $set[$i];
 				$cost = $this->get_cost($code, $item);
-				if ($cost > 0) {
-					$unit = $this->get_unit($code, $item);
-					$cost = $cost * $unit;
-					array_push($costs, $cost);
-				}
+				array_push($costs, $cost);
 			}
 
 			$total = array_sum($costs);
@@ -87,33 +83,46 @@ class costs {
 
 	public function get_unit($code, $item_no) {
 		$unit = 0;
-		$result = $this->db->query("SELECT unit FROM costs WHERE code = '$code' AND item_no = '$item_no'");
-		if (mysqli_num_rows($result) > 0) {
-			$row = mysqli_fetch_array($result);
-			$unit = $row['unit'];
-			$this->output->info("Item: $item_no, Code: $code - $unit per box!");
-		} else {
-			$this->output->info("Item: $item_no, Code: $code - Unit not found!");
-		}
+		if ($this->set_list->check($code, $item_no)) {
+			$units = array();
+			$set = $this->set_list->get_set($code, $item_no);
+			for ($i = 0; $i < count($set); $i++) {
+				$item = $set[$i];
+				$unit = $this->get_unit($code, $item);
+				array_push($units, $unit);
+			}
 
-		return $unit;
+			$total = array_sum($units);
+			$this->output->info("Item: $item_no, code: $code - Total unit $total!");
+
+			return $total;
+		} else {
+			$result = $this->db->query("SELECT unit FROM costs WHERE code = '$code' AND item_no = '$item_no'");
+			if (mysqli_num_rows($result) > 0) {
+				$row = mysqli_fetch_array($result);
+				$unit = $row['unit'];
+				$this->output->info("Item: $item_no, Code: $code - $unit per box!");
+			} else {
+				$this->output->info("Item: $item_no, Code: $code - Unit not found!");
+			}
+
+			return $unit;
+		}
 	}
 
 	public function get_updated_time($code, $item_no) {
-		$updated_time = date('Y-m-d H:i:s', time()); 
+		$updated_time = date('Y-m-d H:i:s', mktime(00, 00, 00, 01, 01, 1970)); 
 		if ($this->set_list->check($code, $item_no)) {
-			$costs = array();
+			$updated_time_array = array();
 			$set = $this->set_list->get_set($code, $item_no);
 			$item = $set[0];
-			$result = $this->db->query("SELECT updated_at FROM costs WHERE code = '$code' AND item_no = '$item'");
-			if (mysqli_num_rows($result) > 0) {
-				$row = mysqli_fetch_array($result);
-				$updated_time = date('Y-m-d H:i:s', strtotime($row['updated_at'])); 
-				$this->output->info("Item: $item_no, code: $code - Updated At: $updated_time!");
-			} else {
-				$this->output->info("Item: $item_no, code: $code - Updated time not found!");
+			for ($i = 0; $i < count($set); $i++) {
+				$item = $set[$i];
+				$updated_time = $this->get_updated_time($code, $item);
+				array_push($updated_time_array, strtotime($updated_time));
 			}
 
+			$updated_time = date('Y-m-d H:i:s', min($updated_time_array));
 			return $updated_time;
 		} else {
 			$result = $this->db->query("SELECT updated_at FROM costs WHERE code = '$code' AND item_no = '$item_no'");
