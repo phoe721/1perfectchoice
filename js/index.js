@@ -79,8 +79,26 @@ $(document).ready(function() {
 				contentType: false,
 				processData: false,
 				dataType: 'json',
-				success: function(output) {
-					$('#output').append(output + '<br>');
+				success: function(data) {
+					$("#output").append('<div style="float: left; margin: 5px;"><img src="' + data.img_url + '" width="300px" alt="' + data.sku + '"></div>');
+					$("#output").append('<div style="float: left; margin: 5px;">' +
+					'Vendor: ' + data.vendor + '<br>' +
+					'SKU: ' + data.sku + '<br>' +
+					'UPC: ' + data.upc + '<br>' +
+					'ASIN: <a href="https://www.amazon.com/dp/' + data.asin + '" target="_blank">' + data.asin + '</a><br>' +
+					'Status: ' + data.status + '<br>' +
+					'Set List: ' + data.set_list + '<br>' +
+					'Cost: ' + data.cost + ' (' + data.updated_time + ')<br>' +
+					'Unit: ' + data.unit + '<br>' +
+					'Quantity: ' + data.quantity + '<br>' +
+					'Title: ' + data.title + '<br>' +
+					'Color: ' + data.color + '<br>' +
+					'Material: ' + data.material + '<br>' +
+					'Weight: ' + data.weight + '<br>' +
+					'Dimension: ' + data.dimension + '<br>' +
+					'Box Count: ' + data.boxCount + '<br>' + data.packageDimension + data.packageWeight +
+					'Total Package Weight: ' + data.totalPackageWeight + '<br>' +
+					'</div>');
 				}
 			});
 		}
