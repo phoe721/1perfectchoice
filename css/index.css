@@ -2,6 +2,9 @@ div#box1, div#box2 {
 	margin: 10px;
 	width: 600px;
 }
+a:link, a:visited, a:hover, a:active {
+	text-decoration: none;
+}
 label {
     float: left;
     font-family: Arial, Helvetica, sans-serif;

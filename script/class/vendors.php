@@ -11,8 +11,8 @@ class vendors {
 		$this->db = database::getInstance();
 	}
 
-	public function insert($code, $name, $per_box) {
-		$result = $this->db->query("INSERT INTO vendors (code, name, per_box) VALUES ('$code', '$name', '$per_box')");
+	public function insert($code, $name, $query_url, $per_box) {
+		$result = $this->db->query("INSERT INTO vendors (code, name, query_url, per_box) VALUES ('$code', '$name', '$query_url', '$per_box')");
 		if ($result) {
 			$this->output->info("Code: $code, Name: $name, Per Box: $per_box - Inserted successfully!");
 			return true;
@@ -53,6 +53,19 @@ class vendors {
 			return $name;
 		} else {
 			$this->output->info("Code: $code - Vendor name not found!");
+			return false;
+		}
+	}
+
+	public function get_query_url($code) {
+		$result = $this->db->query("SELECT query_url FROM vendors WHERE code = '$code'");
+		if (mysqli_num_rows($result) > 0) {
+			$row = mysqli_fetch_array($result);	
+			$query_url = $row['query_url'];
+			$this->output->info("Code: $code - Query URL is $query_url!");
+			return $query_url;
+		} else {
+			$this->output->info("Code: $code - Query URL not found!");
 			return false;
 		}
 	}

@@ -31,6 +31,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["sku"])) {
 	$sku = $_POST["sku"];
 	list($code, $item_no) = explode("-", $sku, 2);
 	$vendor = $vendors->get_name($code);
+	$query_url = $vendors->get_query_url($code) . $item_no;
 	$asin = $ASIN->get_asin($code, $item_no);
 	$title = $product->get_title($code, $item_no);
 	$description = $product->get_description($code, $item_no);
@@ -69,6 +70,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["sku"])) {
 
 	$data['img_url'] = $img_url;
 	$data['vendor'] = $vendor;
+	$data['query_url'] = $query_url;
 	$data['sku'] = $sku;
 	$data['upc'] = $upc;
 	$data['asin'] = $asin;
