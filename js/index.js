@@ -62,6 +62,13 @@ $(document).ready(function() {
 	$('#reset, #reset2').click(function() {
 		location.reload();
 	});
+	
+	// Bind Enter Key
+	$(document).bind('keypress', function(e) {
+		if(e.keyCode==13){
+			$('#check').trigger('click');
+        }
+    });
 
 	// Check button
 	$('#check').click(function() {
@@ -94,8 +101,8 @@ $(document).ready(function() {
 					'Title: ' + data.title + '<br>' +
 					'Color: ' + data.color + '<br>' +
 					'Material: ' + data.material + '<br>' +
-					'Weight: ' + data.weight + '<br>' +
-					'Dimension: ' + data.dimension + '<br>' +
+					'Weight: ' + data.weight + ' <br>' +
+					'Dimension: ' + data.dimension + ' <br>' +
 					'Box Count: ' + data.boxCount + '<br>' + data.packageDimension + data.packageWeight +
 					'Total Package Weight: ' + data.totalPackageWeight + '<br>' +
 					'</div>');
