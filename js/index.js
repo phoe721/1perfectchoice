@@ -38,6 +38,13 @@ $(document).ready(function() {
 		}
 	});
 
+	// Get Task List
+	$.getJSON("script/getTaskList.php", function(data){
+		$.each(data, function(key, value){
+			$("#task2").append("<option value=" + key + ">" + value + "</option>");
+		});
+	});
+
 	// Validate file	
 	$('#file').change(function() {
 		$('#output').html('');
