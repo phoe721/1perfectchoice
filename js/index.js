@@ -87,7 +87,8 @@ $(document).ready(function() {
 				processData: false,
 				dataType: 'json',
 				success: function(data) {
-					$("#output").append('<div style="float: left; margin: 5px;"><img src="' + data.img_url + '" width="300px" alt="' + data.sku + '"></div>');
+					$("#output").append('<div style="float: left; margin: 5px;">' + 
+					'<img src="' + data.img_url + '" width="300px" alt="' + data.sku + '" </div>');
 					$("#output").append('<div style="float: left; margin: 5px;">' +
 					'Vendor: ' + data.vendor + '<br>' +
 					'SKU: <a href="' + data.query_url + '" target="_blank">' + data.sku + '</a><br>' +
