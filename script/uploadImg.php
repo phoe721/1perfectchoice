@@ -1,31 +1,27 @@
 <?
+require_once("class/upload.php");
 require_once("class/ftp_client.php");
-require_once("class/status.php");
+$upload = new upload();
 $ftp_client = new ftp_client();
-$status = new status();
 
 // Connect to server
 $ftp_client->connect(FTP_SERVER);
 $ftp_client->login(FTP_USER, FTP_PASS);
 $ftp_client->set_passive();
 
-if (isset($argv[1]) && isset($argv[2]) && isset($argv[3])) {
-	$inputFile = $argv[1];
-	$outputFile = $argv[2];
-	$statusFile = $argv[3];
-	$status->set_file($statusFile);
-	$status->log_status("Processing $inputFile...");
-	$output = fopen($outputFile, "a+");
-	if ($output) {
-		$fileName = basename($inputFile);
+if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_FILES["file"]) && isset($_POST["uid"])) { 
+	$upload->set_UID($_POST["uid"]);
+	$upload->set_file($_FILES["file"]);
+	$output = $upload->get_error();
+	if ($output == "File uploaded!") {
+		$fileName = basename($upload->get_filename());
 		list($code, $file) = explode("-", $fileName, 2);
 		$ftp_client->change_dir("/images/" . $code);
-		$ftp_client->put($file, $inputFile);
-		$result = "$file uploaded" . PHP_EOL;
-		fwrite($output, $result);
+		$ftp_client->put($file, $upload->get_targetFile());
+		$output = "$file uploaded";
 	}
-	$status->log_status("Done!");
-	fclose($output);
+
+	echo json_encode($output);
 }
 
 // Disconnect from server
