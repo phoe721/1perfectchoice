@@ -87,7 +87,7 @@ $(document).ready(function() {
 				processData: false,
 				dataType: 'json',
 				success: function(data) {
-					$("#output").append('<div style="float: left; margin: 5px;">' + 
+					$("#output").append('<div id="main" style="float: left; margin: 5px;" class="dropzone">' + 
 					'<img src="' + data.img_url + '" width="300px" alt="' + data.sku + '" </div>');
 					$("#output").append('<div style="float: left; margin: 5px;">' +
 					'Vendor: ' + data.vendor + '<br>' +
@@ -107,6 +107,20 @@ $(document).ready(function() {
 					'Box Count: ' + data.boxCount + '<br>' + data.packageDimension + data.packageWeight +
 					'Total Package Weight: ' + data.totalPackageWeight + '<br>' +
 					'</div>');
+
+					var uid = $('#uid').val();
+					var task = 39;
+					$("div#main").dropzone({ 
+						url: "script/upload.php", 
+						paramName: "file",
+						maxFilesize: 2,
+						init: function() {
+							this.on("sending", function(file, xhr, formData) {
+								formData.append("uid", uid);
+								formData.append("task", task);
+						    });
+						}
+					});
 				}
 			});
 		}
