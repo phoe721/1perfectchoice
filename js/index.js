@@ -27,7 +27,7 @@ $(document).ready(function() {
 	});
 
 	// Disable this button until upload
-	$('#run').attr("disabled", true);
+	$('#run').attr('disabled', true);
 
 	// Get UID	
 	$.post('script/getUID.php', {getUID: 'yes'}, function(id) {
@@ -39,21 +39,26 @@ $(document).ready(function() {
 	});
 
 	// Get Task List
-	$.getJSON("script/getTaskList.php", function(data){
+	$.getJSON('script/getTaskList.php', function(data){
 		$.each(data, function(key, value){
-			$("#task2").append("<option value=" + key + ">" + value + "</option>");
+			$('#task2').append('<option value=' + key + '>' + value + '</option>');
 		});
 	});
 
-	// Upload Zone
-	$("div#box3").dropzone({ 
-		url: "script/uploadImg.php", 
-		paramName: "file",
+	// Show Dropzone 
+	$('#dropzone').click(function() {
+		$("div#box3").toggle('slow')
+	});
+
+	// Dropzone
+	$('div#box3').addClass('dropzone').dropzone({ 
+		url: 'script/uploadImg.php', 
+		paramName: 'file',
 		maxFilesize: 2,
 		init: function() {
-			this.on("sending", function(file, xhr, formData) {
+			this.on('sending', function(file, xhr, formData) {
 				var uid = $('#uid').val();
-				formData.append("uid", uid);
+				formData.append('uid', uid);
 		    });
 		}
 	});
@@ -100,9 +105,9 @@ $(document).ready(function() {
 				processData: false,
 				dataType: 'json',
 				success: function(data) {
-					$("#output").append('<div style="float: left; margin: 5px;">' + 
+					$('#output').append('<div style="float: left; margin: 5px;">' + 
 					'<img src="' + data.img_url + '" width="300px" alt="' + data.sku + '" </div>');
-					$("#output").append('<div style="float: left; margin: 5px;">' +
+					$('#output').append('<div style="float: left; margin: 5px;">' +
 					'Vendor: ' + data.vendor + '<br>' +
 					'SKU: <a href="' + data.query_url + '" target="_blank">' + data.sku + '</a><br>' +
 					'UPC: ' + data.upc + '<br>' +
