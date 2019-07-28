@@ -119,7 +119,8 @@ $(document).ready(function() {
 					'Quantity: ' + data.quantity + '<br>' +
 					'Title: ' + data.title + '<br>' +
 					'Color: ' + data.color + '<br>' +
-					'Material: ' + data.material + '<br>' +
+					'Material: ' + data.material + '<br>' + data.features + 
+					'Description: ' + data.description + '<br>' +
 					'Weight: ' + data.weight + ' <br>' +
 					'Dimension: ' + data.dimension + ' <br>' +
 					'Box Count: ' + data.boxCount + '<br>' + data.packageDimension + data.packageWeight +

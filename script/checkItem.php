@@ -37,6 +37,11 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["sku"])) {
 	$description = $product->get_description($code, $item_no);
 	$type = $product->get_type($code, $item_no);
 	$features = $product->get_features($code, $item_no);
+	$features_str = "";
+	for ($i = 0; $i < count($features); $i++) {
+		$count = $i + 1;
+		$features_str .= "Feature $count: " . $features[$i] . "<br>";
+	}
 	$color = $product->get_color($code, $item_no);
 	$material = $product->get_material($code, $item_no);
 	$upc = $UPC->get_upc($code, $item_no);
@@ -83,7 +88,8 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["sku"])) {
 	$data['title'] = $title;
 	$data['color'] = $color;
 	$data['material'] = $material;
-	$data['features'] = $features;
+	$data['features'] = $features_str;
+	$data['description'] = $description;
 	$data['weight'] = $weight;
 	$data['dimension'] = $dimension_str;
 	$data['packageWeight'] = $package_weight_str;
