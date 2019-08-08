@@ -110,21 +110,24 @@ $(document).ready(function() {
 					$('#output').append('<div style="float: left; margin: 5px;">' +
 					'Vendor: ' + data.vendor + '<br>' +
 					'SKU: <a href="' + data.query_url + '" target="_blank">' + data.sku + '</a><br>' +
-					'UPC: ' + data.upc + '<br>' +
 					'ASIN: <a href="https://www.amazon.com/dp/' + data.asin + '" target="_blank">' + data.asin + '</a><br>' +
-					'Status: ' + data.status + '<br>' +
-					'Set List: ' + data.set_list + '<br>' +
-					'Cost: ' + data.cost + ' (' + data.updated_time + ')<br>' +
-					'Unit: ' + data.unit + '<br>' +
-					'Quantity: ' + data.quantity + '<br>' +
-					'Title: ' + data.title + '<br>' +
-					'Color: ' + data.color + '<br>' +
-					'Material: ' + data.material + '<br>' + data.features + 
-					'Description: ' + data.description + '<br>' +
-					'Weight: ' + data.weight + ' <br>' +
-					'Dimension: ' + data.dimension + ' <br>' +
-					'Box Count: ' + data.boxCount + '<br>' + data.packageDimension + data.packageWeight +
-					'Total Package Weight: ' + data.totalPackageWeight + '<br>' +
+					'UPC: <input type="text" value="' + data.upc + '"><br>' +
+					'Discontinued: <input type="text" value="' + data.status + '"><br>' +
+					'Set List: <input type="text" value="' + data.set_list + '"><br>' +
+					'Cost: <input type="text" value="' + data.cost + '"> (' + data.updated_time + ')<br>' +
+					'Unit: <input type="text" value="' + data.unit + '"><br>' +
+					'Quantity: <input type="text" value="' + data.quantity + '"><br>' +
+					'Title: <input type="text" value="' + data.title + '"><br>' +
+					'Color: <input type="text" value="' + data.color + '"><br>' +
+					'Material: <input type="text" value="' + data.material + '"><br>' +
+					'Features: <input type="text" value="' + data.features.join() + '"><br>' +
+					'Description: <input type="text" value="' + data.description + '"><br>' +
+					'Weight: <input type="text" value="' + data.weight + '"><br>' +
+					'Dimension: <input type="text" value="' + data.dimension.join() + '"><br>' +
+					'Box Count: <input type="text" value="' + data.boxCount + '"><br>' + 
+					'Package Dimensions: <input type="text" value="' + data.packageDimension.join() + '"><br>' + 
+					'Package Weight: <input type="text" value="' + data.packageWeight.join() + '"><br>' + 
+					'Total Package Weight: <input type="text" value="' + data.totalPackageWeight + '"><br>' + 
 					'</div>');
 				}
 			});

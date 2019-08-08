@@ -37,15 +37,10 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["sku"])) {
 	$description = $product->get_description($code, $item_no);
 	$type = $product->get_type($code, $item_no);
 	$features = $product->get_features($code, $item_no);
-	$features_str = "";
-	for ($i = 0; $i < count($features); $i++) {
-		$count = $i + 1;
-		$features_str .= "Feature $count: " . $features[$i] . "<br>";
-	}
 	$color = $product->get_color($code, $item_no);
 	$material = $product->get_material($code, $item_no);
 	$upc = $UPC->get_upc($code, $item_no);
-	$status = $discontinued->check($code, $item_no) ? "Discontinued" : "Active";
+	$status = $discontinued->check($code, $item_no);
 	$cost = $costs->get_cost($code, $item_no);
 	$unit = $costs->get_unit($code, $item_no);
 	$updated_time = $costs->get_updated_time($code, $item_no);
@@ -55,23 +50,10 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["sku"])) {
 	$set_str = $set ? implode(", ", $set) : "No";
 	$weight = array_sum($weights->get_weight($code, $item_no));
 	$dimension = $dimensions->get_dimensions($code, $item_no);
-	$dimension_str = $dimension ? implode(" x ", $dimension) : "";
 	$box_count = $packages->get_box_count($code, $item_no); 
 	$package_weight = $packages->get_weight($code, $item_no);
 	$total_package_weight = array_sum($package_weight);
-	$package_weight_str = "";
-	for ($i = 0; $i < $box_count; $i++) {
-		$count = $i + 1;
-		$package_weight_str .= "Box $count Weight: " . $package_weight[$i] . "<br>";
-	}
 	$package_dimension = $packages->get_dimensions($code, $item_no);
-	$package_dimension_str = "";
-	for ($i = 0; $i < $box_count; $i++) {
-		$count = $i + 1;
-		$package_dimension_str .= "Box $count Dimension: ";
-		$package_dimension_str .= $package_dimension[$i] . " x " . $package_dimension[$i+1] . " x " . $package_dimension[$i+2];
-		$package_dimension_str .= "<br>";
-	}
 
 	$data['img_url'] = $img_url;
 	$data['vendor'] = $vendor;
@@ -88,13 +70,13 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["sku"])) {
 	$data['title'] = $title;
 	$data['color'] = $color;
 	$data['material'] = $material;
-	$data['features'] = $features_str;
+	$data['features'] = $features;
 	$data['description'] = $description;
 	$data['weight'] = $weight;
-	$data['dimension'] = $dimension_str;
-	$data['packageWeight'] = $package_weight_str;
+	$data['dimension'] = $dimension;
+	$data['packageWeight'] = $package_weight;
 	$data['totalPackageWeight'] = $total_package_weight;
-	$data['packageDimension'] = $package_dimension_str;
+	$data['packageDimension'] = $package_dimension;
 	$data['boxCount'] = $box_count;
 
 	echo json_encode($data);
