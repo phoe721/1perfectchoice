@@ -93,12 +93,11 @@ $(document).ready(function() {
 		$('#output').html('');
 		if (form.valid()) {
 			var sku = $('#sku').val();
-			var script = 'script/checkItem.php';
 			var formData = new FormData();
 			formData.append('sku', sku);
 
 			$.ajax({
-				url: script,
+				url: 'script/checkItem.php',
 				data: formData,
 				type: 'POST',
 				contentType: false,
@@ -111,12 +110,12 @@ $(document).ready(function() {
 					'Vendor: ' + data.vendor + '<br>' +
 					'SKU: <a href="' + data.query_url + '" target="_blank">' + data.sku + '</a><br>' +
 					'ASIN: <a href="https://www.amazon.com/dp/' + data.asin + '" target="_blank">' + data.asin + '</a><br>' +
-					'UPC: <input type="text" value="' + data.upc + '"><br>' +
-					'Discontinued: <input type="text" value="' + data.status + '"><br>' +
+					'UPC: <input type="text" id="upc" value="' + data.upc + '"><br>' +
+					'Discontinued: ' + data.status + '<br>' +
 					'Set List: <input type="text" value="' + data.set_list + '"><br>' +
 					'Cost: <input type="text" value="' + data.cost + '"> (' + data.updated_time + ')<br>' +
 					'Unit: <input type="text" value="' + data.unit + '"><br>' +
-					'Quantity: <input type="text" value="' + data.quantity + '"><br>' +
+					'Quantity: <input type="text" id="qty" value="' + data.quantity + '"><br>' +
 					'Title: <input type="text" value="' + data.title + '"><br>' +
 					'Color: <input type="text" value="' + data.color + '"><br>' +
 					'Material: <input type="text" value="' + data.material + '"><br>' +
@@ -129,6 +128,26 @@ $(document).ready(function() {
 					'Package Weight: <input type="text" value="' + data.packageWeight.join() + '"><br>' + 
 					'Total Package Weight: <input type="text" value="' + data.totalPackageWeight + '"><br>' + 
 					'</div>');
+					$('input').change(function() {
+						var field = $(this).attr('id');
+						var value = $(this).val();
+						var formData2 = new FormData();
+						formData2.append('sku', sku);
+						formData2.append('field', field);
+						formData2.append('value', value);
+
+						$.ajax({
+							url: 'script/update.php',
+							data: formData2,
+							type: 'POST',
+							contentType: false,
+							processData: false,
+							dataType: 'json',
+							success: function(result) {
+								console.log(result);
+							}
+						});
+					});
 				}
 			});
 		}
