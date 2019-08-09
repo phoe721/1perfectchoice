@@ -106,29 +106,30 @@ $(document).ready(function() {
 				success: function(data) {
 					$('#output').append('<div style="float: left; margin: 5px;">' + 
 					'<img src="' + data.img_url + '" width="300px" alt="' + data.sku + '" </div>');
-					$('#output').append('<div style="float: left; margin: 5px;">' +
-					'Vendor: ' + data.vendor + '<br>' +
-					'SKU: <a href="' + data.query_url + '" target="_blank">' + data.sku + '</a><br>' +
-					'ASIN: <a href="https://www.amazon.com/dp/' + data.asin + '" target="_blank">' + data.asin + '</a><br>' +
-					'UPC: <input type="text" id="upc" value="' + data.upc + '"><br>' +
-					'Status: <input type="text" id="discontinued" value="' + data.status + '"><br>' +
-					'Set List: <input type="text" id="set_list" value="' + data.set_list.join() + '"><br>' +
-					'Item Type: <input type="text" id="item_type" value="' + data.item_type + '"><br>' +
-					'Cost: <input type="text" id="cost" value="' + data.cost + '"> (' + data.updated_time + ')<br>' +
-					'Unit: <input type="text" id="unit" value="' + data.unit + '"><br>' +
-					'Quantity: <input type="text" id="qty" value="' + data.quantity + '"><br>' +
-					'Title: <input type="text" id="title" value="' + data.title + '"><br>' +
-					'Color: <input type="text" id="color" value="' + data.color + '"><br>' +
-					'Material: <input type="text" id="material" value="' + data.material + '"><br>' +
-					'Features: <input type="text" id="features" value="' + data.features.join() + '"><br>' +
-					'Description: <input type="text" id="description" value="' + data.description + '"><br>' +
-					'Weight: <input type="text" id="weight" value="' + data.weight + '"><br>' +
-					'Dimension: <input type="text" value="' + data.dimension.join() + '"><br>' +
-					'Box Count: ' + data.boxCount + '<br>' + 
-					'Package Dimension: <input type="text" id="pg_dimension" value="' + data.packageDimension.join() + '"><br>' + 
-					'Package Weight: <input type="text" id="pg_weight" value="' + data.packageWeight.join() + '"><br>' + 
-					'Total Package Weight: ' + data.totalPackageWeight + '<br>' + 
-					'</div>');
+					$('#output').append('<div style="float: left; margin: 5px;"><table>' +
+					'<tr><td>Vendor</td><td>' + data.vendor + '</td></tr>' +
+					'<tr><td>SKU</td><td><a href="' + data.query_url + '" target="_blank">' + data.sku + '</a></td></tr>' +
+					'<tr><td>ASIN</td><td><a href="https://www.amazon.com/dp/' + data.asin + '" target="_blank">' + data.asin + '</a></td></tr>' +
+					'<tr><td>UPC</td><td><input type="text" id="upc" value="' + data.upc + '"></td></tr>' +
+					'<tr><td>Status</td><td><input type="text" id="discontinued" value="' + data.status + '"></td></tr>' +
+					'<tr><td>Set List</td><td><input type="text" id="set_list" value="' + data.set_list.join() + '"></td></tr>' +
+					'<tr><td>Item Type</td><td><input type="text" id="item_type" value="' + data.item_type + '"></td></tr>' +
+					'<tr><td>Cost</td><td><input type="text" id="cost" value="' + data.cost + '"></td></tr>' +
+					'<tr><td>Updated Time</td><td>' + data.updated_time + '</td></tr>' +
+					'<tr><td>Unit</td><td><input type="text" id="unit" value="' + data.unit + '"></td></tr>' +
+					'<tr><td>Quantity</td><td><input type="text" id="qty" value="' + data.quantity + '"></td></tr>' +
+					'<tr><td>Title</td><td><input type="text" id="title" value="' + data.title + '"></td></tr>' +
+					'<tr><td>Color</td><td><input type="text" id="color" value="' + data.color + '"></td></tr>' +
+					'<tr><td>Material</td><td><input type="text" id="material" value="' + data.material + '"></td></tr>' +
+					'<tr><td>Features</td><td><input type="text" id="features" value="' + data.features.join() + '"></td></tr>' +
+					'<tr><td>Description</td><td><input type="text" id="description" value="' + data.description + '"></td></tr>' +
+					'<tr><td>Weight</td><td><input type="text" id="weight" value="' + data.weight + '"></td></tr>' +
+					'<tr><td>Dimension</td><td><input type="text" value="' + data.dimension.join() + '"></td></tr>' +
+					'<tr><td>Box Count</td><td>' + data.boxCount + '</td></tr>' + 
+					'<tr><td>Package Dimension</td><td><input type="text" id="pg_dimension" value="' + data.packageDimension.join() + '"></td></tr>' + 
+					'<tr><td>Package Weight</td><td><input type="text" id="pg_weight" value="' + data.packageWeight.join() + '"></td></tr>' + 
+					'<tr><td align="center">Total Package Weight</td><td>' + data.totalPackageWeight + '</td></tr>' + 
+					'</table></div>');
 					$('input').change(function() {
 						var field = $(this).attr('id');
 						var value = $(this).val();

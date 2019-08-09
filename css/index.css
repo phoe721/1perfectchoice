@@ -19,8 +19,8 @@ br {
     clear: both;
 }
 input {
-    margin-bottom: .5em;
 	vertical-align: middle;
+	text-align: center;
 }
 input.error {
     border: 1px solid red;
@@ -38,4 +38,10 @@ label.valid {
 }
 input.left {
     width: 200px;
+}
+table, tr, td {
+	border: 1px solid black;
+	border-collapse: collapse;
+	text-align: center;
+	vertical-align: middle;
 }
