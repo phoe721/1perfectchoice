@@ -27,53 +27,31 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["sku"]) && isset($_POST[
 
 	if ($field == "upc") {
 		$result = $UPC->update($code, $item_no, $value);
-	} 
-
-	if ($field == "discontinued") {
+	} else if ($field == "discontinued") {
 		if ($value == "Active") {
 			$result = $discontinued->delete($code, $item_no);
 		} else if ($value == "Discontinued") {
 			$result = $discontinued->insert($code, $item_no);
 		}
-	} 
-
-	if ($field == "item_type") {
+	} else if ($field == "item_type") {
 		$result = $product->update_item_type($code, $item_no, $value);
-	} 
-
-	if ($field == "title") {
+	} else if ($field == "title") {
 		$result = $product->update_title($code, $item_no, $value);
-	} 
-
-	if ($field == "color") {
+	} else if ($field == "color") {
 		$result = $product->update_color($code, $item_no, $value);
-	} 
-
-	if ($field == "material") {
+	} else if ($field == "material") {
 		$result = $product->update_material($code, $item_no, $value);
-	} 
-
-	if ($field == "features") {
+	} else if ($field == "features") {
 		$result = $product->update_features($code, $item_no, $value);
-	} 
-
-	if ($field == "description") {
+	} else if ($field == "description") {
 		$result = $product->update_description($code, $item_no, $value);
-	} 
-
-	if ($field == "set_list") {
+	} else if ($field == "set_list") {
 		$result = $set_list->update($code, $item_no, $value);
-	} 
-
-	if ($field == "qty") {
+	} else if ($field == "qty") {
 		$result = $inventory->update($code, $item_no, $value);
-	} 
-
-	if ($field == "dimensions") {
+	} else if ($field == "dimensions") {
 		$result = $dimensions->update($code, $item_no, $value);
-	} 
-
-	if ($field == "weights") {
+	} else if ($field == "weights") {
 		$result = $weights->update($code, $item_no, $value);
 	} 
 
