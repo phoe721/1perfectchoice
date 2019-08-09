@@ -59,6 +59,14 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["sku"]) && isset($_POST[
 		$result = $dimensions->update($code, $item_no, $value);
 	} else if ($field == "weight") {
 		$result = $weights->update($code, $item_no, $value);
+	} else if ($field == "pg_dimension") {
+		$dimension = explode(",", $value);
+		for ($i = 0; $i < 15; $i++) if (!isset($dimension[$i])) $dimension[$i] = NULL;
+		$result = $packages->update_dimensions($code, $item_no, $dimension[0], $dimension[1], $dimension[2], $dimension[3], $dimension[4], $dimension[5], $dimension[6], $dimension[7], $dimension[8], $dimension[9], $dimension[10], $dimension[11], $dimension[12], $dimension[13], $dimension[14]); 
+	} else if ($field == "pg_weight") {
+		$weight = explode(",", $value);
+		for ($i = 0; $i < 5; $i++) if (!isset($weight[$i])) $weight[$i] = NULL;
+		$result = $packages->update_weights($code, $item_no, $weight[0], $weight[1], $weight[2], $weight[3], $weight[4]); 
 	} 
 
 	echo json_encode($result);

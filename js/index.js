@@ -124,9 +124,9 @@ $(document).ready(function() {
 					'Description: <input type="text" id="description" value="' + data.description + '"><br>' +
 					'Weight: <input type="text" id="weight" value="' + data.weight + '"><br>' +
 					'Dimension: <input type="text" value="' + data.dimension.join() + '"><br>' +
-					'Box Count: <input type="text" value="' + data.boxCount + '"><br>' + 
-					'Package Dimensions: <input type="text" value="' + data.packageDimension.join() + '"><br>' + 
-					'Package Weight: <input type="text" value="' + data.packageWeight.join() + '"><br>' + 
+					'Box Count: ' + data.boxCount + '<br>' + 
+					'Package Dimension: <input type="text" id="pg_dimension" value="' + data.packageDimension.join() + '"><br>' + 
+					'Package Weight: <input type="text" id="pg_weight" value="' + data.packageWeight.join() + '"><br>' + 
 					'Total Package Weight: ' + data.totalPackageWeight + '<br>' + 
 					'</div>');
 					$('input').change(function() {

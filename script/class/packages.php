@@ -26,12 +26,34 @@ class packages {
 	}
 	
 	public function update($code, $item_no, $box1_length, $box1_width, $box1_height, $box1_weight, $box2_length, $box2_width, $box2_height, $box2_weight, $box3_length, $box3_width, $box3_height, $box3_weight, $box4_legnth, $box4_width, $box4_height, $box4_weight, $box5_length, $box5_width, $box5_height, $box5_weight) {
-		$result = $this->db->query("UPDATE packages SET box1_length = '$box1_length', box1_width = '$box1_width', box1_height = '$box1_height', box1_weight = '$box1_weight', box2_length = '$box2_length', box2_width = '$box2_width', box2_height = '$box2_height', box2_weight = '$box2_weight', box3_length = '$box3_length', box3_width = '$box3_width', box3_height = '$box3_height', box3_weight = '$box3_weight', box4_length = '$box4_legnth', box4_width = '$box4_width', box4_height = '$box4_height', box4_weight = '$box4_weight ', box5_length = '$box5_length', box5_width = '$box5_width', box5_height = '$box5_height', box5_weight = '$box5_weight' WHERE code = '$code' AND item_no = '$item_no'");
+		$result = $this->db->query("UPDATE packages SET box1_length = '$box1_length', box1_width = '$box1_width', box1_height = '$box1_height', box1_weight = '$box1_weight', box2_length = '$box2_length', box2_width = '$box2_width', box2_height = '$box2_height', box2_weight = '$box2_weight', box3_length = '$box3_length', box3_width = '$box3_width', box3_height = '$box3_height', box3_weight = '$box3_weight', box4_length = '$box4_legnth', box4_width = '$box4_width', box4_height = '$box4_height', box4_weight = '$box4_weight', box5_length = '$box5_length', box5_width = '$box5_width', box5_height = '$box5_height', box5_weight = '$box5_weight' WHERE code = '$code' AND item_no = '$item_no'");
 		if ($result) {
 			$this->output->info("Item: $item_no, Code: $code - Packages updated!");
 			return true;
 		} else {
 			$this->output->info("Item: $item_no, Code: $code - Failed to update packages!");
+			return false;
+		}
+	}
+
+	public function update_dimensions($code, $item_no, $box1_length, $box1_width, $box1_height, $box2_length, $box2_width, $box2_height, $box3_length, $box3_width, $box3_height, $box4_legnth, $box4_width, $box4_height, $box5_length, $box5_width, $box5_height) {
+		$result = $this->db->query("UPDATE packages SET box1_length = '$box1_length', box1_width = '$box1_width', box1_height = '$box1_height', box2_length = '$box2_length', box2_width = '$box2_width', box2_height = '$box2_height', box3_length = '$box3_length', box3_width = '$box3_width', box3_height = '$box3_height', box4_length = '$box4_legnth', box4_width = '$box4_width', box4_height = '$box4_height', box5_length = '$box5_length', box5_width = '$box5_width', box5_height = '$box5_height' WHERE code = '$code' AND item_no = '$item_no'");
+		if ($result) {
+			$this->output->info("Item: $item_no, Code: $code - Package dimensions updated!");
+			return true;
+		} else {
+			$this->output->info("Item: $item_no, Code: $code - Failed to update package dimensions!");
+			return false;
+		}
+	}
+
+	public function update_weights($code, $item_no, $box1_weight, $box2_weight, $box3_weight, $box4_weight, $box5_weight) {
+		$result = $this->db->query("UPDATE packages SET box1_weight = '$box1_weight', box2_weight = '$box2_weight', box3_weight = '$box3_weight', box4_weight = '$box4_weight', box5_weight = '$box5_weight' WHERE code = '$code' AND item_no = '$item_no'");
+		if ($result) {
+			$this->output->info("Item: $item_no, Code: $code - Package weights updated!");
+			return true;
+		} else {
+			$this->output->info("Item: $item_no, Code: $code - Failed to update package weights!");
 			return false;
 		}
 	}
@@ -69,7 +91,7 @@ class packages {
 
 			return $dimensions;
 		} else {
-			$result = $this->db->query("SELECT box1_length, box1_width, box1_height, box2_length, box2_width, box2_height, box3_length, box3_width, box3_height, box4_length, box4_width, box4_height, box5_length, box5_width, box5_height FROM packages WHERE code = '$code' AND item_no = '$item_no'");
+			$result = $this->db->query("SELECT * FROM packages WHERE code = '$code' AND item_no = '$item_no'");
 			if (mysqli_num_rows($result) > 0) {
 				$row = mysqli_fetch_array($result);
 				$box_count = $this->get_box_count($code, $item_no);
@@ -98,7 +120,7 @@ class packages {
 
 			return $weights;
 		} else {
-			$result = $this->db->query("SELECT box1_weight, box2_weight, box3_weight, box4_weight, box5_weight FROM packages WHERE code = '$code' AND item_no = '$item_no'");
+			$result = $this->db->query("SELECT * FROM packages WHERE code = '$code' AND item_no = '$item_no'");
 			if (mysqli_num_rows($result) > 0) {
 				$row = mysqli_fetch_array($result);
 				$box_count = $this->get_box_count($code, $item_no);
@@ -132,7 +154,7 @@ class packages {
 				$this->output->info("Item: $item_no, Code: $code - Total Box count: $total!");
 				return $total;
 			} else {
-				$result = $this->db->query("SELECT box1_length, box2_length, box3_length, box4_length, box5_length FROM packages WHERE code = '$code' AND item_no = '$item_no'");
+				$result = $this->db->query("SELECT * FROM packages WHERE code = '$code' AND item_no = '$item_no'");
 				if (mysqli_num_rows($result) > 0) {
 					$row = mysqli_fetch_array($result);
 					for ($i = 1; $i <= 5; $i++) {
