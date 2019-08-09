@@ -111,22 +111,23 @@ $(document).ready(function() {
 					'SKU: <a href="' + data.query_url + '" target="_blank">' + data.sku + '</a><br>' +
 					'ASIN: <a href="https://www.amazon.com/dp/' + data.asin + '" target="_blank">' + data.asin + '</a><br>' +
 					'UPC: <input type="text" id="upc" value="' + data.upc + '"><br>' +
-					'Discontinued: ' + data.status + '<br>' +
+					'Status: <input type="text" id="discontinued" value="' + data.status + '"><br>' +
 					'Set List: <input type="text" value="' + data.set_list + '"><br>' +
+					'Item Type: <input type="text" id="item_type" value="' + data.item_type + '"><br>' +
 					'Cost: <input type="text" value="' + data.cost + '"> (' + data.updated_time + ')<br>' +
 					'Unit: <input type="text" value="' + data.unit + '"><br>' +
 					'Quantity: <input type="text" id="qty" value="' + data.quantity + '"><br>' +
-					'Title: <input type="text" value="' + data.title + '"><br>' +
-					'Color: <input type="text" value="' + data.color + '"><br>' +
-					'Material: <input type="text" value="' + data.material + '"><br>' +
-					'Features: <input type="text" value="' + data.features.join() + '"><br>' +
-					'Description: <input type="text" value="' + data.description + '"><br>' +
-					'Weight: <input type="text" value="' + data.weight + '"><br>' +
+					'Title: <input type="text" id="title" value="' + data.title + '"><br>' +
+					'Color: <input type="text" id="color" value="' + data.color + '"><br>' +
+					'Material: <input type="text" id="material" value="' + data.material + '"><br>' +
+					'Features: <input type="text" id="features" value="' + data.features.join() + '"><br>' +
+					'Description: <input type="text" id="description" value="' + data.description + '"><br>' +
+					'Weight: <input type="text" id="weights" value="' + data.weight + '"><br>' +
 					'Dimension: <input type="text" value="' + data.dimension.join() + '"><br>' +
 					'Box Count: <input type="text" value="' + data.boxCount + '"><br>' + 
 					'Package Dimensions: <input type="text" value="' + data.packageDimension.join() + '"><br>' + 
 					'Package Weight: <input type="text" value="' + data.packageWeight.join() + '"><br>' + 
-					'Total Package Weight: <input type="text" value="' + data.totalPackageWeight + '"><br>' + 
+					'Total Package Weight: ' + data.totalPackageWeight + '<br>' + 
 					'</div>');
 					$('input').change(function() {
 						var field = $(this).attr('id');

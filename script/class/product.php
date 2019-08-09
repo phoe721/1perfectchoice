@@ -33,6 +33,73 @@ class product {
 		}
 	}
 
+	public function update_title($code, $item_no, $title) {
+		$result = $this->db->query("UPDATE product SET title = '$title' WHERE code = '$code' AND item_no = '$item_no'");
+		if ($result) {
+			$this->output->info("Item: $item_no, Code: $code - Title updated!");
+			return true;
+		} else {
+			$this->output->info("Item: $item_no, Code: $code - Failed to update title!");
+			return false;
+		}
+	}
+
+	public function update_description($code, $item_no, $description) {
+		$result = $this->db->query("UPDATE product SET description = '$description' WHERE code = '$code' AND item_no = '$item_no'");
+		if ($result) {
+			$this->output->info("Item: $item_no, Code: $code - Description updated!");
+			return true;
+		} else {
+			$this->output->info("Item: $item_no, Code: $code - Failed to update description!");
+			return false;
+		}
+	}
+
+	public function update_features($code, $item_no, $features) {
+		list($feature1, $feature2, $feature3, $feature4, $feature5, $feature6, $feature7, $feature8, $feature9, $feature10) = explode(",", $features);
+		$result = $this->db->query("UPDATE product SET feature1 = '$feature1', feature2 = '$feature2', feature3 = '$feature3', feature4 = '$feature4', feature5 = '$feature5', feature6 = '$feature6', feature7 = '$feature7', feature8 = '$feature8', feature9 = '$feature9', feature10 = '$feature10' WHERE code = '$code' AND item_no = '$item_no'");
+		if ($result) {
+			$this->output->info("Item: $item_no, Code: $code - Features updated!");
+			return true;
+		} else {
+			$this->output->info("Item: $item_no, Code: $code - Failed to update features!");
+			return false;
+		}
+	}
+
+	public function update_color($code, $item_no, $color) {
+		$result = $this->db->query("UPDATE product SET color = '$color' WHERE code = '$code' AND item_no = '$item_no'");
+		if ($result) {
+			$this->output->info("Item: $item_no, Code: $code - Color updated!");
+			return true;
+		} else {
+			$this->output->info("Item: $item_no, Code: $code - Failed to update color!");
+			return false;
+		}
+	}
+
+	public function update_material($code, $item_no, $material) {
+		$result = $this->db->query("UPDATE product SET material = '$material' WHERE code = '$code' AND item_no = '$item_no'");
+		if ($result) {
+			$this->output->info("Item: $item_no, Code: $code - Material updated!");
+			return true;
+		} else {
+			$this->output->info("Item: $item_no, Code: $code - Failed to update material!");
+			return false;
+		}
+	}
+
+	public function update_item_type($code, $item_no, $item_type) {
+		$result = $this->db->query("UPDATE product SET item_type = '$item_type' WHERE code = '$code' AND item_no = '$item_no'");
+		if ($result) {
+			$this->output->info("Item: $item_no, Code: $code - Item type updated!");
+			return true;
+		} else {
+			$this->output->info("Item: $item_no, Code: $code - Failed to update item type!");
+			return false;
+		}
+	}
+
 	public function delete($code, $item_no) {
 		$result = $this->db->query("DELETE FROM product WHERE code = '$code' AND item_no = '$item_no'");
 		if ($result) {

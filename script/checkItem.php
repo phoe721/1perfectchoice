@@ -35,12 +35,12 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["sku"])) {
 	$asin = $ASIN->get_asin($code, $item_no);
 	$title = $product->get_title($code, $item_no);
 	$description = $product->get_description($code, $item_no);
-	$type = $product->get_type($code, $item_no);
+	$item_type = $product->get_type($code, $item_no);
 	$features = $product->get_features($code, $item_no);
 	$color = $product->get_color($code, $item_no);
 	$material = $product->get_material($code, $item_no);
 	$upc = $UPC->get_upc($code, $item_no);
-	$status = $discontinued->check($code, $item_no);
+	$status = $discontinued->check($code, $item_no) ? "Discontinued" : "Active";
 	$cost = $costs->get_cost($code, $item_no);
 	$unit = $costs->get_unit($code, $item_no);
 	$updated_time = $costs->get_updated_time($code, $item_no);
@@ -61,6 +61,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["sku"])) {
 	$data['sku'] = $sku;
 	$data['upc'] = $upc;
 	$data['asin'] = $asin;
+	$data['item_type'] = $item_type;
 	$data['status']= $status;
 	$data['set_list'] = $set_str;
 	$data['cost'] = $cost;
