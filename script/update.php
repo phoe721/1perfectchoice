@@ -50,7 +50,9 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["sku"]) && isset($_POST[
 	} else if ($field == "description") {
 		$result = $product->update_description($code, $item_no, $value);
 	} else if ($field == "set_list") {
-		$result = $set_list->update($code, $item_no, $value);
+		$item = explode(",", $value);
+		for ($i = 0; $i < 10; $i++) if (!isset($item[$i])) $item[$i] = NULL;
+		$result = $set_list->update($code, $item_no, $item[0], $item[1], $item[2], $item[3], $item[4], $item[5], $item[6], $item[7], $item[8], $item[9]); 
 	} else if ($field == "qty") {
 		$result = $inventory->update($code, $item_no, $value);
 	} else if ($field == "dimensions") {

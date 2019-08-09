@@ -112,7 +112,7 @@ $(document).ready(function() {
 					'ASIN: <a href="https://www.amazon.com/dp/' + data.asin + '" target="_blank">' + data.asin + '</a><br>' +
 					'UPC: <input type="text" id="upc" value="' + data.upc + '"><br>' +
 					'Status: <input type="text" id="discontinued" value="' + data.status + '"><br>' +
-					'Set List: <input type="text" value="' + data.set_list.join() + '"><br>' +
+					'Set List: <input type="text" id="set_list" value="' + data.set_list.join() + '"><br>' +
 					'Item Type: <input type="text" id="item_type" value="' + data.item_type + '"><br>' +
 					'Cost: <input type="text" id="cost" value="' + data.cost + '"> (' + data.updated_time + ')<br>' +
 					'Unit: <input type="text" id="unit" value="' + data.unit + '"><br>' +
