@@ -26,13 +26,16 @@ $shipping = new shipping();
 $vendors = new vendors();
 $validator = new validator();
 $data = array();
-
+$item_type = $title = $description = $feature1 = $feature2 = $feature3 = $feature4 = $feature5 = $feature6 = $feature7 = $feature8 = $feature9 = $feature10 = $color = $material = "";
 if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["sku"])) { 
 	$sku = $_POST["sku"];
 	list($code, $item_no) = explode("-", $sku, 2);
 	$vendor = $vendors->get_name($code);
 	$query_url = $vendors->get_query_url($code) . $item_no;
 	$asin = $ASIN->get_asin($code, $item_no);
+	if (!$product->check_exist($code, $item_no)) { 
+		$product->insert($code, $item_no, $item_type, $title, $description, $feature1, $feature2, $feature3, $feature4, $feature5, $feature6, $feature7, $feature8, $feature9, $feature10, $color, $material);
+	}
 	$title = $product->get_title($code, $item_no);
 	$description = $product->get_description($code, $item_no);
 	$item_type = $product->get_type($code, $item_no);
