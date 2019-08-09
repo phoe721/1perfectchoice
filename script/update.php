@@ -20,13 +20,17 @@ $set_list = new set_list();
 
 $result = "";
 if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["sku"]) && isset($_POST["field"]) && isset($_POST["value"])) { 
-	$field = $_POST["field"];
-	$value = $_POST["value"];
 	$sku = $_POST["sku"];
 	list($code, $item_no) = explode("-", $sku, 2);
+	$field = $_POST["field"];
+	$value = $_POST["value"];
 
 	if ($field == "upc") {
 		$result = $UPC->update($code, $item_no, $value);
+	} else if ($field == "cost") {
+		$result = $costs->update_cost($code, $item_no, $value);
+	} else if ($field == "unit") {
+		$result = $costs->update_unit($code, $item_no, $value);
 	} else if ($field == "discontinued") {
 		if ($value == "Active") {
 			$result = $discontinued->delete($code, $item_no);
@@ -51,7 +55,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["sku"]) && isset($_POST[
 		$result = $inventory->update($code, $item_no, $value);
 	} else if ($field == "dimensions") {
 		$result = $dimensions->update($code, $item_no, $value);
-	} else if ($field == "weights") {
+	} else if ($field == "weight") {
 		$result = $weights->update($code, $item_no, $value);
 	} 
 

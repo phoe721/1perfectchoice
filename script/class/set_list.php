@@ -72,11 +72,11 @@ class set_list {
 			}
 			$set_str = implode(", ", $set);
 			$this->output->info("Item: $item_no, Code: $code - Set: $set_str!");
-			return $set;
 		} else {
 			$this->output->info("Item: $item_no, Code: $code - Not a set!");
-			return false;
 		}
+
+		return $set;
 	}
 
 	public function get_record_count() {

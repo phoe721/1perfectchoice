@@ -50,12 +50,11 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["sku"])) {
 	$img_url = IMAGE_SERVER . "$code/$item_no.jpg";
 	$qty = $inventory->get($code, $item_no);
 	$set = $set_list->get_set($code, $item_no);
-	$set_str = $set ? implode(", ", $set) : "No";
 	$weight = array_sum($weights->get_weight($code, $item_no));
 	$dimension = $dimensions->get_dimensions($code, $item_no);
 	$box_count = $packages->get_box_count($code, $item_no); 
 	$package_weight = $packages->get_weight($code, $item_no);
-	$total_package_weight = array_sum($package_weight);
+	$total_package_weight = round(array_sum($package_weight), 2);
 	$package_dimension = $packages->get_dimensions($code, $item_no);
 
 	$data['img_url'] = $img_url;
@@ -66,7 +65,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["sku"])) {
 	$data['asin'] = $asin;
 	$data['item_type'] = $item_type;
 	$data['status']= $status;
-	$data['set_list'] = $set_str;
+	$data['set_list'] = $set;
 	$data['cost'] = $cost;
 	$data['updated_time'] = $updated_time;
 	$data['unit'] = $unit;

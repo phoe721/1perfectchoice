@@ -38,6 +38,28 @@ class costs {
 		}
 	}
 
+	public function update_cost($code, $item_no, $cost) {
+		$result = $this->db->query("UPDATE costs SET cost = '$cost', updated_at = NOW() WHERE code = '$code' AND item_no = '$item_no'");
+		if ($result) {
+			$this->output->info("Item: $item_no, Code: $code, Cost: $cost - Updated!");
+			return true;
+		} else {
+			$this->output->info("Item: $item_no, Code: $code, Cost: $cost - Failed to update!");
+			return false;
+		}
+	}
+
+	public function update_unit($code, $item_no, $unit) {
+		$result = $this->db->query("UPDATE costs SET unit = '$unit', updated_at = NOW() WHERE code = '$code' AND item_no = '$item_no'");
+		if ($result) {
+			$this->output->info("Item: $item_no, Code: $code, Unit: $unit - Updated!");
+			return true;
+		} else {
+			$this->output->info("Item: $item_no, Code: $code, Unit: $unit - Failed to update!");
+			return false;
+		}
+	}
+
 	public function delete($code, $item_no) {
 		$result = $this->db->query("DELETE FROM costs WHERE code = '$code' AND item_no = '$item_no'");
 		if ($result) {

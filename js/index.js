@@ -112,17 +112,17 @@ $(document).ready(function() {
 					'ASIN: <a href="https://www.amazon.com/dp/' + data.asin + '" target="_blank">' + data.asin + '</a><br>' +
 					'UPC: <input type="text" id="upc" value="' + data.upc + '"><br>' +
 					'Status: <input type="text" id="discontinued" value="' + data.status + '"><br>' +
-					'Set List: <input type="text" value="' + data.set_list + '"><br>' +
+					'Set List: <input type="text" value="' + data.set_list.join() + '"><br>' +
 					'Item Type: <input type="text" id="item_type" value="' + data.item_type + '"><br>' +
-					'Cost: <input type="text" value="' + data.cost + '"> (' + data.updated_time + ')<br>' +
-					'Unit: <input type="text" value="' + data.unit + '"><br>' +
+					'Cost: <input type="text" id="cost" value="' + data.cost + '"> (' + data.updated_time + ')<br>' +
+					'Unit: <input type="text" id="unit" value="' + data.unit + '"><br>' +
 					'Quantity: <input type="text" id="qty" value="' + data.quantity + '"><br>' +
 					'Title: <input type="text" id="title" value="' + data.title + '"><br>' +
 					'Color: <input type="text" id="color" value="' + data.color + '"><br>' +
 					'Material: <input type="text" id="material" value="' + data.material + '"><br>' +
 					'Features: <input type="text" id="features" value="' + data.features.join() + '"><br>' +
 					'Description: <input type="text" id="description" value="' + data.description + '"><br>' +
-					'Weight: <input type="text" id="weights" value="' + data.weight + '"><br>' +
+					'Weight: <input type="text" id="weight" value="' + data.weight + '"><br>' +
 					'Dimension: <input type="text" value="' + data.dimension.join() + '"><br>' +
 					'Box Count: <input type="text" value="' + data.boxCount + '"><br>' + 
 					'Package Dimensions: <input type="text" value="' + data.packageDimension.join() + '"><br>' + 
