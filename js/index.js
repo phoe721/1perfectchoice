@@ -47,11 +47,11 @@ $(document).ready(function() {
 
 	// Show Dropzone 
 	$('#dropzone').click(function() {
-		$("div#box3").toggle('slow')
+		$("div#box3").toggle('slow');
 	});
 
 	// Dropzone
-	$('div#box3').addClass('dropzone').dropzone({ 
+	Dropzone.options.box3 = {
 		url: 'script/uploadImg.php', 
 		paramName: 'file',
 		maxFilesize: 2,
@@ -61,7 +61,7 @@ $(document).ready(function() {
 				formData.append('uid', uid);
 		    });
 		}
-	});
+	};
 
 	// Validate file	
 	$('#file').change(function() {
@@ -77,7 +77,7 @@ $(document).ready(function() {
 	});
 
 	// Reset buttons
-	$('#reset, #reset2').click(function() {
+	$('#reset').click(function() {
 		location.reload();
 	});
 	
