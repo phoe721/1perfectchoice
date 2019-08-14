@@ -28,7 +28,11 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["sku"]) && isset($_POST[
 	if ($field == "upc") {
 		$result = $UPC->update($code, $item_no, $value);
 	} else if ($field == "cost") {
-		$result = $costs->update_cost($code, $item_no, $value);
+		if ($costs->check_exist($code, $item_no)) {
+			$result = $costs->update_cost($code, $item_no, $value);
+		} else {
+			$result = $costs->insert($code, $item_no, $value, 1); // For now, fix later
+		}
 	} else if ($field == "unit") {
 		$result = $costs->update_unit($code, $item_no, $value);
 	} else if ($field == "discontinued") {
@@ -50,9 +54,13 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["sku"]) && isset($_POST[
 	} else if ($field == "description") {
 		$result = $product->update_description($code, $item_no, $value);
 	} else if ($field == "set_list") {
-		$item = explode(",", $value);
-		for ($i = 0; $i < 10; $i++) if (!isset($item[$i])) $item[$i] = NULL;
-		$result = $set_list->update($code, $item_no, $item[0], $item[1], $item[2], $item[3], $item[4], $item[5], $item[6], $item[7], $item[8], $item[9]); 
+		if (!empty($value)) {
+			$item = explode(",", $value);
+			for ($i = 0; $i < 10; $i++) if (!isset($item[$i])) $item[$i] = NULL;
+			$result = $set_list->update($code, $item_no, $item[0], $item[1], $item[2], $item[3], $item[4], $item[5], $item[6], $item[7], $item[8], $item[9]); 
+		} else {
+			$result = $set_list->delete($code, $item_no);
+		}
 	} else if ($field == "qty") {
 		$result = $inventory->update($code, $item_no, $value);
 	} else if ($field == "dimensions") {
