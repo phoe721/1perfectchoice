@@ -59,8 +59,10 @@ class weights {
 	}
 
 	public function get_weight($code, $item_no) {
+		static $count = 0;
 		$weights = array();
-		if ($this->set_list->check($code, $item_no)) {
+		if ($this->set_list->check($code, $item_no) && $count == 0) {
+			$count++;
 			$set = $this->set_list->get_set($code, $item_no);
 			for ($i = 0; $i < count($set); $i++) {
 				$item = $set[$i];

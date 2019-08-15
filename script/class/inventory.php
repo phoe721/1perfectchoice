@@ -59,7 +59,9 @@ class inventory {
 	}
 
 	public function get($code, $item_no) {
-		if ($this->set_list->check($code, $item_no)) {
+		static $count = 0;
+		if ($this->set_list->check($code, $item_no) && $count == 0) {
+			$count++;
 			$qty_list = array();
 			$set = $this->set_list->get_set($code, $item_no);
 			foreach ($set as $item) {

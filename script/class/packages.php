@@ -81,8 +81,10 @@ class packages {
 	}
 
 	public function get_dimensions($code, $item_no) {
+		static $count = 0;
 		$dimensions = array();
-		if ($this->set_list->check($code, $item_no)) {
+		if ($this->set_list->check($code, $item_no) && $count == 0) {
+			$count++;
 			$set = $this->set_list->get_set($code, $item_no);
 			for ($i = 0; $i < count($set); $i++) {
 				$item = $set[$i];
@@ -109,8 +111,10 @@ class packages {
 	}
 
 	public function get_weight($code, $item_no) {
+		static $count = 0;
 		$weights = array();
-		if ($this->set_list->check($code, $item_no)) {
+		if ($this->set_list->check($code, $item_no) && $count == 0) {
+			$count++;
 			$new_array = array();
 			$set = $this->set_list->get_set($code, $item_no);
 			for ($i = 0; $i < count($set); $i++) {
@@ -142,8 +146,10 @@ class packages {
 	}
 
 	public function get_box_count($code, $item_no) {
+			static $count = 0;
 			$box_count = 0;
-			if ($this->set_list->check($code, $item_no)) {
+			if ($this->set_list->check($code, $item_no) && $count == 0) {
+				$count++;
 				$total = 0;
 				$set = $this->set_list->get_set($code, $item_no);
 				for ($i = 0; $i < count($set); $i++) {
