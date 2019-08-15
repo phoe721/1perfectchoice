@@ -72,8 +72,10 @@ class costs {
 	}
 
 	public function get_cost($code, $item_no) {
+		static $count = 0;
 		$per_box = $this->vendors->per_box($code);
-		if ($this->set_list->check($code, $item_no)) {
+		if ($this->set_list->check($code, $item_no) && $count == 0) {
+			$count++;
 			$costs = array();
 			$set = $this->set_list->get_set($code, $item_no);
 			for ($i = 0; $i < count($set); $i++) {
@@ -104,8 +106,9 @@ class costs {
 	}
 
 	public function get_unit($code, $item_no) {
-		$unit = 0;
-		if ($this->set_list->check($code, $item_no)) {
+		static $count = 0;
+		if ($this->set_list->check($code, $item_no) && $count == 0) {
+			$count++;
 			$units = array();
 			$set = $this->set_list->get_set($code, $item_no);
 			for ($i = 0; $i < count($set); $i++) {
@@ -119,6 +122,7 @@ class costs {
 
 			return $total;
 		} else {
+			$unit = 0;
 			$result = $this->db->query("SELECT unit FROM costs WHERE code = '$code' AND item_no = '$item_no'");
 			if (mysqli_num_rows($result) > 0) {
 				$row = mysqli_fetch_array($result);
@@ -133,8 +137,10 @@ class costs {
 	}
 
 	public function get_updated_time($code, $item_no) {
+		static $count = 0;
 		$updated_time = date('Y-m-d H:i:s', mktime(00, 00, 00, 01, 01, 1970)); 
-		if ($this->set_list->check($code, $item_no)) {
+		if ($this->set_list->check($code, $item_no) && $count == 0) {
+			$count++;
 			$updated_time_array = array();
 			$set = $this->set_list->get_set($code, $item_no);
 			$item = $set[0];

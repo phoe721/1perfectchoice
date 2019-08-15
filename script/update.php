@@ -26,15 +26,29 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["sku"]) && isset($_POST[
 	$value = $_POST["value"];
 
 	if ($field == "upc") {
-		$result = $UPC->update($code, $item_no, $value);
+		if ($UPC->check_exist($code, $item_no)) {
+			if (empty($value)) {
+				$result = $UPC->delete($code, $item_no);
+			} else {
+				$result = $UPC->update($code, $item_no, $value);
+			}
+		} else {
+			$result = $UPC->insert($code, $item_no, $value);
+		}
 	} else if ($field == "cost") {
 		if ($costs->check_exist($code, $item_no)) {
-			$result = $costs->update_cost($code, $item_no, $value);
+			if (empty($value)) {
+				$result = $costs->delete($code, $item_no);
+			} else {
+				$result = $costs->update_cost($code, $item_no, $value);
+			}
 		} else {
 			$result = $costs->insert($code, $item_no, $value, 1); // For now, fix later
 		}
 	} else if ($field == "unit") {
-		$result = $costs->update_unit($code, $item_no, $value);
+		if ($costs->check_exist($code, $item_no)) {
+			$result = $costs->update_unit($code, $item_no, $value);
+		}
 	} else if ($field == "discontinued") {
 		if ($value == "Active") {
 			$result = $discontinued->delete($code, $item_no);
@@ -54,15 +68,27 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["sku"]) && isset($_POST[
 	} else if ($field == "description") {
 		$result = $product->update_description($code, $item_no, $value);
 	} else if ($field == "set_list") {
-		if (!empty($value)) {
-			$item = explode(",", $value);
-			for ($i = 0; $i < 10; $i++) if (!isset($item[$i])) $item[$i] = NULL;
-			$result = $set_list->update($code, $item_no, $item[0], $item[1], $item[2], $item[3], $item[4], $item[5], $item[6], $item[7], $item[8], $item[9]); 
+		if ($set_list->check($code, $item_no)) {
+			if (!empty($value)) {
+				$item = explode(",", $value);
+				for ($i = 0; $i < 10; $i++) if (!isset($item[$i])) $item[$i] = NULL;
+				$result = $set_list->update($code, $item_no, $item[0], $item[1], $item[2], $item[3], $item[4], $item[5], $item[6], $item[7], $item[8], $item[9]); 
+			} else {
+				$result = $set_list->delete($code, $item_no);
+			}
 		} else {
-			$result = $set_list->delete($code, $item_no);
+			if (!empty($value)) {
+				$item = explode(",", $value);
+				for ($i = 0; $i < 10; $i++) if (!isset($item[$i])) $item[$i] = NULL;
+				$result = $set_list->insert($code, $item_no, $item[0], $item[1], $item[2], $item[3], $item[4], $item[5], $item[6], $item[7], $item[8], $item[9]); 
+			}
 		}
 	} else if ($field == "qty") {
-		$result = $inventory->update($code, $item_no, $value);
+		if ($inventory->check_exist($code, $item_no)) {
+			$result = $inventory->update($code, $item_no, $value);
+		} else {
+			$result = $inventory->insert($code, $item_no, $value);
+		}
 	} else if ($field == "dimensions") {
 		$result = $dimensions->update($code, $item_no, $value);
 	} else if ($field == "weight") {
