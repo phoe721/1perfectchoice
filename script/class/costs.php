@@ -76,7 +76,6 @@ class costs {
 		$per_box = $this->vendors->per_box($code);
 		if ($this->set_list->check($code, $item_no) && $count == 0) {
 			$count++;
-			$this->output->info("Count $count!");
 			$costs = array();
 			$set = $this->set_list->get_set($code, $item_no);
 			for ($i = 0; $i < count($set); $i++) {
