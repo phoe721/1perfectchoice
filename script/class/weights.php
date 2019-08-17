@@ -69,6 +69,7 @@ class weights {
 				$weights = array_merge($weights, $this->get_weight($code, $item));
 			}
 
+			$count = 0;
 			return $weights;
 		} else {
 			$result = $this->db->query("SELECT weight FROM weights WHERE code = '$code' AND item_no = '$item_no'");

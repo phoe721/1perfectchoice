@@ -71,6 +71,7 @@ class inventory {
 
 			$min = min($qty_list);
 			$this->output->info("Item: $item, Code: $code - Inventory has $min for a set!");
+			$count = 0;
 			return $min;
 		} else {
 			$qty = -1;

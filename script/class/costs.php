@@ -76,6 +76,7 @@ class costs {
 		$per_box = $this->vendors->per_box($code);
 		if ($this->set_list->check($code, $item_no) && $count == 0) {
 			$count++;
+			$this->output->info("Count $count!");
 			$costs = array();
 			$set = $this->set_list->get_set($code, $item_no);
 			for ($i = 0; $i < count($set); $i++) {
@@ -86,7 +87,7 @@ class costs {
 
 			$total = array_sum($costs);
 			$this->output->info("Item: $item_no, code: $code - Total cost $total!");
-
+			$count = 0;
 			return $total;
 		} else {
 			$cost = 0;
@@ -119,7 +120,7 @@ class costs {
 
 			$total = array_sum($units);
 			$this->output->info("Item: $item_no, code: $code - Total unit $total!");
-
+			$count = 0;
 			return $total;
 		} else {
 			$unit = 0;
@@ -150,6 +151,7 @@ class costs {
 				array_push($updated_time_array, strtotime($updated_time));
 			}
 
+			$count = 0;
 			$updated_time = date('Y-m-d H:i:s', min($updated_time_array));
 			return $updated_time;
 		} else {

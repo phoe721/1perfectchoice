@@ -43,7 +43,10 @@ class discontinued {
 			$set = $this->set_list->get_set($code, $item_no);
 			for ($i = 0; $i < count($set); $i++) {
 				$item = $set[$i];
-				if ($this->check($code, $item)) return true;
+				if ($this->check($code, $item)) {
+					$count = 0;
+					return true;
+				}
 			}
 		} else {
 			$result = $this->db->query("SELECT * FROM discontinued WHERE code = '$code' AND item_no = '$item_no'");

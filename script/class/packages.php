@@ -90,7 +90,8 @@ class packages {
 				$item = $set[$i];
 				$dimensions = array_merge($dimensions, $this->get_dimensions($code, $item));
 			}
-
+			
+			$count = 0;
 			return $dimensions;
 		} else {
 			$result = $this->db->query("SELECT * FROM packages WHERE code = '$code' AND item_no = '$item_no'");
@@ -122,6 +123,7 @@ class packages {
 				$weights = array_merge($weights, $this->get_weight($code, $item));
 			}
 
+			$count = 0;
 			return $weights;
 		} else {
 			$result = $this->db->query("SELECT * FROM packages WHERE code = '$code' AND item_no = '$item_no'");
@@ -158,6 +160,7 @@ class packages {
 				}
 
 				$this->output->info("Item: $item_no, Code: $code - Total Box count: $total!");
+				$count = 0;
 				return $total;
 			} else {
 				$result = $this->db->query("SELECT * FROM packages WHERE code = '$code' AND item_no = '$item_no'");
