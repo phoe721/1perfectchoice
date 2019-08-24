@@ -16,8 +16,10 @@ class ftp_client {
 		$this->conn = ftp_connect($this->server);
 		if ($this->conn) {
 			$this->output->notice("Connected to $this->server!");
+			return true;
 		} else {
 			$this->output->error("Failed to connect to $this->server!");
+			return false;
 		}
 	}
 
@@ -25,8 +27,10 @@ class ftp_client {
 		if ($this->conn) {
 			ftp_close($this->conn);
 			$this->output->notice("Disconnected to $this->server!");
+			return true;
 		} else {
 			$this->output->error("Failed to disconnect to $this->server!");
+			return false;
 		}
 	}
 
@@ -34,8 +38,10 @@ class ftp_client {
 		if ($this->conn) {
 			if (@ftp_login($this->conn, $user, $pass)) {
 				$this->output->notice("Logged in to $this->server!");
+				return true;
 			} else {
 				$this->output->error("Failed to log in to $this->server!");
+				return false;
 			}
 		}
 	}
@@ -45,6 +51,7 @@ class ftp_client {
 			return $this->conn;
 		} else {
 			$this->output->error("Failed to get connection!");
+			return false;
 		}
 	}
 
@@ -52,8 +59,10 @@ class ftp_client {
 		if ($this->conn) {
 			if(ftp_pasv($this->conn, true)) {
 				$this->output->notice("Turned passive mode on!");
+				return true;
 			} else {
 				$this->output->error("Failed to turn passive mode on!");
+				return false;
 			}
 		}
 	}
@@ -62,8 +71,10 @@ class ftp_client {
 		if ($this->conn) {
 			if(ftp_pasv($this->conn, false)) {
 				$this->output->notice("Turned active mode on!");
+				return true;
 			} else {
 				$this->output->error("Failed to turn active mode on!");
+				return false;
 			}
 		}
 	}
@@ -74,27 +85,34 @@ class ftp_client {
 			foreach ($this->files as $file) {
 				$this->output->notice($file);
 			}
+			return $this->files;
 		} else {
 			$this->output->error("Not connected to $this->server!");
+			return false;
 		}
 	}
 
 	public function pwd() {
 		if ($this->conn) {
 			$this->output->notice("Current directory: " . ftp_pwd($this->conn) . "!");
+			return ftp_pwd($this->conn);
 		} else {
 			$this->output->error("Not connected to $this->server!");
+			return false;
 		}
 	}
 	public function change_dir($dir) {
 		if ($this->conn) {
 			if (ftp_chdir($this->conn, $dir)) {
 				$this->output->notice("Changed to directory $dir!");
+				return true;
 			} else {
 				$this->output->error("Failed to change directory to $dir!");
+				return false;
 			}
 		} else {
 			$this->output->error("Not connected to $this->server!");
+			return false;
 		}
 	}
 
@@ -102,11 +120,14 @@ class ftp_client {
 		if ($this->conn) {
 			if (ftp_get($this->conn, $file, $remote_file, FTP_BINARY)) {
 				$this->output->notice("Downloaded $remote_file!");
+				return true;
 			} else {
 				$this->output->error("Failed to download $remote_file!");
+				return false;
 			}
 		} else {
 			$this->output->error("Not connected to $this->server!");
+			return true;
 		}
 	}
 
@@ -114,11 +135,14 @@ class ftp_client {
 		if ($this->conn) {
 			if (ftp_put($this->conn, $remote_file, $file, FTP_BINARY)) {
 				$this->output->notice("Uploaded $remote_file!");
+				return true;
 			} else {
 				$this->output->error("Failed to upload $remote_file!");
+				return false;
 			}
 		} else {
 			$this->output->error("Not connected to $this->server!");
+			return false;
 		}
 	}
 
@@ -126,11 +150,14 @@ class ftp_client {
 		if ($this->conn) {
 			if (ftp_rename($this->conn, $file, $new_file)) {
 				$this->output->notice("Renamed $file to $new_file!");
+				return true;
 			} else {
 				$this->output->error("Failed to rename $file to $new_file!");
+				return false;
 			}
 		} else {
 			$this->output->error("Not connected to $this->server!");
+			return false;
 		}
 	}
 
@@ -138,11 +165,14 @@ class ftp_client {
 		if ($this->conn) {
 			if (ftp_delete($this->conn, $file)) {
 				$this->output->notice("Deleted $file!");
+				return true;
 			} else {
 				$this->output->error("Failed to delete $file!");
+				return false;
 			}
 		} else {
 			$this->output->error("Not connected to $this->server!");
+			return false;
 		}
 	}
 }
