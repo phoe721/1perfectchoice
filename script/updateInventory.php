@@ -17,8 +17,8 @@ if (isset($argv[1]) && isset($argv[2]) && isset($argv[3])) {
 		while(!feof($input)) {
 			$line = trim(fgets($input));
 			if (!empty($line)) {
-				$status->log_status("Upating $line...");
 				list($sku, $qty) = explode("\t", $line);
+				$status->log_status("Upating $sku...");
 				if ($validator->check_sku($sku)) {
 					list($code, $item_no) = explode("-", $sku, 2);
 					if ($inventory->update($code, $item_no, $qty)) {
