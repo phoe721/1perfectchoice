@@ -74,7 +74,7 @@ class inventory {
 			$count = 0;
 			return $min;
 		} else {
-			$qty = -1;
+			$qty = 0;
 			$result = $this->db->query("SELECT qty FROM inventory WHERE code = '$code' AND item_no = '$item_no'");
 			if (mysqli_num_rows($result) > 0) {
 				$row = mysqli_fetch_array($result);

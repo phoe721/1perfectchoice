@@ -21,7 +21,7 @@ if (isset($argv[1]) && isset($argv[2]) && isset($argv[3])) {
 				list($sku, $qty) = explode("\t", $line);
 				if ($validator->check_sku($sku)) {
 					list($code, $item_no) = explode("-", $sku, 2);
-					if ($invenotry->check_exist($code, $item_no)) {
+					if ($inventory->check_exist($code, $item_no)) {
 						$result = "$sku\tExists". PHP_EOL;
 					} else {
 						$result = $inventory->insert($code, $item_no, $qty);
