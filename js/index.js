@@ -9,7 +9,7 @@ $(document).ready(function() {
 	var form = $('#form');
 	form.validate({
 	    rules: {
-	        sku: {
+	        input: {
 	            required: true,
 				pattern: /^[A-Z0-9\-+x\/]+$/
 	        }
@@ -92,9 +92,9 @@ $(document).ready(function() {
 	$('#check').click(function() {
 		$('#output').html('');
 		if (form.valid()) {
-			var sku = $('#sku').val();
+			var input = $('#input').val();
 			var formData = new FormData();
-			formData.append('sku', sku);
+			formData.append('input', input);
 
 			$.ajax({
 				url: 'script/checkItem.php',
@@ -115,9 +115,10 @@ $(document).ready(function() {
 					'<tr><td>Set List</td><td><input type="text" id="set_list" value="' + data.set_list.join() + '"></td></tr>' +
 					'<tr><td>Item Type</td><td><input type="text" id="item_type" value="' + data.item_type + '"></td></tr>' +
 					'<tr><td>Cost</td><td><input type="text" id="cost" value="' + data.cost + '"></td></tr>' +
-					'<tr><td>Updated Time</td><td>' + data.updated_time + '</td></tr>' +
+					'<tr><td>Updated Time</td><td>' + data.cost_updated_time + '</td></tr>' +
 					'<tr><td>Unit</td><td><input type="text" id="unit" value="' + data.unit + '"></td></tr>' +
 					'<tr><td>Quantity</td><td><input type="text" id="qty" value="' + data.quantity + '"></td></tr>' +
+					'<tr><td>Updated Time</td><td>' + data.inventory_updated_time + '</td></tr>' +
 					'<tr><td>Title</td><td><input type="text" id="title" value="' + data.title + '"></td></tr>' +
 					'<tr><td>Color</td><td><input type="text" id="color" value="' + data.color + '"></td></tr>' +
 					'<tr><td>Material</td><td><input type="text" id="material" value="' + data.material + '"></td></tr>' +

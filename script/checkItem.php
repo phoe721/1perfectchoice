@@ -27,8 +27,15 @@ $vendors = new vendors();
 $validator = new validator();
 $data = array();
 $item_type = $title = $description = $feature1 = $feature2 = $feature3 = $feature4 = $feature5 = $feature6 = $feature7 = $feature8 = $feature9 = $feature10 = $color = $material = "";
-if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["sku"])) { 
-	$sku = $_POST["sku"];
+if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["input"])) { 
+	$input = $_POST["input"];
+	if ($validator->check_asin($input)) {
+		$sku = $ASIN->get_sku($input);
+	} else if ($validator->check_upc($input)) {
+		$sku = $UPC->get_sku($input);
+	} else {
+		$sku = $input;
+	}
 	list($code, $item_no) = explode("-", $sku, 2);
 	$vendor = $vendors->get_name($code);
 	$query_url = $vendors->get_query_url($code) . $item_no;
@@ -46,9 +53,10 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["sku"])) {
 	$status = $discontinued->check($code, $item_no) ? "Discontinued" : "Active";
 	$cost = $costs->get_cost($code, $item_no);
 	$unit = $costs->get_unit($code, $item_no);
-	$updated_time = $costs->get_updated_time($code, $item_no);
+	$cost_updated_time = $costs->get_updated_time($code, $item_no);
 	$img_url = IMAGE_SERVER . "$code/$item_no.jpg";
 	$qty = $inventory->get($code, $item_no);
+	$inventory_updated_time = $inventory->get_updated_time($code, $item_no);
 	$set = $set_list->get_set($code, $item_no);
 	$weight = array_sum($weights->get_weight($code, $item_no));
 	$dimension = $dimensions->get_dimensions($code, $item_no);
@@ -67,9 +75,10 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["sku"])) {
 	$data['status']= $status;
 	$data['set_list'] = $set;
 	$data['cost'] = $cost;
-	$data['updated_time'] = $updated_time;
+	$data['cost_updated_time'] = $cost_updated_time;
 	$data['unit'] = $unit;
 	$data['quantity'] = $qty;
+	$data['inventory_updated_time'] = $inventory_updated_time;
 	$data['title'] = $title;
 	$data['color'] = $color;
 	$data['material'] = $material;

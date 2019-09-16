@@ -15,7 +15,7 @@ class inventory {
 	}
 	
 	public function insert($code, $item_no, $qty) {
-		$result = $this->db->query("INSERT INTO inventory (code, item_no, qty) VALUES ('$code', '$item_no', '$qty')");
+		$result = $this->db->query("INSERT INTO inventory (code, item_no, qty, updated_at) VALUES ('$code', '$item_no', '$qty', NOW())");
 		if ($result) {
 			$this->output->info("Item: $item_no, Code: $code - Inventory ($qty) has been inserted successfully!");
 			return true;
@@ -26,7 +26,7 @@ class inventory {
 	}
 
 	public function update($code, $item_no, $qty) {
-		$result = $this->db->query("UPDATE inventory SET qty = '$qty' WHERE code = '$code' AND item_no = '$item_no'");
+		$result = $this->db->query("UPDATE inventory SET qty = '$qty', updated_at = NOW() WHERE code = '$code' AND item_no = '$item_no'");
 		if ($result) {
 			$this->output->info("Item: $item_no, Code: $code - Inventory has been updated to $qty!");
 			return true;
@@ -86,6 +86,20 @@ class inventory {
 
 			return $qty;
 		}
+	}
+
+	public function get_updated_time($code, $item_no) {
+		$updated_time = date('Y-m-d H:i:s', mktime(00, 00, 00, 01, 01, 1970)); 
+		$result = $this->db->query("SELECT updated_at FROM inventory WHERE code = '$code' AND item_no = '$item_no'");
+		if (mysqli_num_rows($result) > 0) {
+			$row = mysqli_fetch_array($result);
+			$updated_time = date('Y-m-d H:i:s', strtotime($row['updated_at'])); 
+			$this->output->info("Item: $item_no, code: $code - Updated At: $updated_time!");
+		} else {
+			$this->output->info("Item: $item_no, code: $code - Updated time not found!");
+		}
+
+		return $updated_time;
 	}
 }
 ?>

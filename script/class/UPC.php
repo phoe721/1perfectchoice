@@ -44,6 +44,20 @@ class UPC {
 		}
 	}
 
+	public function get_sku($upc) {
+		$sku = "";
+		$result = $this->db->query("SELECT code, item_no FROM UPC WHERE upc = '$upc'");
+		if (mysqli_num_rows($result) > 0) {
+			$row = mysqli_fetch_array($result);
+			$sku = $row['code'] . "-" . $row['item_no'];
+			$this->output->info("UPC: $upc - Found SKU $sku!");
+		} else {
+			$this->output->info("UPC: $upc - SKU not found!");
+		}
+
+		return $sku;
+	}
+
 	public function get_upc($code, $item) {
 		$upc = '';
 		$result = $this->db->query("SELECT upc FROM UPC WHERE code = '$code' AND item_no = '$item'");
