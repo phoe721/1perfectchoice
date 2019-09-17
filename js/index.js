@@ -108,7 +108,7 @@ $(document).ready(function() {
 					'<img src="' + data.img_url + '" width="300px" alt="' + data.sku + '" </div>');
 					$('#output').append('<div style="float: left; margin: 5px;"><table>' +
 					'<tr><td>Vendor</td><td>' + data.vendor + '</td></tr>' +
-					'<tr><td>SKU</td><td><a href="' + data.query_url + '" target="_blank">' + data.sku + '</a></td></tr>' +
+					'<tr><td>SKU</td><td><a href="' + data.query_url + '" target="_blank"><input type="hidden" id="sku" value="' + data.sku + '">' + data.sku + '</a></td></tr>' +
 					'<tr><td>ASIN</td><td><a href="https://www.amazon.com/dp/' + data.asin + '" target="_blank">' + data.asin + '</a></td></tr>' +
 					'<tr><td>UPC</td><td><input type="text" id="upc" value="' + data.upc + '"></td></tr>' +
 					'<tr><td>Status</td><td><input type="text" id="discontinued" value="' + data.status + '"></td></tr>' +
@@ -132,6 +132,7 @@ $(document).ready(function() {
 					'<tr><td align="center">Total Package Weight</td><td>' + data.totalPackageWeight + '</td></tr>' + 
 					'</table></div>');
 					$('input').change(function() {
+						var sku = $('#sku').val();
 						var field = $(this).attr('id');
 						var value = $(this).val();
 						var formData2 = new FormData();
