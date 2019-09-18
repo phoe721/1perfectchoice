@@ -125,7 +125,7 @@ $(document).ready(function() {
 					'<tr><td>Features</td><td><input type="text" id="features" value="' + data.features.join() + '"></td></tr>' +
 					'<tr><td>Description</td><td><input type="text" id="description" value="' + data.description + '"></td></tr>' +
 					'<tr><td>Weight</td><td><input type="text" id="weight" value="' + data.weight + '"></td></tr>' +
-					'<tr><td>Dimension</td><td><input type="text" value="' + data.dimension.join() + '"></td></tr>' +
+					'<tr><td>Dimension</td><td><input type="text" id="dimensions" value="' + data.dimension.join() + '"></td></tr>' +
 					'<tr><td>Box Count</td><td>' + data.boxCount + '</td></tr>' + 
 					'<tr><td>Package Dimension</td><td><input type="text" id="pg_dimension" value="' + data.packageDimension.join() + '"></td></tr>' + 
 					'<tr><td>Package Weight</td><td><input type="text" id="pg_weight" value="' + data.packageWeight.join() + '"></td></tr>' + 
