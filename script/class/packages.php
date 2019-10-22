@@ -14,8 +14,8 @@ class packages {
 		$this->set_list = new set_list();
 	}
 
-	public function insert($code, $item_no, $box1_length, $box1_width, $box1_height, $box1_weight, $box2_length, $box2_width, $box2_height, $box2_weight, $box3_length, $box3_width, $box3_height, $box3_weight, $box4_legnth, $box4_width, $box4_height, $box4_weight, $box5_length, $box5_width, $box5_height, $box5_weight) {
-		$result = $this->db->query("INSERT INTO packages (code, item_no, box1_length, box1_width, box1_height, box1_weight, box2_length, box2_width, box2_height, box2_weight, box3_length, box3_width, box3_height, box3_weight, box4_length, box4_width, box4_height, box4_weight, box5_length, box5_width, box5_height, box5_weight) VALUES ('$code', '$item_no', '$box1_length', '$box1_width', '$box1_height', '$box1_weight', '$box2_length', '$box2_width', '$box2_height', '$box2_weight', '$box3_length', '$box3_width', '$box3_height', '$box3_weight', '$box4_legnth', '$box4_width', '$box4_height', '$box4_weight', '$box5_length', '$box5_width', '$box5_height', '$box5_weight')");
+	public function insert($code, $item_no, $box1_length, $box1_width, $box1_height, $box1_weight, $box2_length, $box2_width, $box2_height, $box2_weight, $box3_length, $box3_width, $box3_height, $box3_weight, $box4_legnth, $box4_width, $box4_height, $box4_weight, $box5_length, $box5_width, $box5_height, $box5_weight, $box6_length, $box6_width, $box6_height, $box6_weight, $box7_length, $box7_width, $box7_height, $box7_weight, $box8_length, $box8_width, $box8_height, $box8_weight, $box9_length, $box9_width, $box9_height, $box9_weight, $box10_length, $box10_width, $box10_height, $box10_weight) {
+			$result = $this->db->query("INSERT INTO packages (code, item_no, box1_length, box1_width, box1_height, box1_weight, box2_length, box2_width, box2_height, box2_weight, box3_length, box3_width, box3_height, box3_weight, box4_length, box4_width, box4_height, box4_weight, box5_length, box5_width, box5_height, box5_weight, box6_length, box6_width, box6_height, box6_weight, box7_length, box7_width, box7_height, box7_weight, box8_length, box8_width, box8_height, box8_weight, box9_length, box9_width, box9_height, box9_weight, box10_length, box10_width, box10_height, box10_weight) VALUES ('$code', '$item_no', '$box1_length', '$box1_width', '$box1_height', '$box1_weight', '$box2_length', '$box2_width', '$box2_height', '$box2_weight', '$box3_length', '$box3_width', '$box3_height', '$box3_weight', '$box4_legnth', '$box4_width', '$box4_height', '$box4_weight', '$box5_length', '$box5_width', '$box5_height', '$box5_weight', '$box6_length', '$box6_width', '$box6_height', '$box6_weight', '$box7_length', '$box7_width', '$box7_height', '$box7_weight', '$box8_length', '$box8_width', '$box8_height', '$box8_weight', '$box9_length', '$box9_width', '$box9_height', '$box9_weight', '$box10_length', '$box10_width', '$box10_height', '$box10_weight')");
 		if ($result) {
 			$this->output->info("Item: $item_no, Code: $code - Packages has been inserted successfully!");
 			return true;
@@ -25,8 +25,8 @@ class packages {
 		}
 	}
 	
-	public function insert_dimensions($code, $item_no, $box1_length, $box1_width, $box1_height, $box2_length, $box2_width, $box2_height, $box3_length, $box3_width, $box3_height, $box4_legnth, $box4_width, $box4_height, $box5_length, $box5_width, $box5_height) {
-		$result = $this->db->query("INSERT INTO packages (code, item_no, box1_length, box1_width, box1_height, box2_length, box2_width, box2_height, box3_length, box3_width, box3_height, box4_length, box4_width, box4_height, box5_length, box5_width, box5_height) VALUES ('$code', '$item_no', '$box1_length', '$box1_width', '$box1_height', '$box2_length', '$box2_width', '$box2_height', '$box3_length', '$box3_width', '$box3_height', '$box4_legnth', '$box4_width', '$box4_height', '$box5_length', '$box5_width', '$box5_height')");
+	public function insert_dimensions($code, $item_no, $box1_length, $box1_width, $box1_height, $box2_length, $box2_width, $box2_height, $box3_length, $box3_width, $box3_height, $box4_legnth, $box4_width, $box4_height, $box5_length, $box5_width, $box5_height, $box6_length, $box6_width, $box6_height, $box7_length, $box7_width, $box7_height, $box8_length, $box8_width, $box8_height, $box9_length, $box9_width, $box9_height, $box10_length, $box10_width, $box10_height) {
+			$result = $this->db->query("INSERT INTO packages (code, item_no, box1_length, box1_width, box1_height, box2_length, box2_width, box2_height, box3_length, box3_width, box3_height, box4_length, box4_width, box4_height, box5_length, box5_width, box5_height, box6_length, box6_width, box6_height, box7_length, box7_width, box7_height, box8_length, box8_width, box8_height, box9_length, box9_width, box9_height, box10_length, box10_width, box10_height) VALUES ('$code', '$item_no', '$box1_length', '$box1_width', '$box1_height', '$box2_length', '$box2_width', '$box2_height', '$box3_length', '$box3_width', '$box3_height', '$box4_legnth', '$box4_width', '$box4_height', '$box5_length', '$box5_width', '$box5_height', '$box6_length', '$box6_width', '$box6_height', '$box7_length', '$box7_width', '$box7_height', '$box8_length', '$box8_width', '$box8_height', '$box9_length', '$box9_width', '$box9_height', '$box10_length', '$box10_width', '$box10_height')");
 		if ($result) {
 			$this->output->info("Item: $item_no, Code: $code - Packages has been inserted successfully!");
 			return true;
@@ -36,8 +36,8 @@ class packages {
 		}
 	}
 
-	public function insert_weights($code, $item_no, $box1_weight, $box2_weight, $box3_weight, $box4_weight, $box5_weight) {
-		$result = $this->db->query("INSERT INTO packages (code, item_no, box1_weight, box2_weight, box3_weight, box4_weight, box5_weight) VALUES ('$code', '$item_no', '$box1_weight', '$box2_weight', '$box3_weight', '$box4_weight', '$box5_weight')");
+	public function insert_weights($code, $item_no, $box1_weight, $box2_weight, $box3_weight, $box4_weight, $box5_weight, $box6_weight, $box7_weight, $box8_weight, $box9_weight, $box10_weight) {
+		$result = $this->db->query("INSERT INTO packages (code, item_no, box1_weight, box2_weight, box3_weight, box4_weight, box5_weight, box6_weight, box7_weight, box8_weight, box9_weight, box10_weight) VALUES ('$code', '$item_no', '$box1_weight', '$box2_weight', '$box3_weight', '$box4_weight', '$box5_weight', '$box6_weight', '$box7_weight', '$box8_weight', '$box9_weight', '$box10_weight')");
 		if ($result) {
 			$this->output->info("Item: $item_no, Code: $code - Packages has been inserted successfully!");
 			return true;
@@ -47,8 +47,8 @@ class packages {
 		}
 	}
 
-	public function update($code, $item_no, $box1_length, $box1_width, $box1_height, $box1_weight, $box2_length, $box2_width, $box2_height, $box2_weight, $box3_length, $box3_width, $box3_height, $box3_weight, $box4_legnth, $box4_width, $box4_height, $box4_weight, $box5_length, $box5_width, $box5_height, $box5_weight) {
-		$result = $this->db->query("UPDATE packages SET box1_length = '$box1_length', box1_width = '$box1_width', box1_height = '$box1_height', box1_weight = '$box1_weight', box2_length = '$box2_length', box2_width = '$box2_width', box2_height = '$box2_height', box2_weight = '$box2_weight', box3_length = '$box3_length', box3_width = '$box3_width', box3_height = '$box3_height', box3_weight = '$box3_weight', box4_length = '$box4_legnth', box4_width = '$box4_width', box4_height = '$box4_height', box4_weight = '$box4_weight', box5_length = '$box5_length', box5_width = '$box5_width', box5_height = '$box5_height', box5_weight = '$box5_weight' WHERE code = '$code' AND item_no = '$item_no'");
+	public function update($code, $item_no, $box1_length, $box1_width, $box1_height, $box1_weight, $box2_length, $box2_width, $box2_height, $box2_weight, $box3_length, $box3_width, $box3_height, $box3_weight, $box4_legnth, $box4_width, $box4_height, $box4_weight, $box5_length, $box5_width, $box5_height, $box5_weight, $box6_length, $box6_width, $box6_height, $box6_weight, $box7_length, $box7_width, $box7_height, $box7_weight, $box8_length, $box8_width, $box8_height, $box8_weight, $box9_length, $box9_width, $box9_height, $box9_weight, $box10_length, $box10_width, $box10_height, $box10_weight) {
+			$result = $this->db->query("UPDATE packages SET box1_length = '$box1_length', box1_width = '$box1_width', box1_height = '$box1_height', box1_weight = '$box1_weight', box2_length = '$box2_length', box2_width = '$box2_width', box2_height = '$box2_height', box2_weight = '$box2_weight', box3_length = '$box3_length', box3_width = '$box3_width', box3_height = '$box3_height', box3_weight = '$box3_weight', box4_length = '$box4_legnth', box4_width = '$box4_width', box4_height = '$box4_height', box4_weight = '$box4_weight', box5_length = '$box5_length', box5_width = '$box5_width', box5_height = '$box5_height', box5_weight = '$box5_weight', box6_length = '$box6_length', box6_width = '$box6_width', box6_height = '$box6_height', box6_weight = '$box6_weight', box7_length = '$box7_length', box7_width = '$box7_width', box7_height = '$box7_height', box7_weight = '$box7_weight', box8_length = '$box8_length', box8_width = '$box8_width', box8_height = '$box8_height', box8_weight = '$box8_weight', box9_length = '$box9_length', box9_width = '$box9_width', box9_height = '$box9_height', box9_weight = '$box9_weight', box10_length = '$box10_length', box10_width = '$box10_width', box10_height = '$box10_height', box10_weight = '$box10_weight' WHERE code = '$code' AND item_no = '$item_no'");
 		if ($result) {
 			$this->output->info("Item: $item_no, Code: $code - Packages updated!");
 			return true;
@@ -58,8 +58,8 @@ class packages {
 		}
 	}
 
-	public function update_dimensions($code, $item_no, $box1_length, $box1_width, $box1_height, $box2_length, $box2_width, $box2_height, $box3_length, $box3_width, $box3_height, $box4_legnth, $box4_width, $box4_height, $box5_length, $box5_width, $box5_height) {
-		$result = $this->db->query("UPDATE packages SET box1_length = '$box1_length', box1_width = '$box1_width', box1_height = '$box1_height', box2_length = '$box2_length', box2_width = '$box2_width', box2_height = '$box2_height', box3_length = '$box3_length', box3_width = '$box3_width', box3_height = '$box3_height', box4_length = '$box4_legnth', box4_width = '$box4_width', box4_height = '$box4_height', box5_length = '$box5_length', box5_width = '$box5_width', box5_height = '$box5_height' WHERE code = '$code' AND item_no = '$item_no'");
+	public function update_dimensions($code, $item_no, $box1_length, $box1_width, $box1_height, $box2_length, $box2_width, $box2_height, $box3_length, $box3_width, $box3_height, $box4_legnth, $box4_width, $box4_height, $box5_length, $box5_width, $box5_height, $box6_length, $box6_width, $box6_height, $box7_length, $box7_width, $box7_height, $box8_length, $box8_width, $box8_height, $box9_length, $box9_width, $box9_height, $box10_length, $box10_width, $box10_height) {
+			$result = $this->db->query("UPDATE packages SET box1_length = '$box1_length', box1_width = '$box1_width', box1_height = '$box1_height', box2_length = '$box2_length', box2_width = '$box2_width', box2_height = '$box2_height', box3_length = '$box3_length', box3_width = '$box3_width', box3_height = '$box3_height', box4_length = '$box4_legnth', box4_width = '$box4_width', box4_height = '$box4_height', box5_length = '$box5_length', box5_width = '$box5_width', box5_height = '$box5_height', box6_length = '$box6_length', box6_width = '$box6_width', box6_height = '$box6_height', box7_length = '$box7_length', box7_width = '$box7_width', box7_height = '$box7_height', box8_length = '$box8_length', box8_width = '$box8_width', box8_height = '$box8_height', box9_length = '$box9_length', box9_width = '$box9_width', box9_height = '$box9_height', box10_length = '$box10_length', box10_width = '$box10_width', box10_height = '$box10_height' WHERE code = '$code' AND item_no = '$item_no'");
 		if ($result) {
 			$this->output->info("Item: $item_no, Code: $code - Package dimensions updated!");
 			return true;
@@ -69,8 +69,8 @@ class packages {
 		}
 	}
 
-	public function update_weights($code, $item_no, $box1_weight, $box2_weight, $box3_weight, $box4_weight, $box5_weight) {
-		$result = $this->db->query("UPDATE packages SET box1_weight = '$box1_weight', box2_weight = '$box2_weight', box3_weight = '$box3_weight', box4_weight = '$box4_weight', box5_weight = '$box5_weight' WHERE code = '$code' AND item_no = '$item_no'");
+	public function update_weights($code, $item_no, $box1_weight, $box2_weight, $box3_weight, $box4_weight, $box5_weight, $box6_weight, $box7_weight, $box8_weight, $box9_weight, $box10_weight) {
+		$result = $this->db->query("UPDATE packages SET box1_weight = '$box1_weight', box2_weight = '$box2_weight', box3_weight = '$box3_weight', box4_weight = '$box4_weight', box5_weight = '$box5_weight', box6_weight = '$box6_weight', box7_weight = '$box7_weight', box8_weight = '$box8_weight', box9_weight = '$box9_weight', box10_weight = '$box10_weight' WHERE code = '$code' AND item_no = '$item_no'");
 		if ($result) {
 			$this->output->info("Item: $item_no, Code: $code - Package weights updated!");
 			return true;
