@@ -104,7 +104,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["sku"]) && isset($_POST[
 		}
 	} else if ($field == "pg_dimension") {
 		$dimension = explode(",", $value);
-		for ($i = 0; $i < 15; $i++) if (!isset($dimension[$i])) $dimension[$i] = NULL;
+		for ($i = 0; $i < 30; $i++) if (!isset($dimension[$i])) $dimension[$i] = NULL;
 		if ($packages->check_exist($code, $item_no)) {
 			$result = $packages->update_dimensions($code, $item_no, $dimension[0], $dimension[1], $dimension[2], $dimension[3], $dimension[4], $dimension[5], $dimension[6], $dimension[7], $dimension[8], $dimension[9], $dimension[10], $dimension[11], $dimension[12], $dimension[13], $dimension[14], $dimension[15], $dimension[16], $dimension[17], $dimension[18], $dimension[19], $dimension[20], $dimension[21], $dimension[22], $dimension[23], $dimension[24], $dimension[25], $dimension[26], $dimension[27], $dimension[28], $dimension[29]); 
 		} else {
@@ -112,7 +112,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["sku"]) && isset($_POST[
 		}
 	} else if ($field == "pg_weight") {
 		$weight = explode(",", $value);
-		for ($i = 0; $i < 5; $i++) if (!isset($weight[$i])) $weight[$i] = NULL;
+		for ($i = 0; $i < 10; $i++) if (!isset($weight[$i])) $weight[$i] = NULL;
 		if ($packages->check_exist($code, $item_no)) {
 			$result = $packages->update_weights($code, $item_no, $weight[0], $weight[1], $weight[2], $weight[3], $weight[4], $weight[5], $weight[6], $weight[7], $weight[8], $weight[9]); 
 		} else {
