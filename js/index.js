@@ -105,7 +105,7 @@ $(document).ready(function() {
 				dataType: 'json',
 				success: function(data) {
 					$('#output').append('<div style="float: left; margin: 5px;">' + 
-					'<img src="' + data.img_url + '" width="300px" alt="' + data.sku + '" </div>');
+					'<img src="' + data.img_url + '" width="300px" alt="' + data.sku + '"><br>' + data.img_dim + '</div>');
 					$('#output').append('<div style="float: left; margin: 5px;"><table>' +
 					'<tr><td>Vendor</td><td>' + data.vendor + '</td></tr>' +
 					'<tr><td>SKU</td><td><a href="' + data.query_url + '" target="_blank"><input type="hidden" id="sku" value="' + data.sku + '">' + data.sku + '</a></td></tr>' +

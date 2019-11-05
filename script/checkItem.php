@@ -55,6 +55,8 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["input"])) {
 	$unit = $costs->get_unit($code, $item_no);
 	$cost_updated_time = $costs->get_updated_time($code, $item_no);
 	$img_url = IMAGE_SERVER . "$code/$item_no.jpg";
+	list($width, $height, $type, $attr) = getimagesize($img_url);
+	$img_dim = "$width x $height";
 	$qty = $inventory->get($code, $item_no);
 	$inventory_updated_time = $inventory->get_updated_time($code, $item_no);
 	$set = $set_list->get_set($code, $item_no);
@@ -66,6 +68,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["input"])) {
 	$package_dimension = $packages->get_dimensions($code, $item_no);
 
 	$data['img_url'] = $img_url;
+	$data['img_dim'] = $img_dim;
 	$data['vendor'] = $vendor;
 	$data['query_url'] = $query_url;
 	$data['sku'] = $sku;
