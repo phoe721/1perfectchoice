@@ -30,7 +30,7 @@ $item_type = $title = $description = $feature1 = $feature2 = $feature3 = $featur
 if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["input"])) { 
 	$input = $_POST["input"];
 	if ($validator->check_asin($input)) {
-		$sku = $ASIN->get_sku($input);
+		$sku = $ASIN->get_sku($input); // Note: need to catch if ASIN not exists
 	} else if ($validator->check_upc($input)) {
 		$sku = $UPC->get_sku($input);
 	} else {

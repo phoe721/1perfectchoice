@@ -175,5 +175,20 @@ class ftp_client {
 			return false;
 		}
 	}
+
+	public function size($file) {
+		if ($this->conn) {
+			if ($size = ftp_size($this->conn, $file)) {
+				$this->output->notice("$file size is $size!");
+				return $size;
+			} else {
+				$this->output->error("Failed to get size of $file!");
+				return false;
+			}
+		} else {
+			$this->output->error("Not connected to $this->server!");
+			return false;
+		}
+	}
 }
 ?>

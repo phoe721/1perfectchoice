@@ -60,6 +60,22 @@ class discontinued {
 		}
 	}
 
+	public function get_list() {
+		$list = array();
+		$result = $this->db->query("SELECT * FROM discontinued");
+		if (mysqli_num_rows($result) > 0) {
+			$this->output->info("List found!");
+			while ($row = mysqli_fetch_array($result)) {
+				$sku = $row["code"] . "-" . $row["item_no"];
+				array_push($list, $sku);
+			}
+		} else {
+			$this->output->warning("There are no records in table discontinued!");
+		}
+
+		return $list;
+	}
+
 	public function get_record_count() {
 		$count = -1;
 		$result = $this->db->query("SELECT COUNT(*) AS total FROM discontinued");
