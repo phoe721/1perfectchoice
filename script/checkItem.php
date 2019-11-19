@@ -55,8 +55,11 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["input"])) {
 	$unit = $costs->get_unit($code, $item_no);
 	$cost_updated_time = $costs->get_updated_time($code, $item_no);
 	$img_url = IMAGE_SERVER . "$code/$item_no.jpg";
-	list($width, $height, $type, $attr) = getimagesize($img_url);
-	$img_dim = "$width x $height";
+	$img_dim = "";
+	if ($validator->check_url($img_url)) {
+		list($width, $height, $type, $attr) = getimagesize($img_url);
+		$img_dim = "$width x $height";
+	}
 	$qty = $inventory->get($code, $item_no);
 	$inventory_updated_time = $inventory->get_updated_time($code, $item_no);
 	$set = $set_list->get_set($code, $item_no);
