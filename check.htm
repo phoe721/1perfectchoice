@@ -1,0 +1,54 @@
+<html>
+<head>
+<link rel="stylesheet" href="css/index.css">
+<link rel="stylesheet" href="css/dropzone.css">
+</head>
+<body>
+<div id="box1">
+<form id="form"> 
+	<label for="input">Check SKU/ASIN</label>
+	<br>
+	<input type="text" id="input" name="input">
+	<input type="button" id="check" value="Check">
+	<input type="button" id="dropzone" value="Dropzone">
+	<input type="button" id="reset" value="Reset">
+</form>
+</div>
+<div id="box3" class="dropzone"></div>
+<div id="output">
+	<div style="float: left; margin: 5px;"><img id="product_img" width="300px"></div>
+	<div style="float: left; margin: 5px;">
+	<table> 
+		<tr><td>Vendor</td><td><input type="text" id="vendor" readonly></td></tr> 
+		<tr><td>SKU</td><td><input type="text" id="sku" readonly></td></tr> 
+		<tr><td>ASIN</td><td><input type="text" id="asin" readonly></td></tr> 
+		<tr><td>UPC</td><td><input type="text" id="upc" readonly></td></tr> 
+		<tr><td>Status</td><td><input type="text" id="discontinued"></td></tr> 
+		<tr><td>Set List</td><td><input type="text" id="set_list"></td></tr> 
+		<tr><td>Item Type</td><td><input type="text" id="item_type"></td></tr> 
+		<tr><td>Cost</td><td><input type="text" id="cost"></td></tr> 
+		<tr><td>Updated Time</td><td><input type="text" id="cost_updated_time" readonly></td></tr> 
+		<tr><td>Unit</td><td><input type="text" id="unit"></td></tr> 
+		<tr><td>Quantity</td><td><input type="text" id="qty"></td></tr> 
+		<tr><td>Updated Time</td><td><input type="text" id="qty_updated_time" readonly></td></tr> 
+		<tr><td>Title</td><td><input type="text" id="title"></td></tr> 
+		<tr><td>Color</td><td><input type="text" id="color"></td></tr> 
+		<tr><td>Material</td><td><input type="text" id="material"></td></tr> 
+		<tr><td>Features</td><td><input type="text" id="features"></td></tr> 
+		<tr><td>Description</td><td><input type="text" id="description"></td></tr> 
+		<tr><td>Weight</td><td><input type="text" id="weight"></td></tr> 
+		<tr><td>Dimension</td><td><input type="text" id="dimension"></td></tr> 
+		<tr><td>Box Count</td><td><input type="text" id="box_count" readonly></td></tr>  
+		<tr><td>Package Dimension</td><td><input type="text" id="pg_dimension"></td></tr>  
+		<tr><td>Package Weight</td><td><input type="text" id="pg_weight"></td></tr>  
+		<tr><td>Total Package Weight</td><td><input type="text" id="total_pg_weight" readonly></td></tr>  
+		<tr><td>Product Image Dimension</td><td><input type="text" id="product_img_dim" readonly></td></tr>  
+	</table></div>
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.3/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/jquery.validation/1.15.0/jquery.validate.min.js"></script>
+<script src="https://cdn.jsdelivr.net/jquery.validation/1.15.0/additional-methods.min.js"></script>
+<script src="js/dropzone.js"></script>
+<script src="js/check.js"></script>
+</body>
+</html>
