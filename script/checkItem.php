@@ -40,6 +40,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["input"])) {
 	$vendor = $vendors->get_name($code);
 	$query_url = $vendors->get_query_url($code) . $item_no;
 	$asin = $ASIN->get_asin($code, $item_no);
+	$asin_url = "https://www.amazon.com/dp/" . $asin;
 	if (!$product->check_exist($code, $item_no)) { 
 		$product->insert($code, $item_no, $item_type, $title, $description, $feature1, $feature2, $feature3, $feature4, $feature5, $feature6, $feature7, $feature8, $feature9, $feature10, $color, $material);
 	}
@@ -77,6 +78,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["input"])) {
 	$data['sku'] = $sku;
 	$data['upc'] = $upc;
 	$data['asin'] = $asin;
+	$data['asin_url'] = $asin_url;
 	$data['item_type'] = $item_type;
 	$data['status']= $status;
 	$data['set_list'] = $set;

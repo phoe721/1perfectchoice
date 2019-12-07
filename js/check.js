@@ -72,8 +72,8 @@ $(document).ready(function() {
 				success: function(data) {
 					$('#product_img').attr('src', data.img_url).prop('alt', data.sku);
 					$('#vendor').val(data.vendor);
-					$('#sku').val(data.sku);
-					$('#asin').val(data.asin);
+					$('#sku').attr('href', data.query_url).text(data.sku);
+					$('#asin').attr('href', data.asin_url).text(data.asin);
 					$('#upc').val(data.upc);
 					$('#discontinued').val(data.status);
 					$('#set_list').val(data.set_list.join());
@@ -94,7 +94,7 @@ $(document).ready(function() {
 					$('#pg_dimension').val(data.packageDimension.join());
 					$('#pg_weight').val(data.packageWeight.join());
 					$('#total_pg_weight').val(data.totalPackageWeight);
-					$('#product_img_dim').val(data.img_dim);
+					$('#img_dim').val(data.img_dim);
 
 					$('input').change(function() {
 						var sku = $('#sku').val();
