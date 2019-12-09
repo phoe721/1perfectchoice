@@ -21,6 +21,9 @@ if (isset($argv[1]) && isset($argv[2]) && isset($argv[3])) {
 				if ($validator->check_sku($sku)) {
 					list($code, $item_no) = explode("-", $sku, 2);
 					$qty = $inventory->get($code, $item_no);
+					$qty = ($qty >= MIN_INVENTORY_QUANTITY) ? $qty : 0;
+					$qty = min(MAX_INVENTORY_QUANTITY, $qty);
+					$qty = floor($qty / QUANTITY_DIVIDER);
 					$result = "$sku\t$qty" . PHP_EOL;
 				} else {
 					$result = "$sku\tInvalid" . PHP_EOL;
