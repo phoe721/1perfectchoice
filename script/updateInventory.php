@@ -21,9 +21,6 @@ if (isset($argv[1]) && isset($argv[2]) && isset($argv[3])) {
 				$status->log_status("Upating $sku...");
 				if ($validator->check_sku($sku)) {
 					list($code, $item_no) = explode("-", $sku, 2);
-					$qty = ($qty < 0) ? 0 : $qty;
-					$qty = empty($qty) ? 0 : $qty;
-					$qty = ($qty == "Y") ? 20 : $qty;
 					if ($inventory->update($code, $item_no, $qty)) {
 						$result = "$sku\tOK" . PHP_EOL;
 					} else {
