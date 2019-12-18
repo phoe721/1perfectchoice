@@ -11,7 +11,7 @@ $(document).ready(function() {
 	    rules: {
 	        input: {
 	            required: true,
-				pattern: /^[A-Z0-9\-+x\/]+$/
+				pattern: /^[A-Za-z0-9\-+x\/]+$/
 	        }
 	    }
 	});
@@ -59,6 +59,7 @@ $(document).ready(function() {
 	$('#check').click(function() {
 		if (form.valid()) {
 			var input = $('#input').val();
+			input = input.replace(/-local.*/gi, "");;
 			var formData = new FormData();
 			formData.append('input', input);
 
