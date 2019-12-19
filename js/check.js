@@ -71,7 +71,6 @@ $(document).ready(function() {
 				processData: false,
 				dataType: 'json',
 				success: function(data) {
-					$('input').attr('size', data.title.length);
 					$('#product_img').attr('src', data.img_url).prop('alt', data.sku);
 					$('#vendor').val(data.vendor);
 					$('#sku').attr('href', data.query_url).text(data.sku);
