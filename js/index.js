@@ -132,6 +132,7 @@ $(document).ready(function() {
 					'<tr><td>Package Weight</td><td><input type="text" id="pg_weight" value="' + data.packageWeight.join() + '"></td></tr>' + 
 					'<tr><td align="center">Total Package Weight</td><td>' + data.totalPackageWeight + '</td></tr>' + 
 					'</table></div>');
+					$('input').attr('size', data.title.length);
 					$('input').change(function() {
 						var sku = $('#sku').val();
 						var field = $(this).attr('id');
