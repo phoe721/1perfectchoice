@@ -93,7 +93,7 @@ $(document).ready(function() {
 		$('#output').html('');
 		if (form.valid()) {
 			var input = $('#input').val();
-			input = input.replace(/-local.*/gi, "");;
+			input = input.replace(/-local.*/gi, '').replace(/\+/, '-');
 			var formData = new FormData();
 			formData.append('input', input);
 
