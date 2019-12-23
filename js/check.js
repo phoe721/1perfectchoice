@@ -104,12 +104,11 @@ $(document).ready(function() {
 					$('input').blur(function() {
 						$(this).attr('size', '20');
 					});
-					$('input').change(function() {
-						var sku = $('#sku').val();
+					$('input, textarea').change(function() {
 						var field = $(this).attr('id');
 						var value = $(this).val();
 						var formData2 = new FormData();
-						formData2.append('sku', sku);
+						formData2.append('sku', data.sku);
 						formData2.append('field', field);
 						formData2.append('value', value);
 

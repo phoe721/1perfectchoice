@@ -109,7 +109,7 @@ $(document).ready(function() {
 					'<img src="' + data.img_url + '" width="300px" alt="' + data.sku + '"><br>' + data.img_dim + '</div>');
 					$('#output').append('<div style="float: left; margin: 5px;"><table>' +
 					'<tr><td>Vendor</td><td>' + data.vendor + '</td></tr>' +
-					'<tr><td>SKU</td><td><a href="' + data.query_url + '" target="_blank"><input type="hidden" id="sku" value="' + data.sku + '">' + data.sku + '</a></td></tr>' +
+					'<tr><td>SKU</td><td><a href="' + data.query_url + '" target="_blank">' + data.sku + '</a></td></tr>' +
 					'<tr><td>ASIN</td><td><a href="https://www.amazon.com/dp/' + data.asin + '" target="_blank">' + data.asin + '</a></td></tr>' +
 					'<tr><td>UPC</td><td><input type="text" id="upc" value="' + data.upc + '"></td></tr>' +
 					'<tr><td>Status</td><td><input type="text" id="discontinued" value="' + data.status + '"></td></tr>' +
@@ -124,7 +124,7 @@ $(document).ready(function() {
 					'<tr><td>Color</td><td><input type="text" id="color" value="' + data.color + '"></td></tr>' +
 					'<tr><td>Material</td><td><input type="text" id="material" value="' + data.material + '"></td></tr>' +
 					'<tr><td>Features</td><td><input type="text" id="features" value="' + data.features.join() + '"></td></tr>' +
-					'<tr><td>Description</td><td><input type="text" id="description" value="' + data.description + '"></td></tr>' +
+					'<tr><td>Description</td><td><textarea id="description">' + data.description + '</textarea></td></tr>' +
 					'<tr><td>Weight</td><td><input type="text" id="weight" value="' + data.weight + '"></td></tr>' +
 					'<tr><td>Dimension</td><td><input type="text" id="dimensions" value="' + data.dimension.join() + '"></td></tr>' +
 					'<tr><td>Box Count</td><td>' + data.boxCount + '</td></tr>' + 
@@ -140,12 +140,11 @@ $(document).ready(function() {
 					$('input').blur(function() {
 						$(this).attr('size', '20');
 					});
-					$('input').change(function() {
-						var sku = $('#sku').val();
+					$('input, textarea').change(function() {
 						var field = $(this).attr('id');
 						var value = $(this).val();
 						var formData2 = new FormData();
-						formData2.append('sku', sku);
+						formData2.append('sku', data.sku);
 						formData2.append('field', field);
 						formData2.append('value', value);
 
