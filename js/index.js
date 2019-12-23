@@ -88,14 +88,6 @@ $(document).ready(function() {
         }
     });
 
-	$('input').focus(function() {
-		$('input').attr('size', $('input').val().length);
-	});
-
-	$('input').blur(function() {
-		$('input').attr('size', '20');
-	});
-
 	// Check button
 	$('#check').click(function() {
 		$('#output').html('');
@@ -140,6 +132,14 @@ $(document).ready(function() {
 					'<tr><td>Package Weight</td><td><input type="text" id="pg_weight" value="' + data.packageWeight.join() + '"></td></tr>' + 
 					'<tr><td align="center">Total Package Weight</td><td>' + data.totalPackageWeight + '</td></tr>' + 
 					'</table></div>');
+					$('input').focus(function() {
+						var length = $(this).val().length;
+						if (length > 100) length = 100;
+						$(this).attr('size', length);
+					});
+					$('input').blur(function() {
+						$(this).attr('size', '20');
+					});
 					$('input').change(function() {
 						var sku = $('#sku').val();
 						var field = $(this).attr('id');

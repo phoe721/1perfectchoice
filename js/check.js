@@ -96,7 +96,14 @@ $(document).ready(function() {
 					$('#pg_weight').val(data.packageWeight.join());
 					$('#total_pg_weight').val(data.totalPackageWeight);
 					$('#img_dim').val(data.img_dim);
-
+					$('input').focus(function() {
+						var length = $(this).val().length;
+						if (length > 100) length = 100;
+						$(this).attr('size', length);
+					});
+					$('input').blur(function() {
+						$(this).attr('size', '20');
+					});
 					$('input').change(function() {
 						var sku = $('#sku').val();
 						var field = $(this).attr('id');
