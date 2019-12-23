@@ -88,6 +88,14 @@ $(document).ready(function() {
         }
     });
 
+	$('input').focus(function() {
+		$('input').attr('size', $('input').val().length);
+	});
+
+	$('input').blur(function() {
+		$('input').attr('size', '20');
+	});
+
 	// Check button
 	$('#check').click(function() {
 		$('#output').html('');
