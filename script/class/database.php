@@ -49,6 +49,22 @@ class database {
 		return false;
 	}
 
+	public function real_escape_string($string) {
+		if ($this->con) {
+			$this->result = mysqli_real_escape_string($this->con, $string);
+			if (!$this->result) {
+				$this->output->error("Query to DB server failed: " . $this->error());
+			} else { 
+				$this->output->notice("Query to DB server successfully!");
+				return $this->result;
+			}
+		} else {
+			$this->output->error("DB connection was not made!");
+		}
+
+		return false;
+	}
+
 	public function getConnection() {
 		if ($this->con) {
 			$this->output->notice("Returning DB connection!");

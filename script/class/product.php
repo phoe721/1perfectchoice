@@ -34,6 +34,7 @@ class product {
 	}
 
 	public function update_title($code, $item_no, $title) {
+		$title = $this->db->real_escape_string($title);
 		$result = $this->db->query("UPDATE product SET title = '$title' WHERE code = '$code' AND item_no = '$item_no'");
 		if ($result) {
 			$this->output->info("Item: $item_no, Code: $code - Title updated!");
@@ -45,6 +46,7 @@ class product {
 	}
 
 	public function update_description($code, $item_no, $description) {
+		$description = $this->db->real_escape_string($description);
 		$result = $this->db->query("UPDATE product SET description = '$description' WHERE code = '$code' AND item_no = '$item_no'");
 		if ($result) {
 			$this->output->info("Item: $item_no, Code: $code - Description updated!");
@@ -79,6 +81,7 @@ class product {
 	}
 
 	public function update_material($code, $item_no, $material) {
+		$material = $this->db->real_escape_string($material);
 		$result = $this->db->query("UPDATE product SET material = '$material' WHERE code = '$code' AND item_no = '$item_no'");
 		if ($result) {
 			$this->output->info("Item: $item_no, Code: $code - Material updated!");
