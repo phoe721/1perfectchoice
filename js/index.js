@@ -105,61 +105,66 @@ $(document).ready(function() {
 				processData: false,
 				dataType: 'json',
 				success: function(data) {
-					$('#output').append('<div style="float: left; margin: 5px;">' + 
-					'<img src="' + data.img_url + '" width="300px" alt="' + data.sku + '"><br>' + data.img_dim + '</div>');
-					$('#output').append('<div style="float: left; margin: 5px;"><table>' +
-					'<tr><td>Vendor</td><td>' + data.vendor + '</td></tr>' +
-					'<tr><td>SKU</td><td><a href="' + data.query_url + '" target="_blank">' + data.sku + '</a></td></tr>' +
-					'<tr><td>ASIN</td><td><a href="https://www.amazon.com/dp/' + data.asin + '" target="_blank">' + data.asin + '</a></td></tr>' +
-					'<tr><td>UPC</td><td><input type="text" id="upc" value="' + data.upc + '"></td></tr>' +
-					'<tr><td>Status</td><td><input type="text" id="discontinued" value="' + data.status + '"></td></tr>' +
-					'<tr><td>Set List</td><td><input type="text" id="set_list" value="' + data.set_list.join() + '"></td></tr>' +
-					'<tr><td>Item Type</td><td><input type="text" id="item_type" value="' + data.item_type + '"></td></tr>' +
-					'<tr><td>Cost</td><td><input type="text" id="cost" value="' + data.cost + '"></td></tr>' +
-					'<tr><td>Updated Time</td><td>' + data.cost_updated_time + '</td></tr>' +
-					'<tr><td>Unit</td><td><input type="text" id="unit" value="' + data.unit + '"></td></tr>' +
-					'<tr><td>Quantity</td><td><input type="text" id="qty" value="' + data.quantity + '"></td></tr>' +
-					'<tr><td>Updated Time</td><td>' + data.inventory_updated_time + '</td></tr>' +
-					'<tr><td>Title</td><td><input type="text" id="title" value="' + data.title + '"></td></tr>' +
-					'<tr><td>Color</td><td><input type="text" id="color" value="' + data.color + '"></td></tr>' +
-					'<tr><td>Material</td><td><input type="text" id="material" value="' + data.material + '"></td></tr>' +
-					'<tr><td>Features</td><td><input type="text" id="features" value="' + data.features.join() + '"></td></tr>' +
-					'<tr><td>Description</td><td><textarea id="description">' + data.description + '</textarea></td></tr>' +
-					'<tr><td>Weight</td><td><input type="text" id="weight" value="' + data.weight + '"></td></tr>' +
-					'<tr><td>Dimension</td><td><input type="text" id="dimensions" value="' + data.dimension.join() + '"></td></tr>' +
-					'<tr><td>Box Count</td><td>' + data.boxCount + '</td></tr>' + 
-					'<tr><td>Package Dimension</td><td><input type="text" id="pg_dimension" value="' + data.packageDimension.join() + '"></td></tr>' + 
-					'<tr><td>Package Weight</td><td><input type="text" id="pg_weight" value="' + data.packageWeight.join() + '"></td></tr>' + 
-					'<tr><td align="center">Total Package Weight</td><td>' + data.totalPackageWeight + '</td></tr>' + 
-					'</table></div>');
-					$('input').focus(function() {
-						var length = $(this).val().length;
-						if (length > 100) length = 100;
-						$(this).attr('size', length);
-					});
-					$('input').blur(function() {
-						$(this).attr('size', '20');
-					});
-					$('input, textarea').change(function() {
-						var field = $(this).attr('id');
-						var value = $(this).val();
-						var formData2 = new FormData();
-						formData2.append('sku', data.sku);
-						formData2.append('field', field);
-						formData2.append('value', value);
-
-						$.ajax({
-							url: 'script/update.php',
-							data: formData2,
-							type: 'POST',
-							contentType: false,
-							processData: false,
-							dataType: 'json',
-							success: function(result) {
-								console.log(result);
-							}
+					if (data.error == 'SKU not found!') {
+						$('#form').append('<br><span style="color:red">' + data.error + '</span>');
+					} else {
+						$('#form').append('<br><span style="color:red">' + data.warning+ '</span>');
+						$('#output').append('<div style="float: left; margin: 5px;">' + 
+						'<img src="' + data.img_url + '" width="300px" alt="' + data.sku + '"><br>' + data.img_dim + '</div>');
+						$('#output').append('<div style="float: left; margin: 5px;"><table>' +
+						'<tr><td>Vendor</td><td>' + data.vendor + '</td></tr>' +
+						'<tr><td>SKU</td><td><a href="' + data.query_url + '" target="_blank">' + data.sku + '</a></td></tr>' +
+						'<tr><td>ASIN</td><td><a href="https://www.amazon.com/dp/' + data.asin + '" target="_blank">' + data.asin + '</a></td></tr>' +
+						'<tr><td>UPC</td><td><input type="text" id="upc" value="' + data.upc + '"></td></tr>' +
+						'<tr><td>Status</td><td><input type="text" id="discontinued" value="' + data.status + '"></td></tr>' +
+						'<tr><td>Set List</td><td><input type="text" id="set_list" value="' + data.set_list.join() + '"></td></tr>' +
+						'<tr><td>Item Type</td><td><input type="text" id="item_type" value="' + data.item_type + '"></td></tr>' +
+						'<tr><td>Cost</td><td><input type="text" id="cost" value="' + data.cost + '"></td></tr>' +
+						'<tr><td>Updated Time</td><td>' + data.cost_updated_time + '</td></tr>' +
+						'<tr><td>Unit</td><td><input type="text" id="unit" value="' + data.unit + '"></td></tr>' +
+						'<tr><td>Quantity</td><td><input type="text" id="qty" value="' + data.quantity + '"></td></tr>' +
+						'<tr><td>Updated Time</td><td>' + data.inventory_updated_time + '</td></tr>' +
+						'<tr><td>Title</td><td><input type="text" id="title" value="' + data.title + '"></td></tr>' +
+						'<tr><td>Color</td><td><input type="text" id="color" value="' + data.color + '"></td></tr>' +
+						'<tr><td>Material</td><td><input type="text" id="material" value="' + data.material + '"></td></tr>' +
+						'<tr><td>Features</td><td><input type="text" id="features" value="' + data.features.join() + '"></td></tr>' +
+						'<tr><td>Description</td><td><textarea id="description">' + data.description + '</textarea></td></tr>' +
+						'<tr><td>Weight</td><td><input type="text" id="weight" value="' + data.weight + '"></td></tr>' +
+						'<tr><td>Dimension</td><td><input type="text" id="dimensions" value="' + data.dimension.join() + '"></td></tr>' +
+						'<tr><td>Box Count</td><td>' + data.boxCount + '</td></tr>' + 
+						'<tr><td>Package Dimension</td><td><input type="text" id="pg_dimension" value="' + data.packageDimension.join() + '"></td></tr>' + 
+						'<tr><td>Package Weight</td><td><input type="text" id="pg_weight" value="' + data.packageWeight.join() + '"></td></tr>' + 
+						'<tr><td align="center">Total Package Weight</td><td>' + data.totalPackageWeight + '</td></tr>' + 
+						'</table></div>');
+						$('input').focus(function() {
+							var length = $(this).val().length;
+							if (length > 100) length = 100;
+							$(this).attr('size', length);
 						});
-					});
+						$('input').blur(function() {
+							$(this).attr('size', '20');
+						});
+						$('input, textarea').change(function() {
+							var field = $(this).attr('id');
+							var value = $(this).val();
+							var formData2 = new FormData();
+							formData2.append('sku', data.sku);
+							formData2.append('field', field);
+							formData2.append('value', value);
+	
+							$.ajax({
+								url: 'script/update.php',
+								data: formData2,
+								type: 'POST',
+								contentType: false,
+								processData: false,
+								dataType: 'json',
+								success: function(result) {
+									console.log(result);
+								}
+							});
+						});
+					}
 				}
 			});
 		}

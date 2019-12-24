@@ -25,79 +25,88 @@ $set_list = new set_list();
 $shipping = new shipping();
 $vendors = new vendors();
 $validator = new validator();
-$data = array();
-$item_type = $title = $description = $feature1 = $feature2 = $feature3 = $feature4 = $feature5 = $feature6 = $feature7 = $feature8 = $feature9 = $feature10 = $color = $material = "";
+$data = $features = array();
+$item_type = $title = $description = $color = $material = $img_dim = $error = $warning = "";
 if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["input"])) { 
 	$input = $_POST["input"];
 	if ($validator->check_asin($input)) {
 		$sku = $ASIN->get_sku($input); // Note: need to catch if ASIN not exists
 	} else if ($validator->check_upc($input)) {
 		$sku = $UPC->get_sku($input);
-	} else {
+	} else if ($validator->check_sku($input)) {
 		$sku = $input;
 	}
-	list($code, $item_no) = explode("-", $sku, 2);
-	$vendor = $vendors->get_name($code);
-	$query_url = $vendors->get_query_url($code) . $item_no;
-	$asin = $ASIN->get_asin($code, $item_no);
-	$asin_url = "https://www.amazon.com/dp/" . $asin;
-	if (!$product->check_exist($code, $item_no)) { 
-		$product->insert($code, $item_no, $item_type, $title, $description, $feature1, $feature2, $feature3, $feature4, $feature5, $feature6, $feature7, $feature8, $feature9, $feature10, $color, $material);
-	}
-	$title = $product->get_title($code, $item_no);
-	$description = $product->get_description($code, $item_no);
-	$item_type = $product->get_type($code, $item_no);
-	$features = $product->get_features($code, $item_no);
-	$color = $product->get_color($code, $item_no);
-	$material = $product->get_material($code, $item_no);
-	$upc = $UPC->get_upc($code, $item_no);
-	$status = $discontinued->check($code, $item_no) ? "Discontinued" : "Active";
-	$cost = $costs->get_cost($code, $item_no);
-	$unit = $costs->get_unit($code, $item_no);
-	$cost_updated_time = $costs->get_updated_time($code, $item_no);
-	$img_url = IMAGE_SERVER . "$code/$item_no.jpg";
-	$img_dim = "";
-	if ($validator->check_url($img_url)) {
-		list($width, $height, $type, $attr) = getimagesize($img_url);
-		$img_dim = "$width x $height";
-	}
-	$qty = $inventory->get($code, $item_no);
-	$inventory_updated_time = $inventory->get_updated_time($code, $item_no);
-	$set = $set_list->get_set($code, $item_no);
-	$weight = array_sum($weights->get_weight($code, $item_no));
-	$dimension = $dimensions->get_dimensions($code, $item_no);
-	$box_count = $packages->get_box_count($code, $item_no); 
-	$package_weight = $packages->get_weight($code, $item_no);
-	$total_package_weight = round(array_sum($package_weight), 2);
-	$package_dimension = $packages->get_dimensions($code, $item_no);
 
-	$data['img_url'] = $img_url;
-	$data['img_dim'] = $img_dim;
-	$data['vendor'] = $vendor;
-	$data['query_url'] = $query_url;
-	$data['sku'] = $sku;
-	$data['upc'] = $upc;
-	$data['asin'] = $asin;
-	$data['asin_url'] = $asin_url;
-	$data['item_type'] = $item_type;
-	$data['status']= $status;
-	$data['set_list'] = $set;
-	$data['cost'] = $cost;
-	$data['cost_updated_time'] = $cost_updated_time;
-	$data['unit'] = $unit;
-	$data['quantity'] = $qty;
-	$data['inventory_updated_time'] = $inventory_updated_time;
-	$data['title'] = $title;
-	$data['color'] = $color;
-	$data['material'] = $material;
-	$data['features'] = $features;
-	$data['description'] = $description;
-	$data['weight'] = $weight;
-	$data['dimension'] = $dimension;
-	$data['packageWeight'] = $package_weight;
-	$data['totalPackageWeight'] = $total_package_weight;
-	$data['packageDimension'] = $package_dimension;
-	$data['boxCount'] = $box_count;
+	if (!empty($sku)) {
+		list($code, $item_no) = explode("-", $sku, 2);
+		$vendor = $vendors->get_name($code);
+		$query_url = $vendors->get_query_url($code) . $item_no;
+		$asin = $ASIN->get_asin($code, $item_no);
+		$asin_url = "https://www.amazon.com/dp/" . $asin;
+		if (!$product->check_exist($code, $item_no)) { 
+			$warning = "Proudct information not found!<br>";
+		} else {
+			$title = $product->get_title($code, $item_no);
+			$description = $product->get_description($code, $item_no);
+			$item_type = $product->get_type($code, $item_no);
+			$features = $product->get_features($code, $item_no);
+			$color = $product->get_color($code, $item_no);
+			$material = $product->get_material($code, $item_no);
+		}
+		$upc = $UPC->get_upc($code, $item_no);
+		$status = $discontinued->check($code, $item_no) ? "Discontinued" : "Active";
+		$cost = $costs->get_cost($code, $item_no);
+		$unit = $costs->get_unit($code, $item_no);
+		$cost_updated_time = $costs->get_updated_time($code, $item_no);
+		$img_url = IMAGE_SERVER . "$code/$item_no.jpg";
+		if ($validator->check_url($img_url)) {
+			list($width, $height, $type, $attr) = getimagesize($img_url);
+			$img_dim = "$width x $height";
+		} else {
+			$warning .= "Image not found!<br>";
+		}
+		$qty = $inventory->get($code, $item_no);
+		$inventory_updated_time = $inventory->get_updated_time($code, $item_no);
+		$set = $set_list->get_set($code, $item_no);
+		$weight = array_sum($weights->get_weight($code, $item_no));
+		$dimension = $dimensions->get_dimensions($code, $item_no);
+		$box_count = $packages->get_box_count($code, $item_no); 
+		$package_weight = $packages->get_weight($code, $item_no);
+		$total_package_weight = round(array_sum($package_weight), 2);
+		$package_dimension = $packages->get_dimensions($code, $item_no);
+
+		$data['error'] = $error;	
+		$data['warning'] = $warning;	
+		$data['img_url'] = $img_url;
+		$data['img_dim'] = $img_dim;
+		$data['vendor'] = $vendor;
+		$data['query_url'] = $query_url;
+		$data['sku'] = $sku;
+		$data['upc'] = $upc;
+		$data['asin'] = $asin;
+		$data['asin_url'] = $asin_url;
+		$data['item_type'] = $item_type;
+		$data['status']= $status;
+		$data['set_list'] = $set;
+		$data['cost'] = $cost;
+		$data['cost_updated_time'] = $cost_updated_time;
+		$data['unit'] = $unit;
+		$data['quantity'] = $qty;
+		$data['inventory_updated_time'] = $inventory_updated_time;
+		$data['title'] = $title;
+		$data['color'] = $color;
+		$data['material'] = $material;
+		$data['features'] = $features;
+		$data['description'] = $description;
+		$data['weight'] = $weight;
+		$data['dimension'] = $dimension;
+		$data['packageWeight'] = $package_weight;
+		$data['totalPackageWeight'] = $total_package_weight;
+		$data['packageDimension'] = $package_dimension;
+		$data['boxCount'] = $box_count;
+	} else {
+		$data['error'] = "SKU not found!";
+	}
 
 	echo json_encode($data);
 }
