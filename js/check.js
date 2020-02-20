@@ -67,6 +67,8 @@ $(document).ready(function() {
 
 	// Check button
 	$('#check').click(function() {
+		$('#error').text('');
+		$('#warning').text('');
 		if (form.valid()) {
 			var input = $('#input').val();
 			input = input.replace(/-local.*/gi, '').replace(/\+/, '-');
@@ -82,9 +84,9 @@ $(document).ready(function() {
 				dataType: 'json',
 				success: function(data) {
 					if (data.error == 'SKU not found!') {
-						$('#form').append('<br><span style="color:red">' + data.error + '</span>');
+						$('#error').text(data.error);
 					} else {
-						$('#form').append('<br><span style="color:red">' + data.warning+ '</span>');
+						$('#warning').text(data.warning);
 						$('#product_img').attr('src', data.img_url).prop('alt', data.sku);
 						$('#vendor').val(data.vendor);
 						$('#sku').attr('href', data.query_url).text(data.sku);

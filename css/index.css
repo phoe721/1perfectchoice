@@ -46,3 +46,6 @@ table, tr, td {
 	text-align: center;
 	vertical-align: middle;
 }
+span#error, span#warning {
+	color: red;
+}
