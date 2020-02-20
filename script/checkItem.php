@@ -105,7 +105,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["input"])) {
 		$data['packageDimension'] = $package_dimension;
 		$data['boxCount'] = $box_count;
 	} else {
-		$data['error'] = "SKU not found! ";
+		$data['error'] = "SKU not found!";
 	}
 
 	echo json_encode($data);
