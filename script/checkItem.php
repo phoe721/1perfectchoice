@@ -30,7 +30,7 @@ $item_type = $title = $description = $color = $material = $img_dim = $error = $w
 if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["input"])) { 
 	$input = $_POST["input"];
 	if ($validator->check_asin($input)) {
-		$sku = $ASIN->get_sku($input); // Note: need to catch if ASIN not exists
+		$sku = $ASIN->get_sku($input);
 	} else if ($validator->check_upc($input)) {
 		$sku = $UPC->get_sku($input);
 	} else if ($validator->check_sku($input)) {
@@ -44,7 +44,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["input"])) {
 		$asin = $ASIN->get_asin($code, $item_no);
 		$asin_url = "https://www.amazon.com/dp/" . $asin;
 		if (!$product->check_exist($code, $item_no)) { 
-			$warning = "Proudct information not found!<br>";
+			$warning = "Proudct information not found! ";
 		} else {
 			$title = $product->get_title($code, $item_no);
 			$description = $product->get_description($code, $item_no);
@@ -63,7 +63,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["input"])) {
 			list($width, $height, $type, $attr) = getimagesize($img_url);
 			$img_dim = "$width x $height";
 		} else {
-			$warning .= "Image not found!<br>";
+			$warning .= "Image not found! ";
 		}
 		$qty = $inventory->get($code, $item_no);
 		$inventory_updated_time = $inventory->get_updated_time($code, $item_no);
@@ -105,7 +105,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["input"])) {
 		$data['packageDimension'] = $package_dimension;
 		$data['boxCount'] = $box_count;
 	} else {
-		$data['error'] = "SKU not found!";
+		$data['error'] = "SKU not found! ";
 	}
 
 	echo json_encode($data);

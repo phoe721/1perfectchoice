@@ -91,6 +91,8 @@ $(document).ready(function() {
 	// Check button
 	$('#check').click(function() {
 		$('#output').html('');
+		$('#error').text('');
+		$('#warning').text('');
 		if (form.valid()) {
 			var input = $('#input').val();
 			input = input.replace(/-local.*/gi, '').replace(/\+/, '-');
@@ -106,9 +108,9 @@ $(document).ready(function() {
 				dataType: 'json',
 				success: function(data) {
 					if (data.error == 'SKU not found!') {
-						$('#form').append('<br><span style="color:red">' + data.error + '</span>');
+						$('#error').text(data.error);
 					} else {
-						$('#form').append('<br><span style="color:red">' + data.warning+ '</span>');
+						$('#warning').text(data.warning);
 						$('#output').append('<div style="float: left; margin: 5px;">' + 
 						'<img src="' + data.img_url + '" width="300px" alt="' + data.sku + '"><br>' + data.img_dim + '</div>');
 						$('#output').append('<div style="float: left; margin: 5px;"><table>' +
