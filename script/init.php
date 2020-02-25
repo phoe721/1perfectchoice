@@ -41,7 +41,7 @@
 	define('DB_PASS', 'c7w2l181');
 	define('FTP_SERVER', '3pxusa.com');
 	define('FTP_USER', 'aaron@3pxusa.com');
-	define('FTP_PASS', 'c7w2l181');
+	define('FTP_PASS', 'p@haoreo7n2!');
 	define('DATABASE', '1perfectchoice');
 	define('IMAGE_SERVER', 'https://3pxusa.com/images/');
 ?>
