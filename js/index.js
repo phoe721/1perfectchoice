@@ -138,7 +138,6 @@ $(document).ready(function() {
 						'<tr><td>Package Weight</td><td><input type="text" id="pg_weight" value="' + data.packageWeight.join() + '"></td></tr>' + 
 						'<tr><td align="center">Total Package Weight</td><td>' + data.totalPackageWeight + '</td></tr>' + 
 						'</table></div>');
-						/*
 						$('input').focus(function() {
 							var length = $(this).val().length;
 							if (length > 100) length = 100;
@@ -147,7 +146,6 @@ $(document).ready(function() {
 						$('input').blur(function() {
 							$(this).attr('size', '20');
 						});
-						*/
 						$('input, textarea').change(function() {
 							var field = $(this).attr('id');
 							var value = $(this).val();
