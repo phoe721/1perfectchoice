@@ -12,7 +12,7 @@ class task {
 	}
 
 	public function insert($script, $task_name) {
-		$result = $this->db->query("INSERT INTO task (script, task_name) VALUES ('$script', '$task_name')");
+		$result = $this->db->query("INSERT INTO task (script, task_name, sort) VALUES ('$script', '$task_name')");
 		if ($result) {
 			$this->output->notice("Script: $script, Task Name: $task_name - Inserted successfully!");
 			return true;
@@ -63,11 +63,11 @@ class task {
 
 	public function get_menu() {
 		$list = array(); 
-		$result = $this->db->query("SELECT tid, task_name FROM task");
+		$result = $this->db->query("SELECT script, task_name FROM task ORDER BY task_name ASC");
 		while ($row = mysqli_fetch_array($result)) {
-			$tid = $row['tid'];
+			$script = $row['script'];
 			$task_name = $row['task_name'];
-			$list[$tid] = $task_name;
+			$list[$script] = $task_name;
 		}
 
 		return $list;
