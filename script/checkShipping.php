@@ -4,9 +4,9 @@ require_once("class/packages.php");
 require_once("class/shipping.php");
 require_once("class/status.php");
 require_once("class/validator.php");
-$c = new costs();
-$p = new packages();
-$s = new shipping();
+$costs = new costs();
+$packages = new packages();
+$shipping = new shipping();
 $status = new status();
 $validator = new validator();
 
@@ -24,11 +24,11 @@ if (isset($argv[1]) && isset($argv[2]) && isset($argv[3])) {
 				$status->log_status("Checking $sku...");
 				if ($validator->check_sku($sku)) {
 					list($code, $item_no) = explode("-", $sku, 2);
-					$cost = $c->get_cost($code, $item_no);
-					list($length, $width, $height) = $p->get_dimensions($code, $item_no);
-					$weight = $p->get_weight($code, $item_no);
-					$ups_cost = $s->getUPSCost($cost, $length, $width, $height, $weight);
-					$trucking_cost = $s->getTruckingCost($weight);
+					$cost = $costs->get_cost($code, $item_no);
+					list($length, $width, $height) = $packages->get_dimensions($code, $item_no);
+					$weight = $packages->get_weight($code, $item_no);
+					$ups_cost = $shipping->getUPSCost($cost, $length, $width, $height, $weight);
+					$trucking_cost = $shipping->getTruckingCost($weight);
 					$result = "$sku\t$ups_cost\t$trucking_cost" . PHP_EOL;
 				} else {
 					$result = "$sku\tInvalid" . PHP_EOL;
@@ -41,18 +41,16 @@ if (isset($argv[1]) && isset($argv[2]) && isset($argv[3])) {
 	$status->log_status("Done!");
 	fclose($input);
 	fclose($output);
-}
-
-if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["sku"])) { 
-	$sku = $_POST["sku"];
+} else if (isset($argv[1])) {
+	$sku = $argv[1];
 	list($code, $item_no) = explode("-", $sku, 2);
-	$cost = $c->get_cost($code, $item_no);
-	list($length, $width, $height) = $p->get_dimensions($code, $item_no);
-	$weight = $p->get_weight($code, $item_no);
-	$ups_cost = $s->getUPSCost($cost, $length, $width, $height, $weight);
-	$trucking_cost = $s->getTruckingCost($weight);
+	$cost = $costs->get_cost($code, $item_no);
+	list($length, $width, $height) = $packages->get_dimensions($code, $item_no);
+	$weight = array_sum($packages->get_weight($code, $item_no));
+	$ups_cost = $shipping->getUPSCost($cost, $length, $width, $height, $weight);
+	$trucking_cost = $shipping->getTruckingCost($weight);
 	$result = "$sku: UPS cost $ups_cost, Trucking cost $trucking_cost!";
 
-	echo json_encode($result);
+	echo $result . PHP_EOL;
 }
 ?>
