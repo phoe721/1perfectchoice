@@ -65,6 +65,13 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["input"])) {
 		} else {
 			$warning .= "Image not found! ";
 		}
+		$img_wb_url = IMAGE_SERVER . "$code" . "_WB/$item_no.jpg";
+		if ($validator->check_url($img_wb_url)) {
+			list($width, $height, $type, $attr) = getimagesize($img_wb_url);
+			$img_wb_dim = "$width x $height";
+		} else {
+			$warning .= "Image (white background) not found! ";
+		}
 		$qty = $inventory->get($code, $item_no);
 		$inventory_updated_time = $inventory->get_updated_time($code, $item_no);
 		$set = $set_list->get_set($code, $item_no);
@@ -79,6 +86,8 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["input"])) {
 		$data['warning'] = $warning;	
 		$data['img_url'] = $img_url;
 		$data['img_dim'] = $img_dim;
+		$data['img_wb_url'] = $img_wb_url;
+		$data['img_wb_dim'] = $img_wb_dim;
 		$data['vendor'] = $vendor;
 		$data['query_url'] = $query_url;
 		$data['sku'] = $sku;

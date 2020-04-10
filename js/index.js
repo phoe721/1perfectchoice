@@ -112,7 +112,8 @@ $(document).ready(function() {
 					} else {
 						$('#warning').text(data.warning);
 						$('#output').append('<div style="float: left; margin: 5px;">' + 
-						'<img src="' + data.img_url + '" width="300px" alt="' + data.sku + '"><br>' + data.img_dim + '</div>');
+						'<img src="' + data.img_url + '" width="300px" alt="' + data.sku + '"><br>' + data.img_dim + '<br>' +
+						'<img src="' + data.img_wb_url + '" width="300px" alt="' + data.sku + '"><br>' + data.img_wb_dim + '</div>');
 						$('#output').append('<div style="float: left; margin: 5px;"><table>' +
 						'<tr><td>Vendor</td><td>' + data.vendor + '</td></tr>' +
 						'<tr><td>SKU</td><td><a href="' + data.query_url + '" target="_blank">' + data.sku + '</a></td></tr>' +

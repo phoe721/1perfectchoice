@@ -15,7 +15,7 @@ class weights {
 	}
 
 	public function insert($code, $item_no, $weight) {
-		$result = $this->db->query("INSERT INTO weights (code, item_no, weight) VALUES ('$code', '$item_no', '$wegith')");
+		$result = $this->db->query("INSERT INTO weights (code, item_no, weight) VALUES ('$code', '$item_no', '$weight')");
 		if ($result) {
 			$this->output->info("Item: $item_no, Code: $code - Weight ($weight) has been inserted successfully!");
 			return true;
