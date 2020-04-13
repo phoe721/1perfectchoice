@@ -26,7 +26,7 @@ $shipping = new shipping();
 $vendors = new vendors();
 $validator = new validator();
 $data = $features = array();
-$item_type = $title = $description = $color = $material = $img_dim = $error = $warning = "";
+$item_type = $title = $description = $color = $material = $img_dim = $img_wb_dim = $error = $warning = "";
 if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["input"])) { 
 	$input = $_POST["input"];
 	if ($validator->check_asin($input)) {
