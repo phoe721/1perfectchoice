@@ -26,7 +26,7 @@ if (isset($argv[1]) && isset($argv[2]) && isset($argv[3])) {
 					list($code, $item_no) = explode("-", $sku, 2);
 					$cost = $costs->get_cost($code, $item_no);
 					list($length, $width, $height) = $packages->get_dimensions($code, $item_no);
-					$weight = $packages->get_weight($code, $item_no);
+					$weight = array_sum($packages->get_weight($code, $item_no));
 					$ups_cost = $shipping->getUPSCost($cost, $length, $width, $height, $weight);
 					$trucking_cost = $shipping->getTruckingCost($weight);
 					$result = "$sku\t$ups_cost\t$trucking_cost" . PHP_EOL;

@@ -4,6 +4,7 @@ require_once(__DIR__ . "/../init.php");
 
 class debugger {
 	private $loglevel = 4;
+	private $console = true;
 
 	public function info($message) {
 		if ($this->loglevel >= 0) $this->logger("[Info][" . basename($_SERVER['PHP_SELF']) . "] $message");
@@ -25,9 +26,14 @@ class debugger {
 		$this->loglevel = $level;
 	}
 
+	public function set_console($state) {
+		$this->console = $state;
+	}
+
 	public function logger($msg) {
 		$timestring = date('Y-m-d H:i:s', strtotime('now'));
 		$msg = "$timestring $msg" . PHP_EOL;
+		if ($this->console) echo $msg;
 		$file = fopen(LOG_FILE, 'a+');
 		if ($file) fwrite($file, $msg);
 		fclose($file);
