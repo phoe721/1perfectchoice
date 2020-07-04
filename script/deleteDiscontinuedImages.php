@@ -19,9 +19,14 @@ foreach($list as $sku) {
 	$file = "$item_no.jpg";
 	$ftp_client->change_dir("/images/$code");
 
-	if($ftp_client->size($file) > 0 && $ftp_client->delete($file)) {
+	if($ftp_client->size($file) > 0) { 
 		printf("Deleting image for $sku - It's discontinued!\n");
-		$removeCount++;
+		if($ftp_client->delete($file)) {
+			printf("Image for $sku is deleted!\n");
+			$removeCount++;
+		} else {
+			printf("Image for $sku cannot be deleted!\n");
+		}
 	} else {
 		//printf("$file not found on web server!\n");
 	}
