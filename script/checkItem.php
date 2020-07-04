@@ -44,7 +44,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["input"])) {
 		$asin = $ASIN->get_asin($code, $item_no);
 		$asin_url = "https://www.amazon.com/dp/" . $asin;
 		if (!$product->check_exist($code, $item_no)) { 
-			$warning = "Proudct information not found! ";
+			$warning .= "Proudct information not found! ";
 		} else {
 			$title = $product->get_title($code, $item_no);
 			$description = $product->get_description($code, $item_no);

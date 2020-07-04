@@ -25,11 +25,6 @@ foreach($list as $sku) {
 	} else {
 		//printf("$file not found on web server!\n");
 	}
-	//$url = IMAGE_SERVER . "$code/$item_no.jpg";
-	//if ($validator->check_url($url)) {
-	//} else {
-		//printf("$file not found on web server!\n");
-	//}
 }
 printf("Total: %d Removed: %d\n", $total, $removeCount);
 
