@@ -35,24 +35,6 @@ $(document).ready(function() {
 		}
 	});
 
-	// Show Dropzone 
-	$('#dropzone').click(function() {
-		$("div#box3").toggle('slow');
-	});
-
-	// Dropzone
-	Dropzone.options.box3 = {
-		url: 'script/uploadImg.php', 
-		paramName: 'file',
-		maxFilesize: 2,
-		init: function() {
-			this.on('sending', function(file, xhr, formData) {
-				var uid = $('#uid').val();
-				formData.append('uid', uid);
-		    });
-		}
-	};
-
 	// Reset buttons
 	$('#reset').click(function() {
 		location.reload();
