@@ -10,4 +10,7 @@ $cl->remove_empty_dir(DOWNLOAD);
 // Check upload directory
 $cl->remove_outdated_files(UPLOAD);
 $cl->remove_empty_dir(UPLOAD);
+
+// Check log file
+$cl->remove_outdated_files(LOG);
 ?>

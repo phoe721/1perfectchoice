@@ -27,8 +27,8 @@ $vendors = new vendors();
 $validator = new validator();
 $data = $features = array();
 $item_type = $title = $description = $color = $material = $img_dim = $img_wb_dim = $error = $warning = "";
-if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["input"])) { 
-	$input = $_POST["input"];
+if(($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["input"])) || ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["input"]))) { 
+	$input = empty($_POST["input"]) ? $_GET["input"] : $_POST["input"];
 	if ($validator->check_asin($input)) {
 		$sku = $ASIN->get_sku($input);
 	} else if ($validator->check_upc($input)) {

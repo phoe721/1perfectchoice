@@ -94,6 +94,26 @@ $(document).ready(function() {
 						$('#pg_weight').val(data.packageWeight.join());
 						$('#total_pg_weight').val(data.totalPackageWeight);
 						$('#img_dim').val(data.img_dim);
+						$('input, textarea').change(function() {
+							var field = $(this).attr('id');
+							var value = $(this).val();
+							var formData2 = new FormData();
+							formData2.append('sku', data.sku);
+							formData2.append('field', field);
+							formData2.append('value', value);
+	
+							$.ajax({
+								url: 'script/update.php',
+								data: formData2,
+								type: 'POST',
+								contentType: false,
+								processData: false,
+								dataType: 'json',
+								success: function(result) {
+									console.log(result);
+								}
+							});
+						});
 					}
 				}
 			});

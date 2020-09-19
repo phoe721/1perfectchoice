@@ -15,8 +15,10 @@ $list = $discontinued->get_list();
 $total = count($list);
 $removeCount = 0;
 foreach($list as $sku) {
-	list($code, $item_no) = explode("-", $sku);
+	list($code, $item_no) = explode("-", $sku, 2);
+	if ($code == "PDEX") {
 	$file = "$item_no.jpg";
+	printf("Check for $code, $item_no...\n");
 	$ftp_client->change_dir("/images/$code");
 
 	if($ftp_client->size($file) > 0) { 
@@ -29,6 +31,7 @@ foreach($list as $sku) {
 		}
 	} else {
 		//printf("$file not found on web server!\n");
+	}
 	}
 }
 printf("Total: %d Removed: %d\n", $total, $removeCount);
