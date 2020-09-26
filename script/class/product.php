@@ -12,6 +12,9 @@ class product {
 	}
 
 	public function insert($code, $item_no, $item_type, $title, $description, $feature1, $feature2, $feature3, $feature4, $feature5, $feature6, $feature7, $feature8, $feature9, $feature10, $color, $material) {
+		$title = $this->db->real_escape_string($title);
+		$description = $this->db->real_escape_string($description);
+		$material = $this->db->real_escape_string($material);
 		$result = $this->db->query("INSERT INTO product (code, item_no, item_type, title, description, feature1, feature2, feature3, feature4, feature5, feature6, feature7, feature8, feature9, feature10, color, material) VALUES ('$code', '$item_no', '$item_type', '$title', '$description', '$feature1', '$feature2', '$feature3', '$feature4', '$feature5', '$feature6', '$feature7', '$feature8', '$feature9', '$feature10', '$color', '$material')");
 		if ($result) {
 			$this->output->info("Item: $item_no, Code: $code - Inserted successfully!");
@@ -23,6 +26,9 @@ class product {
 	}
 	
 	public function update($code, $item_no, $item_type, $title, $description, $feature1, $feature2, $feature3, $feature4, $feature5, $feature6, $feature7, $feature8, $feature9, $feature10, $color, $material) {
+		$title = $this->db->real_escape_string($title);
+		$description = $this->db->real_escape_string($description);
+		$material = $this->db->real_escape_string($material);
 		$result = $this->db->query("UPDATE product SET item_type = '$item_type', title = '$title', description = '$description', feature1 = '$feature1', feature2 = '$feature2', feature3 = '$feature3', feature4 = '$feature4', feature5 = '$feature5', feature6 = '$feature6', feature7 = '$feature7', feature8 = '$feature8', feature9 = '$feature9', feature10 = '$feature10', color = '$color', material = '$material' WHERE code = '$code' AND item_no = '$item_no'");
 		if ($result) {
 			$this->output->info("Item: $item_no, Code: $code - Updated!");
