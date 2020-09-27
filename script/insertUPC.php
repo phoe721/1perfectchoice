@@ -21,10 +21,14 @@ if (isset($argv[1]) && isset($argv[2]) && isset($argv[3])) {
 				list($sku, $upc) = explode("\t", $line);
 				if ($validator->check_upc($upc)) {
 					list($code, $item_no) = explode("-", $sku, 2);
-					if ($u->insert($code, $item_no, $upc)) { 
-						$result = "$sku\tOK" . PHP_EOL;
+					if ($u->check_exist($code, $item_no)) {
+						$result = "$sku\tExists" . PHP_EOL;
 					} else {
-						$result = "$sku\tFail" . PHP_EOL;
+						if ($u->insert($code, $item_no, $upc)) { 
+							$result = "$sku\tOK" . PHP_EOL;
+						} else {
+							$result = "$sku\tFail" . PHP_EOL;
+						}
 					}
 				} else {
 					$result = "$sku\tInvalid" . PHP_EOL;
