@@ -70,7 +70,7 @@ class discontinued {
 				array_push($list, $sku);
 			}
 		} else {
-			$this->output->warning("There are no records in table discontinued!");
+			$this->output->notice("There are no records in table discontinued!");
 		}
 
 		return $list;

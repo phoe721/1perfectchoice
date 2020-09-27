@@ -29,7 +29,7 @@ class queues {
 			$this->output->info("Queue created, queue number is $last_id!");
 		} else {
 			$last_id = null;
-			$this->output->error("Failed to create queue!");
+			$this->output->notice("Failed to create queue!");
 		}
 
 		return $last_id;
@@ -61,7 +61,7 @@ class queues {
 		if ($result) {
 			$this->output->info("Updated queue $qid status to $status");
 		} else {
-			$this->output->error("Failed to update queue $qid status!");
+			$this->output->notice("Failed to update queue $qid status!");
 		}
 	}
 }

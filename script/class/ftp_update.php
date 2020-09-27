@@ -22,7 +22,7 @@ class ftp_update {
 			if ($result) {
 				$this->output->info("New record added!");
 			} else {
-				$this->output->info("Failed to insert on database!");
+				$this->output->error("Failed to insert on database!");
 			}
 		}
 	}

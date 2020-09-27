@@ -14,7 +14,7 @@ class ASIN {
 	public function insert($code, $item_no, $asin) {
 		$result = $this->db->query("INSERT INTO ASIN (code, item_no, asin) VALUES ('$code', '$item_no', '$asin')");
 		if ($result) {
-			$this->output->notice("Item: $item_no, Code: $code, ASIN: $asin - Inserted successfully!");
+			$this->output->info("Item: $item_no, Code: $code, ASIN: $asin - Inserted successfully!");
 			return true;
 		} else {
 			$this->output->error("Item: $item_no, Code: $code, ASIN: $asin - Failed to insert!");
@@ -25,7 +25,7 @@ class ASIN {
 	public function update($code, $item_no, $asin) {
 		$result = $this->db->query("UPDATE ASIN SET asin = '$asin' WHERE code = '$code' AND item_no = '$item_no'");
 		if ($result) {
-			$this->output->notice("Item: $item_no, Code: $code - Updated ASIN to $asin!");
+			$this->output->info("Item: $item_no, Code: $code - Updated ASIN to $asin!");
 			return true;
 		} else {
 			$this->output->error("Item: $item_no, Code: $code - Failed to update ASIN!");
@@ -36,7 +36,7 @@ class ASIN {
 	public function delete($code, $item_no) {
 		$result = $this->db->query("DELETE FROM ASIN WHERE code = '$code' AND item_no = '$item_no'");
 		if ($result) {
-			$this->output->notice("Item: $item_no, Code: $code - Deleted!");
+			$this->output->info("Item: $item_no, Code: $code - Deleted!");
 			return true;
 		} else {
 			$this->output->error("Item: $item_no, Code: $code - Failed to delete!");
@@ -50,9 +50,9 @@ class ASIN {
 		if (mysqli_num_rows($result) > 0) {
 			$row = mysqli_fetch_array($result);
 			$asin = $row['asin'];
-			$this->output->notice("Item: $item, code: $code - Found ASIN $asin!");
+			$this->output->info("Item: $item, code: $code - Found ASIN $asin!");
 		} else {
-			$this->output->warning("Item: $item, code: $code - ASIN not found!");
+			$this->output->info("Item: $item, code: $code - ASIN not found!");
 		}
 
 		return $asin;
@@ -64,9 +64,9 @@ class ASIN {
 		if (mysqli_num_rows($result) > 0) {
 			$row = mysqli_fetch_array($result);
 			$sku = $row['code'] . "-" . $row['item_no'];
-			$this->output->notice("ASIN: $asin - Found SKU $sku!");
+			$this->output->info("ASIN: $asin - Found SKU $sku!");
 		} else {
-			$this->output->warning("ASIN: $asin - SKU not found!");
+			$this->output->info("ASIN: $asin - SKU not found!");
 		}
 
 		return $sku;
@@ -75,10 +75,10 @@ class ASIN {
 	public function check_exist($code, $item_no) {
 		$result = $this->db->query("SELECT * FROM ASIN WHERE code = '$code' AND item_no = '$item_no'");
 		if (mysqli_num_rows($result) > 0) {
-			$this->output->notice("Item: $item_no, Code: $code - Exists!");
+			$this->output->info("Item: $item_no, Code: $code - Exists!");
 			return true;
 		} else {
-			$this->output->notice("Item: $item_no, Code: $code - Not exist!");
+			$this->output->info("Item: $item_no, Code: $code - Not exist!");
 			return false;
 		}
 	}
@@ -89,9 +89,9 @@ class ASIN {
 		if ($result) {
 			$row = mysqli_fetch_array($result);
 			$count = $row['total'];
-			$this->output->notice("There are $count records in table ASIN!");
+			$this->output->info("There are $count records in table ASIN!");
 		} else {
-			$this->output->error("Failed to get record count in table ASIN!");
+			$this->output->info("Failed to get record count in table ASIN!");
 		}
 
 		return $count;
