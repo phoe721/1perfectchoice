@@ -52,12 +52,8 @@ class database {
 	public function real_escape_string($string) {
 		if ($this->con) {
 			$this->result = mysqli_real_escape_string($this->con, $string);
-			if (!$this->result) {
-				$this->output->error("Query to DB server failed: " . $this->error());
-			} else { 
-				$this->output->info("Query to DB server successfully!");
-				return $this->result;
-			}
+			$this->output->info("String: $string escaped to " . $this->result);
+			return $this->result;
 		} else {
 			$this->output->notice("DB connection was not made!");
 		}
