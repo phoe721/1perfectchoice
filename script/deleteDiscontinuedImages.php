@@ -1,10 +1,8 @@
 <?
 require_once("class/ftp_client.php");
 require_once("class/discontinued.php");
-require_once("class/validator.php");
 $ftp_client = new ftp_client();
 $discontinued = new discontinued();
-$validator = new validator();
 
 // Connect to server
 $ftp_client->connect(FTP_SERVER);
