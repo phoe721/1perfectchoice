@@ -30,7 +30,7 @@ class validator {
 	}
 
 	public function check_upc($upc) {
-		if (preg_match('/^[0-9]{13}$/', $upc)) {
+		if (preg_match('/^[0-9]{12,13}$/', $upc)) {
 			$this->output->info("UPC: $upc - Valid UPC!");
 			return true;
 		} else {
