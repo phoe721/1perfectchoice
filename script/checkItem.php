@@ -67,7 +67,7 @@ if(($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["input"])) || ($_SERVER
 		} else {
 			$warning .= "Image not found! ";
 		}
-		*/
+		 */
 		$img_wb_url = IMAGE_SERVER . "$code" . "_WB/$item_no.jpg";
 		/*
 		if ($validator->check_url($img_wb_url)) {
@@ -76,7 +76,7 @@ if(($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["input"])) || ($_SERVER
 		} else {
 			$warning .= "Image (white background) not found! ";
 		}
-		*/
+		 */
 		$qty = $inventory->get($code, $item_no);
 		$inventory_updated_time = $inventory->get_updated_time($code, $item_no);
 		$set = $set_list->get_set($code, $item_no);
