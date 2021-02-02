@@ -59,24 +59,8 @@ if(($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["input"])) || ($_SERVER
 		$cost = $costs->get_cost($code, $item_no);
 		$unit = $costs->get_unit($code, $item_no);
 		$cost_updated_time = $costs->get_updated_time($code, $item_no);
-		$img_url = IMAGE_SERVER . "$code/$item_no.jpg";
-		/*
-		if ($validator->check_url($img_url)) {
-			list($width, $height, $type, $attr) = getimagesize($img_url);
-			$img_dim = "$width x $height";
-		} else {
-			$warning .= "Image not found! ";
-		}
-		 */
-		$img_wb_url = IMAGE_SERVER . "$code" . "_WB/$item_no.jpg";
-		/*
-		if ($validator->check_url($img_wb_url)) {
-			list($width, $height, $type, $attr) = getimagesize($img_wb_url);
-			$img_wb_dim = "$width x $height";
-		} else {
-			$warning .= "Image (white background) not found! ";
-		}
-		 */
+		$img_url = "images/$code/$item_no.jpg";
+		$img_wb_url = "images/$code" . "_WB/$item_no.jpg";
 		$qty = $inventory->get($code, $item_no);
 		$inventory_updated_time = $inventory->get_updated_time($code, $item_no);
 		$set = $set_list->get_set($code, $item_no);
@@ -90,9 +74,7 @@ if(($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["input"])) || ($_SERVER
 		$data['error'] = $error;	
 		$data['warning'] = $warning;	
 		$data['img_url'] = $img_url;
-		$data['img_dim'] = $img_dim;
 		$data['img_wb_url'] = $img_wb_url;
-		$data['img_wb_dim'] = $img_wb_dim;
 		$data['vendor'] = $vendor;
 		$data['query_url'] = $query_url;
 		$data['sku'] = $sku;
