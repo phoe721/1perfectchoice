@@ -4,7 +4,7 @@ require_once(__DIR__ . "/../init.php");
 
 class debugger {
 	private $loglevel = 3;
-	private $console = true;
+	private $console = false;
 
 	public function info($message) {
 		if ($this->loglevel >= 3) $this->logger("[Info][" . basename($_SERVER['PHP_SELF']) . "] $message");
