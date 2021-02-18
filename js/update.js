@@ -70,6 +70,7 @@ $(document).ready(function() {
 					} else {
 						$('#warning').text(data.warning);
 						$('#product_img').attr('src', data.img_url).prop('alt', data.sku);
+						$('#product_img_wb').attr('src', data.img_wb_url).prop('alt', data.sku);
 						$('#vendor').val(data.vendor);
 						$('#sku').attr('href', data.query_url).text(data.sku);
 						$('#asin').attr('href', data.asin_url).text(data.asin);
