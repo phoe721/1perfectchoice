@@ -35,7 +35,6 @@ if(($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["input"])) || ($_SERVER
 		$sku = $UPC->get_sku($input);
 	} else if ($validator->check_sku($input)) {
 		$sku = $input;
-		$sku = preg_replace("/^SR/", "SR-", $sku);
 	}
 
 	if (!empty($sku)) {
