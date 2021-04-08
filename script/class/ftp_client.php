@@ -92,6 +92,16 @@ class ftp_client {
 		}
 	}
 
+	public function get_list_files($path) {
+		if ($this->conn) {
+			$this->files = ftp_nlist($this->conn, $path);
+			return $this->files;
+		} else {
+			$this->output->notice("Not connected to $this->server!");
+			return false;
+		}
+	}
+
 	public function pwd() {
 		if ($this->conn) {
 			$this->output->info("Current directory: " . ftp_pwd($this->conn) . "!");
@@ -179,10 +189,25 @@ class ftp_client {
 	public function size($file) {
 		if ($this->conn) {
 			if ($size = ftp_size($this->conn, $file)) {
-				$this->output->info("$file size is $size!");
+				//$this->output->info("$file size is $size!");
 				return $size;
 			} else {
 				$this->output->error("Failed to get size of $file!");
+				return false;
+			}
+		} else {
+			$this->output->notice("Not connected to $this->server!");
+			return false;
+		}
+	}
+
+	public function mdtm($file) {
+		if ($this->conn) {
+			if ($mdtm = ftp_mdtm($this->conn, $file)) {
+				//$this->output->info("$file modified time is $mdtm!");
+				return $mdtm;
+			} else {
+				$this->output->error("Failed to get modified time of $file!");
 				return false;
 			}
 		} else {
