@@ -48,30 +48,28 @@ class ftp_update {
 				$remote_dir = $row['directory'];
 				$path = $row['path'];
 
-				$this->ftp_client->connect($server);
-				$this->ftp_client->login($user, $pass);
-				$this->ftp_client->set_passive();
-				$this->output->info("Successfully login to $server!");
-
-				if (is_dir($row['path'])) {
-					$local_dir = array_diff(scandir($row['path']), array('..', '.'));
-					foreach ($local_dir as $key => $file) {
-						if(is_dir("$file")) {
-							// Do nothing
-						} else {
-							$remote_file = $remote_dir . '/' . $file;
-							$local_file = $path . '/' . $file;
-							$this->ftp_client->put($remote_file, $local_file);
-							$this->output->info("Upload $file successfully!");
+				if($this->ftp_client->connect($server) && $this->ftp_client->login($user, $pass)) {
+					$this->ftp_client->set_passive();
+					if (is_dir($row['path'])) {
+						$local_dir = array_diff(scandir($row['path']), array('..', '.'));
+						foreach ($local_dir as $key => $file) {
+							if(is_dir("$file")) {
+								// Do nothing
+							} else {
+								$remote_file = $remote_dir . '/' . $file;
+								$local_file = $path . '/' . $file;
+								$this->ftp_client->put($remote_file, $local_file);
+								$this->output->info("Upload $file successfully!");
+							}
 						}
+					} else {
+						$file = $row['path'];
+						$remote_file = $remote_dir . '/' . basename($file);
+						$this->ftp_client->put($remote_file, $file);
+						$this->output->info("Upload $file successfully!");
 					}
-				} else {
-					$file = $row['path'];
-					$remote_file = $remote_dir . '/' . basename($file);
-					$this->ftp_client->put($remote_file, $file);
-					$this->output->info("Upload $file successfully!");
+					$this->ftp_client->disconnect();
 				}
-				$this->ftp_client->disconnect();
 			}
 		}
 	}

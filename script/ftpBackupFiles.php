@@ -18,11 +18,11 @@ foreach($file_list as $file) {
 	} else if (pathinfo($file, PATHINFO_EXTENSION)) {
 		//printf("Skipping file - $file\n");
 		continue;
-	} else if (is_dir($ftp_url)) {
+	} else if (is_dir($ftp_url) && $file == "PDEX") {
 		$remote_subdir = $remote_dir . $file;
 		$local_subdir = $local_dir . $file;
 		if (is_dir($local_subdir)) {
-			//printf("Directory exists - $local_subdir\n");
+			printf("Directory exists - $local_subdir\n");
 			// Do Nothing
 		} else {
 			if (mkdir($local_subdir, 0755)) {

@@ -11,7 +11,7 @@ $(document).ready(function() {
 	    rules: {
 	        input: {
 	            required: true,
-				pattern: /^[A-Za-z0-9\-+x\/]+$/
+				pattern: /^[A-Za-z0-9\-+x\/\.]+$/
 	        }
 	    }
 	});
