@@ -47,6 +47,7 @@ if (isset($argv[1]) && isset($argv[2])) {
 	$ftp_client->change_dir($path);
 	foreach($files as $file) {
 		// Convert -2, -3 to _2, -3 etc. -1 will be removed.
+		/*
 		if(preg_match('/-[0-9].jpg/', $file)) {
 			$new_file = preg_replace('/([0-9A-Z]+)-([0-9].jpg)/','\1_\2', $file);
 			$new_file = preg_replace('/(_1)(.jpg)/','\2', $new_file);
@@ -60,10 +61,11 @@ if (isset($argv[1]) && isset($argv[2])) {
 		} else {
 			//printf("$file is correct, not renamed!\n");
 		}
+		 */
 
 		// SR will be removed.
-		if(preg_match('/^SR/', $file)) {
-			$new_file = preg_replace('/^(SR)(.*)/','\2', $file);
+		if(preg_match('/PDEX-F/', $file)) {
+			$new_file = preg_replace('/PDEX-F/','01', $file);
 			printf("$file is going to rename to $new_file!\n");
 			if(!$testrun && $ftp_client->rename($file, $new_file)) {
 				printf("$file has been rename to $new_file!\n");
@@ -76,6 +78,7 @@ if (isset($argv[1]) && isset($argv[2])) {
 		}
 
 		//Convert JPG to jpg
+		/*
 		if(preg_match('/JPG/', $file)) {
 			$new_file = preg_replace('/JPG/','jpg', $file); 
 			printf("$file is going to rename to $new_file!\n");
@@ -88,6 +91,7 @@ if (isset($argv[1]) && isset($argv[2])) {
 		} else {
 			//printf("$file is correct, not renamed!\n");
 		}
+		 */
 	}
 	
 	printf("Total: %d Renamed: %d\n", $total, $renameCount);
