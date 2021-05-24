@@ -1,40 +1,42 @@
 <?
 require_once("class/ftp_client.php");
+require_once("class/status.php");
+require_once("class/validator.php");
 $ftp_client = new ftp_client();
+$status = new status();
+$validator = new validator();
 $total = $renameCount = $testrun = 0;
-$testrun = 0;
-if (isset($argv[1]) && isset($argv[2])) {
+$testrun = 1;
+if (isset($argv[1]) && isset($argv[2]) && isset($argv[3])) {
 	// Connect to server
 	$ftp_client->connect(FTP_SERVER);
 	$ftp_client->login(FTP_USER, FTP_PASS);
 	$ftp_client->set_passive();
-
-	$path = $argv[1];
-	$inputFile = $argv[2];
-	$files = $ftp_client->list_files($path);
-	$total = count($files);
-	$ftp_client->change_dir($path);
-	foreach($files as $file) {
-		$input = fopen($inputFile, "r");
+	$inputFile = $argv[1];
+	$outputFile = $argv[2];
+	$statusFile = $argv[3];
+	$status->set_file($statusFile);
+	$input = fopen($inputFile, "r");
+	$output = fopen($outputFile, "a+");
+	if ($input && $output) {
 		while(!feof($input)) {
 			$line = trim(fgets($input));
 			if (!empty($line)) {
-				list($old_name, $new_name) = explode("\t", $line);
-				if(preg_match("/$old_name/", $file)) {
-					$new_file = preg_replace("/($old_name)(.*)$/","$new_name$2", $file);
-					printf("$file is going to rename to $new_file!\n");
-					if(!$testrun && $ftp_client->rename($file, $new_file)) {
-						printf("$file has been rename to $new_file!\n");
-						$renameCount++;
-					} else {
-						printf("$file cannot be renamed!\n");
-					}
+				list($path, $old_name, $new_name) = explode("\t", $line);
+				$ftp_client->change_dir($path);
+				if($ftp_client->rename($old_name, $new_name)) {
+					$result = "$old_name has been renamed to $new_name!" . PHP_EOL;
+				} else {
+					$result = "$file cannot be renamed!" . PHP_EOL;
 				}
+				fwrite($output, $result);
 			}
 		}
 	}
 
-	printf("Total: %d Renamed: %d\n", $total, $renameCount);
+	$status->log_status("Done!");
+	fclose($input);
+	fclose($output);
 } else if (isset($argv[1])) {
 	// Connect to server
 	$ftp_client->connect(FTP_SERVER);
