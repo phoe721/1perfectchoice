@@ -188,7 +188,7 @@ class packages {
 				$result = $this->db->query("SELECT * FROM packages WHERE code = '$code' AND item_no = '$item_no'");
 				if (mysqli_num_rows($result) > 0) {
 					$row = mysqli_fetch_array($result);
-					for ($i = 1; $i <= 5; $i++) {
+					for ($i = 1; $i <= 10; $i++) {
 						if (!empty($row["box" . $i . "_length"])) $box_count = $i;
 					}
 					$this->output->info("Item: $item_no, Code: $code - Box count: $box_count!");

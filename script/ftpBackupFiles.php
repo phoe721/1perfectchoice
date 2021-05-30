@@ -8,6 +8,7 @@ $local_dir = "/home/aaron/images/";
 $ftp_client->connect(FTP_SERVER);
 $ftp_client->login(FTP_USER, FTP_PASS);
 $ftp_client->set_passive();
+//$ftp_client->set_active();
 $ftp_client->change_dir($remote_dir);
 $file_list = $ftp_client->get_list_files($remote_dir);
 foreach($file_list as $file) {
@@ -45,9 +46,10 @@ foreach($file_list as $file) {
 					$remote_mtime = $ftp_client->mdtm($file2);
 					$local_mtime = filemtime($local_path);
 					if ($local_mtime > $remote_mtime) {
-						printf("File exists - $file2\n");
+						//printf("File exists - $file2\n");
 					} else {
 						printf("Downloading $local_path...");
+						printf("From $file2...");
 						if ($ftp_client->get($local_path, $file2)) {
 							printf("Downloaded\n");
 						} else {

@@ -6,7 +6,7 @@ $ftp_client = new ftp_client();
 $status = new status();
 $validator = new validator();
 $total = $renameCount = $testrun = 0;
-$testrun = 1;
+$testrun = 0;
 if (isset($argv[1]) && isset($argv[2]) && isset($argv[3])) {
 	// Connect to server
 	$ftp_client->connect(FTP_SERVER);
