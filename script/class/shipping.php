@@ -42,7 +42,7 @@ class shipping {
 		$actual_weight = max($weight, $dimension_weight);
 		$girth = round((2 * $width) + (2 * $height), 0);
 		$measurement = $length + $girth;
-		$this->output->info("Dimensiona weight is $dimension_weight");
+		$this->output->info("Dimension weight is $dimension_weight");
 		$this->output->info("Actual weight is $actual_weight");
 		$this->output->info("Girth is $girth");
 		$this->output->info("Measurement is $measurement");

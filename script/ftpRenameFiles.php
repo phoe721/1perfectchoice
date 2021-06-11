@@ -22,8 +22,7 @@ if (isset($argv[1]) && isset($argv[2]) && isset($argv[3])) {
 		while(!feof($input)) {
 			$line = trim(fgets($input));
 			if (!empty($line)) {
-				list($path, $old_name, $new_name) = explode("\t", $line);
-				$ftp_client->change_dir($path);
+				list($old_name, $new_name) = explode("\t", $line);
 				if($ftp_client->rename($old_name, $new_name)) {
 					$result = "$old_name has been renamed to $new_name!" . PHP_EOL;
 				} else {
