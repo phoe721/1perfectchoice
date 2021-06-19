@@ -2,7 +2,7 @@
 require_once("class/ftp_client.php");
 $ftp_client = new ftp_client();
 $remote_dir = "/public_html.1611423940.bak/images/";
-$local_dir = "/home/aaron/images/";
+$local_dir = IMG;
 
 // Connect to server
 $ftp_client->connect(FTP_SERVER);
