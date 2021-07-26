@@ -3,7 +3,7 @@
 require_once(__DIR__ . "/../init.php");
 
 class debugger {
-	private $loglevel = 3;
+	private $loglevel = 4;
 	private $console = false;
 
 	public function info($message) {
