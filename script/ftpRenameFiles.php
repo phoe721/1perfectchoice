@@ -65,6 +65,7 @@ if (isset($argv[1]) && isset($argv[2]) && isset($argv[3])) {
 		 */
 
 		// SR will be removed.
+		/*
 		if(preg_match('/PDEX-F/', $file)) {
 			$new_file = preg_replace('/PDEX-F/','01', $file);
 			printf("$file is going to rename to $new_file!\n");
@@ -77,6 +78,7 @@ if (isset($argv[1]) && isset($argv[2]) && isset($argv[3])) {
 		} else {
 			//printf("$file is correct, not renamed!\n");
 		}
+		 */
 
 		//Convert JPG to jpg
 		/*
