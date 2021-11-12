@@ -7,6 +7,7 @@ require_once("class/product.php");
 require_once("class/set_list.php");
 require_once("class/UPC.php");
 require_once("class/weights.php");
+require_once("class/inventory.php");
 require_once("class/discontinued.php");
 require_once("class/validator.php");
 $ASIN = new ASIN();
@@ -17,6 +18,7 @@ $product = new product();
 $set_list = new set_list();
 $UPC = new UPC();
 $weights = new weights();
+$inventory = new inventory();
 $discontinued = new discontinued();
 
 $list = $discontinued->get_list();
@@ -124,4 +126,17 @@ foreach($list as $sku) {
 	}
 }
 printf("Total: %d Removed: %d in weights table\n", $total, $removeCount);
+
+$removeCount = 0;
+foreach($list as $sku) {
+	list($code, $item_no) = explode("-", $sku);
+	if ($inventory->check_exist($code, $item_no)) {
+		printf("Deleting inventory for $sku - It's discontinued!\n");
+		$inventory->delete($code, $item_no);
+		$removeCount++;
+	} else {
+		//printf("Skip $sku - It's not found in inventory table!\n");
+	}
+}
+printf("Total: %d Removed: %d in inventory table\n", $total, $removeCount);
 ?>
