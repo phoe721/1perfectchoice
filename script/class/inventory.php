@@ -101,5 +101,16 @@ class inventory {
 
 		return $updated_time;
 	}
+
+	public function truncate() {
+		$result = $this->db->query("TRUNCATE TABLE inventory");
+		if ($result) {
+			$this->output->info("Inventory table has been truncated!");
+			return true;
+		} else {
+			$this->output->info("Failed to truncate inventory table!");
+			return false;
+		}
+	}
 }
 ?>

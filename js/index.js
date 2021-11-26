@@ -82,11 +82,14 @@ $(document).ready(function() {
 	});
 	
 	// Bind Enter Key
-	$(document).bind('keypress', function(e) {
-		if(e.keyCode==13){
-			$('#check').trigger('click');
-        }
-    });
+	$(document).ready(function() {
+	    $('input').keyup(function(event) {
+  			if (event.which === 13) {
+    			event.preventDefault();
+				$('#check').trigger('click');
+    		}
+    	});
+	});
 
 	// Check button
 	$('#check').click(function() {

@@ -15,7 +15,7 @@ class discontinued {
 	}
 
 	public function insert($code, $item_no) {
-		$result = $this->db->query("INSERT INTO discontinued (code, item_no) VALUES ('$code', '$item_no')");
+		$result = $this->db->query("INSERT INTO discontinued (code, item_no, updated_at) VALUES ('$code', '$item_no',NOW())");
 		if ($result) {
 			$this->output->info("Item: $item_no, Code: $code - Inserted successfully!");
 			return true;
