@@ -186,6 +186,19 @@ class ftp_client {
 		}
 	}
 
+	public function copy($src, $dest, $tmp) { 
+		if ($this->get($tmp, $src)) { 
+			if ($this->put($dest, $tmp)) { 
+				unlink($tmp); 
+			} else { 
+				return false;
+			}
+		} else {
+			return false ;
+		}
+		return true;
+	}
+
 	public function size($file) {
 		if ($this->conn) {
 			if ($size = ftp_size($this->conn, $file)) {
