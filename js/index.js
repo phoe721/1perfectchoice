@@ -84,7 +84,6 @@ $(document).ready(function() {
 	// Bind Enter Key
 	$(document).ready(function() {
 	    $('input').keyup(function(event) {
-			console.log(event);
   			if (event.which === 17) {
     			event.preventDefault();
 				$('#check').trigger('click');
