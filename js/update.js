@@ -43,7 +43,7 @@ $(document).ready(function() {
 	// Bind Enter Key
 	$(document).ready(function() {
 	    $('input').keyup(function(event) {
-  			if (event.which === 13) {
+  			if (event.which === 17) {
     			event.preventDefault();
 				$('#check').trigger('click');
     		}
@@ -56,7 +56,7 @@ $(document).ready(function() {
 		$('#warning').text('');
 		if (form.valid()) {
 			var input = $('#input').val();
-			input = input.replace(/-local.*/gi, '').replace(/\+/, '-');
+			input = input.replace(/-local.*/gi, '').replace(/\+/, '-').replace(/^SR/, 'SR-');
 			var formData = new FormData();
 			formData.append('input', input);
 
