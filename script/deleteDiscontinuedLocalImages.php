@@ -7,7 +7,7 @@ $total = count($list);
 $removeCount = 0;
 foreach($list as $sku) {
 	list($code, $item_no) = explode("-", $sku, 2);
-	if ($code == "SR") {
+	if ($code == "MO") {
 		$file = IMG . "/$code/$item_no.jpg";
 		if (file_exists($file)) {
 			printf("Going to delete mage for $sku - It's discontinued!\n");
