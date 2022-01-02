@@ -60,7 +60,7 @@ foreach($file_list as $file) {
 							$remote_mtime = $ftp_client->mdtm($file2);
 							$local_mtime = filemtime($local_path);
 							if ($local_mtime > $remote_mtime) {
-								//printf("File exists - $file2\n");
+								printf("File exists - $file2\n");
 							} else {
 								printf("Downloading $local_path...");
 								printf("From $file2...");
