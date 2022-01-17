@@ -98,7 +98,7 @@ $(document).ready(function() {
 		$('#warning').text('');
 		if (form.valid()) {
 			var input = $('#input').val();
-			input = input.replace(/-local.*/gi, '').replace(/\+/, '-').replace(/^SR/, 'SR-');
+			input = input.replace(/-local.*/gi, '').replace(/\+/, '-').replace(/^SR0/, 'SR-0');
 			var formData = new FormData();
 			formData.append('input', input);
 
