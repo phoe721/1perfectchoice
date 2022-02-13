@@ -36,5 +36,15 @@ if (isset($argv[1]) && isset($argv[2]) && isset($argv[3])) {
 	$status->log_status("Done!");
 	fclose($input);
 	fclose($output);
+} else if (isset($argv[1])) {
+	$sku = $argv[1];
+	if ($validator->check_sku($sku)) {
+		list($code, $item_no) = explode("-", $sku, 2);
+		$qty = $inventory->get($code, $item_no);
+
+		printf("The quantity for $sku is $qty!\n");
+	} else {
+		printf("$sku is invalid SKU!\n");
+	}
 }
 ?>

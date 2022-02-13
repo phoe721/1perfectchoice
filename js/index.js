@@ -76,6 +76,11 @@ $(document).ready(function() {
 		$.post('script/runQueue.php');
 	});
 
+	// Clear inventory
+	$('#clear_inventory').click(function() {
+		$.post('script/truncateInventory.php');
+	});
+
 	// Reset buttons
 	$('#reset').click(function() {
 		location.reload();
