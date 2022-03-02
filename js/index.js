@@ -71,6 +71,15 @@ $(document).ready(function() {
 	    }
 	});
 
+	// Menu
+	$('#check_item').click(function() {
+		window.location.replace('check.htm');
+	});
+
+	$('#update_item').click(function() {
+		window.location.replace('update.htm');
+	});
+
 	// Run queue	
 	$('#run').click(function() {
 		$.post('script/runQueue.php');

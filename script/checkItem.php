@@ -60,8 +60,36 @@ if(($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["input"])) || ($_SERVER
 		$cost_updated_time = $costs->get_updated_time($code, $item_no);
 		$img_url = IMAGE_SERVER . "$code/$item_no.jpg";
 		$img_wb_url = IMAGE_SERVER . "$code" . "_WB/$item_no.jpg";
-		$qty = $inventory->get($code, $item_no);
-		$inventory_updated_time = $inventory->get_updated_time($code, $item_no);
+		if ($code != "SR") {
+			$qty = $inventory->get($code, $item_no);
+			$inventory_updated_time = $inventory->get_updated_time($code, $item_no);
+		} else {
+			$replace_code = $replace_item_no = "";
+			switch ($item_no) {
+				case (preg_match('/^01/', $item_no) ? true : false):
+					$replace_code = "PDEX";
+					$replace_item_no = preg_replace('/^01/', 'F', $item_no);
+					break;
+				case (preg_match('/^02/', $item_no) ? true : false):
+					$replace_code = "AC";
+					$replace_item_no = preg_replace('/^02/', '', $item_no);
+					break;
+				case (preg_match('/^03/', $item_no) ? true : false):
+					$replace_code = "FA";
+					$replace_item_no = preg_replace('/^03/', '', $item_no);
+					break;
+				case (preg_match('/^04/', $item_no) ? true : false):
+					$replace_code = "CO";
+					$replace_item_no = preg_replace('/^04/', '', $item_no);
+					break;
+				case (preg_match('/^05/', $item_no) ? true : false):
+					$replace_code = "LHF";
+					$replace_item_no = preg_replace('/^05/', '', $item_no);
+					break;
+			}
+			$qty = $inventory->get($replace_code, $replace_item_no);
+			$inventory_updated_time = $inventory->get_updated_time($replace_code, $replace_item_no);
+		}
 		$set = $set_list->get_set($code, $item_no);
 		$weight = array_sum($weights->get_weight($code, $item_no));
 		$dimension = $dimensions->get_dimensions($code, $item_no);
