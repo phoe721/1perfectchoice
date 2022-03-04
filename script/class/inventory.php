@@ -60,6 +60,7 @@ class inventory {
 
 	public function get($code, $item_no) {
 		static $count = 0;
+		list($code, $item_no) = replace_vendor($code, $item_no);
 		if ($this->set_list->check($code, $item_no) && $count == 0) {
 			$count++;
 			$qty_list = array();
@@ -89,6 +90,7 @@ class inventory {
 	}
 
 	public function get_updated_time($code, $item_no) {
+		list($code, $item_no) = replace_vendor($code, $item_no);
 		$updated_time = date('Y-m-d H:i:s', mktime(00, 00, 00, 01, 01, 1970)); 
 		$result = $this->db->query("SELECT updated_at FROM inventory WHERE code = '$code' AND item_no = '$item_no'");
 		if (mysqli_num_rows($result) > 0) {

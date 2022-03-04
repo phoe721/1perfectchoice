@@ -1,6 +1,7 @@
 <?php
 // loglevel: 0 = info, 1 = notice, 2 = warning, 3 = error 
 require_once(__DIR__ . "/../init.php");
+require_once(__DIR__ . "/../helper_functions.php");
 
 class debugger {
 	private $loglevel = 4;
