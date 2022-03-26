@@ -5,7 +5,11 @@
 		switch ($item_no) {
 			case (preg_match('/^01/', $item_no) ? true : false):
 				$replace_code = "PDEX";
-				$replace_item_no = preg_replace('/^01/', 'F', $item_no);
+				if (strlen($item_no) > 5) {
+					$replace_item_no = preg_replace('/^01/', 'F', $item_no);
+				} else {
+					$replace_item_no = preg_replace('/^01/', '', $item_no);
+				}
 				break;
 			case (preg_match('/^02/', $item_no) ? true : false):
 				$replace_code = "AC";
@@ -25,5 +29,12 @@
 				break;
 		}
 		return array($replace_code, $replace_item_no);
+	}
+
+	function clean_up($sku) { 
+		$sku = preg_replace('/-local.*$/i', '', $sku);
+		$sku = preg_replace('/\+/', '-', $sku);
+		$sku = preg_replace('/^SR/', 'SR-', $sku);
+		return $sku;
 	}
 ?>

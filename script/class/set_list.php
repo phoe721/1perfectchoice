@@ -61,6 +61,7 @@ class set_list {
 	}
 
 	public function get_set($code, $item_no) {
+		list($code, $item_no) = replace_vendor($code, $item_no);
 		$result = $this->db->query("SELECT * FROM set_list WHERE code = '$code' AND item_no = '$item_no'");
 		$set = array();
 		if (mysqli_num_rows($result) > 0) {

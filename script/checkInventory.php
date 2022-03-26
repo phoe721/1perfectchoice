@@ -19,12 +19,18 @@ if (isset($argv[1]) && isset($argv[2]) && isset($argv[3])) {
 			if (!empty($sku)) {
 				$status->log_status("Checking $sku...");
 				if ($validator->check_sku($sku)) {
+					$sku = clean_up($sku);
 					list($code, $item_no) = explode("-", $sku, 2);
 					$qty = $inventory->get($code, $item_no);
-					$qty = ($qty >= MIN_INVENTORY_QUANTITY) ? $qty : 0;
-					$qty = min(MAX_INVENTORY_QUANTITY, $qty);
-					$qty = floor($qty / QUANTITY_DIVIDER);
-					$result = "$sku\t$qty" . PHP_EOL;
+					if ($qty == -1) {
+						// Do Nothing
+					} else {
+						$qty = ($qty >= MIN_INVENTORY_QUANTITY) ? $qty : 0;
+						$qty = min(MAX_INVENTORY_QUANTITY, $qty);
+						$qty = floor($qty / QUANTITY_DIVIDER);
+					}
+					$updated_time = $inventory->get_updated_time($code, $item_no);
+					$result = "$sku\t$qty\t$updated_time" . PHP_EOL;
 				} else {
 					$result = "$sku\tInvalid" . PHP_EOL;
 				}

@@ -82,6 +82,7 @@ class inventory {
 				$qty = $row['qty'];
 				$this->output->info("Item: $item_no, Code: $code - Inventory has $qty!");
 			} else {
+				$qty = -1;
 				$this->output->info("Item: $item_no, Code: $code - Inventory not found!");
 			}
 
