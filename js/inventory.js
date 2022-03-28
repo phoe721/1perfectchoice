@@ -72,51 +72,10 @@ $(document).ready(function() {
 						$('#error').text(data.error);
 					} else {
 						$('#warning').text(data.warning);
-						$('#product_img').attr('src', data.img_url).prop('alt', data.sku);
-						$('#product_img_wb').attr('src', data.img_wb_url).prop('alt', data.sku);
 						$('#vendor').val(data.vendor);
 						$('#sku').attr('href', data.query_url).text(data.sku);
-						$('#asin').attr('href', data.asin_url).text(data.asin);
-						$('#upc').val(data.upc);
-						$('#discontinued').val(data.status);
-						$('#set_list').val(data.set_list.join());
-						$('#item_type').val(data.item_type);
-						$('#cost').val(data.cost);
-						$('#cost_updated_time').val(data.cost_updated_time);
-						$('#unit').val(data.unit);
 						$('#qty').val(data.quantity);
 						$('#qty_updated_time').val(data.inventory_updated_time);
-						$('#title').val(data.title);
-						$('#color').val(data.color);
-						$('#material').val(data.material);
-						$('#features').val(data.features.join());
-						$('#description').val(data.description);
-						$('#weight').val(data.weight);
-						$('#dimension').val(data.dimension.join());
-						$('#box_count').val(data.boxCount);
-						$('#pg_dimension').val(data.packageDimension.join());
-						$('#pg_weight').val(data.packageWeight.join());
-						$('#total_pg_weight').val(data.totalPackageWeight);
-						$('input, textarea').change(function() {
-							var field = $(this).attr('id');
-							var value = $(this).val();
-							var formData2 = new FormData();
-							formData2.append('sku', data.sku);
-							formData2.append('field', field);
-							formData2.append('value', value);
-	
-							$.ajax({
-								url: 'script/update.php',
-								data: formData2,
-								type: 'POST',
-								contentType: false,
-								processData: false,
-								dataType: 'json',
-								success: function(result) {
-									console.log(result);
-								}
-							});
-						});
 					}
 				}
 			});

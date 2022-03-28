@@ -1,0 +1,32 @@
+<html>
+<head>
+<link rel="stylesheet" href="css/index.css">
+</head>
+<body>
+<div id="box1">
+<form id="form"> 
+	<label for="input">Check SKU Inventory</label>
+	<br>
+	<input type="text" id="input" name="input">
+	<input type="button" id="check" value="Check">
+	<input type="button" id="reset" value="Reset">
+	<span id="error"></span>
+	<span id="warning"></span>
+</form>
+</div>
+<div id="output">
+	<div style="float: left; margin: 5px;">
+	<table> 
+		<tr><td>Vendor</td><td><input type="text" id="vendor" readonly></td></tr> 
+		<tr><td>SKU</td><td><a href="" target="_blank" id="sku"></a></td></tr> 
+		<tr><td>Quantity</td><td><input type="text" id="qty"></td></tr> 
+		<tr><td>Updated Time</td><td><input type="text" id="qty_updated_time" readonly></td></tr> 
+	</table>
+	</div>
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.3/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/additional-methods.min.js"></script>
+<script src="js/inventory.js"></script>
+</body>
+</html>

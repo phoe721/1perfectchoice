@@ -176,15 +176,19 @@ class costs {
 			$count++;
 			$updated_time_array = array();
 			$set = $this->set_list->get_set($code, $item_no);
-			$item = $set[0];
-			for ($i = 0; $i < count($set); $i++) {
-				$item = $set[$i];
-				$updated_time = $this->get_updated_time($code, $item);
-				array_push($updated_time_array, strtotime($updated_time));
+			if (!empty($set)) {
+				$item = $set[0];
+				for ($i = 0; $i < count($set); $i++) {
+					$item = $set[$i];
+					$updated_time = $this->get_updated_time($code, $item);
+					array_push($updated_time_array, strtotime($updated_time));
+				}
 			}
 
 			$count = 0;
-			$updated_time = date('Y-m-d H:i:s', min($updated_time_array));
+			if (count($updated_time_array) > 0) {
+				$updated_time = date('Y-m-d H:i:s', min($updated_time_array));
+			}
 			return $updated_time;
 		} else {
 			$result = $this->db->query("SELECT updated_at FROM costs WHERE code = '$code' AND item_no = '$item_no'");

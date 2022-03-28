@@ -50,6 +50,24 @@ $(document).ready(function() {
     	});
 	});
 
+	// Show Dropzone 
+	$('#dropzone').click(function() {
+		$("div#box3").toggle('slow');
+	});
+
+	// Dropzone
+	Dropzone.options.box3 = {
+		url: 'script/uploadImg.php', 
+		paramName: 'file',
+		maxFilesize: 2,
+		init: function() {
+			this.on('sending', function(file, xhr, formData) {
+				var uid = $('#uid').val();
+				formData.append('uid', uid);
+		    });
+		}
+	};
+
 	// Check button
 	$('#check').click(function() {
 		$('#error').text('');
@@ -97,6 +115,26 @@ $(document).ready(function() {
 						$('#pg_dimension').val(data.packageDimension.join());
 						$('#pg_weight').val(data.packageWeight.join());
 						$('#total_pg_weight').val(data.totalPackageWeight);
+						$('input, textarea').change(function() {
+							var field = $(this).attr('id');
+							var value = $(this).val();
+							var formData2 = new FormData();
+							formData2.append('sku', data.sku);
+							formData2.append('field', field);
+							formData2.append('value', value);
+	
+							$.ajax({
+								url: 'script/update.php',
+								data: formData2,
+								type: 'POST',
+								contentType: false,
+								processData: false,
+								dataType: 'json',
+								success: function(result) {
+									console.log(result);
+								}
+							});
+						});
 					}
 				}
 			});
