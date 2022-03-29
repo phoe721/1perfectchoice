@@ -1,7 +1,9 @@
 <?
 /* Initialization */
 require_once("database.php");
+require_once("init.php");
 require_once("set_list.php");
+require_once("helper_functions.php");
 
 class inventory {
 	private $db;

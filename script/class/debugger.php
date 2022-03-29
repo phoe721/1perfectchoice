@@ -1,11 +1,10 @@
 <?php
 // loglevel: 0 = info, 1 = notice, 2 = warning, 3 = error 
-require_once(__DIR__ . "/../init.php");
-require_once(__DIR__ . "/../helper_functions.php");
 
 class debugger {
 	private $loglevel = 4;
 	private $console = false;
+	private $log_file = "/var/www/phoe721.com/project/1perfectchoice/log/1perfectchoice.log";
 
 	public function info($message) {
 		if ($this->loglevel >= 3) $this->logger("[Info][" . basename($_SERVER['PHP_SELF']) . "] $message");
@@ -35,7 +34,7 @@ class debugger {
 		$timestring = date('Y-m-d H:i:s', strtotime('now'));
 		$msg = "$timestring $msg" . PHP_EOL;
 		if ($this->console) echo $msg;
-		$file = fopen(LOG_FILE, 'a+');
+		$file = fopen($this->log_file, 'a+');
 		if ($file) fwrite($file, $msg);
 		fclose($file);
 	}

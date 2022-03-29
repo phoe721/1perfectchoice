@@ -1,6 +1,7 @@
 <?
 /* Initialization */
 require_once("database.php");
+require_once("init.php");
 
 class ASIN {
 	private $db;

@@ -1,6 +1,7 @@
 <?php
 // Initialization
 require_once("debugger.php");
+require_once("init.php");
 
 class downloader {
 	private $output;

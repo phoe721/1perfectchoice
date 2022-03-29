@@ -1,7 +1,7 @@
 <?
 // Initialization
-require_once(__DIR__ . "/../init.php");
 require_once("debugger.php");
+require_once("init.php");
 
 class upload{
 	private $output;

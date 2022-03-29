@@ -3,7 +3,7 @@
 	ini_set('display_errors', 1);
 	ini_set('display_startup_errors', 1);
 	ini_set('error_reporting', E_ALL);
-	ini_set('error_log', '/var/log/php_error.log');
+	ini_set('error_log', '/var/www/phoe721.com/project/1perfectchoice/log/php_error.log');
 	ini_set('user_agent', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3440.84 Safari/537.36');
 
 	/* Constants */

@@ -1,6 +1,7 @@
 <?
 /* Initialization */
 require_once("database.php");
+require_once("init.php");
 require_once("ftp_client.php");
 
 class ftp_update {

@@ -1,5 +1,5 @@
 <?
-require_once("init.php");
+require_once("class/init.php");
 require_once("class/status.php");
 $status = new status();
 

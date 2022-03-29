@@ -1,6 +1,7 @@
 <?
 /* Initialization */
 require_once('debugger.php');
+require_once("init.php");
 
 class ftp_client {
 	private $conn;
