@@ -74,6 +74,7 @@ class costs {
 	}
 
 	public function get_cost($code, $item_no) {
+		list($code, $item_no) = replace_vendor($code, $item_no);
 		static $count = 0;
 		$per_box = $this->vendors->per_box($code);
 		if ($this->set_list->check($code, $item_no) && $count == 0) {
@@ -109,6 +110,7 @@ class costs {
 	}
 
 	public function get_cost_no_set($code, $item_no) {
+		list($code, $item_no) = replace_vendor($code, $item_no);
 		$per_box = $this->vendors->per_box($code);
 		$cost = 0;
 		$result = $this->db->query("SELECT cost FROM costs WHERE code = '$code' AND item_no = '$item_no'");
@@ -126,6 +128,7 @@ class costs {
 	}
 
 	public function get_unit($code, $item_no) {
+		list($code, $item_no) = replace_vendor($code, $item_no);
 		static $count = 0;
 		if ($this->set_list->check($code, $item_no) && $count == 0) {
 			$count++;
@@ -158,6 +161,7 @@ class costs {
 	}
 
 	public function get_unit_no_set($code, $item_no) {
+		list($code, $item_no) = replace_vendor($code, $item_no);
 		$unit = 0;
 		$result = $this->db->query("SELECT unit FROM costs WHERE code = '$code' AND item_no = '$item_no'");
 		if (mysqli_num_rows($result) > 0) {
@@ -172,6 +176,7 @@ class costs {
 	}
 
 	public function get_updated_time($code, $item_no) {
+		list($code, $item_no) = replace_vendor($code, $item_no);
 		static $count = 0;
 		$updated_time = date('Y-m-d H:i:s', mktime(00, 00, 00, 01, 01, 1970)); 
 		if ($this->set_list->check($code, $item_no) && $count == 0) {
@@ -207,6 +212,7 @@ class costs {
 	}
 
 	public function check_exist($code, $item_no) {
+		list($code, $item_no) = replace_vendor($code, $item_no);
 		$result = $this->db->query("SELECT * FROM costs WHERE code = '$code' AND item_no = '$item_no'");
 		if (mysqli_num_rows($result) > 0) {
 			$this->output->info("Item: $item_no, Code: $code - Exists!");

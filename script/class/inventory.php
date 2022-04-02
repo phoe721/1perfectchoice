@@ -50,6 +50,7 @@ class inventory {
 	}
 
 	public function check_exist($code, $item_no) {
+		list($code, $item_no) = replace_vendor($code, $item_no);
 		$result = $this->db->query("SELECT * FROM inventory WHERE code = '$code' AND item_no = '$item_no'");
 		if (mysqli_num_rows($result) > 0) {
 			$this->output->info("Item: $item_no, Code: $code - Exists!");
