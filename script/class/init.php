@@ -34,8 +34,8 @@
 	define('TRUCKING_RATE', 1.5);
 	define('MAX_CUFT_ON_PALLET', 80);
 	define('MIN_INVENTORY_QUANTITY', 5);
-	define('MAX_INVENTORY_QUANTITY', 100);
-	define('QUANTITY_DIVIDER', 5);
+	define('MAX_INVENTORY_QUANTITY', 50);
+	define('QUANTITY_DIVIDER', 1);
 	define('ONE_DAY_IN_SECONDS', 86400); // 24 * 60 * 60 = 86400 = 1 Day
 	define('DB_SERVER', 'localhost');
 	define('DB_USER', 'root');
