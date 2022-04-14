@@ -5,12 +5,14 @@ require_once("class/validator.php");
 $inventory = new inventory();
 $status = new status();
 $validator = new validator();
+$lines = $count = $inStock = 0;
 
 if (isset($argv[1]) && isset($argv[2]) && isset($argv[3])) {
 	$inputFile = $argv[1];
 	$outputFile = $argv[2];
 	$statusFile = $argv[3];
 	$status->set_file($statusFile);
+	$lines = count(file($inputFile));
 	$input = fopen($inputFile, "r");
 	$output = fopen($outputFile, "a+");
 	if ($input && $output) {
@@ -28,6 +30,7 @@ if (isset($argv[1]) && isset($argv[2]) && isset($argv[3])) {
 						$qty = ($qty >= MIN_INVENTORY_QUANTITY) ? $qty : 0;
 						$qty = min(MAX_INVENTORY_QUANTITY, $qty);
 						$qty = floor($qty / QUANTITY_DIVIDER);
+						if ($qty > 0) $count++;
 					}
 					$updated_time = $inventory->get_updated_time($code, $item_no);
 					$result = "$sku\t$qty\t$updated_time" . PHP_EOL;
@@ -39,6 +42,8 @@ if (isset($argv[1]) && isset($argv[2]) && isset($argv[3])) {
 		}
 	}
 
+	$inStock = round(($count / $lines) * 100, 2);
+	fwrite($output, "There are total $lines SKU(s) and $count with quantity. The percentage is $inStock%.\n");
 	$status->log_status("Done!");
 	fclose($input);
 	fclose($output);
