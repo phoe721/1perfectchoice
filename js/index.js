@@ -5,23 +5,23 @@ $(document).ready(function() {
 	    success: 'valid'
 	});
 
-	// Form 1	
+	// Form	
 	var form = $('#form');
 	form.validate({
 	    rules: {
-	        input: {
-	            required: true,
-				pattern: /^[A-Za-z0-9\-+x\/\._\&]+$/
+	        file: {
+	            required: true
 	        }
 	    }
 	});
 
-	// Form 2	
+	// Form 1	
 	var form2 = $('#form2');
 	form2.validate({
 	    rules: {
-	        file: {
-	            required: true
+	        input: {
+	            required: true,
+				pattern: /^[A-Za-z0-9\-+x\/\._\&]+$/
 	        }
 	    }
 	});
@@ -45,6 +45,9 @@ $(document).ready(function() {
 		});
 	});
 
+	// Hide Output 
+	$('#output').hide();
+
 	// Show Dropzone 
 	$('#dropzone').click(function() {
 		$("div#box3").toggle('slow');
@@ -65,8 +68,8 @@ $(document).ready(function() {
 
 	// Validate file	
 	$('#file').change(function() {
-		$('#output').html('');
-	    if (!form2.valid()) {
+		$('#output2').html('');
+	    if (!form.valid()) {
 	        console.log('Invalid File!');
 	    }
 	});
@@ -98,10 +101,10 @@ $(document).ready(function() {
 
 	// Check button
 	$('#check').click(function() {
-		$('#output').html('');
 		$('#error').text('');
 		$('#warning').text('');
-		if (form.valid()) {
+		$('#output').show();
+		if (form2.valid()) {
 			var input = $('#input').val();
 			input = input.replace(/-local.*/gi, '').replace(/\+/, '-').replace(/^(SR)([0-9]+)/, 'SR-$2');
 			var formData = new FormData();
@@ -164,7 +167,6 @@ $(document).ready(function() {
 								}
 							});
 						});
-						/*
 						$('input').focus(function() {
 							var length = $(this).val().length;
 							if (length > 100) length = 100;
@@ -173,7 +175,6 @@ $(document).ready(function() {
 						$('input').blur(function() {
 							$(this).attr('size', '20');
 						});
-						*/
 					}
 				}
 			});
@@ -182,7 +183,7 @@ $(document).ready(function() {
 
 	// Upload button
 	$('#upload').click(function() {
-		if (form2.valid()) {
+		if (form.valid()) {
 			$f1 = $('#file');
 			var uid = $('#uid').val();
 			var task = $('#task2').val();
@@ -200,7 +201,7 @@ $(document).ready(function() {
 				processData: false,
 				dataType: 'json',
 				success: function(output) {
-					$('#output').append(output + '<br>');
+					$('#output2').append(output + '<br>');
 				}
 			});
 	
@@ -214,11 +215,11 @@ $(document).ready(function() {
 				$.post('script/getStatus.php', {uid: uid}, function(result) { 
 					cur = result.status;
 					if (cur.match(/Done/)) {
-						$('#output').html('').append(result.status + ' ');
-				    	$('#output').append('<a href="' + result.link + '" target="_blank" download>result.txt</a><br>');
+						$('#output2').html('').append(result.status + ' ');
+				    	$('#output2').append('<a href="' + result.link + '" target="_blank" download>result.txt</a><br>');
 						clearInterval(check);
 					} else if (prev != cur) {
-						$('#output').append(result.status + '<br>');
+						$('#output22').append(result.status + '<br>');
 						prev = cur;
 					}
 				}, 'json');

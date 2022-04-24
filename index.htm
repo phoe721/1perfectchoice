@@ -4,20 +4,12 @@
 <link rel="stylesheet" href="css/dropzone.css">
 </head>
 <body>
+<div id="menu">
+	<input type="button" id="reset" value="Reset">
+	<input type="button" id="clear_inventory" value="Clear Inventory">
+</div>
 <div id="box1">
 <form id="form"> 
-	<label for="input">Check SKU/ASIN</label>
-	<br>
-	<input type="text" id="input" name="input">
-	<input type="button" id="check" value="Check">
-	<input type="button" id="dropzone" value="Dropzone">
-	<input type="button" id="reset" value="Reset">
-	<span id="error"></span>
-	<span id="warning"></span>
-</form>
-</div>
-<div id="box2">
-<form id="form2"> 
 	<label for="file">Upload File</label>
 	<br>
 	<select id="task2"></select>
@@ -25,7 +17,17 @@
 	<input type="hidden" id="uid" name="uid">
 	<input type="button" id="upload" value="Upload">
 	<input type="button" id="run" value="Run">
-	<input type="button" id="clear_inventory" value="Clear Inventory">
+</form>
+</div>
+<div id="box2">
+<form id="form2"> 
+	<label for="input">Check SKU/ASIN</label>
+	<br>
+	<input type="text" id="input" name="input">
+	<input type="button" id="check" value="Check">
+	<input type="button" id="dropzone" value="Dropzone">
+	<span id="error"></span>
+	<span id="warning"></span>
 </form>
 </div>
 <div id="box3" class="dropzone"></div>
@@ -60,6 +62,7 @@
 	<img id="product_img" width="300px"><br><img id="product_img_wb" width="300px">
 	</div>
 </div>
+<div id="output2"></div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.3/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/additional-methods.min.js"></script>
