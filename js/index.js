@@ -74,6 +74,10 @@ $(document).ready(function() {
 	    }
 	});
 
+	$('#task2').change(function() {
+		$('#output').hide();
+	}):
+
 	// Run queue	
 	$('#run').click(function() {
 		$.post('script/runQueue.php');
