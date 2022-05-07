@@ -38,6 +38,7 @@ class discontinued {
 	}
 
 	public function check($code, $item_no) {
+		list($code, $item_no) = replace_vendor($code, $item_no);
 		static $count = 0;
 		if ($this->set_list->check($code, $item_no) && $count == 0) {
 			$count++;

@@ -5,6 +5,9 @@
 </head>
 <body>
 <div id="menu">
+	<input type="button" id="upload_button" value="Upload File">
+	<input type="button" id="check_button" value="Check Product">
+	<input type="button" id="dropzone" value="Dropzone">
 	<input type="button" id="reset" value="Reset">
 	<input type="button" id="clear_inventory" value="Clear Inventory">
 </div>
@@ -18,6 +21,7 @@
 	<input type="button" id="upload" value="Upload">
 	<input type="button" id="run" value="Run">
 </form>
+<div id="output2"></div>
 </div>
 <div id="box2">
 <form id="form2"> 
@@ -25,17 +29,13 @@
 	<br>
 	<input type="text" id="input" name="input">
 	<input type="button" id="check" value="Check">
-	<input type="button" id="dropzone" value="Dropzone">
 	<span id="error"></span>
 	<span id="warning"></span>
 </form>
-</div>
-<div id="box3" class="dropzone"></div>
 <div id="output">
-	<div style="float: left; margin: 5px;">
-	<table> 
-		<tr><td>Vendor</td><td><input type="text" id="vendor" readonly></td></tr> 
-		<tr><td>SKU</td><td><a href="" target="_blank" id="sku"></a></td></tr> 
+	<table style="float: left"> 
+		<tr><td>Vendor</td><td><input type="text" id="vendor" readonly></td></tr>
+		<tr><td>SKU</td><td><a href="" target="_blank" id="sku"></a></td></tr>
 		<tr><td>ASIN</td><td><a href="" target="_blank" id="asin"></a></td></tr> 
 		<tr><td>UPC</td><td><input type="text" id="upc" readonly></td></tr> 
 		<tr><td>Status</td><td><input type="text" id="discontinued"></td></tr> 
@@ -57,12 +57,13 @@
 		<tr><td>Package Dimension</td><td><input type="text" id="pg_dimension"></td></tr>  
 		<tr><td>Package Weight</td><td><input type="text" id="pg_weight"></td></tr>  
 		<tr><td>Total Package Weight</td><td><input type="text" id="total_pg_weight" readonly></td></tr>  
-	</table></div>
-	<div style="float: left; margin: 5px;">
-	<img id="product_img" width="300px"><br><img id="product_img_wb" width="300px">
+	</table>
+	<div style="float: left">
+	<img id="product_img" width="300px"><br/><img id="product_img_wb" width="300px">
 	</div>
 </div>
-<div id="output2"></div>
+</div>
+<div id="box3" class="dropzone"></div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.3/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/additional-methods.min.js"></script>

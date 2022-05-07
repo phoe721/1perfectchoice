@@ -26,9 +26,6 @@ $(document).ready(function() {
 	    }
 	});
 
-	// Disable this button until upload
-	$('#run').attr('disabled', true);
-
 	// Get UID	
 	$.post('script/getUID.php', {getUID: 'yes'}, function(id) {
 		if (typeof id != 'undefined') {
@@ -45,14 +42,6 @@ $(document).ready(function() {
 		});
 	});
 
-	// Hide Output 
-	$('#output').hide();
-
-	// Show Dropzone 
-	$('#dropzone').click(function() {
-		$("div#box3").toggle('slow');
-	});
-
 	// Dropzone
 	Dropzone.options.box3 = {
 		url: 'script/uploadImg.php', 
@@ -66,48 +55,68 @@ $(document).ready(function() {
 		}
 	};
 
-	// Validate file	
-	$('#file').change(function() {
-		$('#output2').html('');
-	    if (!form.valid()) {
-	        console.log('Invalid File!');
-	    }
-	});
-
-	$('#task2').change(function() {
-		$('#output').hide();
-	}):
-
-	// Run queue	
-	$('#run').click(function() {
-		$.post('script/runQueue.php');
-	});
-
-	// Clear inventory
-	$('#clear_inventory').click(function() {
-		$.post('script/truncateInventory.php');
-	});
-
-	// Reset buttons
-	$('#reset').click(function() {
-		location.reload();
-	});
-	
 	// Bind Enter Key
 	$(document).ready(function() {
+		// Hide Output 
+		$('#box1').hide();
+		$('#box2').hide();
+
+		// Disable this button until upload
+		$('#run').attr('disabled', true);
+
+		// Reset
+		$('#reset').click(function() {
+			location.reload();
+		});
+
+		// On change trigger check
+		/*
 	    $('input').keyup(function(event) {
   			if (event.which === 17) {
     			event.preventDefault();
 				$('#check').trigger('click');
 			}
     	});
+		*/
+
+		// Upload button
+		$('#upload_button').click(function() {
+			$('#box1').toggle('slow');
+		});
+
+		// Check button
+		$('#check_button').click(function() {
+			$('#box2').toggle('slow');
+		});
+		
+		// Run queue	
+		$('#run').click(function() {
+			$.post('script/runQueue.php');
+		});
+
+		// Clear inventory
+		$('#clear_inventory').click(function() {
+			$.post('script/truncateInventory.php');
+		});
+
+		// Validate file	
+		$('#file').change(function() {
+			$('#output2').html('');
+		    if (!form.valid()) {
+		        console.log('Invalid File!');
+		    }
+		});
+
+		// Show Dropzone 
+		$('#dropzone').click(function() {
+			$("div#box3").toggle('slow');
+		});
 	});
 
 	// Check button
 	$('#check').click(function() {
 		$('#error').text('');
 		$('#warning').text('');
-		$('#output').show();
 		if (form2.valid()) {
 			var input = $('#input').val();
 			input = input.replace(/-local.*/gi, '').replace(/\+/, '-').replace(/^(SR)([0-9]+)/, 'SR-$2');

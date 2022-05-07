@@ -37,7 +37,7 @@ if(($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["input"])) || ($_SERVER
 		$sku = $input;
 	}
 
-	if (!empty($sku)) {
+	if (!empty($sku) && strpos($sku, "-")) {
 		list($code, $item_no) = explode("-", $sku, 2);
 		$vendor = $vendors->get_name($code);
 		$query_url = $vendors->get_query_url($code) . $item_no;
