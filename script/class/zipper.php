@@ -25,4 +25,16 @@ class zipper {
 
 		$zip->close();
 	}
+
+	public function unzip_files($sourceFile, $targetDir) {
+		$zip = new ZipArchive();
+		if ($zip->open($sourceFile)) {
+			$zip->extractTo($targetDir);
+			$this->output->info("Extracting $sourceFile to $targetDir...");
+		} else {
+			$this->output->error("Could not open archive!");
+		}
+
+		$zip->close();
+	}
 }
