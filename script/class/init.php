@@ -45,4 +45,5 @@
 	define('FTP_PASS', 'c7w2l181');
 	define('DATABASE', '1perfectchoice');
 	define('IMAGE_SERVER', 'https://3pxusa.com/images/');
+	define('SERVER2_INVENTORY_FOLDER', '/mnt/server2/Aaron/inventory/');
 ?>

@@ -59,7 +59,7 @@ if(($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["input"])) || ($_SERVER
 		$unit = $costs->get_unit($code, $item_no);
 		$cost_updated_time = $costs->get_updated_time($code, $item_no);
 		$img_url = IMAGE_SERVER . "$code/$item_no.jpg";
-		$img_wb_url = IMAGE_SERVER . "$code" . "_WB/$item_no.jpg";
+		//$img_wb_url = IMAGE_SERVER . "$code" . "_WB/$item_no.jpg";
 		$qty = $inventory->get($code, $item_no);
 		$inventory_updated_time = $inventory->get_updated_time($code, $item_no);
 		$set = $set_list->get_set($code, $item_no);
@@ -73,7 +73,7 @@ if(($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["input"])) || ($_SERVER
 		$data['error'] = $error;	
 		$data['warning'] = $warning;	
 		$data['img_url'] = $img_url;
-		$data['img_wb_url'] = $img_wb_url;
+		//$data['img_wb_url'] = $img_wb_url;
 		$data['vendor'] = $vendor;
 		$data['query_url'] = $query_url;
 		$data['sku'] = $sku;
