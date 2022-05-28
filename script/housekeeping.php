@@ -2,7 +2,6 @@
 require_once('class/init.php');
 require_once('class/cleaner.php');
 $cl = new cleaner;
-$cl->set_clean_all();
 
 // Check download directory
 $cl->remove_outdated_files(DOWNLOAD);
