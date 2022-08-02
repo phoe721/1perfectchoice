@@ -8,6 +8,7 @@ class cleaner {
 
 	public function __construct() {
 		$this->output = new debugger;
+		$this->output->set_log_level(2);
 	}
 
 	public function remove_outdated_files($dir) {
@@ -27,10 +28,10 @@ class cleaner {
 				$this->output->info("Difference: $diff seconds, which is $format (hour:minute:second)");
 	
 				if ($this->cleanAll) {
-					if (unlink($filePath)) $this->output->info("$fileName has been deleted");
+					if (unlink($filePath)) $this->output->notice("$fileName has been deleted");
 				} else if ($diff >= ONE_DAY_IN_SECONDS) {
 					$this->output->info("$fileName is over one day old, going to delete this file");
-					if (unlink($filePath)) $this->output->info("$fileName has been deleted");
+					if (unlink($filePath)) $this->output->notice("$fileName has been deleted");
 				} 
 			}
 	
@@ -45,7 +46,7 @@ class cleaner {
 			if (is_dir($file)) {
 				if (iterator_count($it->getChildren()) == 0) {
 					$this->output->info("Empty directory: $file");
-					if (rmdir($file)) $this->output->info("$file has been removed");
+					if (rmdir($file)) $this->output->notice("$file has been removed");
 				} else {
 					$this->output->info("$file is not empty");
 				}

@@ -96,7 +96,12 @@ $(document).ready(function() {
 
 		// Clear inventory
 		$('#clear_inventory').click(function() {
-			$.post('script/truncateInventory.php');
+			if (confirm("Are you sure you want to clear inventory?") == true) {
+				$.post('script/truncateInventory.php');
+				alert("Inventory cleared!");
+			} else {
+				alert("Inventory not cleared!");
+			}
 		});
 
 		// Validate file	

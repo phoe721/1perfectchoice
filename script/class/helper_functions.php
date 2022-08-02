@@ -28,6 +28,10 @@
 					$replace_code = "LHF";
 					$replace_item_no = preg_replace('/^05/', '', $item_no);
 					break;
+				case (preg_match('/^06/', $item_no) ? true : false):
+					$replace_code = "LSI";
+					$replace_item_no = preg_replace('/^06/', '', $item_no);
+					break;
 			}
 		}
 

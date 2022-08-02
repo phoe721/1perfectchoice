@@ -61,6 +61,34 @@ class inventory {
 		}
 	}
 
+	public function check_vendor_in_stock_count($code) {
+		$in_stock_count = -1;
+		$result = $this->db->query("SELECT count(*) AS count FROM inventory WHERE code = '$code' AND qty > 0");
+		if (mysqli_num_rows($result) > 0) {
+			$row = mysqli_fetch_array($result);
+			$in_stock_count = $row['count'];
+			$this->output->info("Vendor: $code - in stock count $in_stock_count!");
+		} else {
+			$this->output->info("Vendor: $code - in stock not found!");
+		}
+
+		return $in_stock_count;
+	}
+
+	public function check_vendor_item_count($code) {
+		$item_count = -1;
+		$result = $this->db->query("SELECT count(*) AS count FROM inventory WHERE code = '$code'");
+		if (mysqli_num_rows($result) > 0) {
+			$row = mysqli_fetch_array($result);
+			$item_count = $row['count'];
+			$this->output->info("Vendor: $code - item count $item_count!");
+		} else {
+			$this->output->info("Vendor: $code - item count not found!");
+		}
+
+		return $item_count;
+	}
+
 	public function get($code, $item_no) {
 		static $count = 0;
 		list($code, $item_no) = replace_vendor($code, $item_no);
@@ -106,6 +134,20 @@ class inventory {
 		}
 
 		return $updated_time;
+	}
+
+	public function get_vendors() {
+		$vendors = array();
+		$result = $this->db->query("SELECT DISTINCT code FROM inventory");
+		if (mysqli_num_rows($result) > 0) {
+			while($row = $result->fetch_array()) {
+				$vendors[] = $row['code'];
+			}
+			return $vendors;
+		} else {
+			$this->output->info("Vendors not found!");
+			return false;
+		}
 	}
 
 	public function truncate() {

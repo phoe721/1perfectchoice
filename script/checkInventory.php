@@ -6,6 +6,9 @@ $inventory = new inventory();
 $status = new status();
 $validator = new validator();
 $lines = $count = $inStock = 0;
+$min_inventory_quantity = 5;
+$max_inventory_quantity = 100;
+$quantity_divider = 5;
 
 if (isset($argv[1]) && isset($argv[2]) && isset($argv[3])) {
 	$inputFile = $argv[1];
@@ -27,9 +30,9 @@ if (isset($argv[1]) && isset($argv[2]) && isset($argv[3])) {
 					if ($qty == -1) {
 						// Do Nothing
 					} else {
-						$qty = ($qty >= MIN_INVENTORY_QUANTITY) ? $qty : 0;
-						$qty = min(MAX_INVENTORY_QUANTITY, $qty);
-						$qty = floor($qty / QUANTITY_DIVIDER);
+						$qty = ($qty >= $min_inventory_quantity) ? $qty : 0;
+						$qty = min($max_inventory_quantity, $qty);
+						$qty = floor($qty / $quantity_divider);
 						if ($qty > 0) $count++;
 					}
 					$updated_time = $inventory->get_updated_time($code, $item_no);

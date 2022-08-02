@@ -2,6 +2,7 @@
 /* Initialization */
 require_once("database.php");
 require_once("init.php");
+require_once("helper_functions.php");
 
 class product {
 	private $db;

@@ -60,14 +60,12 @@ class ftp_update {
 								$remote_file = $remote_dir . '/' . $file;
 								$local_file = $path . '/' . $file;
 								$this->ftp_client->put($remote_file, $local_file);
-								$this->output->info("Upload $file successfully!");
 							}
 						}
 					} else {
 						$file = $row['path'];
 						$remote_file = $remote_dir . '/' . basename($file);
 						$this->ftp_client->put($remote_file, $file);
-						$this->output->info("Upload $file successfully!");
 					}
 					$this->ftp_client->disconnect();
 				}
