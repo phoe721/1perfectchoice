@@ -191,7 +191,10 @@ $(document).ready(function() {
 							$(this).attr('size', length);
 						});
 						$('input').blur(function() {
-							$(this).attr('size', '20');
+							//$(this).attr('size', '20');
+							var length = $(this).val().length;
+							if (length > 100) length = 100;
+							$(this).attr('size', length);
 						});
 					}
 				}

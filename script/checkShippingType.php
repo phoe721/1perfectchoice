@@ -29,8 +29,11 @@ if (isset($argv[1]) && isset($argv[2]) && isset($argv[3])) {
 					list($length, $width, $height) = $packages->get_dimensions($code, $item_no);
 					$weight = array_sum($packages->get_weight($code, $item_no));
 					$ups_cost = $shipping->getUPSCost($cost, $length, $width, $height, $weight);
-					$trucking_cost = $shipping->getTruckingCost($weight);
-					$result = "$sku\t$ups_cost\t$trucking_cost" . PHP_EOL;
+					if ($ups_cost == -1) {
+						$result = "$sku\tLTL" . PHP_EOL;
+					} else {
+						$result = "$sku\tUPS" . PHP_EOL;
+					}
 				} else {
 					$result = "$sku\tInvalid" . PHP_EOL;
 				}
@@ -50,8 +53,11 @@ if (isset($argv[1]) && isset($argv[2]) && isset($argv[3])) {
 	list($length, $width, $height) = $packages->get_dimensions($code, $item_no);
 	$weight = array_sum($packages->get_weight($code, $item_no));
 	$ups_cost = $shipping->getUPSCost($cost, $length, $width, $height, $weight);
-	$trucking_cost = $shipping->getTruckingCost($weight);
-	$result = "$sku: UPS cost $ups_cost, Trucking cost $trucking_cost!";
+	if ($ups_cost == -1) {
+		$result = "$sku\tLTL";
+	} else {
+		$result = "$sku\tUPS";
+	}
 
 	echo $result . PHP_EOL;
 }
