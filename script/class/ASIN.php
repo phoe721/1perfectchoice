@@ -9,6 +9,7 @@ class ASIN {
 
 	public function __construct() {
 		$this->output = new debugger;
+		$this->output->set_log_level(2);
 		$this->db = database::getInstance();
 	}
 
