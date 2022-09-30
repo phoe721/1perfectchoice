@@ -21,6 +21,7 @@ if (isset($argv[1]) && isset($argv[2]) && isset($argv[3])) {
 			if (!empty($sku)) {
 				$status->log_status("Checking $sku...");
 				if ($validator->check_sku($sku)) {
+					$cleaned_sku = clean_up($sku);
 					list($code, $item_no) = explode("-", $sku, 2);
 					$dimensions = implode("\t", $dim->get_dimensions($code, $item_no));
 					$result = "$sku\t$dimensions" . PHP_EOL;

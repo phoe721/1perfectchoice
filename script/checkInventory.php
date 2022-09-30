@@ -1,8 +1,10 @@
 <?
 require_once("class/inventory.php");
+require_once("class/discontinued.php");
 require_once("class/status.php");
 require_once("class/validator.php");
 $inventory = new inventory();
+$dis = new discontinued();
 $status = new status();
 $validator = new validator();
 $lines = $count = $inStock = 0;
@@ -28,7 +30,11 @@ if (isset($argv[1]) && isset($argv[2]) && isset($argv[3])) {
 					list($code, $item_no) = explode("-", $cleaned_sku, 2);
 					$qty = $inventory->get($code, $item_no);
 					if ($qty == -1) {
-						// Do Nothing
+						if ($dis->check($code, $item_no)) { 
+							$qty = -2;
+						} else {
+							// Inventory Not Found, Do Nothing
+						}
 					} else {
 						$qty = ($qty >= $min_inventory_quantity) ? $qty : 0;
 						$qty = min($max_inventory_quantity, $qty);
