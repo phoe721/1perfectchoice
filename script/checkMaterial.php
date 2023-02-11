@@ -19,6 +19,7 @@ if (isset($argv[1]) && isset($argv[2]) && isset($argv[3])) {
 			if (!empty($sku)) {
 				$status->log_status("Checking $sku...");
 				if ($validator->check_sku($sku)) {
+					$sku = clean_up($sku);
 					list($code, $item_no) = explode("-", $sku, 2);
 					$material = $product->get_material($code, $item_no);
 					$result = "$sku\t$material" . PHP_EOL;

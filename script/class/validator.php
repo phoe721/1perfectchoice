@@ -8,7 +8,7 @@ class validator {
 
 	public function __construct() {
 		$this->output = new debugger;
-		$this->output->set_log_level(2);
+		$this->output->set_log_level(4);
 	}
 
 	public function check_sku($sku) {
