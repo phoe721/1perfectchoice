@@ -43,4 +43,6 @@
 	define('DATABASE', '1perfectchoice');
 	define('IMAGE_SERVER', 'https://mail.3pxusa.com/images/');
 	define('SERVER2_INVENTORY_FOLDER', '/mnt/server2/Aaron/inventory/');
+	define('ADMIN_MAIL', 'aaron@3pxusa.com');
+	define('ADMIN_GROUP_MAIL', 'aaron@3pxusa.com,emma@3pxusa.com,elina@3pxusa.com,sky@3pxusa.com,wendy@3pxusa.com,bella@3pxusa.com,alice@3pxusa.com');
 ?>

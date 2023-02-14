@@ -4,7 +4,7 @@ require_once('database.php');
 
 class cleaner {
 	private $output;
-	private $cleanAll = true;
+	private $cleanAll = false;
 
 	public function __construct() {
 		$this->output = new debugger;
