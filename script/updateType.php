@@ -22,7 +22,7 @@ if (isset($argv[1]) && isset($argv[2]) && isset($argv[3])) {
 				if ($validator->check_sku($sku)) {
 					list($code, $item_no) = explode("-", $sku, 2);
 					if ($product->check_exist($code, $item_no)) {
-						if ($product->update_type($code, $item_no, $type)) {
+						if ($product->update_item_type($code, $item_no, $type)) {
 							$result = "$sku\tOK" . PHP_EOL;
 						} else {
 							$result = "$sku\tFail" . PHP_EOL;
