@@ -94,6 +94,13 @@ $(document).ready(function() {
 			$.post('script/runQueue.php');
 		});
 
+		// Check inventory Percentage
+		$('#inventory_percentage').click(function() {
+			$.post('script/checkInventoryPercentageByVendor.php', function(data) {
+				alert(data);
+			});
+		});
+
 		// Clear inventory
 		$('#clear_inventory').click(function() {
 			if (confirm("Are you sure you want to clear inventory?") == true) {
