@@ -2,7 +2,7 @@
 // loglevel: 0 = info, 1 = notice, 2 = warning, 3 = error 
 
 class debugger {
-	private $loglevel = 4;
+	private $loglevel = 3;
 	private $console = false;
 	private $log_file = "/var/www/phoe721.com/project/1perfectchoice/log/1perfectchoice.log";
 

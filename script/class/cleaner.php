@@ -1,6 +1,6 @@
 <?
 /* Initialization */
-require_once('database.php');
+require_once("debugger.php");
 
 class cleaner {
 	private $output;
@@ -8,7 +8,6 @@ class cleaner {
 
 	public function __construct() {
 		$this->output = new debugger;
-		$this->output->set_log_level(2);
 	}
 
 	public function remove_outdated_files($dir) {
@@ -57,5 +56,9 @@ class cleaner {
 	public function set_clean_all() {
 		$this->cleanAll = true;
 	}	
+
+	public function set_log_level($level) {
+		$this->output->set_log_level($level);
+	}
 }
 ?>
