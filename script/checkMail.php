@@ -1,5 +1,18 @@
 <?
+$output = new debugger();
+$output->set_console(true);
+
 /* Connect to Local Mail*/
+$output = mailparse_msg_parse_file("/var/mail/www-data");
+var_dump($output);
+
+if (mailparse_msg_free($output)) {
+	$output->info("MIME resource freed!");
+} else {
+	$output->info("Failed to free MIME resource!");
+}
+
+/*
 $hostname = '{localhost:143}INBOX';
 $username = 'www-data@phoe721.com';
 $password = 'c7w2l181';
@@ -29,4 +42,5 @@ if ($headers == false) {
 }
 
 imap_close($mbox);
+ */
 ?>
