@@ -8,6 +8,7 @@ require_once("class/dimensions.php");
 require_once("class/weights.php");
 require_once("class/packages.php");
 require_once("class/product.php");
+require_once("class/product_note.php");
 require_once("class/set_list.php");
 require_once("class/shipping.php");
 require_once("class/vendors.php");
@@ -21,12 +22,13 @@ $weights = new weights();
 $inventory = new inventory();
 $packages = new packages();
 $product = new product();
+$product_note = new product_note();
 $set_list = new set_list();
 $shipping = new shipping();
 $vendors = new vendors();
 $validator = new validator();
 $data = $features = array();
-$item_type = $title = $description = $color = $material = $img_dim = $img_wb_dim = $error = $warning = "";
+$item_type = $title = $description = $color = $material = $note = $img_dim = $img_wb_dim = $error = $warning = "";
 if(($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["input"])) || ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["input"]))) { 
 	$input = empty($_POST["input"]) ? $_GET["input"] : $_POST["input"];
 	if ($validator->check_asin($input)) {
@@ -53,6 +55,7 @@ if(($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["input"])) || ($_SERVER
 			$color = $product->get_color($code, $item_no);
 			$material = $product->get_material($code, $item_no);
 		}
+		$note = $product_note->get_note($code, $item_no);
 		$upc = $UPC->get_upc($code, $item_no);
 		$status = $discontinued->check($code, $item_no) ? "Discontinued" : "Active";
 		$cost = $costs->get_cost($code, $item_no);
@@ -93,6 +96,7 @@ if(($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["input"])) || ($_SERVER
 		$data['material'] = $material;
 		$data['features'] = $features;
 		$data['description'] = $description;
+		$data['note'] = $note;
 		$data['weight'] = $weight;
 		$data['dimension'] = $dimension;
 		$data['packageWeight'] = $package_weight;

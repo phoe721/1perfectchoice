@@ -9,19 +9,19 @@ $ftp_client->set_passive();
 //$ftp_client->set_active();
 
 $remote_dir = "/public_html/images/";
-$local_dir = IMG;
+$local_dir = "/mnt/server2/Pictures/Images"; 
 $ftp_client->change_dir($remote_dir);
 $file_list = $ftp_client->get_list_files($remote_dir);
 foreach($file_list as $file) {
 	$ftp_url = "ftp://" . FTP_USER . ":" . FTP_PASS . "@" . FTP_SERVER . $file;
-	//printf("FTP URL: $ftp_url\n");
+	printf("FTP URL: $ftp_url\n");
 	if (pathinfo($file, PATHINFO_EXTENSION)) {
-		//printf("Skipping file - $file\n"); // Skipping files in image first directory
+		printf("Skipping file - $file\n"); // Skipping files in image first directory
 		continue;
 	} else if (is_dir($ftp_url)) {
 		$filename = basename($file);
 		if ($filename == '.' || $filename == '..' || $filename == 'sofa-360' || $filename == 'Rumor-Center-USA' || $filename == 'Others' || $filename == 'Furniture-Picture' || $filename == 'ebay' || $filename == 'ADJA' || $filename == '20120617' || $filename == '20120528') {
-			//printf("Skipping this directory - $filename\n"); // Skipping irrelevant directories
+			printf("Skipping this directory - $filename\n"); // Skipping irrelevant directories
 			continue;
 		} else {
 			$local_subdir = $local_dir . $filename;

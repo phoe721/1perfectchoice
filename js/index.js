@@ -172,6 +172,7 @@ $(document).ready(function() {
 						$('#pg_dimension').val(data.packageDimension.join());
 						$('#pg_weight').val(data.packageWeight.join());
 						$('#total_pg_weight').val(data.totalPackageWeight);
+						$('#note').val(data.note);
 						$('input, textarea').change(function() {
 							var field = $(this).attr('id');
 							var value = $(this).val();
