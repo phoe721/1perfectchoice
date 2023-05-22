@@ -1,8 +1,10 @@
 <?
 require_once("class/ASIN.php");
+require_once("class/UPC.php");
 require_once("class/status.php");
 require_once("class/validator.php");
-$a = new ASIN();
+$ASIN = new ASIN();
+$UPC = new UPC();
 $status = new status();
 $validator = new validator();
 
@@ -15,12 +17,15 @@ if (isset($argv[1]) && isset($argv[2]) && isset($argv[3])) {
 	$output = fopen($outputFile, "a+");
 	if ($input && $output) {
 		while(!feof($input)) {
-			$asin = trim(fgets($input));
-			$status->log_status("Checking $asin...");
-			if (!empty($asin)) {
-				if ($validator->check_asin($asin)) {
-					$sku = $a->get_sku($asin);
-					$result = "$asin\t$sku" . PHP_EOL;
+			$line = trim(fgets($input));
+			$status->log_status("Checking $line...");
+			if (!empty($line)) {
+				if ($validator->check_asin($line)) {
+					$sku = $ASIN->get_sku($line);
+					$result = "$line\t$sku" . PHP_EOL;
+				} else if ($validator->check_upc($line)) {
+					$sku = $UPC->get_sku($line);
+					$result = "$line\t$sku" . PHP_EOL;
 				} else {
 					$result = "$asin\tInvalid" . PHP_EOL;
 				}
