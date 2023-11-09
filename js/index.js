@@ -131,7 +131,8 @@ $(document).ready(function() {
 		$('#warning').text('');
 		if (form2.valid()) {
 			var input = $('#input').val();
-			input = input.replace(/-local.*/gi, '').replace(/\+/, '-').replace(/^(SR)([0-9]+)/, 'SR-$2');
+			//input = input.replace(/-local.*/gi, '').replace(/\+/, '-').replace(/^(SR)([0-9]+)/, 'SR-$2');
+			input = input.replace(/-local.*/gi, '').replace(/^(SR)([0-9]+)/, 'SR-$2');
 			var formData = new FormData();
 			formData.append('input', input);
 

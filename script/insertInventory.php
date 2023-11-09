@@ -24,7 +24,7 @@ if (isset($argv[1]) && isset($argv[2]) && isset($argv[3])) {
 				if ($validator->check_sku($sku)) {
 					list($code, $item_no) = explode("-", $sku, 2);
 					if ($inventory->check_exist($code, $item_no)) {
-						$result = "$sku\tExists". PHP_EOL;
+						$result = "$sku\tExists" . PHP_EOL;
 					} else {
 						if (!empty($qty) && $qty > 0) $count++;
 						$result = $inventory->insert($code, $item_no, $qty);

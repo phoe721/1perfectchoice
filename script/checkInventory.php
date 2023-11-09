@@ -8,7 +8,7 @@ $dis = new discontinued();
 $status = new status();
 $validator = new validator();
 $lines = $count = $inStock = 0;
-$min_inventory_quantity = 5;
+$min_inventory_quantity = 10;
 $max_inventory_quantity = 100;
 $quantity_divider = 5;
 
