@@ -1,0 +1,29 @@
+<html>
+<head>
+<link rel="stylesheet" href="css/index.css">
+</head>
+<body>
+<div id="menu">
+	<input type="button" id="upload_button" value="Upload File">
+	<input type="button" id="reset" value="Reset">
+	<input type="button" id="inventory_percentage" value="Inventory Percentage">
+	<input type="button" id="clear_inventory" value="Clear Inventory">
+</div>
+<div id="box1">
+<form id="form"> 
+	<label for="file">Upload File</label>
+	<br>
+	<select id="task2"></select>
+	<input type="file" class="left" id="file" name="file">
+	<input type="hidden" id="uid" name="uid">
+	<input type="button" id="upload" value="Upload">
+	<input type="button" id="run" value="Run">
+</form>
+<div id="output2"></div>
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.3/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/additional-methods.min.js"></script>
+<script src="js/inventory.js"></script>
+</body>
+</html>
