@@ -25,7 +25,6 @@ class upload{
 		$this->uid = $uid;
 		$this->outputDir = DOWNLOAD . $this->uid . "/";
 		if (!is_dir($this->outputDir)) mkdir($this->outputDir, 0777, true);
-		$timestr = date('YmdHis', strtotime('now'));
 		$this->outputFile = $this->outputDir . "result.txt";
 		$this->statusFile = $this->outputDir . "status.txt";
 	}

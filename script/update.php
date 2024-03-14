@@ -7,6 +7,7 @@ require_once("class/dimensions.php");
 require_once("class/weights.php");
 require_once("class/packages.php");
 require_once("class/product.php");
+require_once("class/product_note.php");
 require_once("class/set_list.php");
 $UPC = new UPC();
 $discontinued = new discontinued();
@@ -16,6 +17,7 @@ $weights = new weights();
 $inventory = new inventory();
 $packages = new packages();
 $product = new product();
+$product_note = new product_note();
 $set_list = new set_list();
 
 $result = "";
@@ -67,6 +69,12 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["sku"]) && isset($_POST[
 		$result = $product->update_features($code, $item_no, $value);
 	} else if ($field == "description") {
 		$result = $product->update_description($code, $item_no, $value);
+	} else if ($field == "note") {
+		if ($product_note->check_exist($code , $item_no)) {
+			$result = $product_note->update($code, $item_no, $value);
+		} else {
+			$result = $product_note->insert($code, $item_no, $value);
+		}
 	} else if ($field == "set_list") {
 		if ($set_list->check($code, $item_no)) {
 			if (!empty($value)) {
