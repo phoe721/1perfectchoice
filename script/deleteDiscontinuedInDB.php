@@ -23,6 +23,8 @@ $discontinued = new discontinued();
 
 $list = $discontinued->get_list();
 $total = count($list);
+
+/*
 $removeCount = 0;
 foreach($list as $sku) {
 	list($code, $item_no) = explode("-", $sku);
@@ -100,6 +102,7 @@ foreach($list as $sku) {
 	}
 }
 printf("Total: %d Removed: %d in set_list table\n", $total, $removeCount);
+ */
 
 $removeCount = 0;
 foreach($list as $sku) {
@@ -114,6 +117,7 @@ foreach($list as $sku) {
 }
 printf("Total: %d Removed: %d in UPC table\n", $total, $removeCount);
 
+/*
 $removeCount = 0;
 foreach($list as $sku) {
 	list($code, $item_no) = explode("-", $sku);
@@ -139,4 +143,5 @@ foreach($list as $sku) {
 	}
 }
 printf("Total: %d Removed: %d in inventory table\n", $total, $removeCount);
+ */
 ?>

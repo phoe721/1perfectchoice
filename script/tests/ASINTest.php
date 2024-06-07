@@ -6,7 +6,7 @@
 		public function testCheckExists() {
 			$asin = new ASIN();
 			$code = "AC";
-			$item_no = "07303";
+			$item_no = "00118";
 			$this->assertEquals(true, $asin->check_exist($code, $item_no));
 		}
 
