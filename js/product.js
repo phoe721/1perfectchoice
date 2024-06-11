@@ -5,17 +5,7 @@ $(document).ready(function() {
 	    success: 'valid'
 	});
 
-	// Form	
-	var form = $('#form');
-	form.validate({
-	    rules: {
-	        file: {
-	            required: true
-	        }
-	    }
-	});
-
-	// Form 1	
+	// Form 2	
 	var form2 = $('#form2');
 	form2.validate({
 	    rules: {
@@ -33,71 +23,6 @@ $(document).ready(function() {
 		} else {
 			console.log('Unable to get ID for this process!');
 		}
-	});
-
-	// Get Task List
-	$.getJSON('script/getTaskList.php', function(data){
-		$.each(data, function(key, value){
-			if (!value.match('/Inventory/')) {
-				$('#task2').append('<option value=' + key + '>' + value + '</option>');
-			}
-		});
-	});
-
-	// Dropzone
-	Dropzone.options.box3 = {
-		url: 'script/uploadImg.php', 
-		paramName: 'file',
-		maxFilesize: 2,
-		init: function() {
-			this.on('sending', function(file, xhr, formData) {
-				var uid = $('#uid').val();
-				formData.append('uid', uid);
-		    });
-		}
-	};
-
-	// Bind Enter Key
-	$(document).ready(function() {
-		// Hide Output 
-		$('#box1').hide();
-		$('#box2').hide();
-
-		// Disable this button until upload
-		$('#run').attr('disabled', true);
-
-		// Reset
-		$('#reset').click(function() {
-			location.reload();
-		});
-
-		// Upload button
-		$('#upload_button').click(function() {
-			$('#box1').toggle('slow');
-		});
-
-		// Check button
-		$('#check_button').click(function() {
-			$('#box2').toggle('slow');
-		});
-		
-		// Run queue	
-		$('#run').click(function() {
-			$.post('script/runQueue.php');
-		});
-
-		// Validate file	
-		$('#file').change(function() {
-			$('#output2').html('');
-		    if (!form.valid()) {
-		        console.log('Invalid File!');
-		    }
-		});
-
-		// Show Dropzone 
-		$('#dropzone').click(function() {
-			$("div#box3").toggle('slow');
-		});
 	});
 
 	// Check button
@@ -180,55 +105,35 @@ $(document).ready(function() {
 							if (length > 100) length = 100;
 							$(this).attr('size', length);
 						});
+
+						// Change Image	
+						$('#product_img').click(function() {
+							var formData3 = new FormData();
+							formData3.append('input', input);
+							formData3.append('product_img', data.img_url);
+
+							$.ajax({
+								url: 'script/changeImage.php',
+								data: formData3,
+								type: 'POST',
+								contentType: false,
+								processData: false,
+								dataType: 'json',
+								success: function(data) {
+									console.log(data);
+									if (data.error == 'SKU not found!') {
+										$('#error').text(data.error);
+									} else {
+										console.log(data.img_url);
+										$('#product_img').attr('src', data.img_url).prop('alt', data.sku);
+									}
+								}
+							});
+						});
 					}
 				}
 			});
 		}
 	});	
 
-	// Upload button
-	$('#upload').click(function() {
-		if (form.valid()) {
-			$f1 = $('#file');
-			var uid = $('#uid').val();
-			var task = $('#task2').val();
-			var formData = new FormData();
-			formData.append('uid', uid);
-			formData.append('task', task);
-			if($f1.val()) formData.append('file', $f1.get(0).files[0]);
-	
-			// Upload file	
-			$.ajax({
-				url: 'script/upload.php',
-				data: formData,
-				type: 'POST',
-				contentType: false,
-				processData: false,
-				dataType: 'json',
-				success: function(output) {
-					$('#output2').append(output + '<br>');
-				}
-			});
-	
-			// Enable run button
-			$('#run').attr("disabled", false);
-	
-			// Wait for result
-			var time = 10000;
-			var prev = cur = '';
-			var check = setInterval(function(){ 
-				$.post('script/getStatus.php', {uid: uid}, function(result) { 
-					cur = result.status;
-					if (cur.match(/Done/)) {
-						$('#output2').html('').append(result.status + ' ');
-				    	$('#output2').append('<a href="' + result.link + '" target="_blank" download>result.txt</a><br>');
-						clearInterval(check);
-					} else if (prev != cur) {
-						$('#output22').append(result.status + '<br>');
-						prev = cur;
-					}
-				}, 'json');
-			}, time);
-		}
-	});
 });
