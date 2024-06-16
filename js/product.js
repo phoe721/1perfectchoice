@@ -120,11 +120,9 @@ $(document).ready(function() {
 								processData: false,
 								dataType: 'json',
 								success: function(data) {
-									console.log(data);
 									if (data.error == 'SKU not found!') {
 										$('#error').text(data.error);
 									} else {
-										console.log(data.img_url);
 										$('#product_img').attr('src', data.img_url).prop('alt', data.sku);
 									}
 								}

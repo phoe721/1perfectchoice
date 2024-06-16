@@ -1,6 +1,6 @@
 <?
 /* Initialization */
-require_once("debugger.php");
+require_once("Debugger.php");
 
 class cleaner {
 	private $output;

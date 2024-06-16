@@ -1,6 +1,6 @@
 <?
 /* Initialization */
-require_once("debugger.php");
+require_once("Debugger.php");
 require_once("init.php");
 
 class keywords {

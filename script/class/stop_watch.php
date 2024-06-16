@@ -1,6 +1,6 @@
 <?php
 // Initialization
-require_once("debugger.php");
+require_once("Debugger.php");
 
 class stop_watch {
 	private $output;

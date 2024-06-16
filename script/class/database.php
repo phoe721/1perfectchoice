@@ -1,5 +1,5 @@
 <?php
-require_once("debugger.php");
+require_once("Debugger.php");
 
 class database {
 	private static $instance = null;
