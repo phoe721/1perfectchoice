@@ -12,7 +12,7 @@ class validator {
 	}
 
 	public function check_sku($sku) {
-		if (preg_match('/^[A-Z0-9a-z\-+x\/\._\&]+$/', $sku)) {
+		if (preg_match('/^[A-Z0-9a-z\-+x\/\._\& ]+$/', $sku)) {
 			$this->output->info("SKU: $sku - Valid SKU!");
 			return true;
 		} else {

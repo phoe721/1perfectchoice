@@ -1,109 +1,139 @@
 <?php
 require_once("Debugger.php");
+/**
+ * Database Class for handling database operations
+ */
+class Database {
+    private static $instance = null;
+    private $con = null;
+    private $result = null;
+    private $host = 'localhost';
+    private $user = 'root';
+    private $pass = 'c7w2l181';
+    private $name = '1perfectchoice';
 
-class database {
-	private static $instance = null;
-	private $con;
-	private $result;
-	private $output;
-
-	public function __construct() {
+    /**
+     * Private constructor to prevent direct instantiation
+     */
+    private function __construct() {
 		$this->output = new debugger;
-		$this->con = $this->connect(DB_SERVER, DB_USER, DB_PASS, DATABASE);
-		mysqli_set_charset($this->con, "utf8");
-	}
+        $this->connect();
+    }
 
-	public function __destruct() {
-		if ($this->con) {
-			//$this->output->info("Close DB connection!");
-			mysqli_close($this->con);
-		} else {
-			//$this->output->notice("DB connection was not made!");
-		}
-	}
+    /**
+     * Establishes a connection to the database
+     */
+    private function connect() {
+        $this->con = mysqli_connect($this->host, $this->user, $this->pass, $this->name);
 
-	public function connect($remoteHost, $username, $password, $database) {
-		$this->con = mysqli_connect($remoteHost, $username, $password, $database);
-		if (mysqli_connect_errno()) {
-			//$this->output->notice("Failed to connect to DB server: " . mysqli_connect_error());
-			return false;
-		} else {
-			//$this->output->info("Connected to DB server!");
-			return $this->con;
-		}
-	}
+        if (!$this->con) {
+            $this->handleError("Connection to DB server failed");
+        }
+    }
 
-	public function query($query) {
-		if ($this->con) {
-			$this->result = mysqli_query($this->con, $query);
-			if (!$this->result) {
-				$this->output->error("Query to DB server failed: " . $this->error());
-			} else { 
-				//$this->output->info("Query to DB server successfully!");
-				return $this->result;
-			}
-		} else {
-			//$this->output->notice("DB connection was not made!");
-		}
+    /**
+     * Executes a query on the database
+     * 
+     * @param string $query
+     * @return mixed|bool Query result or false on failure
+     */
+    public function query($query) {
+        if ($this->con) {
+            $this->result = mysqli_query($this->con, $query);
+            if (!$this->result) {
+                $this->handleError("Query to DB server failed");
+                return false;
+            }
+            return $this->result;
+        }
+        $this->handleError("DB connection was not made");
+        return false;
+    }
 
-		return false;
-	}
+    /**
+     * Escapes a string for safe usage in a query
+     * 
+     * @param string $string
+     * @return string|bool Escaped string or false on failure
+     */
+    public function real_escape_string($string) {
+        if ($this->con) {
+            return mysqli_real_escape_string($this->con, $string);
+        }
+        $this->handleError("DB connection was not made");
+        return false;
+    }
 
-	public function real_escape_string($string) {
-		if ($this->con) {
-			$this->result = mysqli_real_escape_string($this->con, $string);
-			//$this->output->info("String: $string escaped to " . $this->result);
-			return $this->result;
-		} else {
-			//$this->output->notice("DB connection was not made!");
-		}
+    /**
+     * Returns the database connection
+     * 
+     * @return mysqli|bool Database connection or false if not connected
+     */
+    public function getConnection() {
+        if ($this->con) {
+            return $this->con;
+        }
+        $this->handleError("DB connection was not made");
+        return false;
+    }
 
-		return false;
-	}
+    /**
+     * Returns the singleton instance of the Database class
+     * 
+     * @return Database
+     */
+    public static function getInstance() {
+        if (!self::$instance) self::$instance = new Database();
+        return self::$instance;
+    }
 
-	public function getConnection() {
-		if ($this->con) {
-			//$this->output->info("Returning DB connection!");
-			return $this->con;
-		} else {
-			//$this->output->notice("DB connection was not made!");
-			return false;
-		}
-	}
+    /**
+     * Returns the ID of the last inserted row
+     * 
+     * @return int|bool Last insert ID or false on failure
+     */
+    public function last_insert_id() {
+        if ($this->con) {
+            return mysqli_insert_id($this->con);
+        }
+        $this->handleError("DB connection was not made");
+        return false;
+    }
 
-	public static function getInstance() {
-		if (!self::$instance) self::$instance = new database;
-		return self::$instance;
-	}
+    /**
+     * Returns information about the most recent query
+     * 
+     * @return string|bool Information or false on failure
+     */
+    public function get_info() {
+        if ($this->con) {
+            return mysqli_info($this->con);
+        }
+        $this->handleError("DB connection was not made");
+        return false;
+    }
 
-	public function last_insert_id() {
-		if ($this->con) {
-			//$this->output->info("Returning last insert ID!");
-			return mysqli_insert_id($this->con); 
-		} else {
-			//$this->output->notice("DB connection was not made!");
-			return false;
-		}
-	}
+    /**
+     * Returns the error message for the last MySQLi operation
+     * 
+     * @return string|bool Error message or false on failure
+     */
+    public function error() {
+        if ($this->con) {
+            return mysqli_errno($this->con) . ": " . mysqli_error($this->con);
+        }
+        $this->handleError("DB connection was not made");
+        return false;
+    }
 
-	public function get_info() {
-		if ($this->con) {
-			//$this->output->info("Getting info!");
-			return mysqli_info($this->con);
-		} else {
-			//$this->output->notice("DB connection was not made!");
-			return false;
-		}
-	}
-
-	public function error() {
-		if ($this->con) {
-			//$this->output->info("Returning DB error message!");
-			return mysqli_errno($this->con) . ": " . mysqli_error($this->con);
-		} else {
-			//$this->output->notice("DB connection was not made!");
-			return false;
-		}
-	}
+    /**
+     * Handles error logging
+     * 
+     * @param string $message
+     */
+    private function handleError($message) {
+        error_log($message);
+		$this->output->error($message);
+    }
 }
 ?>
