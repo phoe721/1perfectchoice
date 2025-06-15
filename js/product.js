@@ -73,6 +73,7 @@ $(document).ready(function() {
 						$('#pg_dimension').val(data.packageDimension.join());
 						$('#pg_weight').val(data.packageWeight.join());
 						$('#total_pg_weight').val(data.totalPackageWeight);
+						$('#manufacturing_country').val(data.manufacturing_country);
 						$('#note').val(data.note);
 						$('input, textarea').change(function() {
 							var field = $(this).attr('id');
@@ -94,18 +95,6 @@ $(document).ready(function() {
 								}
 							});
 						});
-						$('input').focus(function() {
-							var length = $(this).val().length;
-							if (length > 100) length = 100;
-							$(this).attr('size', length);
-						});
-						$('input').blur(function() {
-							//$(this).attr('size', '20');
-							var length = $(this).val().length;
-							if (length > 100) length = 100;
-							$(this).attr('size', length);
-						});
-
 						// Change Image	
 						$('#product_img').click(function() {
 							var formData3 = new FormData();

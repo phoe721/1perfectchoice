@@ -8,10 +8,12 @@ require_once("class/dimensions.php");
 require_once("class/weights.php");
 require_once("class/packages.php");
 require_once("class/product.php");
+require_once("class/product_type.php");
 require_once("class/product_note.php");
 require_once("class/set_list.php");
 require_once("class/shipping.php");
 require_once("class/vendors.php");
+require_once("class/manufacturing_country.php");
 require_once("class/validator.php");
 $ASIN = new ASIN();
 $UPC = new UPC();
@@ -22,13 +24,15 @@ $weights = new weights();
 $inventory = new inventory();
 $packages = new packages();
 $product = new product();
+$product_type = new product_type();
 $product_note = new product_note();
 $set_list = new set_list();
 $shipping = new shipping();
 $vendors = new vendors();
+$manufacturing_country = new manufacturing_country();
 $validator = new validator();
 $data = $features = array();
-$item_type = $title = $description = $color = $material = $note = $img_dim = $img_wb_dim = $error = $warning = "";
+$item_type = $title = $description = $color = $material = $note = $img_dim = $img_wb_dim = $origin = $error = $warning = "";
 if(($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["input"])) || ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["input"]))) { 
 	$input = empty($_POST["input"]) ? $_GET["input"] : $_POST["input"];
 	if ($validator->check_asin($input)) {
@@ -50,7 +54,7 @@ if(($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["input"])) || ($_SERVER
 		} else {
 			$title = $product->get_title($code, $item_no);
 			$description = $product->get_description($code, $item_no);
-			$item_type = $product->get_type($code, $item_no);
+			$item_type = $product_type->get_type($code, $item_no);
 			$features = $product->get_features($code, $item_no);
 			$color = $product->get_color($code, $item_no);
 			$material = $product->get_material($code, $item_no);
@@ -72,6 +76,7 @@ if(($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["input"])) || ($_SERVER
 		$package_weight = $packages->get_weight($code, $item_no);
 		$total_package_weight = round(array_sum($package_weight), 2);
 		$package_dimension = $packages->get_dimensions($code, $item_no);
+		$origin = $manufacturing_country->get_origin($code, $item_no);
 
 		$data['error'] = $error;	
 		$data['warning'] = $warning;	
@@ -103,6 +108,7 @@ if(($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["input"])) || ($_SERVER
 		$data['totalPackageWeight'] = $total_package_weight;
 		$data['packageDimension'] = $package_dimension;
 		$data['boxCount'] = $box_count;
+		$data['manufacturing_country'] = $origin;
 	} else {
 		$data['error'] = "SKU not found!";
 	}

@@ -8,6 +8,7 @@ require_once("class/set_list.php");
 require_once("class/UPC.php");
 require_once("class/weights.php");
 require_once("class/inventory.php");
+require_once("class/manufacturing_country.php");
 require_once("class/discontinued.php");
 require_once("class/validator.php");
 $ASIN = new ASIN();
@@ -19,6 +20,7 @@ $set_list = new set_list();
 $UPC = new UPC();
 $weights = new weights();
 $inventory = new inventory();
+$manufacturing_country = new manufacturing_country();
 $discontinued = new discontinued();
 
 $list = $discontinued->get_list();
@@ -102,14 +104,13 @@ foreach($list as $sku) {
 	}
 }
 printf("Total: %d Removed: %d in set_list table\n", $total, $removeCount);
- */
 
 $removeCount = 0;
 foreach($list as $sku) {
 	list($code, $item_no) = explode("-", $sku);
 	if ($UPC->check_exist($code, $item_no)) {
 		printf("Deleting UPC for $sku - It's discontinued!\n");
-		$UPC->delete($code, $item_no);
+		$removeCount++;
 		$removeCount++;
 	} else {
 		//printf("Skip $sku - It's not found in UPC table!\n");
@@ -117,7 +118,6 @@ foreach($list as $sku) {
 }
 printf("Total: %d Removed: %d in UPC table\n", $total, $removeCount);
 
-/*
 $removeCount = 0;
 foreach($list as $sku) {
 	list($code, $item_no) = explode("-", $sku);
@@ -144,4 +144,17 @@ foreach($list as $sku) {
 }
 printf("Total: %d Removed: %d in inventory table\n", $total, $removeCount);
  */
+
+$removeCount = 0;
+foreach($list as $sku) {
+	list($code, $item_no) = explode("-", $sku);
+	if ($manufacturing_country->check_exist($code, $item_no)) {
+		printf("Deleting manufacturing_country for $sku - It's discontinued!\n");
+		$manufacturing_country->delete($code, $item_no);
+		$removeCount++;
+	} else {
+		//printf("Skip $sku - It's not found in Manufacturing Country table!\n");
+	}
+}
+printf("Total: %d Removed: %d in Manufacturing Country table\n", $total, $removeCount);
 ?>

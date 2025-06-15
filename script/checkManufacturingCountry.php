@@ -20,8 +20,8 @@ if (isset($argv[1]) && isset($argv[2]) && isset($argv[3])) {
 				$status->log_status("Checking $sku...");
 				if ($validator->check_sku($sku)) {
 					list($code, $item_no) = explode("-", $sku, 2);
-					$mc = $manufacturing_country->get_country($code, $item_no);
-					$result = "$sku\t$mc" . PHP_EOL;
+					$origin = $manufacturing_country->get_origin($code, $item_no);
+					$result = "$sku\t$origin" . PHP_EOL;
 				} else {
 					$result = "$sku\tInvalid" . PHP_EOL;
 				}
@@ -44,8 +44,8 @@ if (isset($argv[1]) && isset($argv[2]) && isset($argv[3])) {
 			if (!empty($sku)) {
 				if ($validator->check_sku($sku)) {
 					list($code, $item_no) = explode("-", $sku, 2);
-					$mc = $manufacturing_country->get_country($code, $item_no);
-					$result = "$sku\t$mc" . PHP_EOL;
+					$origin = $manufacturing_country->get_origin($code, $item_no);
+					$result = "$sku\t$origin" . PHP_EOL;
 				} else {
 					$result = "$sku\tInvalid" . PHP_EOL;
 				}
