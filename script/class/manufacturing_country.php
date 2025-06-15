@@ -49,7 +49,7 @@ class manufacturing_country {
 	}
 
 	public function get_origin($code, $item) {
-		$item_type = '';
+		$country = '';
 		$result = $this->db->query("SELECT country FROM manufacturing_country WHERE code = '$code' AND item_no = '$item'");
 		if (mysqli_num_rows($result) > 0) {
 			$row = mysqli_fetch_array($result);
@@ -59,7 +59,7 @@ class manufacturing_country {
 			$this->output->info("Item: $item, code: $code - Country not found!");
 		}
 
-		return $item_type;
+		return $country;
 	}
 
 	public function check_exist($code, $item_no) {

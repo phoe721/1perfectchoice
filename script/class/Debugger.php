@@ -109,5 +109,15 @@ class Debugger
             fclose($file);
         }
     }
+
+    /**
+     * Send a message to the console only.
+     *
+     * @param string $msg The message to console.
+     */
+    public function console(string $msg): void
+    {
+        echo $msg;
+    }
 }
 ?>

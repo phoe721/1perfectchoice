@@ -40,6 +40,7 @@
 
 	function clean_up($sku) { 
 		$sku = preg_replace('/-local.*$/i', '', $sku);
+		$sku = preg_replace('/-A$/', '', $sku);
 		//$sku = preg_replace('/\+/', '-', $sku);
 		$sku = preg_replace('/^SR/', 'SR-', $sku);
 		return $sku;
