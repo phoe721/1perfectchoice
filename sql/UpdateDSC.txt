@@ -1,1 +1,0 @@
-DELETE ASIN FROM ASIN INNER JOIN discontinued ON ASIN.code = discontinued.code AND ASIN.item_no = discontinued.item_no;
