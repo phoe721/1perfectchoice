@@ -1,14 +1,9 @@
 <?php
-	/* Display Errors */
-	ini_set('display_errors', 1);
-	ini_set('display_startup_errors', 1);
-	ini_set('error_reporting', E_ALL);
-	ini_set('error_log', '/var/www/phoe721.com/project/1perfectchoice/log/php_error.log');
-	ini_set('user_agent', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3440.84 Safari/537.36');
-
-	/* Constants */
-	define('ROOT', '/var/www/phoe721.com/project/1perfectchoice/');
-	define('SCRIPT_ROOT', '/var/www/phoe721.com/project/1perfectchoice/script/');
+    ini_set('display_errors', 1);
+    ini_set('display_startup_errors', 1);
+    ini_set('error_reporting', E_ALL);
+	define('ROOT', '/home/hshgp28zfpja/public_html/1perfectchoice/');
+	define('SCRIPT_ROOT', '/home/hshgp28zfpja/public_html/1perfectchoice/script/');
 	define('IMG', ROOT . 'images/');
 	define('DOWNLOAD', ROOT . 'download/');
 	define('UPLOAD', ROOT . 'upload/');
@@ -34,15 +29,12 @@
 	define('TRUCKING_RATE', 1.5);
 	define('MAX_CUFT_ON_PALLET', 80);
 	define('ONE_DAY_IN_SECONDS', 86400); // 24 * 60 * 60 = 86400 = 1 Day
-	define('DB_SERVER', 'localhost');
-	define('DB_USER', 'root');
-	define('DB_PASS', 'c7w2l181');
+	define('DB_SERVER', 'phoe721.com');
+	define('DB_USER', 'i9404975_ajo21');
+	define('DB_PASS', 'pahaoreo7n21');
 	define('FTP_SERVER', '3pxusa.com');
 	define('FTP_USER', 'aaron@3pxusa.com');
 	define('FTP_PASS', 'c7w2l181');
-	define('DATABASE', '1perfectchoice');
+	define('DATABASE', 'i9404975_ajo21');
 	define('IMAGE_SERVER', 'https://mail.3pxusa.com/images/');
-	define('SERVER2_INVENTORY_FOLDER', '/mnt/server2/Inventory/');
-	define('ADMIN_MAIL', 'aaron@3pxusa.com');
-	define('ADMIN_GROUP_MAIL', 'aaron@3pxusa.com,emma@3pxusa.com,elina@3pxusa.com,sky@3pxusa.com,wendy@3pxusa.com,bella@3pxusa.com,alice@3pxusa.com');
 ?>

@@ -11,7 +11,7 @@ class Debugger
     /**
      * @var int $loglevel The current logging level.
      */
-    private int $loglevel = 3;
+    private int $loglevel = 0;
 
     /**
      * @var bool $console Whether to output log messages to the console.
@@ -21,7 +21,7 @@ class Debugger
     /**
      * @var string $log_file The file path to write log messages.
      */
-    private string $log_file = "/var/www/phoe721.com/project/1perfectchoice/log/1perfectchoice.log";
+    private string $log_file = "/home/hshgp28zfpja/public_html/1perfectchoice/log/1perfectchoice.log";
 
     /**
      * Logs an info level message.
@@ -31,7 +31,7 @@ class Debugger
     public function info(string $message): void
     {
         if ($this->loglevel >= 3) {
-            $this->logger("[Info][" . basename($_SERVER['PHP_SELF']) . "] $message");
+            $this->logger("[Info][" . basename($_SERVER['SCRIPT_NAME']) . "] $message");
         }
     }
 
@@ -43,7 +43,7 @@ class Debugger
     public function notice(string $message): void
     {
         if ($this->loglevel >= 2) {
-            $this->logger("[Notice][" . basename($_SERVER['PHP_SELF']) . "] $message");
+            $this->logger("[Notice][" . basename($_SERVER['SCRIPT_NAME']) . "] $message");
         }
     }
 
@@ -55,7 +55,7 @@ class Debugger
     public function error(string $message): void
     {
         if ($this->loglevel >= 1) {
-            $this->logger("[Error][" . basename($_SERVER['PHP_SELF']) . "] $message");
+            $this->logger("[Error][" . basename($_SERVER['SCRIPT_NAME']) . "] $message");
         }
     }
 
@@ -67,7 +67,7 @@ class Debugger
     public function warning(string $message): void
     {
         if ($this->loglevel >= 0) {
-            $this->logger("[Warning][" . basename($_SERVER['PHP_SELF']) . "] $message");
+            $this->logger("[Warning][" . basename($_SERVER['SCRIPT_NAME']) . "] $message");
         }
     }
 

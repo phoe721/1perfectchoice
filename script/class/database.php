@@ -7,16 +7,17 @@ class Database {
     private static $instance = null;
     private $con = null;
     private $result = null;
-    private $host = 'localhost';
-    private $user = 'root';
-    private $pass = 'c7w2l181';
-    private $name = '1perfectchoice';
+    private $host = 'phoe721.com';
+    private $user = 'i9404975_ajo21';
+    private $pass = 'pahaoreo7n21';
+    private $name = 'i9404975_ajo21';
+    private $output = null;
 
     /**
      * Private constructor to prevent direct instantiation
      */
     private function __construct() {
-		$this->output = new debugger;
+	    $this->output = new debugger;
         $this->connect();
     }
 
@@ -133,7 +134,7 @@ class Database {
      */
     private function handleError($message) {
         error_log($message);
-		$this->output->error($message);
+	$this->output->error($message);
     }
 }
 ?>
