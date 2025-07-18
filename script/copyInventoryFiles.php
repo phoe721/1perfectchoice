@@ -1,13 +1,11 @@
 <?
 require_once("class/init.php");
-require_once("class/debugger.php");
+require_once("class/Debugger.php");
 require_once("class/zipper.php");
 require_once("class/helper_functions.php");
 $remote_dir = SERVER2_INVENTORY_FOLDER . date("Y") . "/" . date("n") . "/";
 $zipper = new zipper();
 $output = new debugger();
-$output->set_console(true);
-$output->set_log_level(2);
 $date_str = date("Ymd");
 $today_str = date("md");
 
@@ -27,7 +25,7 @@ if (is_dir($remote_dir)) {
 				}
 				$source_file = $remote_dir . $file;
 				$target_file = INVENTORY . $new_name;
-				$output->info("Going to copy $soruce_file to $target_file");
+				$output->info("Going to copy $source_file to $target_file");
 				if (!copy($source_file, $target_file)) {
 					$output->notice("Failed to copy $source_file");
 				} else {
