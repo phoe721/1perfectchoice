@@ -7,10 +7,10 @@ class Database {
     private static $instance = null;
     private $con = null;
     private $result = null;
-    private $host = 'phoe721.com';
-    private $user = 'i9404975_ajo21';
-    private $pass = 'pahaoreo7n21';
-    private $name = 'i9404975_ajo21';
+    private $host = '127.0.0.1';
+    private $user = 'root';
+    private $pass = '';
+    private $name = '1perfectchoice';
     private $output = null;
 
     /**

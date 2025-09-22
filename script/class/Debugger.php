@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Class Debugger
  *
@@ -8,6 +7,7 @@
  */
 class Debugger
 {
+    const LOG_FILE = "C:/xampp/htdocs/1perfectchoice/log/1perfectchoice.log";
     /**
      * @var int $loglevel The current logging level.
      */
@@ -18,10 +18,7 @@ class Debugger
      */
     private bool $console = false;
 
-    /**
-     * @var string $log_file The file path to write log messages.
-     */
-    private string $log_file = "/home/hshgp28zfpja/public_html/1perfectchoice/log/1perfectchoice.log";
+
 
     /**
      * Logs an info level message.
@@ -103,7 +100,7 @@ class Debugger
         if ($this->console) {
             echo $msg;
         }
-        $file = fopen($this->log_file, 'a+');
+        $file = fopen(LOG_FILE, 'a+');
         if ($file) {
             fwrite($file, $msg . PHP_EOL);
             fclose($file);

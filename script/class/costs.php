@@ -9,6 +9,7 @@ require_once("helper_functions.php");
 class costs {
 	private $db;
 	private $output;
+	private $vendors;
 	private $set_list;
 
 	public function __construct() {
