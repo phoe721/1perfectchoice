@@ -1,4 +1,6 @@
 <?php
+/* Initialization */
+require_once("init.php");
 /**
  * Class Debugger
  *
@@ -7,7 +9,6 @@
  */
 class Debugger
 {
-    const LOG_FILE = "C:/xampp/htdocs/1perfectchoice/log/1perfectchoice.log";
     /**
      * @var int $loglevel The current logging level.
      */

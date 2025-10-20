@@ -3,10 +3,12 @@ require_once("class/inventory.php");
 require_once("class/discontinued.php");
 require_once("class/status.php");
 require_once("class/validator.php");
+require_once("class/stop_watch.php");
 $inventory = new inventory();
 $dis = new discontinued();
 $status = new status();
 $validator = new validator();
+$sw = new stop_watch();
 $lines = $count = $inStock = 0;
 $min_inventory_quantity = 5;
 $max_inventory_quantity = 100;
@@ -21,6 +23,7 @@ if (isset($argv[1]) && isset($argv[2]) && isset($argv[3])) {
 	$input = fopen($inputFile, "r");
 	$output = fopen($outputFile, "a+");
 	if ($input && $output) {
+		$sw->start();
 		while(!feof($input)) {
 			$sku = trim(fgets($input));
 			if (!empty($sku)) {
@@ -49,6 +52,7 @@ if (isset($argv[1]) && isset($argv[2]) && isset($argv[3])) {
 				fwrite($output, $result);
 			}
 		}
+		$sw->stop();
 	}
 
 	$inStock = round(($count / $lines) * 100, 2);

@@ -9,7 +9,6 @@ class UPC {
 
 	public function __construct() {
 		$this->output = new debugger;
-		$this->output->set_log_level(4);
 		$this->db = database::getInstance();
 	}
 
