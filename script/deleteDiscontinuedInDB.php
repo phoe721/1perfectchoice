@@ -39,6 +39,7 @@ foreach($list as $sku) {
 	}
 }
 printf("Total: %d Removed: %d in ASIN table\n", $total, $removeCount);
+*/
 
 $removeCount = 0;
 foreach($list as $sku) {
@@ -131,6 +132,7 @@ foreach($list as $sku) {
 }
 printf("Total: %d Removed: %d in weights table\n", $total, $removeCount);
 
+/*
 $removeCount = 0;
 foreach($list as $sku) {
 	list($code, $item_no) = explode("-", $sku);
@@ -145,6 +147,7 @@ foreach($list as $sku) {
 printf("Total: %d Removed: %d in inventory table\n", $total, $removeCount);
  */
 
+/*
 $removeCount = 0;
 foreach($list as $sku) {
 	list($code, $item_no) = explode("-", $sku);
@@ -157,4 +160,5 @@ foreach($list as $sku) {
 	}
 }
 printf("Total: %d Removed: %d in Manufacturing Country table\n", $total, $removeCount);
+*/
 ?>

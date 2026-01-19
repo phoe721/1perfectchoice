@@ -56,7 +56,7 @@ if (isset($argv[1]) && isset($argv[2]) && isset($argv[3])) {
 	}
 
 	$inStock = round(($count / $lines) * 100, 2);
-	fwrite($output, "There are total $lines SKU(s) and $count with quantity. The percentage is $inStock%.\n");
+	fwrite($output, "There are total $lines SKU(s) and $count with quantity. The percentage is $inStock%." . PHP_EOL);
 	$status->log_status("Done!");
 	fclose($input);
 	fclose($output);

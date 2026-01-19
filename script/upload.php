@@ -13,7 +13,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_FILES["file"]) && isset($_POS
 	if ($output == "File uploaded!") {
 		$script = $_POST["task"];
 		$script = SCRIPT_ROOT . $script;
-		$command = "C:/xampp/php/php.exe $script " . $upload->get_targetFile() . " " . $upload->get_outputFile() . " " . $upload->get_statusFile();
+		$command = "D:/xampp/php/php.exe $script " . $upload->get_targetFile() . " " . $upload->get_outputFile() . " " . $upload->get_statusFile();
 		$qid = $queue->create_queue($command);
 		$output .= " Queue created, your queue number is $qid!";
 	}

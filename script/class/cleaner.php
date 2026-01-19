@@ -8,7 +8,6 @@ class cleaner {
 
 	public function __construct() {
 		$this->output = new debugger;
-		$this->output->set_console(true);
 	}
 
 	public function remove_outdated_files($dir) {
